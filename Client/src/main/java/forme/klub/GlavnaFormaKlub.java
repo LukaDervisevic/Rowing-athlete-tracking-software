@@ -2,9 +2,9 @@ package forme.klub;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import controller.Controller;
-import formeUtils.AgencijaTableModel;
-import formeUtils.PonudaTableModelKlub;
-import formeUtils.VeslacTableModel;
+import forme.tableModeli.AgencijaTableModel;
+import forme.tableModeli.PonudaTableModelKlub;
+import forme.tableModeli.VeslacTableModel;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -19,10 +19,10 @@ import model.KategorijaVeslaca;
 import model.Takmicenje;
 import model.Veslac;
 import model.VrstaTrke;
-import formeUtils.TakmicenjaTableModel;
+import forme.tableModeli.TakmicenjaTableModel;
 import model.KlubTakmicenje;
-import formeUtils.OsvojenaTakmicenjaTableModel;
-import formeUtils.StavkaPonudeTableModel;
+import forme.tableModeli.OsvojenaTakmicenjaTableModel;
+import forme.tableModeli.StavkaPonudeTableModel;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
@@ -37,6 +37,7 @@ import java.util.logging.Logger;
 import model.Agencija;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
+import forme.veslac.IzmeniVeslacForma;
 
 /**
  *

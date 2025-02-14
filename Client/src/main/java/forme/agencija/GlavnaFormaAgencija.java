@@ -1,11 +1,10 @@
 package forme.agencija;
 
 import controller.Controller;
-import formeUtils.KlubTableModel;
-import formeUtils.OsvojenaTakmicenjaTableModel;
-import formeUtils.PonudaTableModelAgencija;
-import formeUtils.StavkaPonudeTableModel;
-import formeUtils.VeslacTableModel;
+import forme.tableModeli.KlubTableModel;
+import forme.tableModeli.OsvojenaTakmicenjaTableModel;
+import forme.tableModeli.PonudaTableModelAgencija;
+import forme.tableModeli.StavkaPonudeTableModel;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
