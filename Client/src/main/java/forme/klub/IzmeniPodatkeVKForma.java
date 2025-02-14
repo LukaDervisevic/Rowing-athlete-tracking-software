@@ -66,7 +66,7 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
         titleLabel = new javax.swing.JLabel();
         izaberiteTipLabel = new javax.swing.JLabel();
         tipNalogaComboBox = new javax.swing.JComboBox<>();
-        glavnaFormaPanel1 = new formeUtils.GlavnaFormaPanel();
+        glavnaFormaPanel1 = new forme.utils.GlavnaFormaPanel();
         obrisiNalog = new javax.swing.JButton();
         infoPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -557,7 +557,7 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
     private javax.swing.JLabel adresaLabel;
     private javax.swing.JTextField emailInput;
     private javax.swing.JLabel emailLabel;
-    private formeUtils.GlavnaFormaPanel glavnaFormaPanel1;
+    private forme.utils.GlavnaFormaPanel glavnaFormaPanel1;
     private javax.swing.JLabel greskaPotvrdaLabel;
     private javax.swing.JLabel greskaSifraLabel;
     private javax.swing.JLabel greskaTelefonLabel;

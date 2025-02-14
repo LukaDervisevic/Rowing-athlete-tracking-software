@@ -125,7 +125,7 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;TipNaloga&gt;"/>
           </AuxValues>
         </Component>
-        <Container class="formeUtils.GlavnaFormaPanel" name="glavnaFormaPanel1">
+        <Container class="forme.utils.GlavnaFormaPanel" name="glavnaFormaPanel1">
 
           <Layout>
             <DimensionLayout dim="0">

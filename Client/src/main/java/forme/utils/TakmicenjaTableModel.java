@@ -1,4 +1,4 @@
-package forme.tableModeli;
+package forme.utils;
 
 import java.util.LinkedList;
 import java.util.List;
