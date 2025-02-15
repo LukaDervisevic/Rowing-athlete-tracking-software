@@ -1,20 +1,22 @@
-package common;
-
-import java.io.Serializable;
+package operacije;
 
 /**
  *
  * @author luka
  */
-public class Zahtev implements Serializable{
+public class Odgovor {
     
     private Operacija operacija;
     
     private Object parametar;
 
-    public Zahtev(Operacija operacija, Object parametar) {
+    public Odgovor(Operacija operacija, Object parametar) {
         this.operacija = operacija;
         this.parametar = parametar;
+    }
+    
+    public Odgovor(){
+        
     }
 
     public Operacija getOperacija() {

@@ -1,4 +1,4 @@
-package common;
+package operacije;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
