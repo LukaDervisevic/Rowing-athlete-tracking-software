@@ -5,8 +5,6 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import operacije.Odgovor;
-import operacije.Primalac;
 import operacije.Zahtev;
 
 /**
@@ -24,22 +22,22 @@ public class ObradaKlijentskihZahteva extends Thread {
     @Override
     public void run() {
 
-        while (true) {
-
-            Primalac primalac = new Primalac(s);
-            Zahtev zahtev = (Zahtev) primalac.primiPoruku();
-            Odgovor odgovor = new Odgovor();
-            
-            
-//            switch (var) {
-//            case val:
-//                
-//                break;
-//            default:
-//                throw new AssertionError();
+//        while (true) {
+//
+//            Primalac primalac = new Primalac(s);
+//            Zahtev zahtev = (Zahtev) primalac.primiPoruku();
+//            Odgovor odgovor = new Odgovor();
+//            
+//            
+////            switch (var) {
+////            case val:
+////                
+////                break;
+////            default:
+////                throw new AssertionError();
+////        }
+//
 //        }
-
-        }
      
     }
 

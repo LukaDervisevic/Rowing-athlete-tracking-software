@@ -1,8 +1,10 @@
-package utils;
+package server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -10,6 +12,12 @@ import java.net.Socket;
  * @author Luka
  */
 public class PokreniServer extends Thread {
+    
+    List<ServerNit> klijentiServera;
+    
+    public PokreniServer(){
+        klijentiServera = new ArrayList<>();
+    }
 
     @Override
     public void run() {
@@ -19,6 +27,8 @@ public class PokreniServer extends Thread {
             while(true){
                 
                 Socket klijentskiSoket = serverskiSoket.accept();
+                klijentiServera.add(new ServerNit(klijentskiSoket, klijentiServera));
+                klijentiServera.get(klijentiServera.size() - 1).start();
                 
             }
             

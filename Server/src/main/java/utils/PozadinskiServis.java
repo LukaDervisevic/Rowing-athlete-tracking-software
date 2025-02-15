@@ -22,7 +22,7 @@ public class PozadinskiServis {
         scheduler.schedule(() -> {
             System.out.println("Stopping scheduler after 15 minutes");
             scheduler.shutdown();
-        },16,TimeUnit.MINUTES);
+        },15,TimeUnit.MINUTES);
     }
     
     
