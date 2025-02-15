@@ -1,13 +1,13 @@
 package forme.klub;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import controller.Controller;
 import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
+import klijent.Klijent;
 import model.TipNaloga;
 import model.VeslackiKlub;
 
@@ -24,7 +24,7 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
         
         setLocationRelativeTo(this);
         
-        VeslackiKlub ulogovaniKlub = (VeslackiKlub) Controller.getInstance().getUlogovaniNalog();
+        VeslackiKlub ulogovaniKlub = (VeslackiKlub) Klijent.getInstance().getUlogovaniNalog();
         System.out.println(ulogovaniKlub);
         nazivInput.setText(ulogovaniKlub.getNaziv());
         adresaInput.setText(ulogovaniKlub.getAdresa());
@@ -431,10 +431,10 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
         
 //         Ako nije napravljena greska kreira se novi veslački klub
         if(!greska){
-            VeslackiKlub klub = (VeslackiKlub) Controller.getInstance().getUlogovaniNalog();
-            boolean uspesno = Controller.getInstance().azuirirajVeslackiKlub(klub.getId(),nazivInput.getText(),adresaInput.getText(),emailInput.getText(),
-                    (String) telefonComboBox.getSelectedItem(),telefonInput.getText(), korisnickoImeInput.getText(),sifraInput.getText());
-            if(uspesno){
+            VeslackiKlub klub = (VeslackiKlub) Klijent.getInstance().getUlogovaniNalog();
+            VeslackiKlub azuriraniKlub = Klijent.getInstance().azuirirajVeslackiKlub(new VeslackiKlub(klub.getId(),nazivInput.getText(),adresaInput.getText(),emailInput.getText(),
+                    ((String) telefonComboBox.getSelectedItem()) + telefonInput.getText(), korisnickoImeInput.getText(),sifraInput.getText()));
+            if(azuriraniKlub != null){
                 JOptionPane.showMessageDialog(this,"Podaci naloga su ažurirani","Uspešno ažuiriranje naloga", JOptionPane.INFORMATION_MESSAGE);
 
             }else{
@@ -533,10 +533,10 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
 
         if(odgovor == JOptionPane.YES_OPTION){
 
-            Controller.getInstance().obrisiVeslackiKlub(Controller.getInstance().getUlogovaniNalog().getId());
-            Controller.getInstance().setUlogovaniNalog(null);
+            Klijent.getInstance().obrisiVeslackiKlub((Integer) Klijent.getInstance().getUlogovaniNalog().getId());
+            Klijent.getInstance().setUlogovaniNalog(null);
             this.dispose();
-            Controller.getInstance().setOdjavaSignal(true);
+            Klijent.getInstance().setOdjavaSignal(true);
             
         }
 

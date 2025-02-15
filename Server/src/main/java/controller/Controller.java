@@ -93,25 +93,23 @@ public class Controller {
     
     
     
-    public boolean login(String korisnickoIme, String sifraKorisnika){
+    public Nalog login(Nalog nalog) throws Exception{
         
-        Nalog nalog = dbb.pretraziVeslackiKlubLogin(korisnickoIme,sifraKorisnika);
+        Nalog nalog = dbb.pretraziVeslackiKlubLogin(nalog);
         
         if(nalog == null){
-            nalog = dbb.pretraziAgencijuLogin(korisnickoIme,sifraKorisnika);
+            nalog = dbb.pretraziAgencijuLogin(nalog);
         }else {
             setUlogovaniNalog(nalog);
-            return true;
         }
         
         if(nalog == null){
-            return false;
+            throw new Exception("Neuspešna prijava naloga");
         }else {
             setUlogovaniNalog(nalog);
-            return true;
         }
         
-        
+        return nalog;
        
     }
 
@@ -134,8 +132,7 @@ public class Controller {
         return dbb.vratiTakmicenjaIzBaze();
     }
 
-    public boolean azuirirajVeslackiKlub(int id, String naziv, String adresa, String email, String telefonPrefiks, String telefonSufiks, String korisnickoIme, String sifra) {
-        String telefon = telefonPrefiks + telefonSufiks;
+    public boolean azuirirajVeslackiKlub(int id, String naziv, String adresa, String email, String telefon, String korisnickoIme, String sifra) {
         return dbb.azurirajVeslackiKlubUBazi(id, naziv, adresa, email,telefon,korisnickoIme,sifra);
     }
 

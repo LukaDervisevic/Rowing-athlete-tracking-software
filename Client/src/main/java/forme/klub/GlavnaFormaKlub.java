@@ -38,6 +38,7 @@ import model.Agencija;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
 import forme.veslac.IzmeniVeslacForma;
+import klijent.Klijent;
 
 /**
  *
@@ -45,11 +46,11 @@ import forme.veslac.IzmeniVeslacForma;
  */
 public class GlavnaFormaKlub extends javax.swing.JFrame {
     
-    private int idKluba = Controller.getInstance().getUlogovaniNalog().getId();
+    private int idKluba = Klijent.getInstance().getUlogovaniNalog().getId();
     private int idPonude = Controller.getInstance().vratiPoslednjiIdPonude() + 1;
     private int rb = 0;
     private List<StavkaPonude> stavkePonude = new LinkedList<>();
-    private List<Veslac> veslaciKlubaPonuda = Controller.getInstance().vratiSveVeslace();
+    private List<Veslac> veslaciKlubaPonuda = Klijent.getInstance().vratiSveVeslace();
     private List<Veslac> obrisaniVeslaci = new LinkedList<>();
     private Queue<Integer> izbaceniRb = new LinkedList<>();
     
@@ -70,11 +71,11 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         
         // Inicijalno prikupljanje objekata
         
-        List<Veslac> veslaci = Controller.getInstance().vratiSveVeslace();
-        LinkedList<Takmicenje> takmicenja = (LinkedList<Takmicenje>) Controller.getInstance().vratiSvaTakmicenja();
-        List<KlubTakmicenje> osvojenaTakmicenja = Controller.getInstance().vratiTakmicenjaKluba(idKluba);
-        List<PonudaVeslaca> ponudeVeslaca = Controller.getInstance().vratiSvePonudeKluba(Controller.getInstance().getUlogovaniNalog().getId());
-        List<Agencija> agencije = Controller.getInstance().vratiSveAgencije();
+        List<Veslac> veslaci = Klijent.getInstance().vratiSveVeslace();
+        LinkedList<Takmicenje> takmicenja = (LinkedList<Takmicenje>) Klijent.getInstance().vratiSvaTakmicenja();
+        List<KlubTakmicenje> osvojenaTakmicenja = Klijent.getInstance().vratiTakmicenjaKluba(idKluba);
+        List<PonudaVeslaca> ponudeVeslaca = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
+        List<Agencija> agencije = Klijent.getInstance().vratiSveAgencije();
         
         // Dodeljivanje TableModela tabelama
         
@@ -100,7 +101,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         mestoComboBox.addItem(2);
         mestoComboBox.addItem(3);
 
-        nalogLabel.setText(Controller.getInstance().getUlogovaniNalog().getNaziv());
+        nalogLabel.setText(Klijent.getInstance().getUlogovaniNalog().getNaziv());
 
         kategorijaTakmicaraComboBox.addItem(KategorijaVeslaca.KADET);
         kategorijaTakmicaraComboBox.addItem(KategorijaVeslaca.JUNIOR);
@@ -122,16 +123,16 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                     } else {
 
                         String upitZaPretragu = pretraziInput.getText();
-                        int idKluba = Controller.getInstance().getUlogovaniNalog().getId();
                         if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
                             int idAgencije = Integer.parseInt(upitZaPretragu);
-                            List<PonudaVeslaca> ponude = Controller.getInstance().pretraziPonudu(idAgencije, idKluba);
+                            List<PonudaVeslaca> ponude = Klijent.getInstance().pretraziPonudu(idAgencije, idKluba);
                             ptm.setPonude(ponude);
                             ptm.fireTableDataChanged();
 
                         } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
                             String imePrezime = upitZaPretragu;
-                            LinkedList<Veslac> veslaci = (LinkedList<Veslac>) Controller.getInstance().pretraziVeslaca(imePrezime, idKluba);
+                            LinkedList<Veslac> veslaci = (LinkedList<Veslac>) Klijent.getInstance().pretraziVeslaca(
+                            new Veslac(0,imePrezime,null,0,0,null,0,null, idKluba));
                             vtm.setVeslaci(veslaci);
                             vtm.fireTableDataChanged();
                             

@@ -67,7 +67,7 @@ class ServerNit extends Thread{
         
         switch (korisnikovZahtev.getOperacija()) {
             case Operacija.PRIJAVA:
-                
+                return Controller.getInstance().login(korisnickoIme, sifraKorisnika);
                 
                 break;
             default:

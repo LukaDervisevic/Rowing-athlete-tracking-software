@@ -34,7 +34,8 @@ public class Veslac implements Serializable{
     public Veslac() {
     }
 
-    public Veslac(String imePrezime, Date datumRodjenja, float visina, float tezina, KategorijaVeslaca kategorija, float najboljeVreme, Date datumUpisa,int idKluba) {
+    public Veslac(int idVeslaca,String imePrezime, Date datumRodjenja, float visina, float tezina, KategorijaVeslaca kategorija, float najboljeVreme, Date datumUpisa,int idKluba) {
+        this.idVeslaca = idVeslaca;
         this.imePrezime = imePrezime;
         this.datumRodjenja = datumRodjenja;
         this.visina = visina;

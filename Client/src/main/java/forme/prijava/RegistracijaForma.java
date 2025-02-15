@@ -1,7 +1,6 @@
 package forme.prijava;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import controller.Controller;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.JFrame;
@@ -9,9 +8,12 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
+import klijent.Klijent;
+import model.Agencija;
 
 import model.TipNaloga;
 import model.Drzava;
+import model.VeslackiKlub;
 
 public class RegistracijaForma extends javax.swing.JDialog {
 
@@ -514,14 +516,13 @@ public class RegistracijaForma extends javax.swing.JDialog {
             
 
             if (tipNalogaComboBox.getSelectedItem().equals(TipNaloga.VESLACKI_KLUB)) {
-                boolean uspesno = Controller.getInstance().kreirajVeslackiKlub(naziv, adresa, email,
-                        telefon, korisnickoIme);
+                VeslackiKlub kreiraniKlub = Klijent.getInstance().kreirajVeslackiKlub(new VeslackiKlub(0, naziv, adresa, email, telefon, korisnickoIme, null));
                 JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } else {
                 Drzava drzava = (Drzava) drzavaComboBox.getSelectedItem();
                 System.out.println(drzava);
-                boolean uspesno = Controller.getInstance().kreirajAgenciju(naziv,email,telefon,drzava,korisnickoIme);
+                Agencija kreiranaAgencija = Klijent.getInstance().kreirajAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, null, drzava));
                 JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             }
@@ -655,7 +656,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
         drzavaLabel.setForeground(new Color(153, 153, 153));
         drzavaZvezdica.setForeground(Color.WHITE);
         
-        List<Drzava> drzave = Controller.getInstance().vratiSveDrzave();
+        List<Drzava> drzave = Klijent.getInstance().vratiSveDrzave();
         
         drzavaComboBox.addItem(null);
         
