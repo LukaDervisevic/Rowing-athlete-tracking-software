@@ -1,10 +1,11 @@
 
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 
-public class VeslackiKlub extends Nalog{
+public class VeslackiKlub extends Nalog implements Serializable{
 
     
     private int id;

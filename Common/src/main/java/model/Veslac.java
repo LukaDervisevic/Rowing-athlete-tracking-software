@@ -1,6 +1,7 @@
 package model;
 
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ import java.util.Objects;
  *
  * @author luka
  */
-public class Veslac {
+public class Veslac implements Serializable{
 
     private int idVeslaca;
 

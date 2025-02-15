@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Agencija extends Nalog{
+public class Agencija extends Nalog implements Serializable{
     
     private int id;
     

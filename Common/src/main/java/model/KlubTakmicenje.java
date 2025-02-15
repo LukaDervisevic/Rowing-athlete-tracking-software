@@ -1,12 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author luka
  */
-public class KlubTakmicenje {
+public class KlubTakmicenje implements Serializable{
     
     private int mesto;
     

@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 
-public class Nalog {
+public class Nalog implements Serializable{
     
     private int id;
 

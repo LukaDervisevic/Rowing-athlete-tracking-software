@@ -1,12 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author luka
  */
-public class StavkaPonude {
+public class StavkaPonude implements Serializable{
  
     private int idEvidencije;
     
