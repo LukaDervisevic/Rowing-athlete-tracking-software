@@ -123,27 +123,27 @@ public class Controller {
         return klub != null;
     }
 
-    public Veslac kreirajVeslaca(String imePrezime,Date datumRodjenja, float visina, float tezina, String kategorija, Date datumUpisa, float najboljeVreme,int idKluba) throws Exception {
-        return dbb.kreirajVeslacaUBazi(imePrezime, datumRodjenja, visina, tezina, kategorija, datumUpisa, najboljeVreme,idKluba);
+    public Veslac kreirajVeslaca(Veslac veslac) throws Exception {
+        return dbb.kreirajVeslacaUBazi(veslac);
     }
 
     public List<Takmicenje> vratiTakmicenja() {
         return dbb.vratiTakmicenjaIzBaze();
     }
 
-    public boolean azuirirajVeslackiKlub(int id, String naziv, String adresa, String email, String telefon, String korisnickoIme, String sifra) {
-        return dbb.azurirajVeslackiKlubUBazi(id, naziv, adresa, email,telefon,korisnickoIme,sifra);
+    public VeslackiKlub azuirirajVeslackiKlub(VeslackiKlub klub) {
+        return dbb.azurirajVeslackiKlubUBazi(klub);
     }
 
-    public boolean obrisiVeslackiKlub(int id) {
+    public VeslackiKlub obrisiVeslackiKlub(Integer id) {
         return dbb.obrisiVeslackiKlubIzBaze(id);
     }
 
-    public VeslackiKlub vratiVeslackiKlubPoId(int id) {
+    public VeslackiKlub vratiVeslackiKlubPoId(Integer id) {
         return dbb.vratiVeslackiKlubPoIdDB(id);
     }
     
-    public Agencija vratiAgencijuPoId(int id){
+    public Agencija vratiAgencijuPoId(Integer id){
         return dbb.vratiAgencijuPoId(id);
     }
 
@@ -151,11 +151,11 @@ public class Controller {
         return dbb.vratiSveVeslaceDB();
     }
 
-    public boolean obrisiVeslaca(int id) {
+    public Veslac obrisiVeslaca(Integer id) {
         return dbb.obrisiVeslacaIzBaze(id);
     }
 
-    public void azurirajVeslaca(Veslac v) throws Exception {
+    public Veslac azurirajVeslaca(Veslac veslac) throws Exception {
         dbb.azurirajVeslacaUBazi(v);
     }
 
@@ -170,7 +170,7 @@ public class Controller {
         
     }
 
-    public boolean obrisiAgenciju(int id) {
+    public Agencija obrisiAgenciju(Integer id) {
         return dbb.obrisiAgencijuIzBaze(id);
     }
 
@@ -178,16 +178,16 @@ public class Controller {
         return dbb.vratiSveDrzaveIzBaze();
     }
 
-    public Takmicenje dodajTakmicenje(String nazivTakmicenja, KategorijaVeslaca kategorija, VrstaTrke vrstaTrke, LocalDate datumTakmicenja) throws SQLException {
-        return dbb.dodajTakmicenjeDB(nazivTakmicenja,kategorija,vrstaTrke,datumTakmicenja);
+    public Takmicenje dodajTakmicenje(Takmicenje takmicenje) throws SQLException {
+        return dbb.dodajTakmicenjeDB(takmicenje);
     }
 
-    public List<KlubTakmicenje> vratiTakmicenjaKluba(int idKluba) {
+    public List<KlubTakmicenje> vratiTakmicenjaKluba(Integer idKluba) {
         return dbb.vratiTakmicenjaKlubaDB(idKluba);
         
     }
 
-    public void obrisiTakmicenje(int idTakmicenja) throws SQLException {
+    public void obrisiTakmicenje(Integer idTakmicenja) throws SQLException {
         dbb.obrisiTakmicenjeDB(idTakmicenja);
     }
 
@@ -195,20 +195,20 @@ public class Controller {
         return dbb.vratiSvaTakmicenjaDB();
     }
 
-    public KlubTakmicenje dodajOsvojenoTakmicenje(int mesto, int idTakmicenja, int idKluba) throws Exception {
-        return dbb.dodajOsvojenoTakmicenjeDB(mesto,idTakmicenja,idKluba);
+    public KlubTakmicenje dodajOsvojenoTakmicenje(KlubTakmicenje klubTakmicenje) throws Exception {
+        return dbb.dodajOsvojenoTakmicenjeDB(klubTakmicenje);
     }
-
+    
+    ///???
     public int[] prebrojOsvojenaTakmicenja() {
         return dbb.prebrojOsvojenaTakmicenjaDB();
     }
 
-    public void obrisiOsvojenoTakmicenje(int idTakmicenja,int mesto) throws Exception {
-        int idKluba = getInstance().getUlogovaniNalog().getId();
-         dbb.obrisiOsvojenoTakmicenje(idTakmicenja,idKluba,mesto);
+    public KlubTakmicenje obrisiOsvojenoTakmicenje(KlubTakmicenje klubTakmicenje) throws Exception {
+         return dbb.obrisiOsvojenoTakmicenje(idTakmicenja,idKluba,mesto);
     }
 
-    public Veslac vratiVeslacaPoId(int idVeslaca) {
+    public Veslac vratiVeslacaPoId(Integer idVeslaca) {
         return dbb.vratiVeslacaPoId(idVeslaca);
     }
 
@@ -216,60 +216,62 @@ public class Controller {
         return dbb.vratiPoslednjiIdPonudeDB();
     }
 
-    public PonudaVeslaca kreirajPonuduVeslaca(int idAgencije, int idKluba, List<StavkaPonude> stavke) throws Exception {
-        return dbb.kreirajPonuduVeslacaDB(idAgencije,idKluba,stavke);
+    public PonudaVeslaca kreirajPonuduVeslaca(PonudaVeslaca ponuda) throws Exception {
+        return dbb.kreirajPonuduVeslacaDB(ponuda);
     }
 
-    public List<PonudaVeslaca> vratiSvePonudeKluba(int idKluba) {
+    public List<PonudaVeslaca> vratiSvePonudeKluba(Integer idKluba) {
         return dbb.vratiSvePonudeKlubaDB(idKluba);
     }
 
-    public void obrisiPonudu(int idPonude) throws Exception {
-        dbb.obrisiPonuduDB(idPonude);
+    public PonudaVeslaca obrisiPonudu(Integer idPonude) throws Exception {
+        return dbb.obrisiPonuduDB(idPonude);
     }
 
-    public List<PonudaVeslaca> pretraziPonudu(int idAgencije,int idKluba) {
-        return dbb.pretraziPonuduKlubaDB(idAgencije,idKluba);
+    public List<PonudaVeslaca> pretraziPonudu(PonudaVeslaca ponuda) {
+        return dbb.pretraziPonuduKlubaDB(ponuda);
     }
 
-    public List<Veslac> pretraziVeslaca(String imePrezime, int idKluba) {
-        return dbb.pretraziVeslacaDB(imePrezime,idKluba);
+    public List<Veslac> pretraziVeslaca(Veslac veslac) {
+        return dbb.pretraziVeslacaDB(veslac);
     }
 
+    // Mozda i da ostavim ovako
+    
     public List<Takmicenje> pretraziTakmicenja(String nazivTakmicenja) {
         return dbb.pretraziTakmicenjaDB(nazivTakmicenja);
     }
 
-    public List<PonudaVeslaca> vratiSvePonudeAgencije(int idAgencije) {
+    public List<PonudaVeslaca> vratiSvePonudeAgencije(Integer idAgencije) {
         return dbb.vratiSvePonudeAgencijeDB(idAgencije);
     }
 
-    public void azurirajAgenciju(int id, String naziv, String telefon, String email, String korisnickoIme, Drzava drzava, String sifra) throws Exception {
-        
-        dbb.azurirajAgencijuDB(id,naziv,telefon,email,korisnickoIme,drzava,sifra);
+    public Agencija azurirajAgenciju(Agencija agencija) throws Exception {      
+        return dbb.azurirajAgencijuDB(agencija);
     }
 
     public List<VeslackiKlub> vratiSveKlubove() {
         return dbb.vratiSveKluboveDB();
     }
 
-    public List<StavkaPonude> vratiSveStavkePonude(int idPonude) {
+    public List<StavkaPonude> vratiSveStavkePonude(Integer idPonude) {
         return dbb.vratiSveStavkePonudeDB(idPonude);
     }
-
+    
+    // Mozda da ostavim
     public List<VeslackiKlub> pretraziKlub(String upitZaPretragu) {
         return dbb.pretraziKlubDB(upitZaPretragu);
     }
 
-    public void obrisiKlub(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public VeslackiKlub obrisiKlub(Integer id) {
+        return dbb.obrisiVeslackiKlubIzBaze(id);
     }
 
     public List<Agencija> vratiSveAgencije() {
         return dbb.vratiSveAgencijeDB();
     }
 
-    public Takmicenje vratiTakmicenjePoId(int idTakmicenja){
+    public Takmicenje vratiTakmicenjePoId(Integer idTakmicenja){
         return dbb.vratiTakmicenjePoIdDB(idTakmicenja);
     }
     
