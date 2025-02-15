@@ -113,10 +113,9 @@ public class Controller {
        
     }
 
-    public boolean kreirajVeslackiKlub(String naziv, String adresa, String email, String telefon, String korisnickoIme) {
-        
-        String uuid = EmailAutentikator.posaljiEmail(email);
-        VeslackiKlub klub =  dbb.kreirajVeslackiKlubUBazi(naziv,adresa,email,telefon,korisnickoIme,uuid);
+    public boolean kreirajVeslackiKlub(VeslackiKlub klub){
+        String uuid = EmailAutentikator.posaljiEmail(klub.getEmail());
+        VeslackiKlub klub =  dbb.kreirajVeslackiKlubUBazi(klub);
         setUuid(uuid);
         Controller.getInstance().setVremeKreiranjaNaloga(LocalDateTime.now());
         PotvrdaNalogaServis servis = new PotvrdaNalogaServis(klub,uuid);
@@ -160,9 +159,9 @@ public class Controller {
         dbb.azurirajVeslacaUBazi(v);
     }
 
-    public boolean kreirajAgenciju(String naziv, String email, String telefon, Drzava drzava, String korisnickoIme) {
-        String uuid = EmailAutentikator.posaljiEmail(email);
-        Agencija agencija =  dbb.kreirajAgencijuUBazi(naziv, email, telefon, drzava, korisnickoIme,uuid);
+    public boolean kreirajAgenciju(Agencija agencija) {
+        String uuid = EmailAutentikator.posaljiEmail(agencija.getEmail());
+        Agencija agencija =  dbb.kreirajAgencijuUBazi(agencija);
         setUuid(uuid);
         Controller.getInstance().setVremeKreiranjaNaloga(LocalDateTime.now());
         PotvrdaNalogaServis servis = new PotvrdaNalogaServis(agencija,uuid);

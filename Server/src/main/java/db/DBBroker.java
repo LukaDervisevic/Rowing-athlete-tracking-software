@@ -70,7 +70,7 @@ public class DBBroker {
         return null;
     }
 
-    public VeslackiKlub pretraziVeslackiKlubLogin(String korisnickoIme, String sifra) {
+    public VeslackiKlub pretraziVeslackiKlubLogin(Nalog korisnickoIme) {
 
         VeslackiKlub klub = new VeslackiKlub();
 
