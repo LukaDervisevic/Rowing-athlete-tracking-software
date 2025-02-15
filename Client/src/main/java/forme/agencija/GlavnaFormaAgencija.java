@@ -86,7 +86,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                             int idKluba = Integer.parseInt(upitZaPretragu);
                             List<PonudaVeslaca> pretrazenePonude;
                             try {
-                                pretrazenePonude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, idKluba, idAgencije));
+                                pretrazenePonude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null,idKluba, idAgencije));
                                 patm.setPonude(pretrazenePonude);
                                 patm.fireTableDataChanged();
                             } catch (Exception ex) {
@@ -106,7 +106,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                             int idKluba = Integer.parseInt(upitZaPretragu);
                             List<PonudaVeslaca> pretrazenePonude;
                             try {
-                                pretrazenePonude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, idKluba, idAgencije));
+                                pretrazenePonude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null,idKluba, idAgencije));
                                 patvm.setPonude(pretrazenePonude);
                                 patvm.fireTableDataChanged();
                             } catch (Exception ex) {

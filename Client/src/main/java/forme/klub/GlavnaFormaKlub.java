@@ -125,7 +125,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                             int idAgencije = Integer.parseInt(upitZaPretragu);
                             List<PonudaVeslaca> ponude;
                             try {
-                                ponude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, idKluba, idAgencije));
+                                ponude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0,null,idKluba, idAgencije));
                                 ptm.setPonude(ponude);
                                 ptm.fireTableDataChanged();
                             } catch (Exception ex) {

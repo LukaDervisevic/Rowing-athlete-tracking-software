@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,6 +23,8 @@ public class PonudaVeslaca implements Serializable{
     
     private float prosecnoVremeJuniori;
     
+    private List<StavkaPonude> stavke;
+    
     private int idKluba;
     
     private int idAgencije;
@@ -29,13 +32,14 @@ public class PonudaVeslaca implements Serializable{
     public PonudaVeslaca() {
     }
 
-    public PonudaVeslaca(int id, Date datumKreiranja, int brojKadeta, int brojJuniora, float prosecnoVremeKadeti, float prosecnoVremeJuniori, int idKluba, int idAgencije) {
+    public PonudaVeslaca(int id, Date datumKreiranja, int brojKadeta, int brojJuniora, float prosecnoVremeKadeti, float prosecnoVremeJuniori,List<StavkaPonude> stavke,int idKluba, int idAgencije) {
         this.id = id;
         this.datumKreiranja = datumKreiranja;
         this.brojKadeta = brojKadeta;
         this.brojJuniora = brojJuniora;
         this.prosecnoVremeKadeti = prosecnoVremeKadeti;
         this.prosecnoVremeJuniori = prosecnoVremeJuniori;
+        this.stavke = stavke;
         this.idKluba = idKluba;
         this.idAgencije = idAgencije;
     }
@@ -86,6 +90,14 @@ public class PonudaVeslaca implements Serializable{
 
     public void setProsecnoVremeJuniori(float prosecnoVremeJuniori) {
         this.prosecnoVremeJuniori = prosecnoVremeJuniori;
+    }
+
+    public List<StavkaPonude> getStavke() {
+        return stavke;
+    }
+
+    public void setStavke(List<StavkaPonude> stavke) {
+        this.stavke = stavke;
     }
 
     public int getIdKluba() {

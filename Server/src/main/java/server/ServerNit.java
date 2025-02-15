@@ -84,7 +84,7 @@ class ServerNit extends Thread{
                 return Controller.getInstance().azuirirajVeslackiKlub((VeslackiKlub) korisnikovZahtev.getParametar());
                 
             case Operacija.PRETRAZIVANJE_KLUB:
-                return Controller.getInstance().pretraziKlub((VeslackiKlub) korisnikovZahtev.getParametar());
+                return Controller.getInstance().pretraziKlub((String) korisnikovZahtev.getParametar());
                 
             case Operacija.BRISANJE_KLUB:
                 return Controller.getInstance().obrisiVeslackiKlub((Integer) korisnikovZahtev.getParametar());
@@ -116,7 +116,7 @@ class ServerNit extends Thread{
                 return Controller.getInstance().dodajTakmicenje((Takmicenje) korisnikovZahtev.getParametar());
                 
             case Operacija.PRETRAZIVANJE_TAKMICENJE:
-                return Controller.getInstance().pretraziTakmicenja((Takmicenje) korisnikovZahtev.getParametar());
+                return Controller.getInstance().pretraziTakmicenja((String) korisnikovZahtev.getParametar());
                 
             case Operacija.BRISANJE_TAKMICENJE:
                 return Controller.getInstance().obrisiTakmicenje((Integer) korisnikovZahtev.getParametar());
@@ -133,10 +133,10 @@ class ServerNit extends Thread{
                 return Controller.getInstance().obrisiPonudu((Integer) korisnikovZahtev.getParametar());
                 
             case Operacija.UBACIVANJE_DRZAVA:
-                return Controller.getInstance().dodajDrzavu((Drzava) korisnikovZahtev.getParametar());
+//                return Controller.getInstance().dodajDrzavu((Drzava) korisnikovZahtev.getParametar());
                 
             case Operacija.BRISANJE_DRZAVA:
-                return Controller.getInstance().obrisiDrzavu((Integer) korisnikovZahtev.getParametar());
+//                return Controller.getInstance().obrisiDrzavu((Integer) korisnikovZahtev.getParametar());
                 
             
             
@@ -145,7 +145,6 @@ class ServerNit extends Thread{
         }
         
         
-        return objekat;
         
     }
     

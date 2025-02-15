@@ -614,7 +614,7 @@ public class DBBroker {
         return kreiranoTakmicenje;
     }
 
-    public List<KlubTakmicenje> vratiTakmicenjaKlubaDB(int idKluba) {
+    public List<KlubTakmicenje> vratiTakmicenjaKlubaDB(int idKluba) throws Exception {
 
         List<KlubTakmicenje> osvojenaTakmicenja = new LinkedList<>();
 
@@ -635,7 +635,7 @@ public class DBBroker {
                 if (Controller.getInstance().getUlogovaniNalog() instanceof VeslackiKlub) {
                     vk = (VeslackiKlub) Controller.getInstance().getUlogovaniNalog();
                 } else {
-                    vk = Controller.getInstance().vratiVeslackiKlubPoId(idKluba);
+                    vk = vratiVeslackiKlubPoIdDB(idKluba);
                 }
 
                 Takmicenje t = new Takmicenje();
@@ -661,7 +661,7 @@ public class DBBroker {
         return osvojenaTakmicenja;
     }
 
-    public Integer obrisiTakmicenjeDB(int idTakmicenja) throws Exception {
+    public Integer obrisiTakmicenjeDB(Integer idTakmicenja) throws Exception {
 
         Connection connection = null;
 
@@ -680,6 +680,11 @@ public class DBBroker {
 
             ps.executeUpdate();
             connection.commit();
+            
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -688,6 +693,8 @@ public class DBBroker {
             connection.close();
         }
 
+        return 0;
+        
     }
 
     public List<Takmicenje> vratiSvaTakmicenjaDB() {
@@ -723,7 +730,7 @@ public class DBBroker {
 
     }
 
-    public KlubTakmicenje dodajOsvojenoTakmicenjeDB(int mesto, int idTakmicenja, int idKluba) throws Exception {
+    public KlubTakmicenje dodajOsvojenoTakmicenjeDB(KlubTakmicenje klubTakmicenje) throws Exception {
 
         KlubTakmicenje osvojenoTakmicenje = null;
         Connection connection = null;
@@ -733,8 +740,8 @@ public class DBBroker {
 
             String upitProvera = "SELECT * FROM `veslanje`.`klub_takmicenje` WHERE mesto=? AND id_takmicenja=?";
             PreparedStatement ps = connection.prepareStatement(upitProvera);
-            ps.setInt(1, mesto);
-            ps.setInt(2, idTakmicenja);
+            ps.setInt(1, klubTakmicenje.getMesto());
+            ps.setInt(2, klubTakmicenje.getTakmicenje().getId());
 
             ResultSet rs = ps.executeQuery();
 
@@ -745,17 +752,17 @@ public class DBBroker {
             } else {
 
                 String upit = "INSERT INTO `veslanje`.`klub_takmicenje` (mesto,id_takmicenja,id_kluba) VALUES (?,?,?);";
-                PreparedStatement ps2 = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
-                ps2.setInt(1, mesto);
-                ps2.setInt(2, idTakmicenja);
-                ps2.setInt(3, idKluba);
+                PreparedStatement ps2 = connection.prepareStatement(upit);
+                ps2.setInt(1, klubTakmicenje.getMesto());
+                ps2.setInt(2, klubTakmicenje.getTakmicenje().getId());
+                ps2.setInt(3, klubTakmicenje.getKlub().getId());
 
                 ps2.executeUpdate();
                 connection.commit();
 
-                VeslackiKlub klub = vratiVeslackiKlubPoIdDB(idKluba);
-                Takmicenje takmicenje = vratiTakmicenjePoIdDB(idTakmicenja);
-                osvojenoTakmicenje = new KlubTakmicenje(mesto, klub, takmicenje);
+                VeslackiKlub klub = vratiVeslackiKlubPoIdDB(klubTakmicenje.getKlub().getId());
+                Takmicenje takmicenje = vratiTakmicenjePoIdDB(klubTakmicenje.getTakmicenje().getId());
+                osvojenoTakmicenje = new KlubTakmicenje(klubTakmicenje.getMesto(),klub,takmicenje);
 
             }
 
@@ -800,7 +807,7 @@ public class DBBroker {
         return brMesta;
     }
 
-    public void obrisiOsvojenoTakmicenje(int idTakmicenja, int idKluba, int mesto) throws Exception {
+    public Integer obrisiOsvojenoTakmicenje(KlubTakmicenje klubTakmicenje) throws Exception {
 
         Connection connection = null;
 
@@ -809,21 +816,31 @@ public class DBBroker {
             connection.setAutoCommit(false);
 
             String upit = "DELETE FROM `veslanje`.`klub_takmicenje` WHERE id_kluba=? AND id_takmicenja=? AND mesto=?";
-            PreparedStatement ps = connection.prepareStatement(upit);
+            PreparedStatement ps = connection.prepareStatement(upit,Statement.RETURN_GENERATED_KEYS);
 
-            ps.setInt(1, idKluba);
-            ps.setInt(2, idTakmicenja);
-            ps.setInt(3, mesto);
+            ps.setInt(1, klubTakmicenje.getKlub().getId());
+            ps.setInt(2, klubTakmicenje.getKlub().getId());
+            ps.setInt(3, klubTakmicenje.getMesto());
 
             ps.executeUpdate();
             connection.commit();
+            
+            ResultSet rs = ps.getGeneratedKeys();
+            
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+            
 
         } catch (SQLException ex) {
             ex.printStackTrace();
             connection.rollback();
+            throw new Exception(ex);
         } finally {
             connection.close();
         }
+        
+        return 0;
     }
 
     public Veslac vratiVeslacaPoId(int idVeslaca) {
@@ -883,7 +900,7 @@ public class DBBroker {
         return 0;
     }
 
-    public PonudaVeslaca kreirajPonuduVeslacaDB(int idAgencije, int idKluba, List<StavkaPonude> stavke) throws Exception {
+    public PonudaVeslaca kreirajPonuduVeslacaDB(PonudaVeslaca ponuda) throws Exception {
 
         Connection connection = null;
         PonudaVeslaca kreiranaPonuda = null;
@@ -891,7 +908,6 @@ public class DBBroker {
         try {
 
             int idPonude;
-            java.util.Date datumKreiranja = new java.util.Date(java.sql.Date.valueOf(LocalDate.now()).getTime());
             try {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306", dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"));
                 connection.setAutoCommit(false);
@@ -900,9 +916,9 @@ public class DBBroker {
                         + "VALUES (?,0,0,0,0,?,?)";
 
                 PreparedStatement ps = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
-                ps.setDate(1, java.sql.Date.valueOf(LocalDate.now()));
-                ps.setInt(2, idKluba);
-                ps.setInt(3, idAgencije);
+                ps.setDate(1, new Date(ponuda.getDatumKreiranja().getTime()));
+                ps.setInt(2, ponuda.getIdKluba());
+                ps.setInt(3, ponuda.getIdAgencije());
 
                 ps.executeUpdate();
 
@@ -926,7 +942,7 @@ public class DBBroker {
                 String upit_stavke = "INSERT INTO `veslanje`.`stavka_ponude` (id_ponude,rb,godine_treniranja,id_veslaca) VALUES(?,?,?,?)";
                 PreparedStatement ps2 = connection.prepareStatement(upit_stavke);
 
-                for (StavkaPonude stavka : stavke) {
+                for (StavkaPonude stavka : ponuda.getStavke()) {
 
                     ps2.setInt(1, idPonude);
                     ps2.setInt(2, stavka.getRb());
@@ -955,11 +971,11 @@ public class DBBroker {
 
             try {
 
-                int brojKadet = prebrojVeslace(idPonude, "KADET", idKluba, idAgencije);
-                int brojJuniora = prebrojVeslace(idPonude, "JUNIOR", idKluba, idAgencije);
+                int brojKadet = prebrojVeslace(idPonude, "KADET", ponuda.getIdKluba(), ponuda.getIdAgencije());
+                int brojJuniora = prebrojVeslace(idPonude, "JUNIOR", ponuda.getIdKluba(), ponuda.getIdAgencije());
 
-                float prosecnoVremeKadeti = prosecnoVremeVeslaci(idPonude, "KADET", idKluba, idAgencije);
-                float prosecnoVremeJuniori = prosecnoVremeVeslaci(idPonude, "JUNIOR", idKluba, idAgencije);
+                float prosecnoVremeKadeti = prosecnoVremeVeslaci(idPonude, "KADET", ponuda.getIdKluba(), ponuda.getIdAgencije());
+                float prosecnoVremeJuniori = prosecnoVremeVeslaci(idPonude, "JUNIOR", ponuda.getIdKluba(), ponuda.getIdAgencije());
 
                 String upit_azuriranje = "UPDATE `veslanje`.`ponuda_veslaca` SET broj_kadeta=?, broj_juniora=?, prosecno_vreme_kadeti=?, prosecno_vreme_junior=? WHERE id=?";
                 PreparedStatement ps = connection.prepareStatement(upit_azuriranje);
@@ -973,7 +989,7 @@ public class DBBroker {
 
                 connection.commit();
 
-                kreiranaPonuda = new PonudaVeslaca(idKluba, datumKreiranja, brojKadet, brojJuniora, prosecnoVremeKadeti, prosecnoVremeJuniori, idKluba, idAgencije);
+                kreiranaPonuda = new PonudaVeslaca(idPonude, ponuda.getDatumKreiranja(), brojKadet, brojJuniora, prosecnoVremeKadeti, prosecnoVremeJuniori,ponuda.getStavke(),ponuda.getIdKluba(), ponuda.getIdAgencije());
 
             } catch (Exception ex) {
                 connection.rollback();
@@ -1104,7 +1120,7 @@ public class DBBroker {
 
     }
 
-    public void obrisiPonuduDB(int idPonude) throws Exception {
+    public Integer obrisiPonuduDB(Integer idPonude) throws Exception {
 
         Connection connection = null;
 
@@ -1112,11 +1128,16 @@ public class DBBroker {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje", dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"));
             connection.setAutoCommit(false);
             String upit = "DELETE FROM `veslanje`.`ponuda_veslaca` WHERE id=?;";
-            PreparedStatement ps = connection.prepareStatement(upit);
+            PreparedStatement ps = connection.prepareStatement(upit,Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, idPonude);
 
             ps.executeUpdate();
             connection.commit();
+            
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
 
         } catch (SQLException ex) {
             connection.rollback();
@@ -1124,10 +1145,11 @@ public class DBBroker {
         } finally {
             connection.close();
         }
-
+        
+        return 0;
     }
 
-    public List<PonudaVeslaca> pretraziPonuduKlubaDB(int idAgencije, int idKluba) {
+    public List<PonudaVeslaca> pretraziPonuduKlubaDB(PonudaVeslaca ponuda) {
 
         List<PonudaVeslaca> ponude = new LinkedList<>();
 
@@ -1136,13 +1158,13 @@ public class DBBroker {
 
             String upit = "SELECT * FROM `veslanje`.`ponuda_veslaca` WHERE id_kluba=? AND id_agencije=?";
             PreparedStatement ps = connection.prepareStatement(upit);
-            ps.setInt(1, idKluba);
-            ps.setInt(2, idAgencije);
+            ps.setInt(1, ponuda.getIdKluba());
+            ps.setInt(2, ponuda.getIdAgencije());
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                PonudaVeslaca ponuda = new PonudaVeslaca();
+                PonudaVeslaca pretrazenaPonuda = new PonudaVeslaca();
                 ponuda.setId(rs.getInt("id"));
                 ponuda.setDatumKreiranja(new java.util.Date(rs.getDate("datum_kreiranja").getTime()));
                 ponuda.setBrojJuniora(rs.getInt("broj_juniora"));
@@ -1153,7 +1175,7 @@ public class DBBroker {
                 ponuda.setIdAgencije(rs.getInt("id_agencije"));
                 ponuda.setIdKluba(rs.getInt("id_kluba"));
 
-                ponude.add(ponuda);
+                ponude.add(pretrazenaPonuda);
             }
 
         } catch (SQLException ex) {
@@ -1164,7 +1186,7 @@ public class DBBroker {
 
     }
 
-    public List<Veslac> pretraziVeslacaDB(String imePrezime, int idKluba) {
+    public List<Veslac> pretraziVeslacaDB(Veslac veslac) {
 
         List<Veslac> veslaci = new LinkedList<>();
 
@@ -1173,23 +1195,23 @@ public class DBBroker {
 
             String upit;
 
-            if (idKluba == 0) {
+            if (veslac.getIdKluba() == 0) {
                 upit = "SELECT * FROM `veslanje`.`veslac` WHERE ime_prezime LIKE ?;";
             } else {
                 upit = "SELECT * FROM `veslanje`.`veslac` WHERE ime_prezime LIKE ? AND id_kluba=?;";
 
             }
 
-            imePrezime = "%" + imePrezime + "%";
+            String imePrezime = "%" + veslac.getImePrezime() + "%";
             PreparedStatement ps = connection.prepareStatement(upit);
             ps.setString(1, imePrezime);
-            if (idKluba != 0) {
-                ps.setInt(2, idKluba);
+            if (veslac.getIdKluba() != 0) {
+                ps.setInt(2, veslac.getIdKluba());
             }
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Veslac veslac = new Veslac();
+                Veslac pretrazenVeslac = new Veslac();
                 veslac.setIdVeslaca(rs.getInt("id"));
                 veslac.setDatumRodjenja(new java.util.Date(rs.getDate("datum_rodjenja").getTime()));
                 veslac.setDatumUpisa(new java.util.Date(rs.getDate("datum_upisa").getTime()));
@@ -1209,7 +1231,7 @@ public class DBBroker {
                 veslac.setVisina(rs.getFloat("visina"));
                 veslac.setIdKluba(rs.getInt("id_kluba"));
 
-                veslaci.add(veslac);
+                veslaci.add(pretrazenVeslac);
 
             }
 
@@ -1254,7 +1276,7 @@ public class DBBroker {
         return takmicenja;
     }
 
-    public List<PonudaVeslaca> vratiSvePonudeAgencijeDB(int idAgencije) {
+    public List<PonudaVeslaca> vratiSvePonudeAgencijeDB(Integer idAgencije) {
 
         List<PonudaVeslaca> ponude = new LinkedList<>();
 
@@ -1308,7 +1330,7 @@ public class DBBroker {
 
     }
 
-    public void azurirajAgencijuDB(int id, String naziv, String telefon, String email, String korisnickoIme, Drzava drzava, String sifra) throws Exception {
+    public Agencija azurirajAgencijuDB(Agencija agencija) throws Exception {
 
         Connection connection = null;
 
@@ -1319,17 +1341,20 @@ public class DBBroker {
 
             String upit = "UPDATE `veslanje`.`agencija` SET naziv=?, email=?, telefon=?, korisnicko_ime=?, sifra=?, id_drzave=? WHERE id=?;";
 
-            PreparedStatement ps = connection.prepareStatement(upit);
-            ps.setString(1, naziv);
-            ps.setString(2, email);
-            ps.setString(3, telefon);
-            ps.setString(4, korisnickoIme);
-            ps.setString(5, sifra);
-            ps.setInt(6, drzava.getId());
-            ps.setInt(7, id);
+            PreparedStatement ps = connection.prepareStatement(upit,Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, agencija.getNaziv());
+            ps.setString(2, agencija.getEmail());
+            ps.setString(3, agencija.getTelefon());
+            ps.setString(4, agencija.getKorisnickoIme());
+            ps.setString(5, agencija.getSifra());
+            ps.setInt(6, agencija.getDrzava().getId());
+            ps.setInt(7, agencija.getId());
 
             ps.executeUpdate();
             connection.commit();
+            
+            ResultSet rs = ps.getGeneratedKeys();
+            return vratiAgencijuPoId(rs.getInt(1));
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -1338,7 +1363,6 @@ public class DBBroker {
         } finally {
             connection.close();
         }
-
     }
 
     public List<VeslackiKlub> vratiSveKluboveDB() {

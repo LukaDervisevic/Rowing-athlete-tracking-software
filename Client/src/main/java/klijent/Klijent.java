@@ -12,10 +12,8 @@ import model.StavkaPonude;
 import model.Takmicenje;
 import model.Veslac;
 import model.VeslackiKlub;
-import operacije.Operacija;
 import operacije.Posiljalac;
 import operacije.Primalac;
-import operacije.Zahtev;
 
 /**
  *
@@ -122,9 +120,7 @@ public class Klijent {
     }
 
     
-    public List<PonudaVeslaca> pretraziPonudu(PonudaVeslaca ponuda) throws Exception {        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_PONUDE,ponuda);
-        posiljalac.posaljiPoruku(zahtev);
-        
+    public List<PonudaVeslaca> pretraziPonudu(PonudaVeslaca ponuda) throws Exception {        
         return null;
     }
 

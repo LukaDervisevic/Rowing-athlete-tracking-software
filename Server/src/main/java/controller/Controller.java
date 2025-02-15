@@ -170,7 +170,7 @@ public class Controller {
         
     }
 
-    public Agencija obrisiAgenciju(Integer id) {
+    public Integer obrisiAgenciju(Integer id) throws Exception {
         return dbb.obrisiAgencijuIzBaze(id);
     }
 
@@ -182,13 +182,13 @@ public class Controller {
         return dbb.dodajTakmicenjeDB(takmicenje);
     }
 
-    public List<KlubTakmicenje> vratiTakmicenjaKluba(Integer idKluba) {
+    public List<KlubTakmicenje> vratiTakmicenjaKluba(Integer idKluba) throws Exception {
         return dbb.vratiTakmicenjaKlubaDB(idKluba);
         
     }
 
-    public void obrisiTakmicenje(Integer idTakmicenja) throws SQLException {
-        dbb.obrisiTakmicenjeDB(idTakmicenja);
+    public Integer obrisiTakmicenje(Integer idTakmicenja) throws SQLException, Exception {
+        return dbb.obrisiTakmicenjeDB(idTakmicenja);
     }
 
     public List<Takmicenje> vratiSvaTakmicenja() {
@@ -204,8 +204,8 @@ public class Controller {
         return dbb.prebrojOsvojenaTakmicenjaDB();
     }
 
-    public KlubTakmicenje obrisiOsvojenoTakmicenje(KlubTakmicenje klubTakmicenje) throws Exception {
-         return dbb.obrisiOsvojenoTakmicenje(idTakmicenja,idKluba,mesto);
+    public Integer obrisiOsvojenoTakmicenje(KlubTakmicenje klubTakmicenje) throws Exception {
+         return dbb.obrisiOsvojenoTakmicenje(klubTakmicenje);
     }
 
     public Veslac vratiVeslacaPoId(Integer idVeslaca) {
@@ -224,7 +224,7 @@ public class Controller {
         return dbb.vratiSvePonudeKlubaDB(idKluba);
     }
 
-    public PonudaVeslaca obrisiPonudu(Integer idPonude) throws Exception {
+    public Integer obrisiPonudu(Integer idPonude) throws Exception {
         return dbb.obrisiPonuduDB(idPonude);
     }
 
@@ -263,7 +263,7 @@ public class Controller {
         return dbb.pretraziKlubDB(upitZaPretragu);
     }
 
-    public VeslackiKlub obrisiKlub(Integer id) {
+    public Integer obrisiKlub(Integer id) throws Exception {
         return dbb.obrisiVeslackiKlubIzBaze(id);
     }
 
@@ -271,7 +271,7 @@ public class Controller {
         return dbb.vratiSveAgencijeDB();
     }
 
-    public Takmicenje vratiTakmicenjePoId(Intege idTakmicenja){
+    public Takmicenje vratiTakmicenjePoId(Integer idTakmicenja){
         return dbb.vratiTakmicenjePoIdDB(idTakmicenja);
     }
     
