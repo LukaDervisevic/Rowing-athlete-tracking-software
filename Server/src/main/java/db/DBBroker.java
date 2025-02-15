@@ -37,169 +37,148 @@ public class DBBroker {
         return instance;
     }
 
-    public VeslackiKlub vratiVeslackiKlubPoIdDB(int klubId) {
+    public VeslackiKlub vratiVeslackiKlubPoIdDB(Integer id) throws Exception {
 
         VeslackiKlub klub = new VeslackiKlub();
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
                 dotenv.get("MYSQL_USER"),
-                dotenv.get("MYSQL_PASS"))) {
+                dotenv.get("MYSQL_PASS"));
 
-            String upit = "SELECT * FROM `veslanje`.`veslacki_klub` WHERE id=?;";
-            PreparedStatement statement = connection.prepareStatement(upit);
+        String upit = "SELECT * FROM `veslanje`.`veslacki_klub` WHERE id=?;";
+        PreparedStatement statement = connection.prepareStatement(upit);
 
-            statement.setInt(1, klubId);
+        statement.setInt(1, id);
 
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
+        ResultSet rs = statement.executeQuery();
+        if (rs.next()) {
 
-                klub.setId(rs.getInt("id"));
-                klub.setNaziv(rs.getString("naziv"));
-                klub.setAdresa(rs.getString("adresa"));
-                klub.setEmail(rs.getString("email"));
-                klub.setTelefon(rs.getString("telefon"));
-                klub.setKorisnickoIme(rs.getString("korisnicko_ime"));
-                klub.setSifra(rs.getString("sifra"));
+            klub.setId(rs.getInt("id"));
+            klub.setNaziv(rs.getString("naziv"));
+            klub.setAdresa(rs.getString("adresa"));
+            klub.setEmail(rs.getString("email"));
+            klub.setTelefon(rs.getString("telefon"));
+            klub.setKorisnickoIme(rs.getString("korisnicko_ime"));
+            klub.setSifra(rs.getString("sifra"));
 
-                return klub;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            return klub;
         }
 
         return null;
     }
 
-    public VeslackiKlub pretraziVeslackiKlubLogin(Nalog korisnickoIme) {
+    public Nalog pretraziVeslackiKlubLogin(Nalog nalog) throws Exception {
 
         VeslackiKlub klub = new VeslackiKlub();
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
                 dotenv.get("MYSQL_USER"),
-                dotenv.get("MYSQL_PASS"))) {
+                dotenv.get("MYSQL_PASS"));
 
-            String upit = "SELECT * FROM `veslanje`.`veslacki_klub` WHERE korisnicko_ime=? AND sifra=?";
-            PreparedStatement statement = connection.prepareStatement(upit);
+        String upit = "SELECT * FROM `veslanje`.`veslacki_klub` WHERE korisnicko_ime=? AND sifra=?";
+        PreparedStatement statement = connection.prepareStatement(upit);
 
-            statement.setString(1, korisnickoIme);
-            statement.setString(2, sifra);
+        statement.setString(1, nalog.getKorisnicko_ime());
+        statement.setString(2, nalog.getSifra());
 
-            ResultSet rs = statement.executeQuery();
+        ResultSet rs = statement.executeQuery();
 
-            if (rs.next()) {
-                klub.setId(rs.getInt("id"));
-                klub.setNaziv(rs.getString("naziv"));
-                klub.setAdresa(rs.getString("adresa"));
-                klub.setEmail(rs.getString("email"));
-                klub.setTelefon(rs.getString("telefon"));
-                klub.setKorisnickoIme(rs.getString("korisnicko_ime"));
-                klub.setSifra(rs.getString("sifra"));
+        if (rs.next()) {
+            klub.setId(rs.getInt("id"));
+            klub.setNaziv(rs.getString("naziv"));
+            klub.setAdresa(rs.getString("adresa"));
+            klub.setEmail(rs.getString("email"));
+            klub.setTelefon(rs.getString("telefon"));
+            klub.setKorisnickoIme(rs.getString("korisnicko_ime"));
+            klub.setSifra(rs.getString("sifra"));
 
-                return klub;
+            return klub;
 
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
 
         return null;
 
     }
 
-    public VeslackiKlub kreirajVeslackiKlubUBazi(String naziv, String adresa, String email, String telefon, String korisnickoIme, String sifra) {
+    public VeslackiKlub kreirajVeslackiKlubUBazi(VeslackiKlub klub) throws Exception {
 
-        VeslackiKlub klub = null;
+        VeslackiKlub kreiraniKlub = null;
 
         int brPromenjenihRedova = 0;
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
                 dotenv.get("MYSQL_USER"),
-                dotenv.get("MYSQL_PASS"))) {
+                dotenv.get("MYSQL_PASS"));
 
-            String upit = "INSERT INTO `veslanje`.`veslacki_klub` (naziv,adresa,email,telefon,korisnicko_ime,sifra) VALUES(?,?,?,?,?,?);";
-            PreparedStatement statement = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
+        String upit = "INSERT INTO `veslanje`.`veslacki_klub` (naziv,adresa,email,telefon,korisnicko_ime,sifra) VALUES(?,?,?,?,?,?);";
+        PreparedStatement statement = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
 
-            statement.setString(1, naziv);
-            statement.setString(2, adresa);
-            statement.setString(3, email);
-            statement.setString(4, telefon);
-            statement.setString(5, korisnickoIme);
-            statement.setString(6, sifra);
+        statement.setString(1, klub.getNaziv());
+        statement.setString(2, klub.getAdresa());
+        statement.setString(3, klub.getEmail());
+        statement.setString(4, klub.getTelefon());
+        statement.setString(5, klub.getKorisnickoIme());
+        statement.setString(6, klub.getSifra());
 
-            brPromenjenihRedova = statement.executeUpdate();
+        brPromenjenihRedova = statement.executeUpdate();
 
-            if (brPromenjenihRedova > 0) {
+        if (brPromenjenihRedova > 0) {
 
-                ResultSet generatedKeys = statement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    klub = vratiVeslackiKlubPoIdDB(generatedKeys.getInt(1));
-                }
-
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                kreiraniKlub = vratiVeslackiKlubPoIdDB(generatedKeys.getInt(1));
             }
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
         }
 
-        return klub;
+        return kreiraniKlub;
 
     }
 
-    public Veslac kreirajVeslacaUBazi(String imePrezime, java.util.Date datumRodjenja, float visina, float tezina, String kategorija, java.util.Date datumUpisa, float najboljeVreme, int idKluba) throws Exception {
+    public Veslac kreirajVeslacaUBazi(Veslac veslac) throws Exception {
 
         Veslac kreiranVeslac = null;
         Connection connection = null;
         int idVeslaca = 0;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
-                    dotenv.get("MYSQL_USER"),
-                    dotenv.get("MYSQL_PASS"));
-            connection.setAutoCommit(false);
 
-            String upit = "INSERT INTO `veslanje`.`veslac` (ime_prezime,datum_rodjenja,visina,tezina,kategorija, datum_upisa, najbolje_vreme,BMI,id_kluba) VALUES(?,?,?,?,?,?,?,?,?);";
-            PreparedStatement statement = connection.prepareStatement(upit,Statement.RETURN_GENERATED_KEYS);
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+                dotenv.get("MYSQL_USER"),
+                dotenv.get("MYSQL_PASS"));
+        connection.setAutoCommit(false);
 
-            statement.setString(1, imePrezime);
+        String upit = "INSERT INTO `veslanje`.`veslac` (ime_prezime,datum_rodjenja,visina,tezina,kategorija, datum_upisa, najbolje_vreme,BMI,id_kluba) VALUES(?,?,?,?,?,?,?,?,?);";
+        PreparedStatement statement = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
 
-            java.sql.Date datumRodjenjaSQL = new Date(datumRodjenja.getTime());
-            statement.setDate(2, datumRodjenjaSQL);
+        statement.setString(1, veslac.getImePrezime());
 
-            statement.setFloat(3, visina);
-            statement.setFloat(4, tezina);
-            statement.setString(5, kategorija);
+        java.sql.Date datumRodjenjaSQL = new Date(veslac.getDatumRodjenja().getTime());
+        statement.setDate(2, datumRodjenjaSQL);
 
-            java.sql.Date datumUpisaSQL = new Date(datumUpisa.getTime());
-            statement.setDate(6, datumUpisaSQL);
+        statement.setFloat(3, veslac.getVisina());
+        statement.setFloat(4, veslac.getTezina());
+        statement.setString(5, veslac.getKategorija().toString());
 
-            statement.setFloat(7, najboljeVreme);
+        java.sql.Date datumUpisaSQL = new Date(veslac.getDatumUpisa().getTime());
+        statement.setDate(6, datumUpisaSQL);
 
-            float BMI = tezina / (visina * visina);
+        statement.setFloat(7, veslac.getNajboljeVreme());
 
-            statement.setFloat(8, BMI);
-            statement.setInt(9, idKluba);
+        float BMI = veslac.getTezina() / (veslac.getVisina() * veslac.getVisina());
 
-            statement.executeUpdate();
-            
-            ResultSet rs = statement.getGeneratedKeys();
-            if(rs.next()){
-                idVeslaca = rs.getInt(1);
-            }
-            
-            
-            connection.commit();
-            
-            
-            
-            kreiranVeslac = new Veslac(imePrezime, datumRodjenja, visina, tezina, 
-                    KategorijaVeslaca.valueOf(kategorija),najboljeVreme, datumUpisa,idKluba);
-            kreiranVeslac.setIdVeslaca(idVeslaca);
+        statement.setFloat(8, BMI);
+        statement.setInt(9, veslac.getIdKluba());
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            connection.rollback();
-            throw new Exception(ex);
+        statement.executeUpdate();
+
+        ResultSet rs = statement.getGeneratedKeys();
+        if (rs.next()) {
+            idVeslaca = rs.getInt(1);
         }
+
+        connection.commit();
+
+        kreiranVeslac = new Veslac(idVeslaca, veslac.getImePrezime(), veslac.getDatumRodjenja(), veslac.getVisina(),
+                veslac.getTezina(), veslac.getKategorija(), veslac.getNajboljeVreme(), veslac.getDatumUpisa(), veslac.getIdKluba());
 
         return kreiranVeslac;
 
@@ -261,64 +240,66 @@ public class DBBroker {
 
     }
 
-    public boolean azurirajVeslackiKlubUBazi(int id, String naziv, String adresa, String email, String telefon, String korisnickoIme, String sifra) {
+    public VeslackiKlub azurirajVeslackiKlubUBazi(VeslackiKlub klub) throws Exception {
 
-        int brRedova = 0;
+        VeslackiKlub azuriraniKlub = null;
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
                 dotenv.get("MYSQL_USER"),
-                dotenv.get("MYSQL_PASS"))) {
+                dotenv.get("MYSQL_PASS"));
 
-            connection.setAutoCommit(false);
-            String upit = "UPDATE `veslanje`.`veslacki_klub` SET naziv=?, adresa=?, email=?, telefon=?, korisnicko_ime=?, sifra=? WHERE id=?";
+        connection.setAutoCommit(false);
+        String upit = "UPDATE `veslanje`.`veslacki_klub` SET naziv=?, adresa=?, email=?, telefon=?, korisnicko_ime=?, sifra=? WHERE id=?";
 
-            PreparedStatement statement = connection.prepareStatement(upit);
-            statement.setString(1, naziv);
-            statement.setString(2, adresa);
-            statement.setString(3, email);
-            statement.setString(4, telefon);
-            statement.setString(5, korisnickoIme);
-            statement.setString(6, sifra);
-            statement.setInt(7, id);
+        PreparedStatement statement = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
+        statement.setString(1, klub.getNaziv());
+        statement.setString(2, klub.getAdresa());
+        statement.setString(3, klub.getEmail());
+        statement.setString(4, klub.getTelefon());
+        statement.setString(5, klub.getKorisnickoIme());
+        statement.setString(6, klub.getKorisnickoIme());
+        statement.setInt(7, klub.getId());
 
-            brRedova = statement.executeUpdate();
-            if (brRedova > 0) {
-                connection.commit();
-            } else {
-                connection.rollback();
-            }
+        int brRedova = statement.executeUpdate();
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (brRedova > 0) {
+            connection.commit();
 
+            azuriraniKlub = vratiVeslackiKlubPoIdDB(klub.getId());
+
+        } else {
+            connection.rollback();
         }
 
-        return brRedova > 0;
+        return azuriraniKlub;
+
     }
 
-    public boolean obrisiVeslackiKlubIzBaze(int id) {
+    public Integer obrisiVeslackiKlubIzBaze(Integer id) throws Exception {
 
-        int brRedova = 0;
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
                 dotenv.get("MYSQL_USER"),
-                dotenv.get("MYSQL_PASS"))) {
-            connection.setAutoCommit(false);
+                dotenv.get("MYSQL_PASS"));
+        connection.setAutoCommit(false);
 
-            String upit = "DELETE FROM `veslanje`.`veslacki_klub` WHERE id=?;";
-            PreparedStatement statement = connection.prepareStatement(upit);
-            statement.setInt(1, id);
+        String upit = "DELETE FROM `veslanje`.`veslacki_klub` WHERE id=?;";
+        PreparedStatement statement = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
+        statement.setInt(1, id);
 
-            brRedova = statement.executeUpdate();
-            if (brRedova > 0) {
-                connection.commit();
-            } else {
-                connection.rollback();
+        int brRedova = statement.executeUpdate();
+        if (brRedova > 0) {
+            connection.commit();
+
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
             }
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } else {
+            connection.rollback();
         }
-        return brRedova > 0;
+
+        return 0;
     }
 
     public List<Veslac> vratiSveVeslaceDB() {
@@ -357,37 +338,37 @@ public class DBBroker {
         return veslaci;
     }
 
-    public boolean obrisiVeslacaIzBaze(int id) {
+    public Integer obrisiVeslacaIzBaze(int id) throws Exception {
 
-        int brRedova = 0;
-
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
                 dotenv.get("MYSQL_USER"),
-                dotenv.get("MYSQL_PASS"))) {
+                dotenv.get("MYSQL_PASS"));
 
-            connection.setAutoCommit(false);
+        connection.setAutoCommit(false);
 
-            String upit = "DELETE FROM `veslanje`.`veslac` WHERE id=?;";
-            PreparedStatement statement = connection.prepareStatement(upit);
-            statement.setInt(1, id);
+        String upit = "DELETE FROM `veslanje`.`veslac` WHERE id=?;";
+        PreparedStatement statement = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
+        statement.setInt(1, id);
 
-            brRedova = statement.executeUpdate();
-            if (brRedova > 0) {
-                connection.commit();
-            } else {
-                connection.rollback();
+        int brRedova = statement.executeUpdate();
+        if (brRedova > 0) {
+            connection.commit();
+
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
             }
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } else {
+            connection.rollback();
         }
-
-        return brRedova > 0;
+        return 0;
     }
 
-    public void azurirajVeslacaUBazi(Veslac veslac) throws Exception {
+    public Veslac azurirajVeslacaUBazi(Veslac veslac) throws Exception {
 
         Connection connection = null;
+        Veslac azuriraniVeslac = null;
 
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje", dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"));
@@ -416,12 +397,17 @@ public class DBBroker {
 
             ps.executeUpdate();
             connection.commit();
-
+            azuriraniVeslac = vratiVeslacaPoId(veslac.getIdVeslaca());
         } catch (SQLException ex) {
             connection.rollback();
             throw new Exception(ex);
 
+        } finally {
+            connection.close();
         }
+
+        return veslac;
+
     }
 
     public Agencija kreirajAgencijuUBazi(String naziv, String email, String telefon, Drzava drzava, String korisnickoIme, String sifra) {
@@ -586,7 +572,7 @@ public class DBBroker {
     }
 
     public Takmicenje dodajTakmicenjeDB(String nazivTakmicenja, KategorijaVeslaca kategorija, VrstaTrke vrstaTrke, LocalDate datumTakmicenja) throws SQLException {
-        
+
         Takmicenje kreiranoTakmicenje = null;
         Connection connection = null;
         try {
@@ -599,7 +585,7 @@ public class DBBroker {
             connection.setAutoCommit(false);
 
             String upit1 = "INSERT INTO `veslanje`.`takmicenje`(naziv,starosna_kategorija,vrsta_trke,datum) VALUES (?,?,?,?)";
-            PreparedStatement ps1 = connection.prepareStatement(upit1,Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps1 = connection.prepareStatement(upit1, Statement.RETURN_GENERATED_KEYS);
             ps1.setString(1, nazivTakmicenja);
             ps1.setString(2, kategorija.toString());
             ps1.setString(3, vrstaTrke.toString());
@@ -607,22 +593,21 @@ public class DBBroker {
 
             ps1.executeUpdate();
             connection.commit();
-            
+
             Instant instant = datumTakmicenja.atStartOfDay(ZoneId.systemDefault()).toInstant();
             java.util.Date datum = Date.from(instant);
-            
+
             ResultSet rs = ps1.getGeneratedKeys();
-            if(rs.next()){
+            if (rs.next()) {
                 kreiranoTakmicenje = new Takmicenje(rs.getInt(1), nazivTakmicenja, kategorija, vrstaTrke, datum);
             }
-            
 
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
             connection.close();
         }
-        
+
         return kreiranoTakmicenje;
     }
 
@@ -736,7 +721,7 @@ public class DBBroker {
     }
 
     public KlubTakmicenje dodajOsvojenoTakmicenjeDB(int mesto, int idTakmicenja, int idKluba) throws Exception {
-        
+
         KlubTakmicenje osvojenoTakmicenje = null;
         Connection connection = null;
         try {
@@ -757,18 +742,17 @@ public class DBBroker {
             } else {
 
                 String upit = "INSERT INTO `veslanje`.`klub_takmicenje` (mesto,id_takmicenja,id_kluba) VALUES (?,?,?);";
-                PreparedStatement ps2 = connection.prepareStatement(upit,Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement ps2 = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
                 ps2.setInt(1, mesto);
                 ps2.setInt(2, idTakmicenja);
                 ps2.setInt(3, idKluba);
 
-                ps2.executeUpdate();                
+                ps2.executeUpdate();
                 connection.commit();
-                
+
                 VeslackiKlub klub = vratiVeslackiKlubPoIdDB(idKluba);
-                Takmicenje takmicenje = vratiTakmicenjePoIdDB(idTakmicenja);    
-                osvojenoTakmicenje = new KlubTakmicenje(mesto,klub,takmicenje);
-                
+                Takmicenje takmicenje = vratiTakmicenjePoIdDB(idTakmicenja);
+                osvojenoTakmicenje = new KlubTakmicenje(mesto, klub, takmicenje);
 
             }
 
@@ -778,9 +762,9 @@ public class DBBroker {
         } finally {
             connection.close();
         }
-        
+
         return osvojenoTakmicenje;
-        
+
     }
 
     public int[] prebrojOsvojenaTakmicenjaDB() {
@@ -985,10 +969,8 @@ public class DBBroker {
                 ps.executeUpdate();
 
                 connection.commit();
-                
+
                 kreiranaPonuda = new PonudaVeslaca(idKluba, datumKreiranja, brojKadet, brojJuniora, prosecnoVremeKadeti, prosecnoVremeJuniori, idKluba, idAgencije);
-                
-                
 
             } catch (Exception ex) {
                 connection.rollback();
@@ -1009,9 +991,9 @@ public class DBBroker {
         } finally {
             connection.close();
         }
-        
+
         return kreiranaPonuda;
-        
+
     }
 
     public int prebrojVeslace(int idPonude, String tipVeslaca, int idKluba, int idAgencije) {
@@ -1096,13 +1078,11 @@ public class DBBroker {
 //                }
 //
 //                String vremeJuniori;
-
 //                if (Math.round(rs.getFloat("prosecno_vreme_junior") % 60) < 10) {
 //                    vremeJuniori = (int) Math.floor(rs.getFloat("prosecno_vreme_junior") / 60) + ":0" + Math.round(rs.getFloat("prosecno_vreme_junior") % 60);
 //                } else {
 //                    vremeJuniori = (int) Math.floor(rs.getFloat("prosecno_vreme_junior") / 60) + ":" + Math.round(rs.getFloat("prosecno_vreme_junior") % 60);
 //                }
-
                 ponuda.setProsecnoVremeKadeti(rs.getFloat("prosecno_vreme_kadeti"));
                 ponuda.setProsecnoVremeJuniori(rs.getFloat("prosecno_vreme_junior"));
 
@@ -1307,7 +1287,6 @@ public class DBBroker {
 //                } else {
 //                    vremeJuniori = (int) Math.floor(rs.getFloat("prosecno_vreme_junior") / 60) + ":" + Math.round(rs.getFloat("prosecno_vreme_junior") % 60);
 //                }
-
                 ponuda.setProsecnoVremeKadeti(rs.getFloat("prosecno_vreme_kadeti"));
                 ponuda.setProsecnoVremeJuniori(rs.getFloat("prosecno_vreme_junior"));
 
@@ -1520,35 +1499,34 @@ public class DBBroker {
     }
 
     public Takmicenje vratiTakmicenjePoIdDB(int idTakmicenja) {
-        
+
         Takmicenje takmicenje = null;
-        
-        try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306",
-                dotenv.get("MYSQL_USER"),dotenv.get("MYSQL_PASS"))){
-            
+
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306",
+                dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"))) {
+
             String upit = "SELECT * FROM `veslanje`.`takmicenje` WHERE id=?;";
             PreparedStatement ps = connection.prepareStatement(upit);
             ps.setInt(1, idTakmicenja);
-            
+
             ResultSet rs = ps.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 takmicenje = new Takmicenje();
                 takmicenje.setId(rs.getInt("id"));
                 takmicenje.setNaziv(rs.getString("naziv"));
                 takmicenje.setStarosnaKategorija(KategorijaVeslaca.valueOf(rs.getString("starosna_kategorija")));
                 takmicenje.setVrstaTrke(VrstaTrke.valueOf(rs.getString("vrsta_trke")));
                 takmicenje.setDatum(new java.util.Date(rs.getDate("datum").getTime()));
-   
+
             }
-            
-            
-        }catch(SQLException ex){
-            
+
+        } catch (SQLException ex) {
+
         }
-        
+
         return takmicenje;
-        
+
     }
 
 }

@@ -95,10 +95,10 @@ public class Controller {
     
     public Nalog login(Nalog nalog) throws Exception{
         
-        Nalog nalog = dbb.pretraziVeslackiKlubLogin(nalog);
+        Nalog ulogovaniNalog = dbb.pretraziVeslackiKlubLogin(nalog);
         
         if(nalog == null){
-            nalog = dbb.pretraziAgencijuLogin(nalog);
+            ulogovaniNalog = dbb.pretraziAgencijuLogin(nalog);
         }else {
             setUlogovaniNalog(nalog);
         }
@@ -109,18 +109,18 @@ public class Controller {
             setUlogovaniNalog(nalog);
         }
         
-        return nalog;
+        return ulogovaniNalog;
        
     }
 
-    public boolean kreirajVeslackiKlub(VeslackiKlub klub){
+    public VeslackiKlub kreirajVeslackiKlub(VeslackiKlub klub) throws Exception{
         String uuid = EmailAutentikator.posaljiEmail(klub.getEmail());
-        VeslackiKlub klub =  dbb.kreirajVeslackiKlubUBazi(klub);
+        VeslackiKlub kreiraniKlub =  dbb.kreirajVeslackiKlubUBazi(klub);
         setUuid(uuid);
         Controller.getInstance().setVremeKreiranjaNaloga(LocalDateTime.now());
         PotvrdaNalogaServis servis = new PotvrdaNalogaServis(klub,uuid);
         PozadinskiServis.proveraSifre(servis);
-        return klub != null;
+        return kreiraniKlub;
     }
 
     public Veslac kreirajVeslaca(Veslac veslac) throws Exception {
@@ -131,15 +131,15 @@ public class Controller {
         return dbb.vratiTakmicenjaIzBaze();
     }
 
-    public VeslackiKlub azuirirajVeslackiKlub(VeslackiKlub klub) {
+    public VeslackiKlub azuirirajVeslackiKlub(VeslackiKlub klub) throws Exception {
         return dbb.azurirajVeslackiKlubUBazi(klub);
     }
 
-    public VeslackiKlub obrisiVeslackiKlub(Integer id) {
+    public Integer obrisiVeslackiKlub(Integer id) throws Exception {
         return dbb.obrisiVeslackiKlubIzBaze(id);
     }
 
-    public VeslackiKlub vratiVeslackiKlubPoId(Integer id) {
+    public VeslackiKlub vratiVeslackiKlubPoId(Integer id) throws Exception {
         return dbb.vratiVeslackiKlubPoIdDB(id);
     }
     
@@ -271,7 +271,7 @@ public class Controller {
         return dbb.vratiSveAgencijeDB();
     }
 
-    public Takmicenje vratiTakmicenjePoId(Integer idTakmicenja){
+    public Takmicenje vratiTakmicenjePoId(Intege idTakmicenja){
         return dbb.vratiTakmicenjePoIdDB(idTakmicenja);
     }
     
