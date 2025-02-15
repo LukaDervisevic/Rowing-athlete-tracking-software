@@ -410,40 +410,38 @@ public class DBBroker {
 
     }
 
-    public Agencija kreirajAgencijuUBazi(String naziv, String email, String telefon, Drzava drzava, String korisnickoIme, String sifra) {
+    public Agencija kreirajAgencijuUBazi(Agencija agencija) throws Exception {
 
-        Agencija agencija = null;
+        Agencija kreiranaAgencija = null;
+        Connection connection = null;
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje", dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"))) {
+        try { 
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje", dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"));
 
-            String upit = "INSERT INTO `veslanje`.`agencija`(naziv,email,telefon,korisnicko_ime,sifra,id_drzave) VALUES (?,?,?,?,?,?)";
+            String upit = "INSERT INTO `veslanje`.`agencija`(naziv,email,telefon,korisnicko_ime,sifra,id_drzave) VALUES (?,?,?,?,?,?);";
             PreparedStatement statement = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
             connection.setAutoCommit(false);
 
-            statement.setString(1, naziv);
-            statement.setString(2, email);
-            statement.setString(3, telefon);
-            statement.setString(4, korisnickoIme);
-            statement.setString(5, sifra);
-            statement.setInt(6, drzava.getId());
+            statement.setString(1, agencija.getNaziv());
+            statement.setString(2, agencija.getEmail());
+            statement.setString(3, agencija.getTelefon());
+            statement.setString(4, agencija.getKorisnickoIme());
+            statement.setString(5, agencija.getSifra());
+            statement.setInt(6, agencija.getDrzava().getId());
 
-            int brRedova = statement.executeUpdate();
-
-            if (brRedova > 0) {
-                connection.commit();
-                ResultSet generatedKeys = statement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    agencija = vratiAgencijuPoId(generatedKeys.getInt(1));
-                }
-            } else {
-                connection.rollback();
+            statement.executeUpdate();
+            connection.commit();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                kreiranaAgencija = vratiAgencijuPoId(generatedKeys.getInt(1));
             }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-
+            connection.rollback();
+            throw new Exception(ex);
         }
-        return agencija;
+        return kreiranaAgencija;
     }
 
     public Agencija vratiAgencijuPoId(int id) {
@@ -477,12 +475,14 @@ public class DBBroker {
         return null;
     }
 
-    public boolean obrisiAgencijuIzBaze(int id) {
-        int brRedova = 0;
+    public Integer obrisiAgencijuIzBaze(Integer id) throws Exception {
+        
+        Connection connection = null;
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+        try {  
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
                 dotenv.get("MYSQL_USER"),
-                dotenv.get("MYSQL_PASS"))) {
+                dotenv.get("MYSQL_PASS"));
 
             connection.setAutoCommit(false);
 
@@ -490,18 +490,23 @@ public class DBBroker {
             PreparedStatement statement = connection.prepareStatement(upit);
             statement.setInt(1, id);
 
-            brRedova = statement.executeUpdate();
-            if (brRedova > 0) {
-                connection.commit();
-            } else {
-                connection.rollback();
+            statement.executeUpdate();
+            connection.commit();
+            
+            ResultSet rs = statement.getGeneratedKeys();
+            if(rs.next()){
+                return rs.getInt(1);
             }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
+            connection.rollback();
+            throw new Exception(ex);
+        }finally{
+            connection.close();
         }
-
-        return brRedova > 0;
+        
+        return 0;
     }
 
     public List<Drzava> vratiSveDrzaveIzBaze() {
@@ -533,7 +538,7 @@ public class DBBroker {
 
     }
 
-    public Nalog pretraziAgencijuLogin(String korisnickoIme, String sifraKorisnika) {
+    public Nalog pretraziAgencijuLogin(Nalog nalog) {
 
         Agencija agencija = new Agencija();
 
@@ -544,8 +549,8 @@ public class DBBroker {
             String upit = "SELECT * FROM `veslanje`.`agencija` WHERE korisnicko_ime=? AND sifra=?";
             PreparedStatement statement = connection.prepareStatement(upit);
 
-            statement.setString(1, korisnickoIme);
-            statement.setString(2, sifraKorisnika);
+            statement.setString(1, nalog.getKorisnicko_ime());
+            statement.setString(2, nalog.getSifra());
 
             ResultSet rs = statement.executeQuery();
 
@@ -571,13 +576,13 @@ public class DBBroker {
         return null;
     }
 
-    public Takmicenje dodajTakmicenjeDB(String nazivTakmicenja, KategorijaVeslaca kategorija, VrstaTrke vrstaTrke, LocalDate datumTakmicenja) throws SQLException {
+    public Takmicenje dodajTakmicenjeDB(Takmicenje takmicenje) throws Exception {
 
         Takmicenje kreiranoTakmicenje = null;
         Connection connection = null;
         try {
 
-//            try {
+
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
                     dotenv.get("MYSQL_USER"),
                     dotenv.get("MYSQL_PASS"));
@@ -586,20 +591,18 @@ public class DBBroker {
 
             String upit1 = "INSERT INTO `veslanje`.`takmicenje`(naziv,starosna_kategorija,vrsta_trke,datum) VALUES (?,?,?,?)";
             PreparedStatement ps1 = connection.prepareStatement(upit1, Statement.RETURN_GENERATED_KEYS);
-            ps1.setString(1, nazivTakmicenja);
-            ps1.setString(2, kategorija.toString());
-            ps1.setString(3, vrstaTrke.toString());
-            ps1.setDate(4, Date.valueOf(datumTakmicenja));
+            ps1.setString(1, takmicenje.getNaziv());
+            ps1.setString(2, takmicenje.getStarosnaKategorija().toString());
+            ps1.setString(3, takmicenje.getVrstaTrke().toString());
+            ps1.setDate(4, new Date(takmicenje.getDatum().getTime()));
 
             ps1.executeUpdate();
             connection.commit();
 
-            Instant instant = datumTakmicenja.atStartOfDay(ZoneId.systemDefault()).toInstant();
-            java.util.Date datum = Date.from(instant);
 
             ResultSet rs = ps1.getGeneratedKeys();
             if (rs.next()) {
-                kreiranoTakmicenje = new Takmicenje(rs.getInt(1), nazivTakmicenja, kategorija, vrstaTrke, datum);
+                kreiranoTakmicenje = new Takmicenje(rs.getInt(1),takmicenje.getNaziv(), takmicenje.getStarosnaKategorija(),takmicenje.getVrstaTrke(),takmicenje.getDatum());
             }
 
         } catch (Exception ex) {
@@ -658,7 +661,7 @@ public class DBBroker {
         return osvojenaTakmicenja;
     }
 
-    public void obrisiTakmicenjeDB(int idTakmicenja) throws SQLException {
+    public Integer obrisiTakmicenjeDB(int idTakmicenja) throws Exception {
 
         Connection connection = null;
 
@@ -671,7 +674,7 @@ public class DBBroker {
             String upit = "DELETE T FROM  `veslanje`.`takmicenje` as T JOIN `veslanje`.`klub_takmicenje` KT ON T.id=KT.id_takmicenja WHERE KT.id_kluba = ? AND T.id = ?;";
 
             int idKluba = Controller.getInstance().getUlogovaniNalog().getId();
-            PreparedStatement ps = connection.prepareStatement(upit);
+            PreparedStatement ps = connection.prepareStatement(upit,Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, idKluba);
             ps.setInt(2, idTakmicenja);
 

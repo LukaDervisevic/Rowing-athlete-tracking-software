@@ -151,22 +151,22 @@ public class Controller {
         return dbb.vratiSveVeslaceDB();
     }
 
-    public Veslac obrisiVeslaca(Integer id) {
+    public Integer obrisiVeslaca(Integer id) throws Exception {
         return dbb.obrisiVeslacaIzBaze(id);
     }
 
     public Veslac azurirajVeslaca(Veslac veslac) throws Exception {
-        dbb.azurirajVeslacaUBazi(v);
+        return dbb.azurirajVeslacaUBazi(veslac);
     }
 
-    public boolean kreirajAgenciju(Agencija agencija) {
+    public Nalog kreirajAgenciju(Agencija agencija) throws Exception {
         String uuid = EmailAutentikator.posaljiEmail(agencija.getEmail());
-        Agencija agencija =  dbb.kreirajAgencijuUBazi(agencija);
+        Agencija kreiranaAgencija =  dbb.kreirajAgencijuUBazi(agencija);
         setUuid(uuid);
         Controller.getInstance().setVremeKreiranjaNaloga(LocalDateTime.now());
         PotvrdaNalogaServis servis = new PotvrdaNalogaServis(agencija,uuid);
         PozadinskiServis.proveraSifre(servis);
-        return agencija != null;
+        return kreiranaAgencija;
         
     }
 
@@ -178,7 +178,7 @@ public class Controller {
         return dbb.vratiSveDrzaveIzBaze();
     }
 
-    public Takmicenje dodajTakmicenje(Takmicenje takmicenje) throws SQLException {
+    public Takmicenje dodajTakmicenje(Takmicenje takmicenje) throws Exception {
         return dbb.dodajTakmicenjeDB(takmicenje);
     }
 
