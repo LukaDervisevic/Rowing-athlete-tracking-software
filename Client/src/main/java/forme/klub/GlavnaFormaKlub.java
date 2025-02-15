@@ -1,12 +1,10 @@
 package forme.klub;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import controller.Controller;
 import forme.tableModeli.AgencijaTableModel;
 import forme.tableModeli.PonudaTableModelKlub;
 import forme.tableModeli.VeslacTableModel;
 import java.awt.Color;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -47,7 +45,7 @@ import klijent.Klijent;
 public class GlavnaFormaKlub extends javax.swing.JFrame {
     
     private int idKluba = Klijent.getInstance().getUlogovaniNalog().getId();
-    private int idPonude = Controller.getInstance().vratiPoslednjiIdPonude() + 1;
+    private int idPonude = Klijent.getInstance().vratiPoslednjiIdPonude() + 1;
     private int rb = 0;
     private List<StavkaPonude> stavkePonude = new LinkedList<>();
     private List<Veslac> veslaciKlubaPonuda = Klijent.getInstance().vratiSveVeslace();
@@ -72,7 +70,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         // Inicijalno prikupljanje objekata
         
         List<Veslac> veslaci = Klijent.getInstance().vratiSveVeslace();
-        LinkedList<Takmicenje> takmicenja = (LinkedList<Takmicenje>) Klijent.getInstance().vratiSvaTakmicenja();
+        LinkedList<Takmicenje> takmicenja = Klijent.getInstance().vratiSvaTakmicenja();
         List<KlubTakmicenje> osvojenaTakmicenja = Klijent.getInstance().vratiTakmicenjaKluba(idKluba);
         List<PonudaVeslaca> ponudeVeslaca = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
         List<Agencija> agencije = Klijent.getInstance().vratiSveAgencije();
@@ -125,13 +123,19 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                         String upitZaPretragu = pretraziInput.getText();
                         if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
                             int idAgencije = Integer.parseInt(upitZaPretragu);
-                            List<PonudaVeslaca> ponude = Klijent.getInstance().pretraziPonudu(idAgencije, idKluba);
-                            ptm.setPonude(ponude);
-                            ptm.fireTableDataChanged();
+                            List<PonudaVeslaca> ponude;
+                            try {
+                                ponude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, idKluba, idAgencije));
+                                ptm.setPonude(ponude);
+                                ptm.fireTableDataChanged();
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                            
 
                         } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
                             String imePrezime = upitZaPretragu;
-                            LinkedList<Veslac> veslaci = (LinkedList<Veslac>) Klijent.getInstance().pretraziVeslaca(
+                            LinkedList<Veslac> veslaci = Klijent.getInstance().pretraziVeslaca(
                             new Veslac(0,imePrezime,null,0,0,null,0,null, idKluba));
                             vtm.setVeslaci(veslaci);
                             vtm.fireTableDataChanged();
@@ -139,7 +143,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                             
                         } else {
                             String nazivTakmicenja = upitZaPretragu;
-                            List<Takmicenje> takmicenja = Controller.getInstance().pretraziTakmicenja(nazivTakmicenja);
+                            List<Takmicenje> takmicenja = Klijent.getInstance().pretraziTakmicenja(new Takmicenje(0,nazivTakmicenja,null,null,null));
                             ttm.setTakmicenja(takmicenja);
                             ttm.fireTableDataChanged();
                         }
@@ -1807,7 +1811,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
             Veslac kreiranVeslac;
             try {
-                kreiranVeslac = Controller.getInstance().kreirajVeslaca(imePrezime, dRodjenja, visina, tezina, kategorija, dUpisa, najboljeVremeFloat, idKluba);
+                kreiranVeslac = Klijent.getInstance().kreirajVeslaca(new Veslac(0, imePrezime, dRodjenja, visina, tezina, (KategorijaVeslaca) kategorijaComboBox.getSelectedItem(), najboljeVremeFloat, dUpisa, idKluba));
                 
                 if (kreiranVeslac != null) {
                 JOptionPane.showMessageDialog(this, "Veslač je unet u bazu", "Upseh", JOptionPane.INFORMATION_MESSAGE);
@@ -1834,9 +1838,9 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         }
 
         int id = (int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 0);
-        boolean uspesno = Controller.getInstance().obrisiVeslaca(id);
+        Veslac obrisaniVeslac = Klijent.getInstance().obrisiVeslaca(id);
 
-        if (uspesno) {
+        if (obrisaniVeslac != null) {
             JOptionPane.showMessageDialog(this, "Uspešno brisanje veslača", "", JOptionPane.INFORMATION_MESSAGE);
             vtm.obrisiVeslaca(id);
         } else {
@@ -1888,7 +1892,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             @Override
             public void windowClosed(WindowEvent e) {
 
-                LinkedList<Veslac> veslaci = (LinkedList<Veslac>) Controller.getInstance().vratiSveVeslace();
+                LinkedList<Veslac> veslaci = (LinkedList<Veslac>) Klijent.getInstance().vratiSveVeslace();
                 veslaciTable.setModel(new VeslacTableModel(veslaci));
                 veslaciTable.repaint();
                 veslaciTable.revalidate();
@@ -1913,7 +1917,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             @Override
             public void windowClosed(WindowEvent e) {
 
-                if(Controller.getInstance().isOdjavaSignal()){
+                if(Klijent.getInstance().isOdjavaSignal()){
                     JOptionPane.showMessageDialog(null, "Nalog obrisan, gašenje programa...","Info",JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     System.exit(0);
@@ -1932,17 +1936,17 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             String nazivTakmicenja = nazivTakmicenjaInput.getText();
             KategorijaVeslaca kategorija = (KategorijaVeslaca) kategorijaTakmicaraComboBox.getSelectedItem();
             VrstaTrke vrstaTrke = (VrstaTrke) vrstaTrkeComboBox.getSelectedItem();
-            LocalDate datumTakmicenja = datumTakmicenjaPicker.getDate();
+            Date datumTakmicenja =  Date.from(datumTakmicenjaPicker.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant()); 
 
             try {
-                Takmicenje kreiranoTakmicenje = Controller.getInstance().dodajTakmicenje(nazivTakmicenja, kategorija, vrstaTrke, datumTakmicenja);
+                Takmicenje kreiranoTakmicenje = Klijent.getInstance().dodajTakmicenje(new Takmicenje(0,nazivTakmicenja, kategorija, vrstaTrke, datumTakmicenja));
                 ttm.dodajTakmicenje(kreiranoTakmicenje);
                 
 
                 nazivTakmicenjaInput.setText("");
                 datumTakmicenjaPicker.setDate(null);
 
-            } catch (SQLException ex) {
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Greska " + ex, "Greska", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -1955,10 +1959,10 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         if (takmicenjaTable.getSelectedRow() != -1) {
             int idTakmicenja = (int) takmicenjaTable.getValueAt(takmicenjaTable.getSelectedRow(), 0);
             try {
-                Controller.getInstance().obrisiTakmicenje(idTakmicenja);
+                Klijent.getInstance().obrisiTakmicenje(idTakmicenja);
                 ttm.obrisiTakmicenje(idTakmicenja);
 
-            } catch (SQLException ex) {
+            } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -1974,7 +1978,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             int idTakmicenja = (int) takmicenjaTable.getValueAt(takmicenjaTable.getSelectedRow(), 0);
 
             try {
-                KlubTakmicenje osvojenoTakmicenje = Controller.getInstance().dodajOsvojenoTakmicenje(mesto, idTakmicenja, idKluba);
+                KlubTakmicenje osvojenoTakmicenje = Klijent.getInstance().dodajOsvojenoTakmicenje(mesto, idTakmicenja, idKluba);
                 ostm.dodajOsvojenoTakmicenje(osvojenoTakmicenje);
 
                 prebrojTakmicenja();
@@ -1998,7 +2002,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             int idTakmicenja = (int) osvojenaTakmicenjaTable.getValueAt(osvojenaTakmicenjaTable.getSelectedRow(), 0);
             int mesto = (int) osvojenaTakmicenjaTable.getValueAt(osvojenaTakmicenjaTable.getSelectedRow(), 5);
             try {
-                Controller.getInstance().obrisiOsvojenoTakmicenje(idTakmicenja, mesto);
+                Klijent.getInstance().obrisiOsvojenoTakmicenje(idTakmicenja, mesto);
                 ostm.obrisiOsvojenoTakmicenje(idKluba,idTakmicenja,mesto);
 
             } catch (Exception ex) {
@@ -2018,7 +2022,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
             int idPonude = (int) ponudeTable.getValueAt(ponudeTable.getSelectedRow(), 0);
             try {
-                Controller.getInstance().obrisiPonudu(idPonude);
+                Klijent.getInstance().obrisiPonudu(idPonude);
                 ptm.obrisiPonudu(idPonude);
 
 
@@ -2080,7 +2084,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             int idVeslaca = (int) veslaciPonudaTable.getValueAt(veslaciPonudaTable.getSelectedRow(), 0);
             StavkaPonude s = new StavkaPonude();
 
-            Veslac izabraniVeslac = Controller.getInstance().vratiVeslacaPoId(idVeslaca);
+            Veslac izabraniVeslac = Klijent.getInstance().vratiVeslacaPoId(idVeslaca);
             s.setVeslac(izabraniVeslac);
             Date datumUpisa = izabraniVeslac.getDatumUpisa();
             LocalDate datumUpisaLD = datumUpisa.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -2127,7 +2131,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         if(agencijeTable.getSelectedRow() != -1 && !stavkePonude.isEmpty()){
             int idAgencije = (int) agencijeTable.getValueAt(agencijeTable.getSelectedRow(), 0);
             try {
-                PonudaVeslaca kreiranaPonuda = Controller.getInstance().kreirajPonuduVeslaca(idAgencije, idKluba, stavkePonude);
+                PonudaVeslaca kreiranaPonuda = Klijent.getInstance().kreirajPonuduVeslaca(idAgencije, idKluba, stavkePonude);
                 JOptionPane.showMessageDialog(this,"Uspesno kreiranje ponude","Uspeh",JOptionPane.INFORMATION_MESSAGE);
                 ptm.dodajPonudu(kreiranaPonuda);
                 
@@ -2149,7 +2153,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     // TODO add your handling code here:
 
     private void prebrojTakmicenja() {
-        int[] brMesta = Controller.getInstance().prebrojOsvojenaTakmicenja();
+        int[] brMesta = Klijent.getInstance().prebrojOsvojenaTakmicenja();
         zlatoLabel.setText(brMesta[0] + " osvojenih zlata");
         srebroLabel.setText(brMesta[1] + " osvojenih srebra");
         bronzaLabel.setText(brMesta[2] + " osvojenih bronzi");

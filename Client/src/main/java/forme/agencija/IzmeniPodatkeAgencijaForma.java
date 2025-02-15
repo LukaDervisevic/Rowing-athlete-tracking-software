@@ -1,7 +1,6 @@
 package forme.agencija;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import controller.Controller;
 import java.awt.Color;
 import java.util.List;
 import javax.swing.JFrame;
@@ -9,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
+import klijent.Klijent;
 import model.Agencija;
 import model.Drzava;
 import model.TipNaloga;
@@ -26,7 +26,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         
         setLocationRelativeTo(this);
         
-        Agencija ulogovaniKlub = (Agencija) Controller.getInstance().getUlogovaniNalog();
+        Agencija ulogovaniKlub = (Agencija) Klijent.getInstance().getUlogovaniNalog();
         nazivInput.setText(ulogovaniKlub.getNaziv());
         emailInput.setText(ulogovaniKlub.getEmail());
         telefonInput.setText(ulogovaniKlub.getTelefon().substring(4));
@@ -403,9 +403,8 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
             greska = true;
         }
         
-//         Ako nije napravljena greska kreira se novi veslački klub
         if(!greska){
-            Agencija agencija = (Agencija) Controller.getInstance().getUlogovaniNalog();
+            Agencija agencija = (Agencija) Klijent.getInstance().getUlogovaniNalog();
             String naziv = nazivInput.getText();
             String telefon = (String) telefonComboBox.getSelectedItem() + telefonInput.getText();
             String email = emailInput.getText();
@@ -414,7 +413,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
             String sifra = sifraInput.getText();
             
             try {
-                Controller.getInstance().azurirajAgenciju(agencija.getId(),naziv,telefon,email,korisnickoIme,drzava,sifra);
+                Klijent.getInstance().azurirajAgenciju(new Agencija(agencija.getId(), naziv, email, telefon, korisnickoIme, sifra, drzava));
                 JOptionPane.showMessageDialog(this,"Uspesno azuriranje agencije","Uspeh", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (Exception ex) {
@@ -502,10 +501,10 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         
         if(odgovor == JOptionPane.YES_OPTION){
             
-            Controller.getInstance().obrisiAgenciju(Controller.getInstance().getUlogovaniNalog().getId());
-            Controller.getInstance().setUlogovaniNalog(null);
+            Klijent.getInstance().obrisiAgenciju(Klijent.getInstance().getUlogovaniNalog().getId());
+            Klijent.getInstance().setUlogovaniNalog(null);
             this.dispose();
-            Controller.getInstance().setOdjavaSignal(true);
+            Klijent.getInstance().setOdjavaSignal(true);
             
         }
         
@@ -517,7 +516,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         
         tipNalogaComboBox.addItem(TipNaloga.AGENCIJA_ZA_TALENTE);
    
-        List<Drzava> drzave = Controller.getInstance().vratiSveDrzave();
+        List<Drzava> drzave = Klijent.getInstance().vratiSveDrzave();
         
         for(Drzava d: drzave) {
             drzavaComboBox.addItem(d);

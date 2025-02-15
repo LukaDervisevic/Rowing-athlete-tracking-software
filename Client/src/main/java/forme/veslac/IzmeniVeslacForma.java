@@ -1,7 +1,6 @@
 package forme.veslac;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import controller.Controller;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -9,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import klijent.Klijent;
 import model.KategorijaVeslaca;
 import model.Veslac;
 
@@ -377,7 +377,7 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
             veslac.setIdKluba(Integer.parseInt(idKlubaInput.getText()));
             
             try {
-                Controller.getInstance().azurirajVeslaca(veslac);
+                Klijent.getInstance().azurirajVeslaca(veslac);
                 this.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this,"Greska pri azuriranju" + ex,"Greska",JOptionPane.ERROR_MESSAGE);
