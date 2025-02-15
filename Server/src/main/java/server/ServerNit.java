@@ -1,13 +1,16 @@
 package server;
 
-import java.io.BufferedReader;
+import controller.Controller;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.net.Socket;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import operacije.Odgovor;
+import operacije.Operacija;
+import operacije.Posiljalac;
+import operacije.Primalac;
+import operacije.Zahtev;
 
 /**
  *
@@ -15,39 +18,66 @@ import java.util.logging.Logger;
  */
 class ServerNit extends Thread{
 
-    BufferedReader ulazniTokOdKlijenta;
-    PrintStream izlazniTokKaKlijentu;
     Socket soketZaKomunikaciju;
     List<ServerNit> klijenti;
+    Posiljalac posiljalac;
+    Primalac primalac;
 
     public ServerNit(Socket soketZaKomunikaciju, List<ServerNit> klijenti){
         this.soketZaKomunikaciju = soketZaKomunikaciju;
         this.klijenti = klijenti;
+        this.posiljalac = new Posiljalac(soketZaKomunikaciju);
+        this.primalac = new Primalac(soketZaKomunikaciju);
     }
 
     @Override
     public void run() {
         
         try {
-            ulazniTokOdKlijenta = new BufferedReader(new InputStreamReader(soketZaKomunikaciju.getInputStream()));
-            izlazniTokKaKlijentu = new PrintStream(soketZaKomunikaciju.getOutputStream());
+            // inicijalizacija object stream-ova
             
             while(true){
-                
+                try {
+                    // Primanje zahteva od korisnika
+                    Zahtev korisnikovZahtev = (Zahtev) primalac.primiPoruku();
+                    // Obrada Zahteva
+                    
+                    Object odgovorServera = obradiZahtev(korisnikovZahtev);
+                    
+                    //Slanje zahteva
+                    posiljalac.posaljiPoruku(odgovorServera);
+                    
+                    
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 
                 
             }
 
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(ServerNit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    private synchronized Object obradiZahtev(Zahtev korisnikovZahtev){
+        
+        Object objekat = null;
+        
+        switch (korisnikovZahtev.getOperacija()) {
+            case Operacija.PRIJAVA:
+                
+                
+                break;
+            default:
+                throw new AssertionError();
         }
         
         
-        
+        return objekat;
         
     }
-    
-    
     
     
 }
