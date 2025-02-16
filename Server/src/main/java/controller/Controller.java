@@ -196,8 +196,8 @@ public class Controller {
         return dbb.dodajOsvojenoTakmicenjeDB(klubTakmicenje);
     }
     
-    public int[] prebrojOsvojenaTakmicenja() {
-        return dbb.prebrojOsvojenaTakmicenjaDB();
+    public int[] prebrojOsvojenaTakmicenja(Integer idKluba) {
+        return dbb.prebrojOsvojenaTakmicenjaDB(idKluba);
     }
 
     public Integer obrisiOsvojenoTakmicenje(KlubTakmicenje klubTakmicenje) throws Exception {

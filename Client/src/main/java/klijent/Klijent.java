@@ -419,9 +419,9 @@ public class Klijent {
     
     // Predstavlja problem
     
-    public int[] prebrojOsvojenaTakmicenja() throws Exception {
+    public int[] prebrojOsvojenaTakmicenja(int idKluba) throws Exception {
         
-        Zahtev zahtev = new Zahtev(Operacija.PREBROJ_OSVOJENA_TAKMICENJA,null);
+        Zahtev zahtev = new Zahtev(Operacija.PREBROJ_OSVOJENA_TAKMICENJA,(Integer) idKluba);
         posiljalac.posaljiPoruku(zahtev);
         
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();

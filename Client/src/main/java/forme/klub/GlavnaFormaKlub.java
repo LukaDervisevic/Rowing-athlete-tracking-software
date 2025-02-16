@@ -2202,7 +2202,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private void prebrojTakmicenja() {
         try{
             
-        int[] brMesta = Klijent.getInstance().prebrojOsvojenaTakmicenja();
+        int[] brMesta = Klijent.getInstance().prebrojOsvojenaTakmicenja(idKluba);
         zlatoLabel.setText(brMesta[0] + " osvojenih zlata");
         srebroLabel.setText(brMesta[1] + " osvojenih srebra");
         bronzaLabel.setText(brMesta[2] + " osvojenih bronzi");

@@ -192,6 +192,7 @@ class ServerNit extends Thread {
                 case Operacija.VRATI_SVE_STAVKE_PONUDE:
                     objekat = Controller.getInstance().vratiSveStavkePonude((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK,objekat);
+                    
                 // DRZAVA
                 case Operacija.UBACIVANJE_DRZAVA:
 //                return Controller.getInstance().dodajDrzavu((Drzava) korisnikovZahtev.getParametar());
@@ -207,6 +208,19 @@ class ServerNit extends Thread {
                 case Operacija.OSVOJI_TAKMICENJE:
                     objekat = Controller.getInstance().dodajOsvojenoTakmicenje((KlubTakmicenje) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK,objekat);
+                
+                case Operacija.BRISANJE_OSVOJENO_TAKMICENJE:
+                    objekat = Controller.getInstance().obrisiOsvojenoTakmicenje((KlubTakmicenje) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                    
+                case Operacija.VRATI_TAKMICENJA_KLUBA:
+                    objekat = Controller.getInstance().vratiTakmicenjaKluba((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                
+                case Operacija.PREBROJ_OSVOJENA_TAKMICENJA:
+                    objekat = Controller.getInstance().prebrojOsvojenaTakmicenja((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                    
                 // Nije dobra logika
                 case Operacija.PREKID:
                     soketZaKomunikaciju.close();

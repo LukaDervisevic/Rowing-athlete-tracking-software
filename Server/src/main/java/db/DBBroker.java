@@ -777,7 +777,7 @@ public class DBBroker {
 
     }
 
-    public int[] prebrojOsvojenaTakmicenjaDB() {
+    public int[] prebrojOsvojenaTakmicenjaDB(int idKluba) {
 
         int[] brMesta = new int[3];
 
@@ -791,7 +791,7 @@ public class DBBroker {
                     + "WHERE id_kluba = ?;";
 
             PreparedStatement ps = connection.prepareStatement(upit);
-            ps.setInt(1, Controller.getInstance().getUlogovaniNalog().getId());
+            ps.setInt(1, idKluba);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
