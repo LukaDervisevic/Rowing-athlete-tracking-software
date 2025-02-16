@@ -4,8 +4,6 @@ import forme.agencija.GlavnaFormaAgencija;
 import forme.klub.GlavnaFormaKlub;
 import java.awt.Color;
 import java.awt.Font;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.border.MatteBorder;
 import klijent.Klijent;
 import model.Nalog;

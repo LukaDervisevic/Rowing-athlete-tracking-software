@@ -110,8 +110,17 @@ public class Klijent {
         
     }
 
-    public VeslackiKlub kreirajVeslackiKlub(VeslackiKlub veslackiKlub) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public VeslackiKlub kreirajVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_KLUB,veslackiKlub);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (VeslackiKlub) odgovor.getParametar();
+        }
     }
 
     public Agencija kreirajAgenciju(Agencija agencija) {
@@ -122,16 +131,43 @@ public class Klijent {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public VeslackiKlub obrisiVeslackiKlub(Integer integer) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Integer obrisiVeslackiKlub(Integer idKluba) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_KLUB,idKluba);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (Integer) odgovor.getParametar();
+        }
     }
 
-    public VeslackiKlub azuirirajVeslackiKlub(VeslackiKlub veslackiKlub) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public VeslackiKlub azuirirajVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.PROMENA_KLUB,veslackiKlub);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (VeslackiKlub) odgovor.getParametar();
+        }
     }
 
-    public List<Veslac> vratiSveVeslace() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Veslac> vratiSveVeslace(Integer idKluba) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_SVE_VESLACE,idKluba);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (List<Veslac>) odgovor.getParametar();
+        }
     }
 
     public List<KlubTakmicenje> vratiTakmicenjaKluba(int idKluba) {
@@ -151,8 +187,17 @@ public class Klijent {
         return null;
     }
 
-    public LinkedList<Veslac> pretraziVeslaca(Veslac veslac) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public LinkedList<Veslac> pretraziVeslaca(Veslac veslac) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_VESLAC,veslac);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (LinkedList<Veslac>) odgovor.getParametar();
+        }
     }
 
     public List<Takmicenje> pretraziTakmicenja(Takmicenje takmicenje) {
@@ -163,12 +208,30 @@ public class Klijent {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public Veslac kreirajVeslaca(Veslac veslac) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Veslac kreirajVeslaca(Veslac veslac) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_VESLAC,veslac);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (Veslac) odgovor.getParametar();
+        }
     }
 
-    public Veslac obrisiVeslaca(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Integer obrisiVeslaca(Integer id) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_VESLAC,id);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (Integer) odgovor.getParametar();
+        }
     }
 
     public Takmicenje dodajTakmicenje(Takmicenje takmicenje) {
@@ -194,8 +257,17 @@ public class Klijent {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public Veslac vratiVeslacaPoId(int idVeslaca) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Veslac vratiVeslacaPoId(int idVeslaca) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_VESLACA_PO_ID,idVeslaca);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (Veslac) odgovor.getParametar();
+        }
     }
     
     // Predstavlja problem
