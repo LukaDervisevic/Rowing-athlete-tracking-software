@@ -11,9 +11,11 @@ import model.PonudaVeslaca;
 import model.Takmicenje;
 import model.Veslac;
 import model.VeslackiKlub;
+import operacije.Odgovor;
 import operacije.Operacija;
 import operacije.Posiljalac;
 import operacije.Primalac;
+import operacije.StatusPoruke;
 import operacije.Zahtev;
 
 /**
@@ -54,82 +56,105 @@ class ServerNit extends Thread {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(ServerNit.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
 
     }
 
-    private synchronized Object obradiZahtev(Zahtev korisnikovZahtev) throws Exception {
+    private synchronized Object obradiZahtev(Zahtev korisnikovZahtev){
 
-        Object objekat = null;
+        Object objekat;
 
-        switch (korisnikovZahtev.getOperacija()) {
-            case Operacija.PRIJAVA:
-                return Controller.getInstance().login((Nalog) korisnikovZahtev.getParametar());
+        try {
 
-            case Operacija.REGISTRACIJA_KLUB:
-                return Controller.getInstance().kreirajVeslackiKlub((VeslackiKlub) korisnikovZahtev.getParametar());
+            switch (korisnikovZahtev.getOperacija()) {
+                case Operacija.PRIJAVA:
+                    objekat = Controller.getInstance().login((Nalog) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.PROMENA_KLUB:
-                return Controller.getInstance().azuirirajVeslackiKlub((VeslackiKlub) korisnikovZahtev.getParametar());
+                case Operacija.REGISTRACIJA_KLUB:
+                    objekat = Controller.getInstance().kreirajVeslackiKlub((VeslackiKlub) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.PRETRAZIVANJE_KLUB:
-                return Controller.getInstance().pretraziKlub((String) korisnikovZahtev.getParametar());
+                case Operacija.PROMENA_KLUB:
+                    objekat = Controller.getInstance().azuirirajVeslackiKlub((VeslackiKlub) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.BRISANJE_KLUB:
-                return Controller.getInstance().obrisiVeslackiKlub((Integer) korisnikovZahtev.getParametar());
+                case Operacija.PRETRAZIVANJE_KLUB:
+                    objekat = Controller.getInstance().pretraziKlub((String) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.REGISTRACIJA_AGENCIJA:
-                return Controller.getInstance().kreirajAgenciju((Agencija) korisnikovZahtev.getParametar());
+                case Operacija.BRISANJE_KLUB:
+                    objekat = Controller.getInstance().obrisiVeslackiKlub((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.PROMENA_AGENCIJA:
-                return Controller.getInstance().azurirajAgenciju((Agencija) korisnikovZahtev.getParametar());
+                case Operacija.REGISTRACIJA_AGENCIJA:
+                    objekat = Controller.getInstance().kreirajAgenciju((Agencija) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
+
+                case Operacija.PROMENA_AGENCIJA:
+                    objekat = Controller.getInstance().azurirajAgenciju((Agencija) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
 //            case Operacija.PRETRAZIVANJE_AGENCIJA:
-            case Operacija.BRISANJE_AGENCIJA:
-                return Controller.getInstance().obrisiAgenciju((Integer) korisnikovZahtev.getParametar());
+                case Operacija.BRISANJE_AGENCIJA:
+                    objekat = Controller.getInstance().obrisiAgenciju((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.KREIRANJE_VESLAC:
-                return Controller.getInstance().kreirajVeslaca((Veslac) korisnikovZahtev.getParametar());
+                case Operacija.KREIRANJE_VESLAC:
+                    objekat = Controller.getInstance().kreirajVeslaca((Veslac) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.PRETRAZIVANJE_VESLAC:
-                return Controller.getInstance().pretraziVeslaca((Veslac) korisnikovZahtev.getParametar());
+                case Operacija.PRETRAZIVANJE_VESLAC:
+                    objekat = Controller.getInstance().pretraziVeslaca((Veslac) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.PROMENA_VESLAC:
-                return Controller.getInstance().azurirajVeslaca((Veslac) korisnikovZahtev.getParametar());
+                case Operacija.PROMENA_VESLAC:
+                    objekat = Controller.getInstance().azurirajVeslaca((Veslac) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.BRISANJE_VESLAC:
-                return Controller.getInstance().obrisiVeslaca((Integer) korisnikovZahtev.getParametar());
+                case Operacija.BRISANJE_VESLAC:
+                    objekat = Controller.getInstance().obrisiVeslaca((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.UBACIVANJE_TAKMICENJE:
-                return Controller.getInstance().dodajTakmicenje((Takmicenje) korisnikovZahtev.getParametar());
+                case Operacija.UBACIVANJE_TAKMICENJE:
+                    objekat = Controller.getInstance().dodajTakmicenje((Takmicenje) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.PRETRAZIVANJE_TAKMICENJE:
-                return Controller.getInstance().pretraziTakmicenja((String) korisnikovZahtev.getParametar());
+                case Operacija.PRETRAZIVANJE_TAKMICENJE:
+                    objekat = Controller.getInstance().pretraziTakmicenja((String) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.BRISANJE_TAKMICENJE:
-                return Controller.getInstance().obrisiTakmicenje((Integer) korisnikovZahtev.getParametar());
+                case Operacija.BRISANJE_TAKMICENJE:
+                    objekat = Controller.getInstance().obrisiTakmicenje((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.KREIRANJE_PONUDE:
-                return Controller.getInstance().kreirajPonuduVeslaca((PonudaVeslaca) korisnikovZahtev.getParametar());
+                case Operacija.KREIRANJE_PONUDE:
+                    objekat = Controller.getInstance().kreirajPonuduVeslaca((PonudaVeslaca) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.PRETRAZIVANJE_PONUDE:
-                return Controller.getInstance().pretraziPonudu((PonudaVeslaca) korisnikovZahtev.getParametar());
+                case Operacija.PRETRAZIVANJE_PONUDE:
+                    objekat = Controller.getInstance().pretraziPonudu((PonudaVeslaca) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            //case Operacija.PROMENA_PONUDE: 
-            case Operacija.BRISANJE_PONUDE:
-                return Controller.getInstance().obrisiPonudu((Integer) korisnikovZahtev.getParametar());
+                //case Operacija.PROMENA_PONUDE: 
+                case Operacija.BRISANJE_PONUDE:
+                    objekat = Controller.getInstance().obrisiPonudu((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
 
-            case Operacija.UBACIVANJE_DRZAVA:
+                case Operacija.UBACIVANJE_DRZAVA:
 //                return Controller.getInstance().dodajDrzavu((Drzava) korisnikovZahtev.getParametar());
 
-            case Operacija.BRISANJE_DRZAVA:
+                case Operacija.BRISANJE_DRZAVA:
 //                return Controller.getInstance().obrisiDrzavu((Integer) korisnikovZahtev.getParametar());
 
-            default:
-                throw new AssertionError();
-        }
+                default:
+                    return new Odgovor(StatusPoruke.GRESKA, "Zeljena operacija ne postoji");
+            }
 
+        } catch (Exception ex) {
+            return new Odgovor(StatusPoruke.GRESKA,ex);
+        }
     }
 
 }
