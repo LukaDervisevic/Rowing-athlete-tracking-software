@@ -819,7 +819,7 @@ public class DBBroker {
             PreparedStatement ps = connection.prepareStatement(upit,Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, klubTakmicenje.getKlub().getId());
-            ps.setInt(2, klubTakmicenje.getKlub().getId());
+            ps.setInt(2, klubTakmicenje.getTakmicenje().getId());
             ps.setInt(3, klubTakmicenje.getMesto());
 
             ps.executeUpdate();
