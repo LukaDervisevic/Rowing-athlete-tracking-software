@@ -148,7 +148,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
                                 } else {
                                     String nazivTakmicenja = upitZaPretragu;
-                                    List<Takmicenje> takmicenja = Klijent.getInstance().pretraziTakmicenja(new Takmicenje(0, nazivTakmicenja, null, null, null));
+                                    List<Takmicenje> takmicenja = Klijent.getInstance().pretraziTakmicenja(nazivTakmicenja);
                                     ttm.setTakmicenja(takmicenja);
                                     ttm.fireTableDataChanged();
                                 }
@@ -163,7 +163,13 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
             prebrojTakmicenja();
 
-            try {
+            
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        try {
                 UIManager.setLookAndFeel(new FlatLightLaf());
             } catch (UnsupportedLookAndFeelException ex) {
                 ex.printStackTrace();
@@ -171,10 +177,6 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
             setVisible(true);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
 
     }
 

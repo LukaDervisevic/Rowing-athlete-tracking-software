@@ -252,8 +252,8 @@ public class Klijent {
         }
     }
 
-    public List<Takmicenje> pretraziTakmicenja(Takmicenje takmicenje) throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_TAKMICENJE,takmicenje);
+    public List<Takmicenje> pretraziTakmicenja(String upit) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_TAKMICENJE,upit);
         posiljalac.posaljiPoruku(zahtev);
         
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
