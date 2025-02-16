@@ -21,6 +21,7 @@ public enum Operacija {
     PROMENA_AGENCIJA,
     PRETRAZIVANJE_AGENCIJA,
     BRISANJE_AGENCIJA,
+    VRATI_SVE_AGENCIJE,
     
     //Veslac
     KREIRANJE_VESLAC,
