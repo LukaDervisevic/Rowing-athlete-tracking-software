@@ -29,20 +29,20 @@ public class RegistracijaForma extends javax.swing.JDialog {
         inicijalnoRenderovanje();
     }
 
-    public RegistracijaForma(JFrame roditelj) {
-        super(roditelj, "Registracija korisnika", true);
-        initComponents();
-        setLocationRelativeTo(this);
-        inicijalnoRenderovanje();
-        try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
-        }
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setVisible(true);
-
-    }
+//    public RegistracijaForma(JFrame roditelj) {
+//        super(roditelj, "Registracija korisnika", true);
+//        initComponents();
+//        setLocationRelativeTo(this);
+//        inicijalnoRenderovanje();
+//        try {
+//            UIManager.setLookAndFeel(new FlatLightLaf());
+//        } catch (UnsupportedLookAndFeelException ex) {
+//            ex.printStackTrace();
+//        }
+//        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//        setVisible(true);
+//
+//    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -473,62 +473,67 @@ public class RegistracijaForma extends javax.swing.JDialog {
 
     private void registracijaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registracijaButtonActionPerformed
 
-        boolean greska = false;
-        // Promena boje nazivInput polja pri gresci
-        if (nazivInput.getText().isEmpty() || nazivInput.getText().equals("Unesite naziv...")) {
-            nazivInput.setForeground(new Color(255, 51, 51));
-            nazivInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
-            greska = true;
-        }
-        // Promena boje adresaInput polja pri gresci
-        if ( ((TipNaloga) tipNalogaComboBox.getSelectedItem()).equals(TipNaloga.VESLACKI_KLUB) && ( adresaInput.getText().isEmpty() || adresaInput.getText().equals("Unesite adresu..."))) {
-            adresaInput.setForeground(new Color(255, 51, 51));
-            adresaInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
-            greska = true;
-        }
-        // Promena boje emailInput polja pri gresci
-        if (emailInput.getText().isEmpty() || emailInput.getText().equals("Unesite email...")) {
-            emailInput.setForeground(new Color(255, 51, 51));
-            emailInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
-            greska = true;
-        }
-        // Promena boje telefonInput polja pri gresci
-        if (telefonInput.getText().isEmpty() || telefonInput.getText().equals("6512345")) {
-            telefonInput.setForeground(new Color(255, 51, 51));
-            greskaTelefonLabel.setVisible(true);
-            greska = true;
-        }
-        // Promena boje korisnickoImeInput polja pri gresci
-        if (korisnickoImeInput.getText().isEmpty() || korisnickoImeInput.getText().equals("Unesite korisnika...")) {
-            korisnickoImeInput.setForeground(new Color(255, 51, 51));
-            korisnickoImeInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
-            greska = true;
-        }
+        try {
 
-
-        if (!greska) {
-
-            String naziv = nazivInput.getText();
-            String adresa = adresaInput.getText();
-            String email = emailInput.getText();
-            String korisnickoIme = korisnickoImeInput.getText();
-            String telefon = (String) telefonComboBox.getSelectedItem() + telefonInput.getText();
-            
-
-            if (tipNalogaComboBox.getSelectedItem().equals(TipNaloga.VESLACKI_KLUB)) {
-                VeslackiKlub kreiraniKlub = Klijent.getInstance().kreirajVeslackiKlub(new VeslackiKlub(0, naziv, adresa, email, telefon, korisnickoIme, null));
-                JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
-            } else {
-                Drzava drzava = (Drzava) drzavaComboBox.getSelectedItem();
-                System.out.println(drzava);
-                Agencija kreiranaAgencija = Klijent.getInstance().kreirajAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, null, drzava));
-                JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
+            boolean greska = false;
+            // Promena boje nazivInput polja pri gresci
+            if (nazivInput.getText().isEmpty() || nazivInput.getText().equals("Unesite naziv...")) {
+                nazivInput.setForeground(new Color(255, 51, 51));
+                nazivInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
+                greska = true;
+            }
+            // Promena boje adresaInput polja pri gresci
+            if (((TipNaloga) tipNalogaComboBox.getSelectedItem()).equals(TipNaloga.VESLACKI_KLUB) && (adresaInput.getText().isEmpty() || adresaInput.getText().equals("Unesite adresu..."))) {
+                adresaInput.setForeground(new Color(255, 51, 51));
+                adresaInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
+                greska = true;
+            }
+            // Promena boje emailInput polja pri gresci
+            if (emailInput.getText().isEmpty() || emailInput.getText().equals("Unesite email...")) {
+                emailInput.setForeground(new Color(255, 51, 51));
+                emailInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
+                greska = true;
+            }
+            // Promena boje telefonInput polja pri gresci
+            if (telefonInput.getText().isEmpty() || telefonInput.getText().equals("6512345")) {
+                telefonInput.setForeground(new Color(255, 51, 51));
+                greskaTelefonLabel.setVisible(true);
+                greska = true;
+            }
+            // Promena boje korisnickoImeInput polja pri gresci
+            if (korisnickoImeInput.getText().isEmpty() || korisnickoImeInput.getText().equals("Unesite korisnika...")) {
+                korisnickoImeInput.setForeground(new Color(255, 51, 51));
+                korisnickoImeInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
+                greska = true;
             }
 
-        } else {
-            JOptionPane.showMessageDialog(this, "Greska, uneti podaci nisu ispavni, probajte ponovo.", "Greska", JOptionPane.ERROR_MESSAGE);
+            if (!greska) {
+
+                String naziv = nazivInput.getText();
+                String adresa = adresaInput.getText();
+                String email = emailInput.getText();
+                String korisnickoIme = korisnickoImeInput.getText();
+                String telefon = (String) telefonComboBox.getSelectedItem() + telefonInput.getText();
+
+                if (tipNalogaComboBox.getSelectedItem().equals(TipNaloga.VESLACKI_KLUB)) {
+                    VeslackiKlub kreiraniKlub = Klijent.getInstance().kreirajVeslackiKlub(new VeslackiKlub(0, naziv, adresa, email, telefon, korisnickoIme, null));
+                    JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                } else {
+                    Drzava drzava = (Drzava) drzavaComboBox.getSelectedItem();
+                    System.out.println(drzava);
+                    Agencija kreiranaAgencija = Klijent.getInstance().kreirajAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, null, drzava));
+                    JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Greska, uneti podaci nisu ispavni, probajte ponovo.", "Greska", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex, "Greška", JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -624,28 +629,29 @@ public class RegistracijaForma extends javax.swing.JDialog {
             drzavaComboBox.setEnabled(false);
             drzavaLabel.setForeground(new Color(153, 153, 153));
             drzavaZvezdica.setForeground(Color.WHITE);
-            
+
             adresaInput.setEditable(true);
             adresaInput.setEnabled(true);
             adresaInput.setForeground(Color.BLACK);
-            adresaZvezdica.setForeground(new Color(251,251,251));
-            
-            
+            adresaZvezdica.setForeground(new Color(251, 251, 251));
+
         } else {
             drzavaComboBox.setEditable(true);
             drzavaComboBox.setEnabled(true);
             drzavaLabel.setForeground(Color.BLACK);
             drzavaZvezdica.setForeground(new Color(251, 51, 51));
-            
+
             adresaInput.setEditable(false);
             adresaInput.setEnabled(false);
-            adresaInput.setForeground(new Color(153,153,153));
+            adresaInput.setForeground(new Color(153, 153, 153));
             adresaZvezdica.setForeground(Color.WHITE);
-            
+
         }
     }//GEN-LAST:event_tipNalogaComboBoxItemStateChanged
 
     private void inicijalnoRenderovanje() {
+        
+        try{
         // Inicijalno sakriva poruke gresaka pri pokretanju forme
         greskaTelefonLabel.setVisible(false);
         greskaSifraLabel.setVisible(false);
@@ -655,22 +661,26 @@ public class RegistracijaForma extends javax.swing.JDialog {
         drzavaComboBox.setEnabled(false);
         drzavaLabel.setForeground(new Color(153, 153, 153));
         drzavaZvezdica.setForeground(Color.WHITE);
-        
+
         List<Drzava> drzave = Klijent.getInstance().vratiSveDrzave();
-        
+
         drzavaComboBox.addItem(null);
-        
-        for(Drzava d: drzave){
+
+        for (Drzava d : drzave) {
             drzavaComboBox.addItem(d);
         }
-        
+
         List<TipNaloga> tipoviNaloga = List.of(TipNaloga.VESLACKI_KLUB, TipNaloga.AGENCIJA_ZA_TALENTE);
-        
-        for (TipNaloga tn : tipoviNaloga){
+
+        for (TipNaloga tn : tipoviNaloga) {
             tipNalogaComboBox.addItem(tn);
         }
         
-        
+        }catch(Exception ex){
+            ex.printStackTrace();
+            
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

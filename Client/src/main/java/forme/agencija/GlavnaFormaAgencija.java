@@ -27,7 +27,7 @@ import model.VeslackiKlub;
  */
 public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
-    private int idAgencije = Klijent.getInstance().getUlogovaniNalog().getId();
+    private int idAgencije;
     private PonudaTableModelAgencija patm;
     private PonudaTableModelAgencija patvm;
     private KlubTableModel ktm;
@@ -35,92 +35,105 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
     private StavkaPonudeTableModel sptm;
 
     public GlavnaFormaAgencija() {
-        initComponents();
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize(screenSize);
+        try {
 
-        List<PonudaVeslaca> ponudeAgencije = Klijent.getInstance().vratiSvePonudeAgencije(idAgencije);
-        List<VeslackiKlub> klubovi = Klijent.getInstance().vratiSveKlubove();
+            initComponents();
 
-        ponudeTable.setModel(new PonudaTableModelAgencija(ponudeAgencije));
-        veslackiKluboviTable.setModel(new KlubTableModel(klubovi));
-        ponudeVeslacaTable.setModel(new PonudaTableModelAgencija(ponudeAgencije));
-        stavkePonudeTable.setModel(new StavkaPonudeTableModel());
-        osvojenaTakmicenjaTable.setModel(new OsvojenaTakmicenjaTableModel());
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            setSize(screenSize);
 
-        patm = (PonudaTableModelAgencija) ponudeTable.getModel();
-        ktm = (KlubTableModel) veslackiKluboviTable.getModel();
-        patvm = (PonudaTableModelAgencija) ponudeVeslacaTable.getModel();
-        ostm = (OsvojenaTakmicenjaTableModel) osvojenaTakmicenjaTable.getModel();
-        sptm = (StavkaPonudeTableModel) stavkePonudeTable.getModel();
+            idAgencije = Klijent.getInstance().getUlogovaniNalog().getId();
 
-        nalogLabel.setText(Klijent.getInstance().getUlogovaniNalog().getNaziv());
+            List<PonudaVeslaca> ponudeAgencije = Klijent.getInstance().vratiSvePonudeAgencije(idAgencije);
+            List<VeslackiKlub> klubovi = Klijent.getInstance().vratiSveKlubove();
 
-        pretraziInput.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
+            ponudeTable.setModel(new PonudaTableModelAgencija(ponudeAgencije));
+            veslackiKluboviTable.setModel(new KlubTableModel(klubovi));
+            ponudeVeslacaTable.setModel(new PonudaTableModelAgencija(ponudeAgencije));
+            stavkePonudeTable.setModel(new StavkaPonudeTableModel());
+            osvojenaTakmicenjaTable.setModel(new OsvojenaTakmicenjaTableModel());
 
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (pretraziInput.getText().equals("Pretraži id kluba...") || pretraziInput.getText().isEmpty()
-                            || pretraziInput.getText().equals("Pretraži ime kluba...")) {
+            patm = (PonudaTableModelAgencija) ponudeTable.getModel();
+            ktm = (KlubTableModel) veslackiKluboviTable.getModel();
+            patvm = (PonudaTableModelAgencija) ponudeVeslacaTable.getModel();
+            ostm = (OsvojenaTakmicenjaTableModel) osvojenaTakmicenjaTable.getModel();
+            sptm = (StavkaPonudeTableModel) stavkePonudeTable.getModel();
 
-                        if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
-                            List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiSvePonudeAgencije(idAgencije);
-                            patm.setPonude(svePonude);
-                            patm.fireTableDataChanged();
-                        } else if (cardPanel.getComponentZOrder(pretrazivanjeTakmicenjaPanel) >= 0) {
-                            List<VeslackiKlub> sviKlubovi = Klijent.getInstance().vratiSveKlubove();
-                            ktm.setKlubovi(sviKlubovi);
-                            ktm.fireTableDataChanged();
-                        } else if (cardPanel.getComponentZOrder(pretrazivanjePonudaPanel) >= 0) {
-                            List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiSvePonudeAgencije(idAgencije);
-                            patvm.setPonude(svePonude);
-                            patvm.fireTableDataChanged();
-                        }
+            nalogLabel.setText(Klijent.getInstance().getUlogovaniNalog().getNaziv());
 
-                    } else {
-                        String upitZaPretragu = pretraziInput.getText();
+            pretraziInput.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    try {
+                        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                            if (pretraziInput.getText().equals("Pretraži id kluba...") || pretraziInput.getText().isEmpty()
+                                    || pretraziInput.getText().equals("Pretraži ime kluba...")) {
 
-                        if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
-                            int idKluba = Integer.parseInt(upitZaPretragu);
-                            List<PonudaVeslaca> pretrazenePonude;
-                            try {
-                                pretrazenePonude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null,idKluba, idAgencije));
-                                patm.setPonude(pretrazenePonude);
-                                patm.fireTableDataChanged();
-                            } catch (Exception ex) {
-                                Logger.getLogger(GlavnaFormaAgencija.class.getName()).log(Level.SEVERE, null, ex);
+                                if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
+                                    List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiSvePonudeAgencije(idAgencije);
+                                    patm.setPonude(svePonude);
+                                    patm.fireTableDataChanged();
+                                } else if (cardPanel.getComponentZOrder(pretrazivanjeTakmicenjaPanel) >= 0) {
+                                    List<VeslackiKlub> sviKlubovi = Klijent.getInstance().vratiSveKlubove();
+                                    ktm.setKlubovi(sviKlubovi);
+                                    ktm.fireTableDataChanged();
+                                } else if (cardPanel.getComponentZOrder(pretrazivanjePonudaPanel) >= 0) {
+                                    List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiSvePonudeAgencije(idAgencije);
+                                    patvm.setPonude(svePonude);
+                                    patvm.fireTableDataChanged();
+                                }
+
+                            } else {
+                                String upitZaPretragu = pretraziInput.getText();
+
+                                if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
+                                    int idKluba = Integer.parseInt(upitZaPretragu);
+                                    List<PonudaVeslaca> pretrazenePonude;
+                                    try {
+                                        pretrazenePonude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null, idKluba, idAgencije));
+                                        patm.setPonude(pretrazenePonude);
+                                        patm.fireTableDataChanged();
+                                    } catch (Exception ex) {
+                                        Logger.getLogger(GlavnaFormaAgencija.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+
+                                }
+
+                                if (cardPanel.getComponentZOrder(pretrazivanjeTakmicenjaPanel) >= 0) {
+                                    String nazivKluba = upitZaPretragu;
+                                    List<VeslackiKlub> pretrazeniKlubovi = Klijent.getInstance().pretraziKlub(new VeslackiKlub(0, nazivKluba, null, null, null, null, null));
+                                    ktm.setKlubovi(pretrazeniKlubovi);
+                                    ktm.fireTableDataChanged();
+                                }
+
+                                if (cardPanel.getComponentZOrder(pretrazivanjePonudaPanel) >= 0) {
+                                    int idKluba = Integer.parseInt(upitZaPretragu);
+                                    List<PonudaVeslaca> pretrazenePonude;
+                                    try {
+                                        pretrazenePonude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null, idKluba, idAgencije));
+                                        patvm.setPonude(pretrazenePonude);
+                                        patvm.fireTableDataChanged();
+                                    } catch (Exception ex) {
+                                        Logger.getLogger(GlavnaFormaAgencija.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+
+                                }
+
                             }
-
                         }
 
-                        if (cardPanel.getComponentZOrder(pretrazivanjeTakmicenjaPanel) >= 0) {
-                            String nazivKluba = upitZaPretragu;
-                            List<VeslackiKlub> pretrazeniKlubovi = Klijent.getInstance().pretraziKlub(new VeslackiKlub(0,nazivKluba,null,null,null,null,null));
-                            ktm.setKlubovi(pretrazeniKlubovi);
-                            ktm.fireTableDataChanged();
-                        }
-
-                        if (cardPanel.getComponentZOrder(pretrazivanjePonudaPanel) >= 0) {
-                            int idKluba = Integer.parseInt(upitZaPretragu);
-                            List<PonudaVeslaca> pretrazenePonude;
-                            try {
-                                pretrazenePonude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null,idKluba, idAgencije));
-                                patvm.setPonude(pretrazenePonude);
-                                patvm.fireTableDataChanged();
-                            } catch (Exception ex) {
-                                Logger.getLogger(GlavnaFormaAgencija.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-
-                        }
-
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
+
                 }
 
-            }
+            });
 
-        });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -819,6 +832,9 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
     private void prikaziTakmicenjaKlubaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prikaziTakmicenjaKlubaButtonActionPerformed
 
+        try{
+            
+        
         if (veslackiKluboviTable.getSelectedRow() != -1) {
 
             int idKluba = (int) veslackiKluboviTable.getValueAt(veslackiKluboviTable.getSelectedRow(), 0);
@@ -828,13 +844,21 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
         } else {
             JOptionPane.showMessageDialog(this, "Klub nije selektovan, selektujte klub kako bi prikazali takmicenja", "Greska", JOptionPane.ERROR_MESSAGE);
-
         }
-
+        
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
+        
     }//GEN-LAST:event_prikaziTakmicenjaKlubaButtonActionPerformed
 
     private void prikaziStavkeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prikaziStavkeButtonActionPerformed
         // TODO add your handling code here:
+        
+        try{
+            
+        
         if (ponudeVeslacaTable.getSelectedRow() != -1) {
 
             int idPonude = (int) ponudeVeslacaTable.getValueAt(ponudeVeslacaTable.getSelectedRow(), 0);
@@ -847,6 +871,11 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Ponuda nije selektovana, selektujte ponudu kako bi prikazali stavke ponude", "Greska", JOptionPane.ERROR_MESSAGE);
 
         }
+        
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
     }//GEN-LAST:event_prikaziStavkeButtonActionPerformed
 
 

@@ -270,7 +270,7 @@ public class PrijavaForma extends javax.swing.JFrame {
 
     private void registracijaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registracijaButtonActionPerformed
         // TODO add your handling code here:
-        RegistracijaForma forma = new RegistracijaForma(this);
+        RegistracijaForma forma = new RegistracijaForma(this,true);
     }//GEN-LAST:event_registracijaButtonActionPerformed
 
     private void sifraKorisnikaInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifraKorisnikaInputActionPerformed

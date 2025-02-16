@@ -387,6 +387,9 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
 
     private void potvrdaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_potvrdaButtonActionPerformed
         
+        try{
+            
+        
         boolean greska = false;
         // Promena boje nazivInput polja pri gresci
         if (nazivInput.getText().isEmpty() || nazivInput.getText().equals("Unesite naziv...")) {
@@ -444,6 +447,9 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this,"Greska, uneti podaci nisu ispavni, probajte ponovo.", "Greska", JOptionPane.ERROR_MESSAGE);
         }
         
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
 
 
     }//GEN-LAST:event_potvrdaButtonActionPerformed
@@ -529,15 +535,22 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
 
     private void obrisiNalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiNalogActionPerformed
         // TODO add your handling code here:
+        
+        try{
+        
         int odgovor = JOptionPane.showConfirmDialog(this,"Da li ste sigurni da želite da obrišete nalog?");
 
         if(odgovor == JOptionPane.YES_OPTION){
-
+            
             Klijent.getInstance().obrisiVeslackiKlub((Integer) Klijent.getInstance().getUlogovaniNalog().getId());
             Klijent.getInstance().setUlogovaniNalog(null);
             this.dispose();
             Klijent.getInstance().setOdjavaSignal(true);
             
+        }
+        
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
 
     }//GEN-LAST:event_obrisiNalogActionPerformed

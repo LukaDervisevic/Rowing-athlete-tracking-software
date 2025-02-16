@@ -497,6 +497,10 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
 
     private void obrisiNalogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiNalogActionPerformed
         // TODO add your handling code here:
+        
+        try{
+            
+        
         int odgovor = JOptionPane.showConfirmDialog(this,"Da li ste sigurni da želite da obrišete nalog?");
         
         if(odgovor == JOptionPane.YES_OPTION){
@@ -508,11 +512,18 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
             
         }
         
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+        
     }//GEN-LAST:event_obrisiNalogActionPerformed
 
     
     private void inicijalnoRenderovanje(){
         // Inicijalno sakriva poruke gresaka pri pokretanju forme
+        try{
+            
         
         tipNalogaComboBox.addItem(TipNaloga.AGENCIJA_ZA_TALENTE);
    
@@ -525,6 +536,12 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         greskaTelefonLabel.setVisible(false);
         greskaSifraLabel.setVisible(false);
         greskaPotvrdaLabel.setVisible(false);
+        
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

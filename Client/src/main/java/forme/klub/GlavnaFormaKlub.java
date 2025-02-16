@@ -44,12 +44,13 @@ import klijent.Klijent;
  */
 public class GlavnaFormaKlub extends javax.swing.JFrame {
 
-    private int idKluba = Klijent.getInstance().getUlogovaniNalog().getId();
-    private int idPonude = Klijent.getInstance().vratiPoslednjiIdPonude() + 1;
-    private int rb = 0;
+    private int idKluba;
+    private int idPonude;
+    private int rb;
     private List<StavkaPonude> stavkePonude = new LinkedList<>();
     private List<Veslac> obrisaniVeslaci = new LinkedList<>();
     private Queue<Integer> izbaceniRb = new LinkedList<>();
+    private List<Veslac> veslaciKlubaPonuda;
 
     private PonudaTableModelKlub ptm;
     private StavkaPonudeTableModel sptm;
@@ -69,11 +70,15 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
             // Inicijalno prikupljanje objekata
             List<Veslac> veslaci = Klijent.getInstance().vratiSveVeslace(idKluba);
-            List<Veslac> veslaciKlubaPonuda = Klijent.getInstance().vratiSveVeslace(idKluba);
+            veslaciKlubaPonuda = Klijent.getInstance().vratiSveVeslace(idKluba);
             List<Takmicenje> takmicenja = Klijent.getInstance().vratiSvaTakmicenja();
             List<KlubTakmicenje> osvojenaTakmicenja = Klijent.getInstance().vratiTakmicenjaKluba(idKluba);
             List<PonudaVeslaca> ponudeVeslaca = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
             List<Agencija> agencije = Klijent.getInstance().vratiSveAgencije();
+
+            idKluba = Klijent.getInstance().getUlogovaniNalog().getId();
+            idPonude = Klijent.getInstance().vratiPoslednjiIdPonude() + 1;
+            rb = 0;
 
             // Dodeljivanje TableModela tabelama
             ponudeTable.setModel(new PonudaTableModelKlub(ponudeVeslaca));
@@ -110,40 +115,47 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             vrstaTrkeComboBox.addItem(VrstaTrke.OSMERAC);
 
             pretraziInput.addKeyListener(new KeyAdapter() {
+
                 @Override
                 public void keyPressed(KeyEvent e) {
-                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                        if (pretraziInput.getText().equals("Pretraži id agencije...") || pretraziInput.getText().isEmpty()
-                                || pretraziInput.getText().equals("Pretraži ime veslača...") || pretraziInput.getText().equals("Pretraži naziv takmičenja...")) {
 
-                        } else {
+                    try {
 
-                            String upitZaPretragu = pretraziInput.getText();
-                            if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
-                                int idAgencije = Integer.parseInt(upitZaPretragu);
-                                List<PonudaVeslaca> ponude;
-                                try {
-                                    ponude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null, idKluba, idAgencije));
-                                    ptm.setPonude(ponude);
-                                    ptm.fireTableDataChanged();
-                                } catch (Exception ex) {
-                                    ex.printStackTrace();
-                                }
-
-                            } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
-                                String imePrezime = upitZaPretragu;
-                                LinkedList<Veslac> veslaci = Klijent.getInstance().pretraziVeslaca(
-                                        new Veslac(0, imePrezime, null, 0, 0, null, 0, null, idKluba));
-                                vtm.setVeslaci(veslaci);
-                                vtm.fireTableDataChanged();
+                        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                            if (pretraziInput.getText().equals("Pretraži id agencije...") || pretraziInput.getText().isEmpty()
+                                    || pretraziInput.getText().equals("Pretraži ime veslača...") || pretraziInput.getText().equals("Pretraži naziv takmičenja...")) {
 
                             } else {
-                                String nazivTakmicenja = upitZaPretragu;
-                                List<Takmicenje> takmicenja = Klijent.getInstance().pretraziTakmicenja(new Takmicenje(0, nazivTakmicenja, null, null, null));
-                                ttm.setTakmicenja(takmicenja);
-                                ttm.fireTableDataChanged();
+
+                                String upitZaPretragu = pretraziInput.getText();
+                                if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
+                                    int idAgencije = Integer.parseInt(upitZaPretragu);
+                                    List<PonudaVeslaca> ponude;
+                                    try {
+                                        ponude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null, idKluba, idAgencije));
+                                        ptm.setPonude(ponude);
+                                        ptm.fireTableDataChanged();
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                    }
+
+                                } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
+                                    String imePrezime = upitZaPretragu;
+                                    LinkedList<Veslac> veslaci = Klijent.getInstance().pretraziVeslaca(
+                                            new Veslac(0, imePrezime, null, 0, 0, null, 0, null, idKluba));
+                                    vtm.setVeslaci(veslaci);
+                                    vtm.fireTableDataChanged();
+
+                                } else {
+                                    String nazivTakmicenja = upitZaPretragu;
+                                    List<Takmicenje> takmicenja = Klijent.getInstance().pretraziTakmicenja(new Takmicenje(0, nazivTakmicenja, null, null, null));
+                                    ttm.setTakmicenja(takmicenja);
+                                    ttm.fireTableDataChanged();
+                                }
                             }
                         }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
                 }
 
@@ -1830,6 +1842,9 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
     private void obrisiVeslacaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiVeslacaButtonActionPerformed
         // TODO add your handling code here:
+        
+        try{
+        
         if (veslaciTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(this, "Morate selektovati veslača za brisanje", "Greska", JOptionPane.ERROR_MESSAGE);
             return;
@@ -1845,7 +1860,10 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Neuspelo brisanje veslača", "Greska", JOptionPane.ERROR_MESSAGE);
 
         }
-
+        
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
 
     }//GEN-LAST:event_obrisiVeslacaButtonActionPerformed
 
@@ -1887,14 +1905,20 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             IzmeniVeslacForma ivf = new IzmeniVeslacForma(this, true, v);
 
             ivf.addWindowListener(new WindowAdapter() {
+                
+                
                 @Override
                 public void windowClosed(WindowEvent e) {
 
-                    LinkedList<Veslac> veslaci = (LinkedList<Veslac>) Klijent.getInstance().vratiSveVeslace();
+                    
+                    try{
+                    List<Veslac> veslaci =  Klijent.getInstance().vratiSveVeslace(idKluba);
                     veslaciTable.setModel(new VeslacTableModel(veslaci));
                     veslaciTable.repaint();
                     veslaciTable.revalidate();
-
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
                 }
 
             });
@@ -1993,13 +2017,13 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
     private void obrisiOsvojenoTakmicenjeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiOsvojenoTakmicenjeButtonActionPerformed
         // TODO add your handling code here:
-
+        try{
         if (osvojenaTakmicenjaTable.getSelectedRow() != -1) {
 
             int idTakmicenja = (int) osvojenaTakmicenjaTable.getValueAt(osvojenaTakmicenjaTable.getSelectedRow(), 0);
             int mesto = (int) osvojenaTakmicenjaTable.getValueAt(osvojenaTakmicenjaTable.getSelectedRow(), 5);
             try {
-                Klijent.getInstance().obrisiOsvojenoTakmicenje(idTakmicenja, mesto);
+                Klijent.getInstance().obrisiOsvojenoTakmicenje(idKluba,idTakmicenja, mesto);
                 ostm.obrisiOsvojenoTakmicenje(idKluba, idTakmicenja, mesto);
 
             } catch (Exception ex) {
@@ -2008,6 +2032,10 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
         } else {
             JOptionPane.showMessageDialog(this, "Osvojeno takmičenje nije selektovano, selektujte takmičenje da bi ga obrisali", "Greška", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
 
     }//GEN-LAST:event_obrisiOsvojenoTakmicenjeButtonActionPerformed
@@ -2054,6 +2082,9 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     }//GEN-LAST:event_pretraziInputFocusLost
 
     private void obrisiStavkuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiStavkuButtonActionPerformed
+        
+        try{
+        
         if (stavkaPonudeTable.getSelectedRow() != -1) {
             int rbStavke = (int) stavkaPonudeTable.getValueAt(stavkaPonudeTable.getSelectedRow(), 0);
             stavkePonude.removeIf(stavka -> {
@@ -2078,10 +2109,17 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Stavka nije selektovana,selektujte stavku da bi obrisali stavku ponude", "Greska", JOptionPane.ERROR_MESSAGE);
         }
-
+        
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
     }//GEN-LAST:event_obrisiStavkuButtonActionPerformed
 
     private void dodajStavkuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajStavkuButtonActionPerformed
+        
+        try{
+        
         if (veslaciPonudaTable.getSelectedRow() != -1) {
             int idVeslaca = (int) veslaciPonudaTable.getValueAt(veslaciPonudaTable.getSelectedRow(), 0);
             StavkaPonude s = new StavkaPonude();
@@ -2126,6 +2164,11 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Veslac nije selektovan,selektujte veslaca da bi kreirali stavku ponude", "Greska", JOptionPane.ERROR_MESSAGE);
         }
+        
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        
     }//GEN-LAST:event_dodajStavkuButtonActionPerformed
 
     private void potvrdiPonuduButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_potvrdiPonuduButtonActionPerformed
@@ -2157,11 +2200,16 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     // TODO add your handling code here:
 
     private void prebrojTakmicenja() {
+        try{
+            
         int[] brMesta = Klijent.getInstance().prebrojOsvojenaTakmicenja();
         zlatoLabel.setText(brMesta[0] + " osvojenih zlata");
         srebroLabel.setText(brMesta[1] + " osvojenih srebra");
         bronzaLabel.setText(brMesta[2] + " osvojenih bronzi");
-
+        
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 
 

@@ -4,6 +4,7 @@ import controller.Controller;
 import java.net.Socket;
 import java.util.List;
 import model.Agencija;
+import model.KlubTakmicenje;
 import model.Nalog;
 import model.PonudaVeslaca;
 import model.Takmicenje;
@@ -151,6 +152,14 @@ class ServerNit extends Thread {
                 case Operacija.BRISANJE_TAKMICENJE:
                     objekat = Controller.getInstance().obrisiTakmicenje((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
+                    
+                case Operacija.VRATI_SVA_TAKMICENJA:
+                    objekat = Controller.getInstance().vratiSvaTakmicenja();
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                    
+                case Operacija.VRATI_TAKMICENJE_PO_ID:
+                    objekat = Controller.getInstance().vratiTakmicenjePoId((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
                 
                 // PONUDA
                 case Operacija.KREIRANJE_PONUDE:
@@ -194,8 +203,10 @@ class ServerNit extends Thread {
                     objekat = Controller.getInstance().vratiSveDrzave();
                     return new Odgovor(StatusPoruke.OK,objekat);
                     
-                
-                
+                // KLUB TAKMICENJE
+                case Operacija.OSVOJI_TAKMICENJE:
+                    objekat = Controller.getInstance().dodajOsvojenoTakmicenje((KlubTakmicenje) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
                 // Nije dobra logika
                 case Operacija.PREKID:
                     soketZaKomunikaciju.close();
@@ -203,7 +214,7 @@ class ServerNit extends Thread {
                     return new Odgovor(StatusPoruke.OK,"Konekcija prekinuta");
                 
                 default:
-                    return new Odgovor(StatusPoruke.GRESKA, "Željena operacija ne postoji");
+                    return new Odgovor(StatusPoruke.GRESKA, new Exception("Greska nepostojeca operacija"));
             }
 
         } catch (Exception ex) {

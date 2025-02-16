@@ -2,13 +2,10 @@ package controller;
 
 import db.DBBroker;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import model.Agencija;
 import model.Drzava;
-import model.KategorijaVeslaca;
 import model.KlubTakmicenje;
 import model.Nalog;
 import model.PonudaVeslaca;
@@ -199,7 +196,6 @@ public class Controller {
         return dbb.dodajOsvojenoTakmicenjeDB(klubTakmicenje);
     }
     
-    ///???
     public int[] prebrojOsvojenaTakmicenja() {
         return dbb.prebrojOsvojenaTakmicenjaDB();
     }
