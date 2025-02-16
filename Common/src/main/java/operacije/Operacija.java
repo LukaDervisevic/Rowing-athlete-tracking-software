@@ -8,7 +8,6 @@ public enum Operacija {
     //Login
     PRIJAVA,
     //VeslackiKlub
-    REGISTRACIJA_KLUB,
     KREIRANJE_KLUB,
     PROMENA_KLUB,
     PRETRAZIVANJE_KLUB,
@@ -17,13 +16,11 @@ public enum Operacija {
     VRATI_KLUB_PO_ID,
     
     //Agencija
-    REGISTRACIJA_AGENCIJA,
     KREIRANJE_AGENCIJA,
     PROMENA_AGENCIJA,
     PRETRAZIVANJE_AGENCIJA,
     BRISANJE_AGENCIJA,
     VRATI_SVE_AGENCIJE,
-    VRATI_POSLEDNJI_ID_PONUDE,
     
     //Veslac
     KREIRANJE_VESLAC,
@@ -52,6 +49,8 @@ public enum Operacija {
     BRISANJE_PONUDE,
     VRATI_SVE_PONUDE_KLUBA,
     VRATI_SVE_PONUDE_AGENCIJE,
+    VRATI_POSLEDNJI_ID_PONUDE,
+
     
     //STAVKE PONUDE
     VRATI_SVE_STAVKE_PONUDE,

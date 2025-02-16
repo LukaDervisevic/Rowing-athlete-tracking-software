@@ -71,7 +71,7 @@ class ServerNit extends Thread {
                     return new Odgovor(StatusPoruke.OK, objekat);
 
                 //VESLACKI KLUB
-                case Operacija.REGISTRACIJA_KLUB:
+                case Operacija.KREIRANJE_KLUB:
                     objekat = Controller.getInstance().kreirajVeslackiKlub((VeslackiKlub) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
 
@@ -87,8 +87,16 @@ class ServerNit extends Thread {
                     objekat = Controller.getInstance().obrisiVeslackiKlub((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
 
+                case Operacija.VRATI_SVE_KLUBOVE:
+                    objekat = Controller.getInstance().vratiSveKlubove();
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                
+                case Operacija.VRATI_KLUB_PO_ID:
+                    objekat = Controller.getInstance().vratiVeslackiKlubPoId((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                    
                 //AGENCIJA
-                case Operacija.REGISTRACIJA_AGENCIJA:
+                case Operacija.KREIRANJE_AGENCIJA:
                     objekat = Controller.getInstance().kreirajAgenciju((Agencija) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
 
@@ -100,6 +108,10 @@ class ServerNit extends Thread {
                 case Operacija.BRISANJE_AGENCIJA:
                     objekat = Controller.getInstance().obrisiAgenciju((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
+                    
+                case Operacija.VRATI_SVE_AGENCIJE:
+                    objekat = Controller.getInstance().vratiSveAgencije();
+                    return new Odgovor(StatusPoruke.OK,objekat);
                     
                 // VESLAC
                 case Operacija.KREIRANJE_VESLAC:
@@ -118,6 +130,15 @@ class ServerNit extends Thread {
                     objekat = Controller.getInstance().obrisiVeslaca((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                     
+                case Operacija.VRATI_SVE_VESLACE:
+                    objekat = Controller.getInstance().vratiSveVeslace((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                    
+                case Operacija.VRATI_VESLACA_PO_ID:
+                    objekat = Controller.getInstance().vratiVeslacaPoId((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                    
+                    
                 // TAKMICENJE
                 case Operacija.UBACIVANJE_TAKMICENJE:
                     objekat = Controller.getInstance().dodajTakmicenje((Takmicenje) korisnikovZahtev.getParametar());
@@ -130,7 +151,8 @@ class ServerNit extends Thread {
                 case Operacija.BRISANJE_TAKMICENJE:
                     objekat = Controller.getInstance().obrisiTakmicenje((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
-
+                
+                // PONUDA
                 case Operacija.KREIRANJE_PONUDE:
                     objekat = Controller.getInstance().kreirajPonuduVeslaca((PonudaVeslaca) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
@@ -143,20 +165,45 @@ class ServerNit extends Thread {
                 case Operacija.BRISANJE_PONUDE:
                     objekat = Controller.getInstance().obrisiPonudu((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
+                    
+                case Operacija.VRATI_SVE_PONUDE_KLUBA:
+                    objekat = Controller.getInstance().vratiSvePonudeKluba((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
+                
+                case Operacija.VRATI_SVE_PONUDE_AGENCIJE:
+                    objekat = Controller.getInstance().vratiSvePonudeAgencije((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                    
+                case Operacija.VRATI_POSLEDNJI_ID_PONUDE:
+                    objekat = Controller.getInstance().vratiPoslednjiIdPonude();
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                
+                // STAVKE PONUDE
 
+                case Operacija.VRATI_SVE_STAVKE_PONUDE:
+                    objekat = Controller.getInstance().vratiSveStavkePonude((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                // DRZAVA
                 case Operacija.UBACIVANJE_DRZAVA:
 //                return Controller.getInstance().dodajDrzavu((Drzava) korisnikovZahtev.getParametar());
 
                 case Operacija.BRISANJE_DRZAVA:
 //                return Controller.getInstance().obrisiDrzavu((Integer) korisnikovZahtev.getParametar());
+                    
+                case Operacija.VRATI_SVE_DRZAVE:
+                    objekat = Controller.getInstance().vratiSveDrzave();
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                    
                 
+                
+                // Nije dobra logika
                 case Operacija.PREKID:
                     soketZaKomunikaciju.close();
                     klijenti.remove(this);
                     return new Odgovor(StatusPoruke.OK,"Konekcija prekinuta");
                 
                 default:
-                    return new Odgovor(StatusPoruke.GRESKA, "Zeljena operacija ne postoji");
+                    return new Odgovor(StatusPoruke.GRESKA, "Željena operacija ne postoji");
             }
 
         } catch (Exception ex) {

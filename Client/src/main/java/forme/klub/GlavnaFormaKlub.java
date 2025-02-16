@@ -70,7 +70,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             // Inicijalno prikupljanje objekata
             List<Veslac> veslaci = Klijent.getInstance().vratiSveVeslace(idKluba);
             List<Veslac> veslaciKlubaPonuda = Klijent.getInstance().vratiSveVeslace(idKluba);
-            LinkedList<Takmicenje> takmicenja = Klijent.getInstance().vratiSvaTakmicenja();
+            List<Takmicenje> takmicenja = Klijent.getInstance().vratiSvaTakmicenja();
             List<KlubTakmicenje> osvojenaTakmicenja = Klijent.getInstance().vratiTakmicenjaKluba(idKluba);
             List<PonudaVeslaca> ponudeVeslaca = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
             List<Agencija> agencije = Klijent.getInstance().vratiSveAgencije();
@@ -1836,9 +1836,9 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         }
 
         int id = (int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 0);
-        Veslac obrisaniVeslac = Klijent.getInstance().obrisiVeslaca(id);
+        Integer obrisaniVeslac = Klijent.getInstance().obrisiVeslaca(id);
 
-        if (obrisaniVeslac != null) {
+        if (obrisaniVeslac != 0) {
             JOptionPane.showMessageDialog(this, "Uspešno brisanje veslača", "", JOptionPane.INFORMATION_MESSAGE);
             vtm.obrisiVeslaca(id);
         } else {
