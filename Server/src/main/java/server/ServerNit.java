@@ -70,6 +70,7 @@ class ServerNit extends Thread {
                     objekat = Controller.getInstance().login((Nalog) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
 
+                //VESLACKI KLUB
                 case Operacija.REGISTRACIJA_KLUB:
                     objekat = Controller.getInstance().kreirajVeslackiKlub((VeslackiKlub) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
@@ -86,6 +87,7 @@ class ServerNit extends Thread {
                     objekat = Controller.getInstance().obrisiVeslackiKlub((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
 
+                //AGENCIJA
                 case Operacija.REGISTRACIJA_AGENCIJA:
                     objekat = Controller.getInstance().kreirajAgenciju((Agencija) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
@@ -98,7 +100,8 @@ class ServerNit extends Thread {
                 case Operacija.BRISANJE_AGENCIJA:
                     objekat = Controller.getInstance().obrisiAgenciju((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
-
+                    
+                // VESLAC
                 case Operacija.KREIRANJE_VESLAC:
                     objekat = Controller.getInstance().kreirajVeslaca((Veslac) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
@@ -114,7 +117,8 @@ class ServerNit extends Thread {
                 case Operacija.BRISANJE_VESLAC:
                     objekat = Controller.getInstance().obrisiVeslaca((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
-
+                    
+                // TAKMICENJE
                 case Operacija.UBACIVANJE_TAKMICENJE:
                     objekat = Controller.getInstance().dodajTakmicenje((Takmicenje) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
