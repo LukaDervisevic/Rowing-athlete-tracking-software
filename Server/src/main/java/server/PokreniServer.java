@@ -11,24 +11,25 @@ import java.util.List;
  *
  * @author Luka
  */
-public class PokreniServer extends Thread {
+public class PokreniServer{
     
     List<ServerNit> klijentiServera;
+    ServerSocket serverskiSoket;
     
     public PokreniServer(){
         klijentiServera = new ArrayList<>();
     }
 
-    @Override
-    public void run() {
+    public static void main(String[] args) {
         try {
-            ServerSocket serverskiSoket = new ServerSocket(9000);
+            PokreniServer server = new PokreniServer();
+            server.serverskiSoket = new ServerSocket(9000);
+            
             
             while(true){
-                
-                Socket klijentskiSoket = serverskiSoket.accept();
-                klijentiServera.add(new ServerNit(klijentskiSoket, klijentiServera));
-                klijentiServera.get(klijentiServera.size() - 1).start();
+                Socket klijentskiSoket = server.serverskiSoket.accept();
+                server.klijentiServera.add(new ServerNit(klijentskiSoket,server.klijentiServera));
+                System.out.println("Uspesno povezan klijent");
                 
             }
             
@@ -37,6 +38,8 @@ public class PokreniServer extends Thread {
             ex.printStackTrace();
         }
     }
+    
+    
     
     
     

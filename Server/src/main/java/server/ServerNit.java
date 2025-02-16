@@ -3,8 +3,6 @@ package server;
 import controller.Controller;
 import java.net.Socket;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Agencija;
 import model.Nalog;
 import model.PonudaVeslaca;
@@ -147,7 +145,12 @@ class ServerNit extends Thread {
 
                 case Operacija.BRISANJE_DRZAVA:
 //                return Controller.getInstance().obrisiDrzavu((Integer) korisnikovZahtev.getParametar());
-
+                
+                case Operacija.PREKID:
+                    soketZaKomunikaciju.close();
+                    klijenti.remove(this);
+                    return new Odgovor(StatusPoruke.OK,"Konekcija prekinuta");
+                
                 default:
                     return new Odgovor(StatusPoruke.GRESKA, "Zeljena operacija ne postoji");
             }

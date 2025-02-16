@@ -1,8 +1,12 @@
 package klijent;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Agencija;
 import model.Drzava;
 import model.KlubTakmicenje;
@@ -12,8 +16,11 @@ import model.StavkaPonude;
 import model.Takmicenje;
 import model.Veslac;
 import model.VeslackiKlub;
+import operacije.Odgovor;
+import operacije.Operacija;
 import operacije.Posiljalac;
 import operacije.Primalac;
+import operacije.Zahtev;
 
 /**
  *
@@ -35,8 +42,17 @@ public class Klijent {
     
     private Posiljalac posiljalac;
     
+    private Socket soket;
+    
     private Klijent(){
-        
+        try {
+            soket = new Socket("localhost",9000);
+            primalac = new Primalac(soket);
+            posiljalac = new Posiljalac(soket);
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static Klijent getInstance() {
@@ -79,8 +95,13 @@ public class Klijent {
     
     
 
-    public Nalog login(Nalog nalog) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Nalog login(Nalog nalog) throws Exception {
+        Zahtev zahtev= new Zahtev(Operacija.PRIJAVA,nalog);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        return null;
     }
 
     public VeslackiKlub kreirajVeslackiKlub(VeslackiKlub veslackiKlub) {

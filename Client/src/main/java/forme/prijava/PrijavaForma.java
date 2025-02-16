@@ -4,6 +4,8 @@ import forme.agencija.GlavnaFormaAgencija;
 import forme.klub.GlavnaFormaKlub;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.border.MatteBorder;
 import klijent.Klijent;
 import model.Nalog;
@@ -244,7 +246,13 @@ public class PrijavaForma extends javax.swing.JFrame {
             sifraGreskaLabel.setVisible(true);
         }
         
-        Nalog ulogovaniNalog = Klijent.getInstance().login(new Nalog(null,0,null,null,null,null,korisnickoImeInput.getText(), sifraKorisnikaInput.getText()));
+        Nalog ulogovaniNalog = null;
+        try {
+            ulogovaniNalog = Klijent.getInstance().login(new Nalog(null,0,null,null,null,null,korisnickoImeInput.getText(), sifraKorisnikaInput.getText()));
+        } catch (Exception ex) {
+            sifraGreskaLabel.setText("Nalog nije pronadjen pokušajte ponovo");
+            sifraGreskaLabel.setVisible(true);
+        }
         
         if (ulogovaniNalog != null) {
             Klijent.getInstance().setUlogovaniNalog(ulogovaniNalog);
@@ -258,8 +266,7 @@ public class PrijavaForma extends javax.swing.JFrame {
             this.dispose();
 
         } else {
-            sifraGreskaLabel.setText("Nalog nije pronadjen pokušajte ponovo");
-            sifraGreskaLabel.setVisible(true);
+            
         }
     }//GEN-LAST:event_prijavaButtonActionPerformed
 

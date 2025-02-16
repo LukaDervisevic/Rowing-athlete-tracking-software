@@ -36,5 +36,6 @@ public enum Operacija {
     PRETRAZIVANJE_PONUDE,
     PROMENA_PONUDE,
     BRISANJE_PONUDE,
+    PREKID,
     
 }
