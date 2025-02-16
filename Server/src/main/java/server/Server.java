@@ -11,18 +11,18 @@ import java.util.List;
  *
  * @author Luka
  */
-public class PokreniServer{
+public class Server{
     
     List<ServerNit> klijentiServera;
     ServerSocket serverskiSoket;
     
-    public PokreniServer(){
+    public Server(){
         klijentiServera = new ArrayList<>();
     }
 
     public static void main(String[] args) {
         try {
-            PokreniServer server = new PokreniServer();
+            Server server = new Server();
             server.serverskiSoket = new ServerSocket(9000);
             
             
