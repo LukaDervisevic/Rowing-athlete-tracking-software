@@ -1,10 +1,12 @@
 package operacije;
 
+import java.io.Serializable;
+
 /**
  *
  * @author luka
  */
-public class Odgovor {
+public class Odgovor implements Serializable{
     
     private StatusPoruke status;
     

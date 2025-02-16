@@ -20,6 +20,7 @@ import operacije.Odgovor;
 import operacije.Operacija;
 import operacije.Posiljalac;
 import operacije.Primalac;
+import operacije.StatusPoruke;
 import operacije.Zahtev;
 
 /**
@@ -101,7 +102,12 @@ public class Klijent {
         
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
         
-        return null;
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (Nalog) odgovor.getParametar();
+        }
+        
     }
 
     public VeslackiKlub kreirajVeslackiKlub(VeslackiKlub veslackiKlub) {

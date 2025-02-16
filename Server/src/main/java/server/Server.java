@@ -24,11 +24,13 @@ public class Server{
         try {
             Server server = new Server();
             server.serverskiSoket = new ServerSocket(9000);
+            System.out.println("Pokretanje servera na portu 9000...");
             
             
             while(true){
                 Socket klijentskiSoket = server.serverskiSoket.accept();
                 server.klijentiServera.add(new ServerNit(klijentskiSoket,server.klijentiServera));
+                server.klijentiServera.get(server.klijentiServera.size() -1).start();
                 System.out.println("Uspesno povezan klijent");
                 
             }

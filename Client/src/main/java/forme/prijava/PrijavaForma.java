@@ -249,7 +249,9 @@ public class PrijavaForma extends javax.swing.JFrame {
         Nalog ulogovaniNalog = null;
         try {
             ulogovaniNalog = Klijent.getInstance().login(new Nalog(null,0,null,null,null,null,korisnickoImeInput.getText(), sifraKorisnikaInput.getText()));
+            System.out.println(ulogovaniNalog);
         } catch (Exception ex) {
+            ex.printStackTrace();
             sifraGreskaLabel.setText("Nalog nije pronadjen pokušajte ponovo");
             sifraGreskaLabel.setVisible(true);
         }
@@ -265,8 +267,6 @@ public class PrijavaForma extends javax.swing.JFrame {
             
             this.dispose();
 
-        } else {
-            
         }
     }//GEN-LAST:event_prijavaButtonActionPerformed
 
