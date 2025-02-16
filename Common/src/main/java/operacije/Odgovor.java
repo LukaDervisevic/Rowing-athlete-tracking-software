@@ -6,12 +6,12 @@ package operacije;
  */
 public class Odgovor {
     
-    private Operacija operacija;
+    private StatusPoruke status;
     
     private Object parametar;
 
-    public Odgovor(Operacija operacija, Object parametar) {
-        this.operacija = operacija;
+    public Odgovor(StatusPoruke status, Object parametar) {
+        this.status = status;
         this.parametar = parametar;
     }
     
@@ -19,12 +19,12 @@ public class Odgovor {
         
     }
 
-    public Operacija getOperacija() {
-        return operacija;
+    public StatusPoruke getStatus() {
+        return status;
     }
 
-    public void setOperacija(Operacija operacija) {
-        this.operacija = operacija;
+    public void setStatus(StatusPoruke status) {
+        this.status = status;
     }
 
     public Object getParametar() {
