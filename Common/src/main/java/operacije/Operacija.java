@@ -39,6 +39,7 @@ public enum Operacija {
     // DRZAVA
     UBACIVANJE_DRZAVA,
     BRISANJE_DRZAVA,
+    VRATI_SVE_DRZAVE,
     
     //PONUDA VESLACA
     KREIRANJE_PONUDE,

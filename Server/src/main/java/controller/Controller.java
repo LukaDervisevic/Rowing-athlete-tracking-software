@@ -147,8 +147,8 @@ public class Controller {
         return dbb.vratiAgencijuPoId(id);
     }
 
-    public List<Veslac> vratiSveVeslace() {
-        return dbb.vratiSveVeslaceDB();
+    public List<Veslac> vratiSveVeslace(Integer idKluba) {
+        return dbb.vratiSveVeslaceDB(idKluba);
     }
 
     public Integer obrisiVeslaca(Integer id) throws Exception {

@@ -302,7 +302,7 @@ public class DBBroker {
         return 0;
     }
 
-    public List<Veslac> vratiSveVeslaceDB() {
+    public List<Veslac> vratiSveVeslaceDB(int idKluba) {
 
         List<Veslac> veslaci = new LinkedList<>();
 

@@ -136,8 +136,17 @@ public class Klijent {
         }
     }
 
-    public List<Drzava> vratiSveDrzave() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Drzava> vratiSveDrzave() throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_SVE_DRZAVE,null);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (List<Drzava>) odgovor.getParametar();
+        }
     }
 
     public Integer obrisiVeslackiKlub(Integer idKluba) throws Exception {

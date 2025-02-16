@@ -43,15 +43,14 @@ import klijent.Klijent;
  * @author luka
  */
 public class GlavnaFormaKlub extends javax.swing.JFrame {
-    
+
     private int idKluba = Klijent.getInstance().getUlogovaniNalog().getId();
     private int idPonude = Klijent.getInstance().vratiPoslednjiIdPonude() + 1;
     private int rb = 0;
     private List<StavkaPonude> stavkePonude = new LinkedList<>();
-    private List<Veslac> veslaciKlubaPonuda = Klijent.getInstance().vratiSveVeslace();
     private List<Veslac> obrisaniVeslaci = new LinkedList<>();
     private Queue<Integer> izbaceniRb = new LinkedList<>();
-    
+
     private PonudaTableModelKlub ptm;
     private StavkaPonudeTableModel sptm;
     private VeslacTableModel vtm;
@@ -62,107 +61,108 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
     public GlavnaFormaKlub() {
         initComponents();
-        
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        
+
         setSize(screenSize);
-        
-        // Inicijalno prikupljanje objekata
-        
-        List<Veslac> veslaci = Klijent.getInstance().vratiSveVeslace();
-        LinkedList<Takmicenje> takmicenja = Klijent.getInstance().vratiSvaTakmicenja();
-        List<KlubTakmicenje> osvojenaTakmicenja = Klijent.getInstance().vratiTakmicenjaKluba(idKluba);
-        List<PonudaVeslaca> ponudeVeslaca = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
-        List<Agencija> agencije = Klijent.getInstance().vratiSveAgencije();
-        
-        // Dodeljivanje TableModela tabelama
-        
-        ponudeTable.setModel(new PonudaTableModelKlub(ponudeVeslaca));
-        veslaciTable.setModel(new VeslacTableModel(veslaci));
-        takmicenjaTable.setModel(new TakmicenjaTableModel(takmicenja));
-        osvojenaTakmicenjaTable.setModel(new OsvojenaTakmicenjaTableModel(osvojenaTakmicenja));
-        veslaciPonudaTable.setModel(new VeslacTableModel((LinkedList<Veslac>) veslaciKlubaPonuda));
-        stavkaPonudeTable.setModel(new StavkaPonudeTableModel(stavkePonude));
-        agencijeTable.setModel(new AgencijaTableModel(agencije));
-        
-        // Izvdajanje table modela
-        
-        ptm = (PonudaTableModelKlub) ponudeTable.getModel();
-        vtm = (VeslacTableModel) veslaciTable.getModel();
-        ttm = (TakmicenjaTableModel) takmicenjaTable.getModel();
-        ostm = (OsvojenaTakmicenjaTableModel) osvojenaTakmicenjaTable.getModel();
-        vptm = (VeslacTableModel) veslaciTable.getModel();
-        sptm = (StavkaPonudeTableModel) stavkaPonudeTable.getModel();
-        atm = (AgencijaTableModel) agencijeTable.getModel();
-        
-        mestoComboBox.addItem(1);
-        mestoComboBox.addItem(2);
-        mestoComboBox.addItem(3);
+        try {
 
-        nalogLabel.setText(Klijent.getInstance().getUlogovaniNalog().getNaziv());
+            // Inicijalno prikupljanje objekata
+            List<Veslac> veslaci = Klijent.getInstance().vratiSveVeslace(idKluba);
+            List<Veslac> veslaciKlubaPonuda = Klijent.getInstance().vratiSveVeslace(idKluba);
+            LinkedList<Takmicenje> takmicenja = Klijent.getInstance().vratiSvaTakmicenja();
+            List<KlubTakmicenje> osvojenaTakmicenja = Klijent.getInstance().vratiTakmicenjaKluba(idKluba);
+            List<PonudaVeslaca> ponudeVeslaca = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
+            List<Agencija> agencije = Klijent.getInstance().vratiSveAgencije();
 
-        kategorijaTakmicaraComboBox.addItem(KategorijaVeslaca.KADET);
-        kategorijaTakmicaraComboBox.addItem(KategorijaVeslaca.JUNIOR);
+            // Dodeljivanje TableModela tabelama
+            ponudeTable.setModel(new PonudaTableModelKlub(ponudeVeslaca));
+            veslaciTable.setModel(new VeslacTableModel(veslaci));
+            takmicenjaTable.setModel(new TakmicenjaTableModel(takmicenja));
+            osvojenaTakmicenjaTable.setModel(new OsvojenaTakmicenjaTableModel(osvojenaTakmicenja));
+            veslaciPonudaTable.setModel(new VeslacTableModel((LinkedList<Veslac>) veslaciKlubaPonuda));
+            stavkaPonudeTable.setModel(new StavkaPonudeTableModel(stavkePonude));
+            agencijeTable.setModel(new AgencijaTableModel(agencije));
 
-        vrstaTrkeComboBox.addItem(VrstaTrke.SKIF);
-        vrstaTrkeComboBox.addItem(VrstaTrke.DUBL);
-        vrstaTrkeComboBox.addItem(VrstaTrke.DVOJAC);
-        vrstaTrkeComboBox.addItem(VrstaTrke.CETVERAC_SKUL);
-        vrstaTrkeComboBox.addItem(VrstaTrke.CETVERAC_RIMEN);
-        vrstaTrkeComboBox.addItem(VrstaTrke.OSMERAC);
+            // Izvdajanje table modela
+            ptm = (PonudaTableModelKlub) ponudeTable.getModel();
+            vtm = (VeslacTableModel) veslaciTable.getModel();
+            ttm = (TakmicenjaTableModel) takmicenjaTable.getModel();
+            ostm = (OsvojenaTakmicenjaTableModel) osvojenaTakmicenjaTable.getModel();
+            vptm = (VeslacTableModel) veslaciTable.getModel();
+            sptm = (StavkaPonudeTableModel) stavkaPonudeTable.getModel();
+            atm = (AgencijaTableModel) agencijeTable.getModel();
 
-        pretraziInput.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    if (pretraziInput.getText().equals("Pretraži id agencije...") || pretraziInput.getText().isEmpty() || 
-                            pretraziInput.getText().equals("Pretraži ime veslača...") || pretraziInput.getText().equals("Pretraži naziv takmičenja...")) {
+            mestoComboBox.addItem(1);
+            mestoComboBox.addItem(2);
+            mestoComboBox.addItem(3);
 
-                    } else {
+            nalogLabel.setText(Klijent.getInstance().getUlogovaniNalog().getNaziv());
 
-                        String upitZaPretragu = pretraziInput.getText();
-                        if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
-                            int idAgencije = Integer.parseInt(upitZaPretragu);
-                            List<PonudaVeslaca> ponude;
-                            try {
-                                ponude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0,null,idKluba, idAgencije));
-                                ptm.setPonude(ponude);
-                                ptm.fireTableDataChanged();
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                            
+            kategorijaTakmicaraComboBox.addItem(KategorijaVeslaca.KADET);
+            kategorijaTakmicaraComboBox.addItem(KategorijaVeslaca.JUNIOR);
 
-                        } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
-                            String imePrezime = upitZaPretragu;
-                            LinkedList<Veslac> veslaci = Klijent.getInstance().pretraziVeslaca(
-                            new Veslac(0,imePrezime,null,0,0,null,0,null, idKluba));
-                            vtm.setVeslaci(veslaci);
-                            vtm.fireTableDataChanged();
-                            
-                            
+            vrstaTrkeComboBox.addItem(VrstaTrke.SKIF);
+            vrstaTrkeComboBox.addItem(VrstaTrke.DUBL);
+            vrstaTrkeComboBox.addItem(VrstaTrke.DVOJAC);
+            vrstaTrkeComboBox.addItem(VrstaTrke.CETVERAC_SKUL);
+            vrstaTrkeComboBox.addItem(VrstaTrke.CETVERAC_RIMEN);
+            vrstaTrkeComboBox.addItem(VrstaTrke.OSMERAC);
+
+            pretraziInput.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                        if (pretraziInput.getText().equals("Pretraži id agencije...") || pretraziInput.getText().isEmpty()
+                                || pretraziInput.getText().equals("Pretraži ime veslača...") || pretraziInput.getText().equals("Pretraži naziv takmičenja...")) {
+
                         } else {
-                            String nazivTakmicenja = upitZaPretragu;
-                            List<Takmicenje> takmicenja = Klijent.getInstance().pretraziTakmicenja(new Takmicenje(0,nazivTakmicenja,null,null,null));
-                            ttm.setTakmicenja(takmicenja);
-                            ttm.fireTableDataChanged();
+
+                            String upitZaPretragu = pretraziInput.getText();
+                            if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
+                                int idAgencije = Integer.parseInt(upitZaPretragu);
+                                List<PonudaVeslaca> ponude;
+                                try {
+                                    ponude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null, idKluba, idAgencije));
+                                    ptm.setPonude(ponude);
+                                    ptm.fireTableDataChanged();
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+
+                            } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
+                                String imePrezime = upitZaPretragu;
+                                LinkedList<Veslac> veslaci = Klijent.getInstance().pretraziVeslaca(
+                                        new Veslac(0, imePrezime, null, 0, 0, null, 0, null, idKluba));
+                                vtm.setVeslaci(veslaci);
+                                vtm.fireTableDataChanged();
+
+                            } else {
+                                String nazivTakmicenja = upitZaPretragu;
+                                List<Takmicenje> takmicenja = Klijent.getInstance().pretraziTakmicenja(new Takmicenje(0, nazivTakmicenja, null, null, null));
+                                ttm.setTakmicenja(takmicenja);
+                                ttm.fireTableDataChanged();
+                            }
                         }
                     }
                 }
+
+            });
+
+            prebrojTakmicenja();
+
+            try {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            } catch (UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
             }
 
-        });
+            setVisible(true);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        prebrojTakmicenja();
-        
-        try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 
@@ -1670,7 +1670,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ponudaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ponudaButtonActionPerformed
-        
+
         pretraziInput.setText("Pretraži id agencije...");
         cardPanel.removeAll();
         cardPanel.add(kreirajPonuduPanel);
@@ -1812,20 +1812,18 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             Veslac kreiranVeslac;
             try {
                 kreiranVeslac = Klijent.getInstance().kreirajVeslaca(new Veslac(0, imePrezime, dRodjenja, visina, tezina, (KategorijaVeslaca) kategorijaComboBox.getSelectedItem(), najboljeVremeFloat, dUpisa, idKluba));
-                
-                if (kreiranVeslac != null) {
-                JOptionPane.showMessageDialog(this, "Veslač je unet u bazu", "Upseh", JOptionPane.INFORMATION_MESSAGE);
-                vtm.dodajVeslaca(kreiranVeslac);
 
-            } else {
-                JOptionPane.showMessageDialog(this, "Greska pri unosu veslača u bazu, pokušajte ponovo", "Greska", JOptionPane.ERROR_MESSAGE);
-            }
-                
+                if (kreiranVeslac != null) {
+                    JOptionPane.showMessageDialog(this, "Veslač je unet u bazu", "Upseh", JOptionPane.INFORMATION_MESSAGE);
+                    vtm.dodajVeslaca(kreiranVeslac);
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Greska pri unosu veslača u bazu, pokušajte ponovo", "Greska", JOptionPane.ERROR_MESSAGE);
+                }
+
             } catch (Exception ex) {
                 Logger.getLogger(GlavnaFormaKlub.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            
 
         }
     }//GEN-LAST:event_evidentirajVeslacaButtonActionPerformed
@@ -1873,37 +1871,37 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         }
 
         Veslac v = new Veslac();
-        v.setIdVeslaca((int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(),0));
+        v.setIdVeslaca((int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 0));
         v.setImePrezime((String) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 1));
         v.setDatumRodjenja((java.util.Date) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 2));
         v.setVisina((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 3));
         v.setTezina((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 4));
-        v.setKategorija((KategorijaVeslaca)veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 5));
+        v.setKategorija((KategorijaVeslaca) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 5));
         v.setBMI((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 6));
         v.setNajboljeVreme((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 7));
 //        v.setNajboljeVreme(Math.floor(najboljeVremeFloat / 60) + ":" + Math.floor(najboljeVremeFloat % 60));
         v.setDatumUpisa((java.util.Date) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 8));
         v.setIdKluba(idKluba);
-        
+
         try {
-            IzmeniVeslacForma ivf = new IzmeniVeslacForma(this,true,v);
-            
+            IzmeniVeslacForma ivf = new IzmeniVeslacForma(this, true, v);
+
             ivf.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
+                @Override
+                public void windowClosed(WindowEvent e) {
 
-                LinkedList<Veslac> veslaci = (LinkedList<Veslac>) Klijent.getInstance().vratiSveVeslace();
-                veslaciTable.setModel(new VeslacTableModel(veslaci));
-                veslaciTable.repaint();
-                veslaciTable.revalidate();
+                    LinkedList<Veslac> veslaci = (LinkedList<Veslac>) Klijent.getInstance().vratiSveVeslace();
+                    veslaciTable.setModel(new VeslacTableModel(veslaci));
+                    veslaciTable.repaint();
+                    veslaciTable.revalidate();
 
-            }
+                }
 
-        });
-            
+            });
+
 //        
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,"Greška","Greška pri ažuriranju veslača", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Greška", "Greška pri ažuriranju veslača", JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -1917,8 +1915,8 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             @Override
             public void windowClosed(WindowEvent e) {
 
-                if(Klijent.getInstance().isOdjavaSignal()){
-                    JOptionPane.showMessageDialog(null, "Nalog obrisan, gašenje programa...","Info",JOptionPane.INFORMATION_MESSAGE);
+                if (Klijent.getInstance().isOdjavaSignal()) {
+                    JOptionPane.showMessageDialog(null, "Nalog obrisan, gašenje programa...", "Info", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     System.exit(0);
                 }
@@ -1926,7 +1924,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             }
 
         });
-        
+
     }//GEN-LAST:event_azurirajNalogButtonActionPerformed
 
     private void dodajNovoTakmicenjeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajNovoTakmicenjeButtonActionPerformed
@@ -1936,12 +1934,11 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             String nazivTakmicenja = nazivTakmicenjaInput.getText();
             KategorijaVeslaca kategorija = (KategorijaVeslaca) kategorijaTakmicaraComboBox.getSelectedItem();
             VrstaTrke vrstaTrke = (VrstaTrke) vrstaTrkeComboBox.getSelectedItem();
-            Date datumTakmicenja =  Date.from(datumTakmicenjaPicker.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant()); 
+            Date datumTakmicenja = Date.from(datumTakmicenjaPicker.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             try {
-                Takmicenje kreiranoTakmicenje = Klijent.getInstance().dodajTakmicenje(new Takmicenje(0,nazivTakmicenja, kategorija, vrstaTrke, datumTakmicenja));
+                Takmicenje kreiranoTakmicenje = Klijent.getInstance().dodajTakmicenje(new Takmicenje(0, nazivTakmicenja, kategorija, vrstaTrke, datumTakmicenja));
                 ttm.dodajTakmicenje(kreiranoTakmicenje);
-                
 
                 nazivTakmicenjaInput.setText("");
                 datumTakmicenjaPicker.setDate(null);
@@ -2003,7 +2000,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             int mesto = (int) osvojenaTakmicenjaTable.getValueAt(osvojenaTakmicenjaTable.getSelectedRow(), 5);
             try {
                 Klijent.getInstance().obrisiOsvojenoTakmicenje(idTakmicenja, mesto);
-                ostm.obrisiOsvojenoTakmicenje(idKluba,idTakmicenja,mesto);
+                ostm.obrisiOsvojenoTakmicenje(idKluba, idTakmicenja, mesto);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
@@ -2024,7 +2021,6 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             try {
                 Klijent.getInstance().obrisiPonudu(idPonude);
                 ptm.obrisiPonudu(idPonude);
-
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
@@ -2047,9 +2043,13 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private void pretraziInputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pretraziInputFocusLost
         // TODO add your handling code here:
         if (pretraziInput.getText().isEmpty()) {
-           if(cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) pretraziInput.setText("Pretraži id agencije...");
-           else if(cardPanel.getComponentZOrder(veslacPanel) >= 0) pretraziInput.setText("Pretraži ime veslača...");
-           else pretraziInput.setText("Pretraži naziv takmičenja...");
+            if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
+                pretraziInput.setText("Pretraži id agencije...");
+            } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
+                pretraziInput.setText("Pretraži ime veslača...");
+            } else {
+                pretraziInput.setText("Pretraži naziv takmičenja...");
+            }
         }
     }//GEN-LAST:event_pretraziInputFocusLost
 
@@ -2057,11 +2057,13 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         if (stavkaPonudeTable.getSelectedRow() != -1) {
             int rbStavke = (int) stavkaPonudeTable.getValueAt(stavkaPonudeTable.getSelectedRow(), 0);
             stavkePonude.removeIf(stavka -> {
-                if(stavka.getRb() == rbStavke){
+                if (stavka.getRb() == rbStavke) {
                     veslaciKlubaPonuda.add(stavka.getVeslac());
                     izbaceniRb.add(stavka.getRb());
                     return true;
-                }else return false;
+                } else {
+                    return false;
+                }
 
             });
             // Ne bih menjao, mozda za veslaciKlubaPonuda
@@ -2095,9 +2097,9 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
             s.setIdEvidencije(idPonude);
 
-            if(izbaceniRb.isEmpty()){
+            if (izbaceniRb.isEmpty()) {
                 s.setRb(++rb);
-            }else{
+            } else {
                 s.setRb(izbaceniRb.remove());
             }
 
@@ -2128,26 +2130,28 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
     private void potvrdiPonuduButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_potvrdiPonuduButtonActionPerformed
         // TODO add your handling code here:
-        if(agencijeTable.getSelectedRow() != -1 && !stavkePonude.isEmpty()){
+        if (agencijeTable.getSelectedRow() != -1 && !stavkePonude.isEmpty()) {
             int idAgencije = (int) agencijeTable.getValueAt(agencijeTable.getSelectedRow(), 0);
             try {
                 PonudaVeslaca kreiranaPonuda = Klijent.getInstance().kreirajPonuduVeslaca(idAgencije, idKluba, stavkePonude);
-                JOptionPane.showMessageDialog(this,"Uspesno kreiranje ponude","Uspeh",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Uspesno kreiranje ponude", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                 ptm.dodajPonudu(kreiranaPonuda);
-                
-                for(StavkaPonude stavka : stavkePonude){
+
+                for (StavkaPonude stavka : stavkePonude) {
                     veslaciKlubaPonuda.add(stavka.getVeslac());
                 }
-                
+
                 StavkaPonudeTableModel sptm = (StavkaPonudeTableModel) stavkaPonudeTable.getModel();
                 sptm.clear();
-                
+
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this,"Greska pri kreiranju ponude","Greska", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Greska pri kreiranju ponude", "Greska", JOptionPane.ERROR_MESSAGE);
             }
-            
-        }else JOptionPane.showMessageDialog(this,"Neispravni parametri","Greska", JOptionPane.ERROR_MESSAGE);
-        
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Neispravni parametri", "Greska", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_potvrdiPonuduButtonActionPerformed
     // TODO add your handling code here:
     // TODO add your handling code here:
