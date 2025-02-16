@@ -1,5 +1,6 @@
 package forme.agencija;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import forme.tableModeli.KlubTableModel;
 import forme.tableModeli.OsvojenaTakmicenjaTableModel;
 import forme.tableModeli.PonudaTableModelAgencija;
@@ -15,6 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import klijent.Klijent;
 import model.KlubTakmicenje;
 import model.PonudaVeslaca;
@@ -37,6 +40,12 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
     public GlavnaFormaAgencija() {
 
         try {
+            
+            try {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            } catch (UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
+            }
 
             initComponents();
 

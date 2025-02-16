@@ -61,6 +61,13 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private AgencijaTableModel atm;
 
     public GlavnaFormaKlub() {
+        
+        try {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            } catch (UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
+            }
+        
         initComponents();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -169,11 +176,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             ex.printStackTrace();
         }
         
-        try {
-                UIManager.setLookAndFeel(new FlatLightLaf());
-            } catch (UnsupportedLookAndFeelException ex) {
-                ex.printStackTrace();
-            }
+        
 
             setVisible(true);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -19,6 +19,13 @@ public class RegistracijaForma extends javax.swing.JDialog {
 
     public RegistracijaForma(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        
+        try {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            } catch (UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
+            }
+        
         initComponents();
         setLocationRelativeTo(this);
         try {
@@ -29,20 +36,27 @@ public class RegistracijaForma extends javax.swing.JDialog {
         inicijalnoRenderovanje();
     }
 
-//    public RegistracijaForma(JFrame roditelj) {
-//        super(roditelj, "Registracija korisnika", true);
-//        initComponents();
-//        setLocationRelativeTo(this);
-//        inicijalnoRenderovanje();
-//        try {
-//            UIManager.setLookAndFeel(new FlatLightLaf());
-//        } catch (UnsupportedLookAndFeelException ex) {
-//            ex.printStackTrace();
-//        }
-//        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//        setVisible(true);
-//
-//    }
+    public RegistracijaForma(JFrame roditelj) {
+        super(roditelj, "Registracija korisnika", true);
+        
+        try {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            } catch (UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
+            }
+        
+        initComponents();
+        setLocationRelativeTo(this);
+        inicijalnoRenderovanje();
+        try {
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
+            ex.printStackTrace();
+        }
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setVisible(true);
+
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -1,9 +1,12 @@
 package forme.prijava;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import forme.agencija.GlavnaFormaAgencija;
 import forme.klub.GlavnaFormaKlub;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
 import klijent.Klijent;
 import model.Nalog;
@@ -19,6 +22,13 @@ public class PrijavaForma extends javax.swing.JFrame {
      * Creates new form PrijavaFormav2
      */
     public PrijavaForma() {
+        
+        try {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            } catch (UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
+            }
+        
         initComponents();
         this.setLocationRelativeTo(this);
         setVisible(true);

@@ -19,6 +19,13 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
 
     public IzmeniPodatkeVKForma(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        
+        try {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            } catch (UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
+            }
+        
         initComponents();
         inicijalnoRenderovanje();
         
@@ -46,6 +53,13 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
 
     public IzmeniPodatkeVKForma(JFrame roditelj) {
         super(roditelj, "Registracija korisnika", true);
+        
+        try {
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            } catch (UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
+            }
+        
         initComponents();
         inicijalnoRenderovanje();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
