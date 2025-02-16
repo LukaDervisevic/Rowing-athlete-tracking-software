@@ -94,16 +94,16 @@ public class Controller {
         
         Nalog ulogovaniNalog = dbb.pretraziVeslackiKlubLogin(nalog);
         
-        if(nalog == null){
+        if(ulogovaniNalog == null){
             ulogovaniNalog = dbb.pretraziAgencijuLogin(nalog);
         }else {
-            setUlogovaniNalog(nalog);
+            setUlogovaniNalog(ulogovaniNalog);
         }
         
-        if(nalog == null){
+        if(ulogovaniNalog == null){
             throw new Exception("Neuspešna prijava naloga");
         }else {
-            setUlogovaniNalog(nalog);
+            setUlogovaniNalog(ulogovaniNalog);
         }
         
         return ulogovaniNalog;
