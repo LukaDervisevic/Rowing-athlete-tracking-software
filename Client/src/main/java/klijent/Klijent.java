@@ -3,7 +3,6 @@ package klijent;
 import java.io.IOException;
 import java.net.Socket;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.List;
 import model.Agencija;
 import model.Drzava;
@@ -563,6 +562,19 @@ public class Klijent {
             throw new Exception((Throwable) odgovor.getParametar());
         }else{
             return (VeslackiKlub) odgovor.getParametar();
+        }
+    }
+
+    public List<Agencija> pretraziAgenciju(String nazivAgencije) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_AGENCIJA,nazivAgencije);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (List<Agencija>) odgovor.getParametar();
         }
     }
     

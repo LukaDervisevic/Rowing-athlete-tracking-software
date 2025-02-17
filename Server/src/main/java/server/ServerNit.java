@@ -105,7 +105,10 @@ class ServerNit extends Thread {
                     objekat = Controller.getInstance().azurirajAgenciju((Agencija) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
 
-//            case Operacija.PRETRAZIVANJE_AGENCIJA:
+                case Operacija.PRETRAZIVANJE_AGENCIJA:
+                    objekat = Controller.getInstance().pretraziAgenciju((String) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
+                    
                 case Operacija.BRISANJE_AGENCIJA:
                     objekat = Controller.getInstance().obrisiAgenciju((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);

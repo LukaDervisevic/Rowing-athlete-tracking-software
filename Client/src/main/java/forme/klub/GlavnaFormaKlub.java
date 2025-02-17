@@ -135,21 +135,26 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                     try {
 
                         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (pretraziInput.getText().equals("Pretraži id agencije...") || pretraziInput.getText().isEmpty()
+                            if (pretraziInput.getText().equals("Pretraži naziv agencije...") || pretraziInput.getText().isEmpty()
                                     || pretraziInput.getText().equals("Pretraži ime veslača...") || pretraziInput.getText().equals("Pretraži naziv takmičenja...")) {
 
                                 if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
                                     List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
                                     ptm.setPonude(svePonude);
                                     ptm.fireTableDataChanged();
+                                    
                                 } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
                                     List<Veslac> sviVeslaci = Klijent.getInstance().vratiSveVeslace(idKluba);
                                     vtm.setVeslaci(sviVeslaci);
                                     vtm.fireTableDataChanged();
+                                    
                                 } else if (cardPanel.getComponentZOrder(takmicenjaPanel) >= 0) {
                                     List<Takmicenje> svaTakmicenja = Klijent.getInstance().vratiSvaTakmicenja();
                                     ttm.setTakmicenja(svaTakmicenja);
                                     ttm.fireTableDataChanged();
+                                    
+                                }else{
+                                    List<Agencija> sveAgencije = Klijent.getInstance().vratiSveAgencije();
                                 }
                                 
                                 
@@ -174,11 +179,15 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                                     vtm.setVeslaci(veslaci);
                                     vtm.fireTableDataChanged();
 
-                                } else {
+                                } else if (cardPanel.getComponentZOrder(takmicenjaPanel) >= 0){
                                     String nazivTakmicenja = upitZaPretragu;
                                     List<Takmicenje> takmicenja = Klijent.getInstance().pretraziTakmicenja(nazivTakmicenja);
                                     ttm.setTakmicenja(takmicenja);
                                     ttm.fireTableDataChanged();
+                                    
+                                } else{
+                                    String nazivAgencije = upitZaPretragu;
+                                    List<Agencija> agencije = Klijent.getInstance().pretraziAgenciju(nazivAgencije);
                                 }
                             }
                         }
@@ -2087,7 +2096,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
     private void pretraziInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pretraziInputFocusGained
         // TODO add your handling code here:
-        if (pretraziInput.getText().equals("Pretraži id agencije...") || pretraziInput.getText().equals("Pretraži ime veslača...")
+        if (pretraziInput.getText().equals("Pretraži naziv agencije...") || pretraziInput.getText().equals("Pretraži ime veslača...")
                 || pretraziInput.getText().equals("Pretraži naziv takmičenja...")) {
             pretraziInput.setText("");
         }
@@ -2100,8 +2109,10 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 pretraziInput.setText("Pretraži id agencije...");
             } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
                 pretraziInput.setText("Pretraži ime veslača...");
-            } else {
+            } else if (cardPanel.getComponentZOrder(takmicenjaPanel) >= 0){
                 pretraziInput.setText("Pretraži naziv takmičenja...");
+            }else{
+                pretraziInput.setText("Pretraži naziv agencije...");
             }
         }
     }//GEN-LAST:event_pretraziInputFocusLost

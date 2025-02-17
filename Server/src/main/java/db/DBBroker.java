@@ -9,9 +9,6 @@ import model.Takmicenje;
 import model.VeslackiKlub;
 import model.VrstaTrke;
 import io.github.cdimascio.dotenv.Dotenv;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import model.Agencija;
 import model.Drzava;
 import model.KlubTakmicenje;
@@ -1547,6 +1544,45 @@ public class DBBroker {
 
         return takmicenje;
 
+    }
+
+    public List<Agencija> pretraziAgencijuDB(String nazivAgencije) throws Exception {
+        
+        List<Agencija> pretrazeneAgencije = new LinkedList<>();
+        
+        try(Connection connection = DriverManager.getConnection("jdbc:mysql:3306://localhost/veslanje",dotenv.get("MYSQL_USER"),dotenv.get("MYSQL_PASS"))){
+            
+            String strPretraga = "%" + nazivAgencije +"%";
+            
+            String upit = "SELECT * FROM `veslanje`.`agencija` WHERE naziv LIKE ?;";
+            PreparedStatement ps = connection.prepareStatement(upit);
+            ps.setString(1, strPretraga);
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                
+                Agencija agencija = new Agencija();
+                agencija.setId(rs.getInt("id"));
+                agencija.setNaziv(rs.getString("naziv"));
+                agencija.setEmail(rs.getString("email"));
+                agencija.setTelefon(rs.getString("telefon"));
+                agencija.setKorisnickoIme(rs.getString("korisnicko_ime"));
+                agencija.setSifra(rs.getString("sifra"));
+                Drzava drzava = vratiDrzavuPoId(rs.getInt("id_drzave"));
+                agencija.setDrzava(drzava);
+                
+                pretrazeneAgencije.add(agencija);
+                
+            }
+            
+            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            throw new Exception(ex);
+        }
+        
+        return pretrazeneAgencije;
     }
 
 }

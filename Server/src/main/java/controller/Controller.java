@@ -13,7 +13,6 @@ import model.StavkaPonude;
 import model.Takmicenje;
 import model.Veslac;
 import model.VeslackiKlub;
-import model.VrstaTrke;
 import utils.EmailAutentikator;
 import utils.PotvrdaNalogaServis;
 import utils.PozadinskiServis;
@@ -269,6 +268,10 @@ public class Controller {
 
     public Takmicenje vratiTakmicenjePoId(Integer idTakmicenja){
         return dbb.vratiTakmicenjePoIdDB(idTakmicenja);
+    }
+
+    public List<Agencija> pretraziAgenciju(String nazivAgencije) throws Exception {
+        return dbb.pretraziAgencijuDB(nazivAgencije);
     }
     
 
