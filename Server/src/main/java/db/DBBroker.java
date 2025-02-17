@@ -1156,15 +1156,15 @@ public class DBBroker {
 
             while (rs.next()) {
                 PonudaVeslaca pretrazenaPonuda = new PonudaVeslaca();
-                ponuda.setId(rs.getInt("id"));
-                ponuda.setDatumKreiranja(new java.util.Date(rs.getDate("datum_kreiranja").getTime()));
-                ponuda.setBrojJuniora(rs.getInt("broj_juniora"));
-                ponuda.setBrojKadeta(rs.getInt("broj_kadeta"));
-                ponuda.setProsecnoVremeKadeti(rs.getFloat("prosecno_vreme_kadeti"));
-                ponuda.setProsecnoVremeJuniori(rs.getFloat("prosecno_vreme_junior"));
+                pretrazenaPonuda.setId(rs.getInt("id"));
+                pretrazenaPonuda.setDatumKreiranja(new java.util.Date(rs.getDate("datum_kreiranja").getTime()));
+                pretrazenaPonuda.setBrojJuniora(rs.getInt("broj_juniora"));
+                pretrazenaPonuda.setBrojKadeta(rs.getInt("broj_kadeta"));
+                pretrazenaPonuda.setProsecnoVremeKadeti(rs.getFloat("prosecno_vreme_kadeti"));
+                pretrazenaPonuda.setProsecnoVremeJuniori(rs.getFloat("prosecno_vreme_junior"));
 
-                ponuda.setIdAgencije(rs.getInt("id_agencije"));
-                ponuda.setIdKluba(rs.getInt("id_kluba"));
+                pretrazenaPonuda.setIdAgencije(rs.getInt("id_agencije"));
+                pretrazenaPonuda.setIdKluba(rs.getInt("id_kluba"));
 
                 ponude.add(pretrazenaPonuda);
             }
