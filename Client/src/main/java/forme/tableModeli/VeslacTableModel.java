@@ -99,15 +99,15 @@ public class VeslacTableModel extends AbstractTableModel{
         }
     }
 
-    public LinkedList<Veslac> getVeslaci() {
-        return (LinkedList<Veslac>) veslaci;
+    public List<Veslac> getVeslaci() {
+        return  veslaci;
     }
 
     public List<Veslac> getVeslaciZaAzuriranje() {
         return veslaciZaAzuriranje;
     }
 
-    public void setVeslaci(LinkedList<Veslac> veslaci) {
+    public void setVeslaci(List<Veslac> veslaci) {
         this.veslaci = veslaci;
     }
 
