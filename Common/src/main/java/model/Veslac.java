@@ -126,12 +126,12 @@ public class Veslac implements Serializable{
     public void setIdKluba(int idKluba) {
         this.idKluba = idKluba;
     }
-    
+
     @Override
     public String toString() {
-        return "Veslac{" + "idVeslaca=" + idVeslaca + ", imePrezime=" + imePrezime + ", datumRodjenja=" + datumRodjenja + ", visina=" + visina + ", tezina=" + tezina + ", kategorija=" + kategorija + ", BMI=" + BMI + ", najboljeVreme=" + najboljeVreme + ", datumUpisa=" + datumUpisa + '}';
+        return "Veslac{" + "idVeslaca=" + idVeslaca + ", imePrezime=" + imePrezime + ", datumRodjenja=" + datumRodjenja + ", visina=" + visina + ", tezina=" + tezina + ", kategorija=" + kategorija + ", BMI=" + BMI + ", najboljeVreme=" + najboljeVreme + ", datumUpisa=" + datumUpisa + ", idKluba=" + idKluba + '}';
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 3;

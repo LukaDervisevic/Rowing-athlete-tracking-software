@@ -1202,12 +1202,13 @@ public class DBBroker {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                
                 Veslac pretrazenVeslac = new Veslac();
-                veslac.setIdVeslaca(rs.getInt("id"));
-                veslac.setDatumRodjenja(new java.util.Date(rs.getDate("datum_rodjenja").getTime()));
-                veslac.setDatumUpisa(new java.util.Date(rs.getDate("datum_upisa").getTime()));
-                veslac.setImePrezime(rs.getString("ime_prezime"));
-                veslac.setKategorija(KategorijaVeslaca.valueOf(rs.getString("kategorija")));
+                pretrazenVeslac.setIdVeslaca(rs.getInt("id"));
+                pretrazenVeslac.setDatumRodjenja(new java.util.Date(rs.getDate("datum_rodjenja").getTime()));
+                pretrazenVeslac.setDatumUpisa(new java.util.Date(rs.getDate("datum_upisa").getTime()));
+                pretrazenVeslac.setImePrezime(rs.getString("ime_prezime"));
+                pretrazenVeslac.setKategorija(KategorijaVeslaca.valueOf(rs.getString("kategorija")));
 //                float nbv = rs.getFloat("najbolje_vreme");
 //                String najbolje_vreme;
 //                if (nbv % 60 < 10) {
@@ -1216,13 +1217,14 @@ public class DBBroker {
 //                    najbolje_vreme = nbv / 60 + ":" + nbv % 60;
 //                }
 
-                veslac.setNajboljeVreme(rs.getFloat("najbolje_vreme"));
-                veslac.setBMI(rs.getFloat("BMI"));
-                veslac.setTezina(rs.getFloat("tezina"));
-                veslac.setVisina(rs.getFloat("visina"));
-                veslac.setIdKluba(rs.getInt("id_kluba"));
+                pretrazenVeslac.setNajboljeVreme(rs.getFloat("najbolje_vreme"));
+                pretrazenVeslac.setBMI(rs.getFloat("BMI"));
+                pretrazenVeslac.setTezina(rs.getFloat("tezina"));
+                pretrazenVeslac.setVisina(rs.getFloat("visina"));
+                pretrazenVeslac.setIdKluba(rs.getInt("id_kluba"));
 
                 veslaci.add(pretrazenVeslac);
+                System.out.println(pretrazenVeslac);
 
             }
 

@@ -37,6 +37,7 @@ import model.PonudaVeslaca;
 import model.StavkaPonude;
 import forme.veslac.IzmeniVeslacForma;
 import klijent.Klijent;
+import model.VeslackiKlub;
 
 /**
  *
@@ -137,6 +138,21 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                             if (pretraziInput.getText().equals("Pretraži id agencije...") || pretraziInput.getText().isEmpty()
                                     || pretraziInput.getText().equals("Pretraži ime veslača...") || pretraziInput.getText().equals("Pretraži naziv takmičenja...")) {
 
+                                if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
+                                    List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
+                                    ptm.setPonude(svePonude);
+                                    ptm.fireTableDataChanged();
+                                } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
+                                    List<Veslac> sviVeslaci = Klijent.getInstance().vratiSveVeslace(idKluba);
+                                    vtm.setVeslaci(sviVeslaci);
+                                    vtm.fireTableDataChanged();
+                                } else if (cardPanel.getComponentZOrder(takmicenjaPanel) >= 0) {
+                                    List<Takmicenje> svaTakmicenja = Klijent.getInstance().vratiSvaTakmicenja();
+                                    ttm.setTakmicenja(svaTakmicenja);
+                                    ttm.fireTableDataChanged();
+                                }
+                                
+                                
                             } else {
 
                                 String upitZaPretragu = pretraziInput.getText();
@@ -153,7 +169,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
                                 } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
                                     String imePrezime = upitZaPretragu;
-                                    LinkedList<Veslac> veslaci = Klijent.getInstance().pretraziVeslaca(
+                                    List<Veslac> veslaci = Klijent.getInstance().pretraziVeslaca(
                                             new Veslac(0, imePrezime, null, 0, 0, null, 0, null, idKluba));
                                     vtm.setVeslaci(veslaci);
                                     vtm.fireTableDataChanged();

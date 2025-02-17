@@ -239,7 +239,7 @@ public class Klijent {
         }
     }
 
-    public LinkedList<Veslac> pretraziVeslaca(Veslac veslac) throws Exception {
+    public List<Veslac> pretraziVeslaca(Veslac veslac) throws Exception {
         Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_VESLAC,veslac);
         posiljalac.posaljiPoruku(zahtev);
         
@@ -248,7 +248,7 @@ public class Klijent {
         if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
             throw new Exception((Throwable) odgovor.getParametar());
         }else{
-            return (LinkedList<Veslac>) odgovor.getParametar();
+            return (List<Veslac>) odgovor.getParametar();
         }
     }
 
