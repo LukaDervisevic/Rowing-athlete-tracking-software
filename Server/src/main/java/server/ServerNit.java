@@ -39,17 +39,12 @@ class ServerNit extends Thread {
     public void run() {
 
         try {
-            // inicijalizacija object stream-ova
-
             while (true) {
 
-                // Primanje zahteva od korisnika
                 Zahtev korisnikovZahtev = (Zahtev) primalac.primiPoruku();
-                // Obrada Zahteva
 
                 Object odgovorServera = obradiZahtev(korisnikovZahtev);
 
-                //Slanje zahteva
                 posiljalac.posaljiPoruku(odgovorServera);
 
             }

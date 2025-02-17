@@ -34,6 +34,8 @@ public class RegistracijaForma extends javax.swing.JDialog {
             ex.printStackTrace();
         }
         inicijalnoRenderovanje();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setVisible(true);
     }
 
     public RegistracijaForma(JFrame roditelj) {
@@ -531,12 +533,14 @@ public class RegistracijaForma extends javax.swing.JDialog {
 
                 if (tipNalogaComboBox.getSelectedItem().equals(TipNaloga.VESLACKI_KLUB)) {
                     VeslackiKlub kreiraniKlub = Klijent.getInstance().kreirajVeslackiKlub(new VeslackiKlub(0, naziv, adresa, email, telefon, korisnickoIme, null));
+                    Klijent.getInstance().setUlogovaniNalog(kreiraniKlub);
                     JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 } else {
                     Drzava drzava = (Drzava) drzavaComboBox.getSelectedItem();
                     System.out.println(drzava);
                     Agencija kreiranaAgencija = Klijent.getInstance().kreirajAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, null, drzava));
+                    Klijent.getInstance().setUlogovaniNalog(kreiranaAgencija);
                     JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 }

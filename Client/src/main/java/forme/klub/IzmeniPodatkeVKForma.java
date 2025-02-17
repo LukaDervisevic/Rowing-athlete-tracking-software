@@ -451,6 +451,7 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
             VeslackiKlub klub = (VeslackiKlub) Klijent.getInstance().getUlogovaniNalog();
             VeslackiKlub azuriraniKlub = Klijent.getInstance().azuirirajVeslackiKlub(new VeslackiKlub(klub.getId(),nazivInput.getText(),adresaInput.getText(),emailInput.getText(),
                     ((String) telefonComboBox.getSelectedItem()) + telefonInput.getText(), korisnickoImeInput.getText(),sifraInput.getText()));
+            this.dispose();
             if(azuriraniKlub != null){
                 JOptionPane.showMessageDialog(this,"Podaci naloga su ažurirani","Uspešno ažuiriranje naloga", JOptionPane.INFORMATION_MESSAGE);
 

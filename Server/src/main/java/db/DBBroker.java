@@ -254,7 +254,7 @@ public class DBBroker {
         statement.setString(3, klub.getEmail());
         statement.setString(4, klub.getTelefon());
         statement.setString(5, klub.getKorisnickoIme());
-        statement.setString(6, klub.getKorisnickoIme());
+        statement.setString(6, klub.getSifra());
         statement.setInt(7, klub.getId());
 
         int brRedova = statement.executeUpdate();
@@ -309,7 +309,7 @@ public class DBBroker {
 
             String upit = "SELECT * FROM `veslanje`.`veslac` WHERE id_kluba=?;";
             PreparedStatement ps = connection.prepareStatement(upit);
-            ps.setInt(1, Controller.getInstance().getUlogovaniNalog().getId());
+            ps.setInt(1, idKluba);
 
             ResultSet rs = ps.executeQuery();
 
