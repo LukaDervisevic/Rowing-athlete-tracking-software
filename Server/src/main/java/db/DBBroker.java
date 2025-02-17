@@ -624,7 +624,6 @@ public class DBBroker {
             ResultSet rs = ps.executeQuery();
             
             VeslackiKlub vk = vratiVeslackiKlubPoIdDB(idKluba);
-            System.out.println("DB: " + vk);
             while (rs.next()) {
 
                 Takmicenje t = new Takmicenje();
@@ -1550,7 +1549,8 @@ public class DBBroker {
         
         List<Agencija> pretrazeneAgencije = new LinkedList<>();
         
-        try(Connection connection = DriverManager.getConnection("jdbc:mysql:3306://localhost/veslanje",dotenv.get("MYSQL_USER"),dotenv.get("MYSQL_PASS"))){
+        try(Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+                dotenv.get("MYSQL_USER"),dotenv.get("MYSQL_PASS"))){
             
             String strPretraga = "%" + nazivAgencije +"%";
             

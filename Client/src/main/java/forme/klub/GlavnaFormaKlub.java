@@ -135,8 +135,9 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                     try {
 
                         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (pretraziInput.getText().equals("Pretraži naziv agencije...") || pretraziInput.getText().isEmpty()
-                                    || pretraziInput.getText().equals("Pretraži ime veslača...") || pretraziInput.getText().equals("Pretraži naziv takmičenja...")) {
+                            if (pretraziInput.getText().equals("Pretraži id agencije...") || pretraziInput.getText().isEmpty()
+                                    || pretraziInput.getText().equals("Pretraži ime veslača...") || pretraziInput.getText().equals("Pretraži naziv takmičenja...")
+                                    || pretraziInput.getText().equals("Pretraži naziv agencije")) {
 
                                 if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
                                     List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
@@ -188,6 +189,8 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                                 } else{
                                     String nazivAgencije = upitZaPretragu;
                                     List<Agencija> agencije = Klijent.getInstance().pretraziAgenciju(nazivAgencije);
+                                    atm.setAgencije(agencije);
+                                    atm.fireTableDataChanged();
                                 }
                             }
                         }
@@ -1717,7 +1720,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
     private void ponudaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ponudaButtonActionPerformed
 
-        pretraziInput.setText("Pretraži id agencije...");
+        pretraziInput.setText("Pretraži naziv agencije...");
         cardPanel.removeAll();
         cardPanel.add(kreirajPonuduPanel);
         cardPanel.repaint();

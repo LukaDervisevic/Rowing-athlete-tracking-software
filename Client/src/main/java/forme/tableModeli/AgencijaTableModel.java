@@ -63,6 +63,15 @@ public class AgencijaTableModel extends AbstractTableModel{
     public String getColumnName(int column) {
         return kolone[column];
     }
+
+    public List<Agencija> getAgencije() {
+        return agencije;
+    }
+
+    public void setAgencije(List<Agencija> agencije) {
+        this.agencije = agencije;
+    }
+    
     
     
     
