@@ -113,6 +113,9 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
             kategorijaTakmicaraComboBox.addItem(KategorijaVeslaca.KADET);
             kategorijaTakmicaraComboBox.addItem(KategorijaVeslaca.JUNIOR);
+            
+            kategorijaComboBox.addItem(KategorijaVeslaca.KADET);
+            kategorijaComboBox.addItem(KategorijaVeslaca.JUNIOR);
 
             vrstaTrkeComboBox.addItem(VrstaTrke.SKIF);
             vrstaTrkeComboBox.addItem(VrstaTrke.DUBL);
@@ -892,7 +895,6 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
         glavnaFormaPanel15.setBackground(new java.awt.Color(221, 221, 221));
 
-        kategorijaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "KADET", "JUNIOR" }));
         kategorijaComboBox.setBackground(new java.awt.Color(221, 221, 221));
         kategorijaComboBox.setBorder(null);
         kategorijaComboBox.setFont(new java.awt.Font("JetBrains Mono", 2, 14)); // NOI18N
@@ -1456,7 +1458,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                     .addComponent(glavnaFormaPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(27, 27, 27)
                 .addComponent(glavnaFormaPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(570, Short.MAX_VALUE))
+                .addContainerGap(573, Short.MAX_VALUE))
         );
         takmicenjaPanelLayout.setVerticalGroup(
             takmicenjaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1634,7 +1636,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                     .addComponent(glavnaFormaPanel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(glavnaFormaPanel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(glavnaFormaPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(535, Short.MAX_VALUE))
+                .addContainerGap(538, Short.MAX_VALUE))
         );
         kreirajPonuduPanelLayout.setVerticalGroup(
             kreirajPonuduPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1647,7 +1649,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 .addComponent(glavnaFormaPanel26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(glavnaFormaPanel27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(667, Short.MAX_VALUE))
+                .addContainerGap(681, Short.MAX_VALUE))
         );
 
         cardPanel.add(kreirajPonuduPanel, "card5");
@@ -1820,7 +1822,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             float visina = Float.parseFloat(visinaInput.getText());
             float tezina = Float.parseFloat(tezinaInput.getText());
 
-            String kategorija = (String) kategorijaComboBox.getSelectedItem();
+            KategorijaVeslaca kategorija = (KategorijaVeslaca) kategorijaComboBox.getSelectedItem();
 
             String najboljeVreme = najboljeVremeInput.getText();
 
@@ -1828,7 +1830,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
             Veslac kreiranVeslac;
             try {
-                kreiranVeslac = Klijent.getInstance().kreirajVeslaca(new Veslac(0, imePrezime, dRodjenja, visina, tezina, (KategorijaVeslaca) kategorijaComboBox.getSelectedItem(), najboljeVremeFloat, dUpisa, idKluba));
+                kreiranVeslac = Klijent.getInstance().kreirajVeslaca(new Veslac(0, imePrezime, dRodjenja, visina, tezina, kategorija, najboljeVremeFloat, dUpisa, idKluba));
 
                 if (kreiranVeslac != null) {
                     JOptionPane.showMessageDialog(this, "Veslač je unet u bazu", "Upseh", JOptionPane.INFORMATION_MESSAGE);
@@ -2294,7 +2296,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private forme.utils.GlavnaFormaPanel kFormaPanel1;
     private forme.utils.GlavnaFormaPanel kFormaPanel3;
-    private javax.swing.JComboBox<String> kategorijaComboBox;
+    private javax.swing.JComboBox<KategorijaVeslaca> kategorijaComboBox;
     private javax.swing.JComboBox<KategorijaVeslaca> kategorijaTakmicaraComboBox;
     private javax.swing.JButton kontrolnaTablaButton;
     private javax.swing.JPanel kontrolnaTablaPanel;
