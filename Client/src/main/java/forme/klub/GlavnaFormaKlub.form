@@ -1216,10 +1216,7 @@
                         <Component class="javax.swing.JComboBox" name="kategorijaComboBox">
                           <Properties>
                             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="2">
-                                <StringItem index="0" value="KADET"/>
-                                <StringItem index="1" value="JUNIOR"/>
-                              </StringArray>
+                              <StringArray count="0"/>
                             </Property>
                             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                               <Color blue="dd" green="dd" red="dd" type="rgb"/>
@@ -1232,7 +1229,7 @@
                             </Property>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;KategorijaVeslaca&gt;"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
@@ -1416,7 +1413,7 @@
                           </Group>
                           <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           <Component id="glavnaFormaPanel10" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="570" max="32767" attributes="0"/>
+                          <EmptySpace pref="573" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -2024,7 +2021,7 @@
                               <Component id="glavnaFormaPanel27" max="32767" attributes="0"/>
                               <Component id="glavnaFormaPanel25" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="535" max="32767" attributes="0"/>
+                          <EmptySpace pref="538" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -2039,7 +2036,7 @@
                           <Component id="glavnaFormaPanel26" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="glavnaFormaPanel27" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="667" max="32767" attributes="0"/>
+                          <EmptySpace pref="681" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
