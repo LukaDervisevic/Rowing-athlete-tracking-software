@@ -74,6 +74,10 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
         setSize(screenSize);
         try {
+            
+            idKluba = Klijent.getInstance().getUlogovaniNalog().getId();
+            idPonude = Klijent.getInstance().vratiPoslednjiIdPonude() + 1;
+            rb = 0;
 
             // Inicijalno prikupljanje objekata
             List<Veslac> veslaci = Klijent.getInstance().vratiSveVeslace(idKluba);
@@ -83,9 +87,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             List<PonudaVeslaca> ponudeVeslaca = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
             List<Agencija> agencije = Klijent.getInstance().vratiSveAgencije();
 
-            idKluba = Klijent.getInstance().getUlogovaniNalog().getId();
-            idPonude = Klijent.getInstance().vratiPoslednjiIdPonude() + 1;
-            rb = 0;
+            
 
             // Dodeljivanje TableModela tabelama
             ponudeTable.setModel(new PonudaTableModelKlub(ponudeVeslaca));
