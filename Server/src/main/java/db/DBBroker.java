@@ -795,10 +795,10 @@ public class DBBroker {
             ps.setInt(2, klubTakmicenje.getTakmicenje().getId());
             ps.setInt(3, klubTakmicenje.getMesto());
 
-            ps.executeUpdate();
+            brRedova = ps.executeUpdate();
             connection.commit();
 
-            ResultSet rs = ps.getGeneratedKeys();
+            
 
             
 

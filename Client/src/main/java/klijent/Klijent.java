@@ -355,7 +355,7 @@ public class Klijent {
     public Integer obrisiOsvojenoTakmicenje(int idKlub,int idTakmicenja,int mesto) throws Exception {
         
         Takmicenje takmicenje = vratiTakmicenjePoId(idTakmicenja);
-        VeslackiKlub veslackiKlub = vratiVeslackiKlubPoId(mesto);
+        VeslackiKlub veslackiKlub = vratiVeslackiKlubPoId(idKlub);
         
         KlubTakmicenje klubTakmicenje = new KlubTakmicenje(mesto, veslackiKlub, takmicenje);
         

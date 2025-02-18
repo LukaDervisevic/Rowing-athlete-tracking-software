@@ -9,19 +9,19 @@ import model.KlubTakmicenje;
  *
  * @author Luka
  */
-public class OsvojenaTakmicenjaTableModel extends AbstractTableModel{
-    
+public class OsvojenaTakmicenjaTableModel extends AbstractTableModel {
+
     List<KlubTakmicenje> osvojenaTakmicenja = new LinkedList<>();
-    String[] kolone = {"id","Naziv","Kategorija","Vrsta trke","Datum","Mesto"};
-    
-    public OsvojenaTakmicenjaTableModel(){
-        
+    String[] kolone = {"id", "Naziv", "Kategorija", "Vrsta trke", "Datum", "Mesto"};
+
+    public OsvojenaTakmicenjaTableModel() {
+
     }
-    
-    public OsvojenaTakmicenjaTableModel(List<KlubTakmicenje> osvojenaTakmicenja){
+
+    public OsvojenaTakmicenjaTableModel(List<KlubTakmicenje> osvojenaTakmicenja) {
         this.osvojenaTakmicenja = osvojenaTakmicenja;
     }
-    
+
     @Override
     public int getRowCount() {
         return osvojenaTakmicenja.size();
@@ -65,16 +65,25 @@ public class OsvojenaTakmicenjaTableModel extends AbstractTableModel{
     public void setOsvojenaTakmicenja(List<KlubTakmicenje> osvojenaTakmicenja) {
         this.osvojenaTakmicenja = osvojenaTakmicenja;
     }
-    
-    public void dodajOsvojenoTakmicenje(KlubTakmicenje kt){
+
+    public void dodajOsvojenoTakmicenje(KlubTakmicenje kt) {
         osvojenaTakmicenja.add(kt);
         int poslednjiIndex = osvojenaTakmicenja.size() - 1;
         fireTableRowsInserted(poslednjiIndex, poslednjiIndex);
     }
-    
-    public void obrisiOsvojenoTakmicenje(int idKluba, int idTakmicenja, int mesto){
+
+    public void obrisiOsvojenoTakmicenje(int idKluba, int idTakmicenja, int mesto) {
         osvojenaTakmicenja.removeIf(kt -> {
-            if(kt.getKlub().getId() == idKluba && kt.getTakmicenje().getId() == idTakmicenja && kt.getMesto() == mesto){
+
+            if (mesto == 0) {
+                if (kt.getKlub().getId() == kt.getTakmicenje().getId()) {
+                    int index = osvojenaTakmicenja.indexOf(kt);
+                    fireTableRowsDeleted(index, index);
+                    return true;
+                }
+            }
+
+            else if (kt.getKlub().getId() == idKluba && kt.getTakmicenje().getId() == idTakmicenja && kt.getMesto() == mesto) {
                 int index = osvojenaTakmicenja.indexOf(kt);
                 fireTableRowsDeleted(index, index);
                 return true;
@@ -82,5 +91,5 @@ public class OsvojenaTakmicenjaTableModel extends AbstractTableModel{
             return false;
         });
     }
-    
+
 }

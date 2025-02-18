@@ -2019,6 +2019,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             try {
                 Klijent.getInstance().obrisiTakmicenje(idTakmicenja);
                 ttm.obrisiTakmicenje(idTakmicenja);
+                ostm.obrisiOsvojenoTakmicenje(idKluba, idTakmicenja, 0);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
@@ -2065,6 +2066,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
             }
 
         } else {
