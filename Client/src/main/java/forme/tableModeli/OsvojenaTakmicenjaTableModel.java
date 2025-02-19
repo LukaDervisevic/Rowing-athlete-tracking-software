@@ -76,7 +76,7 @@ public class OsvojenaTakmicenjaTableModel extends AbstractTableModel {
         osvojenaTakmicenja.removeIf(kt -> {
 
             if (mesto == 0) {
-                if (kt.getKlub().getId() == kt.getTakmicenje().getId()) {
+                if (kt.getKlub().getId() == idKluba && kt.getTakmicenje().getId() == idTakmicenja) {
                     int index = osvojenaTakmicenja.indexOf(kt);
                     fireTableRowsDeleted(index, index);
                     return true;

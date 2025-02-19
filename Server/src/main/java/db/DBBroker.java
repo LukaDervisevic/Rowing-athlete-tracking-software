@@ -648,12 +648,11 @@ public class DBBroker {
                     dotenv.get("MYSQL_PASS"));
             connection.setAutoCommit(false);
 
-            String upit = "DELETE T FROM  `veslanje`.`takmicenje` as T JOIN `veslanje`.`klub_takmicenje` KT ON T.id=KT.id_takmicenja WHERE KT.id_kluba = ? AND T.id = ?;";
-
-            int idKluba = Controller.getInstance().getUlogovaniNalog().getId();
+//            String upit = "DELETE T FROM  `veslanje`.`takmicenje` as T JOIN `veslanje`.`klub_takmicenje` KT ON T.id=KT.id_takmicenja WHERE KT.id_kluba = ? AND T.id = ?;";
+            String upit = "DELETE FROM `veslanje`.`takmicenje` WHERE id=?;";
+            
             PreparedStatement ps = connection.prepareStatement(upit);
-            ps.setInt(1, idKluba);
-            ps.setInt(2, idTakmicenja);
+            ps.setInt(1, idTakmicenja);
 
             brRedova = ps.executeUpdate();
             connection.commit();
@@ -661,6 +660,7 @@ public class DBBroker {
         } catch (SQLException ex) {
             ex.printStackTrace();
             connection.rollback();
+            throw new Exception(ex);
         } finally {
             connection.close();
         }
@@ -779,7 +779,7 @@ public class DBBroker {
         return brMesta;
     }
 
-    public Integer obrisiOsvojenoTakmicenje(KlubTakmicenje klubTakmicenje) throws Exception {
+    public Integer obrisiOsvojenoTakmicenjeDB(KlubTakmicenje klubTakmicenje) throws Exception {
 
         Connection connection = null;
         int brRedova = 0;
@@ -798,14 +798,11 @@ public class DBBroker {
             brRedova = ps.executeUpdate();
             connection.commit();
 
-            
-
-            
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             connection.rollback();
             throw new Exception(ex);
+            
         } finally {
             connection.close();
         }

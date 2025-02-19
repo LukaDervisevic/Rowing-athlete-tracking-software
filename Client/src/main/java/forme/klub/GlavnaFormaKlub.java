@@ -2102,7 +2102,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private void pretraziInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pretraziInputFocusGained
         // TODO add your handling code here:
         if (pretraziInput.getText().equals("Pretraži naziv agencije...") || pretraziInput.getText().equals("Pretraži ime veslača...")
-                || pretraziInput.getText().equals("Pretraži naziv takmičenja...")) {
+                || pretraziInput.getText().equals("Pretraži naziv takmičenja...") || pretraziInput.getText().equals("Pretraži id agencije...")) {
             pretraziInput.setText("");
         }
     }//GEN-LAST:event_pretraziInputFocusGained

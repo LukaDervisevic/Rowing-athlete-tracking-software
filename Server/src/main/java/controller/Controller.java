@@ -196,7 +196,7 @@ public class Controller {
     }
 
     public Integer obrisiOsvojenoTakmicenje(KlubTakmicenje klubTakmicenje) throws Exception {
-         return dbb.obrisiOsvojenoTakmicenje(klubTakmicenje);
+         return dbb.obrisiOsvojenoTakmicenjeDB(klubTakmicenje);
     }
 
     public Veslac vratiVeslacaPoId(Integer idVeslaca) {
