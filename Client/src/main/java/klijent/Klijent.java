@@ -487,8 +487,8 @@ public class Klijent {
         
     }
 
-    public List<VeslackiKlub> pretraziKlub(VeslackiKlub veslackiKlub) throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_KLUB,veslackiKlub);
+    public List<VeslackiKlub> pretraziKlub(String upitZaPretragu) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_KLUB,upitZaPretragu);
         posiljalac.posaljiPoruku(zahtev);
         
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();

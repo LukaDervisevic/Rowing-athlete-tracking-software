@@ -248,7 +248,7 @@ public class DBBroker {
         connection.setAutoCommit(false);
         String upit = "UPDATE `veslanje`.`veslacki_klub` SET naziv=?, adresa=?, email=?, telefon=?, korisnicko_ime=?, sifra=? WHERE id=?";
 
-        PreparedStatement statement = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement statement = connection.prepareStatement(upit);
         statement.setString(1, klub.getNaziv());
         statement.setString(2, klub.getAdresa());
         statement.setString(3, klub.getEmail());
@@ -1306,7 +1306,7 @@ public class DBBroker {
 
             String upit = "UPDATE `veslanje`.`agencija` SET naziv=?, email=?, telefon=?, korisnicko_ime=?, sifra=?, id_drzave=? WHERE id=?;";
 
-            PreparedStatement ps = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(upit);
             ps.setString(1, agencija.getNaziv());
             ps.setString(2, agencija.getEmail());
             ps.setString(3, agencija.getTelefon());
@@ -1318,8 +1318,7 @@ public class DBBroker {
             ps.executeUpdate();
             connection.commit();
 
-            ResultSet rs = ps.getGeneratedKeys();
-            return vratiAgencijuPoId(rs.getInt(1));
+            return vratiAgencijuPoId(agencija.getId());
 
         } catch (SQLException ex) {
             ex.printStackTrace();

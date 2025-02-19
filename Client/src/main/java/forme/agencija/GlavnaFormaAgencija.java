@@ -111,7 +111,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
                                 if (cardPanel.getComponentZOrder(pretrazivanjeTakmicenjaPanel) >= 0) {
                                     String nazivKluba = upitZaPretragu;
-                                    List<VeslackiKlub> pretrazeniKlubovi = Klijent.getInstance().pretraziKlub(new VeslackiKlub(0, nazivKluba, null, null, null, null, null));
+                                    List<VeslackiKlub> pretrazeniKlubovi = Klijent.getInstance().pretraziKlub(nazivKluba);
                                     ktm.setKlubovi(pretrazeniKlubovi);
                                     ktm.fireTableDataChanged();
                                 }
