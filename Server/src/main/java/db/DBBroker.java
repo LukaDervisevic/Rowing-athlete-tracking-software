@@ -1561,4 +1561,32 @@ public class DBBroker {
         return pretrazeneAgencije;
     }
 
+    public Drzava ubaciDrzavuDB(Drzava drzava) throws Exception {
+        
+        Connection connection = null;
+        Drzava kreiranaDrzava = null;
+        int brPromenjenihRedova = 0;
+        
+        try{
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306",dotenv.get("MYSQL_USER"),dotenv.get("MYSQL_PASS"));
+            connection.setAutoCommit(false);
+            String upit = "INSERT INTO `veslanje`.`drzava` (naziv) VALUES (?);";
+            PreparedStatement ps = connection.prepareStatement(upit,Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, drzava.getNaziv());
+            
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            connection.commit();
+            
+            if(rs.next()){
+                kreiranaDrzava = new Drzava(rs.getInt(1),drzava.getNaziv());
+            }
+            
+        }catch(SQLException ex){
+            connection.rollback();
+            throw new Exception(ex);
+        }
+        return kreiranaDrzava;
+    }
+
 }

@@ -270,7 +270,9 @@ public class Controller {
         return dbb.pretraziAgencijuDB(nazivAgencije);
     }
     
-
+    public Drzava ubaciDrzavu(Drzava drzava){
+        return dbb.ubaciDrzavuDB(drzava);
+    }
     
     
     
