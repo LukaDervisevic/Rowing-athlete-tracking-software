@@ -101,7 +101,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
         drzavaComboBox = new javax.swing.JComboBox<>();
         drzavaZvezdica = new javax.swing.JLabel();
         nazivInput = new javax.swing.JTextField();
-        drzavePitanjeBtn = new javax.swing.JLabel();
+        drzavePitanjeLbl = new javax.swing.JLabel();
         dodajDrzavuBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -332,8 +332,8 @@ public class RegistracijaForma extends javax.swing.JDialog {
             }
         });
 
-        drzavePitanjeBtn.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
-        drzavePitanjeBtn.setText("Nema vaše države?");
+        drzavePitanjeLbl.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
+        drzavePitanjeLbl.setText("Nema vaše države?");
 
         dodajDrzavuBtn.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
         dodajDrzavuBtn.setForeground(new java.awt.Color(255, 51, 51));
@@ -425,7 +425,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(drzavePitanjeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(drzavePitanjeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dodajDrzavuBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(21, 21, 21)))
@@ -485,7 +485,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
                     .addGroup(infoPanelLayout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(drzavePitanjeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(drzavePitanjeLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dodajDrzavuBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
                         .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -677,19 +677,25 @@ public class RegistracijaForma extends javax.swing.JDialog {
             drzavaComboBox.setEditable(false);
             drzavaComboBox.setEnabled(false);
             drzavaLabel.setForeground(new Color(153, 153, 153));
-            drzavaZvezdica.setForeground(Color.WHITE);
-
+            drzavaZvezdica.setForeground(Color.WHITE);            
+            dodajDrzavuBtn.setEnabled(false);
+            drzavePitanjeLbl.setVisible(false);
+            
             adresaInput.setEditable(true);
             adresaInput.setEnabled(true);
             adresaInput.setForeground(Color.BLACK);
             adresaZvezdica.setForeground(new Color(251, 251, 251));
 
         } else {
+            
             drzavaComboBox.setEditable(true);
             drzavaComboBox.setEnabled(true);
             drzavaLabel.setForeground(Color.BLACK);
             drzavaZvezdica.setForeground(new Color(251, 51, 51));
-
+            dodajDrzavuBtn.setEnabled(true);
+            drzavePitanjeLbl.setVisible(true);
+            dodajDrzavuBtn.setVisible(true);
+            
             adresaInput.setEditable(false);
             adresaInput.setEnabled(false);
             adresaInput.setForeground(new Color(153, 153, 153));
@@ -714,7 +720,10 @@ public class RegistracijaForma extends javax.swing.JDialog {
         drzavaComboBox.setEnabled(false);
         drzavaLabel.setForeground(new Color(153, 153, 153));
         drzavaZvezdica.setForeground(Color.WHITE);
-
+        
+        drzavePitanjeLbl.setVisible(false);
+        dodajDrzavuBtn.setVisible(false);
+        
         List<Drzava> drzave = Klijent.getInstance().vratiSveDrzave();
 
         drzavaComboBox.addItem(null);
@@ -744,7 +753,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
     private javax.swing.JComboBox<Drzava> drzavaComboBox;
     private javax.swing.JLabel drzavaLabel;
     private javax.swing.JLabel drzavaZvezdica;
-    private javax.swing.JLabel drzavePitanjeBtn;
+    private javax.swing.JLabel drzavePitanjeLbl;
     private javax.swing.JTextField emailInput;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel greskaPotvrdaLabel;
