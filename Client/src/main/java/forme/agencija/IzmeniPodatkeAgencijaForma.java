@@ -1,10 +1,13 @@
 package forme.agencija;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import forme.drzava.DrzavaForma;
 import java.awt.Color;
+import java.awt.Window;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
@@ -378,7 +381,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
 
         jLabel5.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
         jLabel5.setText("Nema vaše države?");
-        infoPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 460, 190, 30));
+        infoPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 460, 190, 30));
 
         dodajDrzavuBtn.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
         dodajDrzavuBtn.setForeground(new java.awt.Color(255, 51, 51));
@@ -389,7 +392,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
                 dodajDrzavuBtnActionPerformed(evt);
             }
         });
-        infoPanel.add(dodajDrzavuBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 460, 60, 30));
+        infoPanel.add(dodajDrzavuBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 460, 60, 30));
 
         getContentPane().add(infoPanel);
 
@@ -551,7 +554,8 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
     }//GEN-LAST:event_obrisiNalogActionPerformed
 
     private void dodajDrzavuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajDrzavuBtnActionPerformed
-        // TODO add your handling code here:
+        Window window = SwingUtilities.windowForComponent(dodajDrzavuBtn);
+        DrzavaForma df = new DrzavaForma(window);
     }//GEN-LAST:event_dodajDrzavuBtnActionPerformed
 
     
