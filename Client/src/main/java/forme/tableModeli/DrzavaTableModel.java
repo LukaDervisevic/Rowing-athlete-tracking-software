@@ -14,6 +14,14 @@ public class DrzavaTableModel extends AbstractTableModel{
     List<Drzava> drzave = new LinkedList<>();
     String[] kolone = {"id","naziv"};
     
+    public DrzavaTableModel(){
+        
+    }
+    
+    public DrzavaTableModel(List<Drzava> drzave){
+        this.drzave = drzave;
+    }
+    
     @Override
     public int getRowCount() {
         return drzave.size();
@@ -43,5 +51,29 @@ public class DrzavaTableModel extends AbstractTableModel{
         return kolone[column];
     }
     
-  
+    public List<Drzava> getDrzave(){
+        return drzave;
+    }
+    
+    public void setDrzave(List<Drzava> drzave){
+        this.drzave = drzave;
+    }
+    
+    public void dodajDrzava(Drzava d) {
+        drzave.add(d);
+        int poslednjiIndex = drzave.size() - 1;
+        fireTableRowsInserted(poslednjiIndex, poslednjiIndex);
+    }
+    
+    public void obrisiVeslaca(int id){
+        drzave.removeIf(d -> {
+            if(d.getId() == id){
+                int index = drzave.indexOf(d);
+                fireTableRowsDeleted(index,index);
+                return true;
+            }
+            return false;
+        });
+    }
+    
 }

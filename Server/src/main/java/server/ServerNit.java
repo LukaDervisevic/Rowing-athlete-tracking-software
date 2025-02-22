@@ -4,6 +4,7 @@ import controller.Controller;
 import java.net.Socket;
 import java.util.List;
 import model.Agencija;
+import model.Drzava;
 import model.KlubTakmicenje;
 import model.Nalog;
 import model.PonudaVeslaca;
@@ -193,10 +194,12 @@ class ServerNit extends Thread {
                     
                 // DRZAVA
                 case Operacija.UBACIVANJE_DRZAVA:
-//                return Controller.getInstance().dodajDrzavu((Drzava) korisnikovZahtev.getParametar());
+                    objekat = Controller.getInstance().ubaciDrzavu((Drzava) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
 
                 case Operacija.BRISANJE_DRZAVA:
-//                return Controller.getInstance().obrisiDrzavu((Integer) korisnikovZahtev.getParametar());
+                    objekat = Controller.getInstance().obrisiDrzavu((Integer) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK,objekat);
                     
                 case Operacija.VRATI_SVE_DRZAVE:
                     objekat = Controller.getInstance().vratiSveDrzave();

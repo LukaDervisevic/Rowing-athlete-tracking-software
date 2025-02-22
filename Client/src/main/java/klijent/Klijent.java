@@ -578,6 +578,17 @@ public class Klijent {
         }
     }
     
+    public Drzava ubaciDrzavu(Drzava drzava) throws Exception{
+        Zahtev zahtev = new Zahtev(Operacija.UBACIVANJE_DRZAVA,drzava);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (Drzava) odgovor.getParametar();
+        }
+    }
     
     
 }
