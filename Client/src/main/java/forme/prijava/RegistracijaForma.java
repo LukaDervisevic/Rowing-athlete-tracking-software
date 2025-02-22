@@ -1,10 +1,14 @@
 package forme.prijava;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import forme.drzava.DrzavaForma;
 import java.awt.Color;
+import java.awt.Window;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
@@ -706,6 +710,11 @@ public class RegistracijaForma extends javax.swing.JDialog {
 
     private void dodajDrzavuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajDrzavuBtnActionPerformed
         // TODO add your handling code here:
+        Window window = SwingUtilities.windowForComponent(dodajDrzavuBtn);
+        DrzavaForma df = new DrzavaForma(window);
+        
+        
+        
     }//GEN-LAST:event_dodajDrzavuBtnActionPerformed
 
     private void inicijalnoRenderovanje() {
