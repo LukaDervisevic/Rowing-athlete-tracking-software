@@ -178,6 +178,17 @@ public class DrzavaForma extends javax.swing.JDialog {
 
     private void obrisiDrzavuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiDrzavuBtnActionPerformed
         // TODO add your handling code here:
+        if(drzavaTable.getSelectedRow() != -1){
+            try {
+                Integer idDrzave = Klijent.getInstance().obrisiDrzavu((Integer) drzavaTable.getValueAt(drzavaTable.getSelectedRow(), 0));
+                dtm.obrisiVeslaca(idDrzave);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,"Greška pri brisanju države","Greška", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(this,"Država nije selektovana za brisanje","Greška", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_obrisiDrzavuBtnActionPerformed
 
     private void drzavaInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_drzavaInputFocusGained

@@ -1603,6 +1603,7 @@ public class DBBroker {
         int brRedova = statement.executeUpdate();
         if (brRedova > 0) {
             connection.commit();
+            return drzavaId;
 
         } else {
             connection.rollback();

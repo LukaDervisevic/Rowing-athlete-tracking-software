@@ -590,5 +590,18 @@ public class Klijent {
         }
     }
     
+    public Integer obrisiDrzavu(Integer id) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_DRZAVA,id);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (Integer) odgovor.getParametar();
+        }
+    }
+    
     
 }
