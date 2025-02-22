@@ -1589,4 +1589,27 @@ public class DBBroker {
         return kreiranaDrzava;
     }
 
+    public Integer obrisiDrzavuDB(Integer drzavaId) throws Exception{
+        
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+                dotenv.get("MYSQL_USER"),
+                dotenv.get("MYSQL_PASS"));
+        connection.setAutoCommit(false);
+
+        String upit = "DELETE FROM `veslanje`.`drzava` WHERE id=?;";
+        PreparedStatement statement = connection.prepareStatement(upit);
+        statement.setInt(1, drzavaId);
+
+        int brRedova = statement.executeUpdate();
+        if (brRedova > 0) {
+            connection.commit();
+
+        } else {
+            connection.rollback();
+        }
+
+        return brRedova;
+        
+    }
+
 }

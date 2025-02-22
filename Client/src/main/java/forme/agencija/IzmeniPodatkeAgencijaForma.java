@@ -112,6 +112,8 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         greskaTelefonLabel = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         drzavaComboBox = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        dodajDrzavuBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registracija");
@@ -121,26 +123,26 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
 
         titlePanel.setBackground(new java.awt.Color(13, 146, 244));
 
-        titleLabel.setFont(new java.awt.Font("JetBrains Mono", 3, 48)); // NOI18N
-        titleLabel.setForeground(new java.awt.Color(255, 255, 255));
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setText("Izmenite podatke");
+        titleLabel.setFont(new java.awt.Font("JetBrains Mono", 3, 48)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(255, 255, 255));
 
+        izaberiteTipLabel.setText("Ažurirajte vaš nalog");
         izaberiteTipLabel.setFont(new java.awt.Font("JetBrains Mono", 3, 24)); // NOI18N
         izaberiteTipLabel.setForeground(new java.awt.Color(255, 255, 255));
-        izaberiteTipLabel.setText("Ažurirajte vaš nalog");
 
-        tipNalogaComboBox.setFont(new java.awt.Font("JetBrains Mono", 1, 24)); // NOI18N
         tipNalogaComboBox.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         tipNalogaComboBox.setEnabled(false);
+        tipNalogaComboBox.setFont(new java.awt.Font("JetBrains Mono", 1, 24)); // NOI18N
 
-        obrisiNalog.setBackground(new java.awt.Color(238, 236, 236));
-        obrisiNalog.setFont(new java.awt.Font("JetBrains Mono", 1, 19)); // NOI18N
-        obrisiNalog.setForeground(new java.awt.Color(255, 51, 51));
         obrisiNalog.setText("Obriši nalog");
-        obrisiNalog.setToolTipText("");
+        obrisiNalog.setBackground(new java.awt.Color(238, 236, 236));
         obrisiNalog.setBorder(null);
         obrisiNalog.setFocusPainted(false);
+        obrisiNalog.setFont(new java.awt.Font("JetBrains Mono", 1, 19)); // NOI18N
+        obrisiNalog.setForeground(new java.awt.Color(255, 51, 51));
+        obrisiNalog.setToolTipText("");
         obrisiNalog.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 obrisiNalogActionPerformed(evt);
@@ -363,16 +365,31 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         greskaSifraLabel.setText("Greška pri unosu šifre");
         infoPanel.add(greskaSifraLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 620, 250, -1));
 
+        greskaTelefonLabel.setText("Greška pri unosu telefona");
         greskaTelefonLabel.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
         greskaTelefonLabel.setForeground(new java.awt.Color(255, 51, 51));
-        greskaTelefonLabel.setText("Greška pri unosu telefona");
         infoPanel.add(greskaTelefonLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 230, 212, -1));
 
-        jLabel4.setFont(new java.awt.Font("JetBrains Mono", 2, 24)); // NOI18N
         jLabel4.setText("Promenite državu:");
+        jLabel4.setFont(new java.awt.Font("JetBrains Mono", 2, 24)); // NOI18N
         infoPanel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 420, -1, -1));
 
-        infoPanel.add(drzavaComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 420, 190, -1));
+        infoPanel.add(drzavaComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 422, 190, 30));
+
+        jLabel5.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
+        jLabel5.setText("Nema vaše države?");
+        infoPanel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 460, 190, 30));
+
+        dodajDrzavuBtn.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
+        dodajDrzavuBtn.setForeground(new java.awt.Color(255, 51, 51));
+        dodajDrzavuBtn.setText("Dodaj");
+        dodajDrzavuBtn.setBorder(null);
+        dodajDrzavuBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dodajDrzavuBtnActionPerformed(evt);
+            }
+        });
+        infoPanel.add(dodajDrzavuBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 460, 60, 30));
 
         getContentPane().add(infoPanel);
 
@@ -533,6 +550,10 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         
     }//GEN-LAST:event_obrisiNalogActionPerformed
 
+    private void dodajDrzavuBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajDrzavuBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dodajDrzavuBtnActionPerformed
+
     
     private void inicijalnoRenderovanje(){
         // Inicijalno sakriva poruke gresaka pri pokretanju forme
@@ -559,6 +580,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton dodajDrzavuBtn;
     private javax.swing.JComboBox<Drzava> drzavaComboBox;
     private javax.swing.JTextField emailInput;
     private javax.swing.JLabel emailLabel;
@@ -578,6 +600,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField korisnickoImeInput;
     private javax.swing.JLabel korisnickoImeLabel;
     private javax.swing.JTextField nazivInput;

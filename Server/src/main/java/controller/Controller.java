@@ -270,12 +270,12 @@ public class Controller {
         return dbb.pretraziAgencijuDB(nazivAgencije);
     }
     
-    public Drzava ubaciDrzavu(Drzava drzava){
+    public Drzava ubaciDrzavu(Drzava drzava) throws Exception{
         return dbb.ubaciDrzavuDB(drzava);
     }
     
-    
-    
-    
-    
+    public Integer obrisiDrzavu(Integer drzavaId) throws Exception {
+        return dbb.obrisiDrzavuDB(drzavaId);
+    }
+       
 }
