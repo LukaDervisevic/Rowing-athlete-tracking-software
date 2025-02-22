@@ -48,10 +48,10 @@ public class DrzavaForma extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        glavnaFormaTable1 = new forme.utils.GlavnaFormaTable();
+        drzavaTable = new forme.utils.GlavnaFormaTable();
         dodajDrzavuBtn = new javax.swing.JButton();
         obrisiDrzavuBtn = new javax.swing.JButton();
-        adresaInput = new javax.swing.JTextField();
+        drzavaInput = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout());
@@ -65,7 +65,7 @@ public class DrzavaForma extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("JetBrains Mono", 3, 18)); // NOI18N
         jLabel3.setText("Naziv države:");
 
-        glavnaFormaTable1.setModel(new javax.swing.table.DefaultTableModel(
+        drzavaTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -76,7 +76,7 @@ public class DrzavaForma extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(glavnaFormaTable1);
+        jScrollPane1.setViewportView(drzavaTable);
 
         dodajDrzavuBtn.setBackground(new java.awt.Color(13, 146, 244));
         dodajDrzavuBtn.setFont(new java.awt.Font("JetBrains Mono", 1, 19)); // NOI18N
@@ -98,16 +98,16 @@ public class DrzavaForma extends javax.swing.JDialog {
             }
         });
 
-        adresaInput.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
-        adresaInput.setForeground(new java.awt.Color(153, 153, 153));
-        adresaInput.setText("Unesite državu...");
-        adresaInput.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(153, 153, 153)));
-        adresaInput.addFocusListener(new java.awt.event.FocusAdapter() {
+        drzavaInput.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
+        drzavaInput.setForeground(new java.awt.Color(153, 153, 153));
+        drzavaInput.setText("Unesite državu...");
+        drzavaInput.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(153, 153, 153)));
+        drzavaInput.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                adresaInputFocusGained(evt);
+                drzavaInputFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                adresaInputFocusLost(evt);
+                drzavaInputFocusLost(evt);
             }
         });
 
@@ -123,7 +123,7 @@ public class DrzavaForma extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(adresaInput))
+                            .addComponent(drzavaInput))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addComponent(obrisiDrzavuBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -141,7 +141,7 @@ public class DrzavaForma extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(adresaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(drzavaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dodajDrzavuBtn)
@@ -164,18 +164,18 @@ public class DrzavaForma extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_obrisiDrzavuBtnActionPerformed
 
-    private void adresaInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adresaInputFocusGained
-        if (adresaInput.getText().equals("Unesite adresu...")) {
-            adresaInput.setText("");
+    private void drzavaInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_drzavaInputFocusGained
+        if (drzavaInput.getText().equals("Unesite državu...")) {
+            drzavaInput.setText("");
         }
-    }//GEN-LAST:event_adresaInputFocusGained
+    }//GEN-LAST:event_drzavaInputFocusGained
 
-    private void adresaInputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adresaInputFocusLost
+    private void drzavaInputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_drzavaInputFocusLost
         // TODO add your handling code here:
-        if (adresaInput.getText().isEmpty()) {
-            adresaInput.setText("Unesite adresu...");
+        if (drzavaInput.getText().isEmpty()) {
+            drzavaInput.setText("Unesite državu...");
         }
-    }//GEN-LAST:event_adresaInputFocusLost
+    }//GEN-LAST:event_drzavaInputFocusLost
 
     /**
      * @param args the command line arguments
@@ -220,9 +220,9 @@ public class DrzavaForma extends javax.swing.JDialog {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField adresaInput;
     private javax.swing.JButton dodajDrzavuBtn;
-    private forme.utils.GlavnaFormaTable glavnaFormaTable1;
+    private javax.swing.JTextField drzavaInput;
+    private forme.utils.GlavnaFormaTable drzavaTable;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;

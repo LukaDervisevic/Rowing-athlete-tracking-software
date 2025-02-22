@@ -1,0 +1,47 @@
+package forme.tableModeli;
+
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.table.AbstractTableModel;
+import model.Drzava;
+
+/**
+ *
+ * @author Luka
+ */
+public class DrzavaTableModel extends AbstractTableModel{
+    
+    List<Drzava> drzave = new LinkedList<>();
+    String[] kolone = {"id","naziv"};
+    
+    @Override
+    public int getRowCount() {
+        return drzave.size();
+    }
+
+    @Override
+    public int getColumnCount() {
+        return kolone.length;
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Drzava drzava = drzave.get(rowIndex);
+        switch (columnIndex) {
+            case 0:
+                return drzava.getId();
+            case 1:
+                return drzava.getNaziv();
+            default:
+                throw new AssertionError();
+        }
+        
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        return kolone[column];
+    }
+    
+  
+}
