@@ -106,13 +106,7 @@ public class Controller {
     }
 
     public VeslackiKlub kreirajVeslackiKlub(VeslackiKlub klub) throws Exception{
-        String uuid = EmailAutentikator.posaljiEmail(klub.getEmail());
-        VeslackiKlub kreiraniKlub =  dbb.kreirajVeslackiKlubUBazi(klub);
-        setUuid(uuid);
-        Controller.getInstance().setVremeKreiranjaNaloga(LocalDateTime.now());
-        PotvrdaNalogaServis servis = new PotvrdaNalogaServis(klub,uuid);
-        PozadinskiServis.proveraSifre(servis);
-        return kreiraniKlub;
+        return dbb.kreirajVeslackiKlubUBazi(klub);
     }
 
     public Veslac kreirajVeslaca(Veslac veslac) throws Exception {
@@ -152,14 +146,7 @@ public class Controller {
     }
 
     public Nalog kreirajAgenciju(Agencija agencija) throws Exception {
-        String uuid = EmailAutentikator.posaljiEmail(agencija.getEmail());
-        Agencija kreiranaAgencija =  dbb.kreirajAgencijuUBazi(agencija);
-        setUuid(uuid);
-        Controller.getInstance().setVremeKreiranjaNaloga(LocalDateTime.now());
-        PotvrdaNalogaServis servis = new PotvrdaNalogaServis(agencija,uuid);
-        PozadinskiServis.proveraSifre(servis);
-        return kreiranaAgencija;
-        
+        return dbb.kreirajAgencijuUBazi(agencija);
     }
 
     public Integer obrisiAgenciju(Integer id) throws Exception {

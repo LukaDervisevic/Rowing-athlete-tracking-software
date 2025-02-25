@@ -556,24 +556,37 @@ public class RegistracijaForma extends javax.swing.JDialog {
                 korisnickoImeInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
                 greska = true;
             }
-
-            if (!greska) {
+            
+            if(sifraInput.getText().isEmpty()){
+                sifraInput.setForeground(new Color(255, 51, 51));
+                sifraInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
+                greska = true;
+            }
+            
+            if(potvrdaSifreInput.getText().isEmpty()){
+                sifraInput.setForeground(new Color(255, 51, 51));
+                sifraInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
+                greska = true;
+            }
+                    
+            if (!greska && sifraInput.getText().equals(potvrdaSifreInput.getText())) {
 
                 String naziv = nazivInput.getText();
                 String adresa = adresaInput.getText();
                 String email = emailInput.getText();
                 String korisnickoIme = korisnickoImeInput.getText();
                 String telefon = (String) telefonComboBox.getSelectedItem() + telefonInput.getText();
+                String sifra = sifraInput.getText();
 
                 if (tipNalogaComboBox.getSelectedItem().equals(TipNaloga.VESLACKI_KLUB)) {
-                    VeslackiKlub kreiraniKlub = Klijent.getInstance().kreirajVeslackiKlub(new VeslackiKlub(0, naziv, adresa, email, telefon, korisnickoIme, null));
+                    VeslackiKlub kreiraniKlub = Klijent.getInstance().kreirajVeslackiKlub(new VeslackiKlub(0, naziv, adresa, email, telefon, korisnickoIme, sifra));
                     Klijent.getInstance().setUlogovaniNalog(kreiraniKlub);
                     JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 } else {
                     Drzava drzava = (Drzava) drzavaComboBox.getSelectedItem();
                     System.out.println(drzava);
-                    Agencija kreiranaAgencija = Klijent.getInstance().kreirajAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, null, drzava));
+                    Agencija kreiranaAgencija = Klijent.getInstance().kreirajAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, sifra, drzava));
                     Klijent.getInstance().setUlogovaniNalog(kreiranaAgencija);
                     JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
