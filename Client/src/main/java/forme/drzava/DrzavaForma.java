@@ -3,8 +3,6 @@ package forme.drzava;
 import forme.tableModeli.DrzavaTableModel;
 import java.awt.Window;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import klijent.Klijent;
@@ -18,9 +16,7 @@ public class DrzavaForma extends javax.swing.JDialog {
     
     private DrzavaTableModel dtm;
     List<Drzava> drzave;
-    /**
-     * Creates new form DrzavaForma
-     */
+    
     public DrzavaForma(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();

@@ -36,12 +36,13 @@ public class DrzavaTableModel extends AbstractTableModel{
     public Object getValueAt(int rowIndex, int columnIndex) {
         Drzava drzava = drzave.get(rowIndex);
         switch (columnIndex) {
-            case 0:
+            case 0 -> {
                 return drzava.getId();
-            case 1:
+            }
+            case 1 -> {
                 return drzava.getNaziv();
-            default:
-                throw new AssertionError();
+            }
+            default -> throw new AssertionError();
         }
         
     }

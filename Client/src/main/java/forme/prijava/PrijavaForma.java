@@ -11,13 +11,15 @@ import javax.swing.border.MatteBorder;
 import klijent.Klijent;
 import model.Nalog;
 import model.VeslackiKlub;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author luka
  */
 public class PrijavaForma extends javax.swing.JFrame {
-
+    private static final Logger logger = LogManager.getRootLogger();
     /**
      * Creates new form PrijavaFormav2
      */
@@ -26,11 +28,11 @@ public class PrijavaForma extends javax.swing.JFrame {
         try {
                 UIManager.setLookAndFeel(new FlatLightLaf());
             } catch (UnsupportedLookAndFeelException ex) {
-                ex.printStackTrace();
+                logger.error(ex.getMessage());
             }
         
         initComponents();
-        this.setLocationRelativeTo(this);
+        this.setLocationRelativeTo(null);
         setVisible(true);
         sifraGreskaLabel.setVisible(false);
     }
@@ -259,7 +261,7 @@ public class PrijavaForma extends javax.swing.JFrame {
             ulogovaniNalog = Klijent.getInstance().login(new Nalog(null,0,null,null,null,null,korisnickoImeInput.getText(), sifraKorisnikaInput.getText()));
             System.out.println(ulogovaniNalog);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
             sifraGreskaLabel.setText("Nalog nije pronadjen pokušajte ponovo");
             sifraGreskaLabel.setVisible(true);
         }
@@ -303,25 +305,22 @@ public class PrijavaForma extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PrijavaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PrijavaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PrijavaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PrijavaForma.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PrijavaForma().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new PrijavaForma().setVisible(true);
         });
     }
 

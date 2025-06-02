@@ -11,7 +11,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import klijent.Klijent;
 import model.KategorijaVeslaca;
 import model.Veslac;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -21,12 +22,14 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
     
     private Veslac veslac;
     
+    private static final Logger logger = LogManager.getRootLogger();
+    
     public IzmeniVeslacForma(java.awt.Frame parent, boolean modal,Veslac veslac) {
         super(parent, modal);
         initComponents();
         inicijalnoRenderovanje();
         
-        setLocationRelativeTo(this);
+        setLocationRelativeTo(null);
         
         this.veslac = veslac;
         
@@ -45,7 +48,7 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
         
         setVisible(true);

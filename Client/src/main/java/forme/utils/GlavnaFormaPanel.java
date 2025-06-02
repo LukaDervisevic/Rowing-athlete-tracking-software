@@ -8,7 +8,7 @@ import java.awt.geom.RoundRectangle2D;
 
 public class GlavnaFormaPanel extends javax.swing.JPanel {
     
-    private int ugaoIvice = 30;
+    private final int ugaoIvice = 30;
     
     public GlavnaFormaPanel() {
         initComponents();

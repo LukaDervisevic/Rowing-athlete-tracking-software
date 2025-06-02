@@ -38,23 +38,29 @@ public class PonudaTableModelAgencija extends AbstractTableModel {
         PonudaVeslaca ponuda = ponude.get(rowIndex);
         switch (columnIndex) {
             
-            case 0:
+            case 0 -> {
                 return ponuda.getId();
-            case 1:
+            }
+            case 1 -> {
                 return ponuda.getDatumKreiranja();
-            case 2:
+            }
+            case 2 -> {
                 return ponuda.getBrojKadeta();
-            case 3:
+            }
+            case 3 -> {
                 return ponuda.getBrojJuniora();
-            case 4:
+            }
+            case 4 -> {
                 return ponuda.getProsecnoVremeKadeti();
-            case 5:
+            }
+            case 5 -> {
                 return ponuda.getProsecnoVremeJuniori();
-            case 6:
+            }
+            case 6 -> {
                 return ponuda.getIdKluba();
+            }
 
-            default:
-                throw new AssertionError();
+            default -> throw new AssertionError();
         }
 
     }

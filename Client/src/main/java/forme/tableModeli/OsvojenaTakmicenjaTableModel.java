@@ -36,20 +36,25 @@ public class OsvojenaTakmicenjaTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         KlubTakmicenje kt = osvojenaTakmicenja.get(rowIndex);
         switch (columnIndex) {
-            case 0:
+            case 0 -> {
                 return kt.getTakmicenje().getId();
-            case 1:
+            }
+            case 1 -> {
                 return kt.getTakmicenje().getNaziv();
-            case 2:
+            }
+            case 2 -> {
                 return kt.getTakmicenje().getStarosnaKategorija();
-            case 3:
+            }
+            case 3 -> {
                 return kt.getTakmicenje().getVrstaTrke();
-            case 4:
+            }
+            case 4 -> {
                 return kt.getTakmicenje().getDatum();
-            case 5:
+            }
+            case 5 -> {
                 return kt.getMesto();
-            default:
-                throw new AssertionError();
+            }
+            default -> throw new AssertionError();
         }
     }
 

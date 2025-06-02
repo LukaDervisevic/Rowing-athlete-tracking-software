@@ -19,7 +19,8 @@ import operacije.Posiljalac;
 import operacije.Primalac;
 import operacije.StatusPoruke;
 import operacije.Zahtev;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  *
  * @author luka
@@ -42,6 +43,8 @@ public class Klijent {
     
     private Socket soket;
     
+    private static final Logger logger = LogManager.getRootLogger();
+    
     private Klijent(){
         try {
             soket = new Socket("localhost",9000);
@@ -49,7 +52,7 @@ public class Klijent {
             posiljalac = new Posiljalac(soket);
             
         } catch (IOException ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
     }
 

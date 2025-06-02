@@ -12,7 +12,7 @@ import model.Takmicenje;
 public class TakmicenjaTableModel extends AbstractTableModel{
     
     private List<Takmicenje> takmicenja; 
-    private String[] kolone = {"id","Naziv","Kategorija","Vrsta","Datum"};
+    private final String[] kolone = {"id","Naziv","Kategorija","Vrsta","Datum"};
     
     
     public TakmicenjaTableModel(){
@@ -39,18 +39,22 @@ public class TakmicenjaTableModel extends AbstractTableModel{
         Takmicenje takmicenje = takmicenja.get(rowIndex);
         
         switch (columnIndex) {
-            case 0:
+            case 0 -> {
                 return takmicenje.getId();
-            case 1:
+            }
+            case 1 -> {
                 return takmicenje.getNaziv();
-            case 2:
+            }
+            case 2 -> {
                 return takmicenje.getStarosnaKategorija();
-            case 3:
+            }
+            case 3 -> {
                 return takmicenje.getVrstaTrke();
-            case 4:
+            }
+            case 4 -> {
                 return takmicenje.getDatum();
-            default:
-                throw new AssertionError();
+            }
+            default -> throw new AssertionError();
         }
         
     }

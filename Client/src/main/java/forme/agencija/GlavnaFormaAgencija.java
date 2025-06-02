@@ -12,8 +12,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -23,6 +21,8 @@ import model.KlubTakmicenje;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
 import model.VeslackiKlub;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -36,6 +36,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
     private KlubTableModel ktm;
     private OsvojenaTakmicenjaTableModel ostm;
     private StavkaPonudeTableModel sptm;
+    private static final Logger logger = LogManager.getRootLogger();
 
     public GlavnaFormaAgencija() {
 
@@ -44,7 +45,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
             try {
                 UIManager.setLookAndFeel(new FlatLightLaf());
             } catch (UnsupportedLookAndFeelException ex) {
-                ex.printStackTrace();
+                logger.error(ex.getMessage());
             }
 
             initComponents();
@@ -104,7 +105,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                                         patm.setPonude(pretrazenePonude);
                                         patm.fireTableDataChanged();
                                     } catch (Exception ex) {
-                                        Logger.getLogger(GlavnaFormaAgencija.class.getName()).log(Level.SEVERE, null, ex);
+                                        logger.error(ex.getMessage());
                                     }
 
                                 }
@@ -124,7 +125,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                                         patvm.setPonude(pretrazenePonude);
                                         patvm.fireTableDataChanged();
                                     } catch (Exception ex) {
-                                        Logger.getLogger(GlavnaFormaAgencija.class.getName()).log(Level.SEVERE, null, ex);
+                                        logger.error(ex.getMessage());
                                     }
 
                                 }
@@ -133,7 +134,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                         }
 
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        logger.error(ex.getMessage());
                     }
 
                 }
@@ -141,7 +142,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
             });
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
 
         setVisible(true);
@@ -856,7 +857,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         }
         
         }catch(Exception ex){
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
         
         
@@ -882,7 +883,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         }
         
         }catch(Exception ex){
-            ex.printStackTrace();
+           logger.error(ex.getMessage());
         }
 
     }//GEN-LAST:event_prikaziStavkeButtonActionPerformed

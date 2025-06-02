@@ -38,18 +38,22 @@ public class KlubTableModel extends AbstractTableModel{
         VeslackiKlub klub = klubovi.get(rowIndex);
         
         switch (columnIndex) {
-            case 0:
+            case 0 -> {
                 return klub.getId();
-            case 1:
+            }
+            case 1 -> {
                 return klub.getNaziv();
-            case 2:
+            }
+            case 2 -> {
                 return klub.getAdresa();
-            case 3:
+            }
+            case 3 -> {
                 return klub.getEmail();
-            case 4:
+            }
+            case 4 -> {
                 return klub.getTelefon();
-            default:
-                throw new AssertionError();
+            }
+            default -> throw new AssertionError();
         }
         
     }

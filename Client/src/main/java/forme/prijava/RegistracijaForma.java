@@ -17,24 +17,27 @@ import model.Agencija;
 import model.TipNaloga;
 import model.Drzava;
 import model.VeslackiKlub;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RegistracijaForma extends javax.swing.JDialog {
-
+    private static final Logger logger = LogManager.getRootLogger();
+    
     public RegistracijaForma(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         
         try {
                 UIManager.setLookAndFeel(new FlatLightLaf());
             } catch (UnsupportedLookAndFeelException ex) {
-                ex.printStackTrace();
+                logger.error(ex.getMessage());
             }
         
         initComponents();
-        setLocationRelativeTo(this);
+        setLocationRelativeTo(null);
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
         inicijalnoRenderovanje();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -47,16 +50,16 @@ public class RegistracijaForma extends javax.swing.JDialog {
         try {
                 UIManager.setLookAndFeel(new FlatLightLaf());
             } catch (UnsupportedLookAndFeelException ex) {
-                ex.printStackTrace();
+                logger.error(ex.getMessage());
             }
         
         initComponents();
-        setLocationRelativeTo(this);
+        setLocationRelativeTo(null);
         inicijalnoRenderovanje();
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setVisible(true);
@@ -597,7 +600,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
             }
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
             JOptionPane.showMessageDialog(this, ex, "Greška", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -732,36 +735,35 @@ public class RegistracijaForma extends javax.swing.JDialog {
     private void inicijalnoRenderovanje() {
         
         try{
-        // Inicijalno sakriva poruke gresaka pri pokretanju forme
-        greskaTelefonLabel.setVisible(false);
-        greskaSifraLabel.setVisible(false);
-        greskaPotvrdaLabel.setVisible(false);
+            // Inicijalno sakriva poruke gresaka pri pokretanju forme
+            greskaTelefonLabel.setVisible(false);
+            greskaSifraLabel.setVisible(false);
+            greskaPotvrdaLabel.setVisible(false);
 
-        drzavaComboBox.setEditable(false);
-        drzavaComboBox.setEnabled(false);
-        drzavaLabel.setForeground(new Color(153, 153, 153));
-        drzavaZvezdica.setForeground(Color.WHITE);
-        
-        drzavePitanjeLbl.setVisible(false);
-        dodajDrzavuBtn.setVisible(false);
-        
-        List<Drzava> drzave = Klijent.getInstance().vratiSveDrzave();
+            drzavaComboBox.setEditable(false);
+            drzavaComboBox.setEnabled(false);
+            drzavaLabel.setForeground(new Color(153, 153, 153));
+            drzavaZvezdica.setForeground(Color.WHITE);
 
-        drzavaComboBox.addItem(null);
+            drzavePitanjeLbl.setVisible(false);
+            dodajDrzavuBtn.setVisible(false);
 
-        for (Drzava d : drzave) {
-            drzavaComboBox.addItem(d);
-        }
+            List<Drzava> drzave = Klijent.getInstance().vratiSveDrzave();
 
-        List<TipNaloga> tipoviNaloga = List.of(TipNaloga.VESLACKI_KLUB, TipNaloga.AGENCIJA_ZA_TALENTE);
+            drzavaComboBox.addItem(null);
 
-        for (TipNaloga tn : tipoviNaloga) {
-            tipNalogaComboBox.addItem(tn);
-        }
+            for (Drzava d : drzave) {
+                drzavaComboBox.addItem(d);
+            }
+
+            List<TipNaloga> tipoviNaloga = List.of(TipNaloga.VESLACKI_KLUB, TipNaloga.AGENCIJA_ZA_TALENTE);
+
+            for (TipNaloga tn : tipoviNaloga) {
+                tipNalogaComboBox.addItem(tn);
+            }
         
         }catch(Exception ex){
-            ex.printStackTrace();
-            
+            logger.error(ex.getMessage());
         }
 
     }

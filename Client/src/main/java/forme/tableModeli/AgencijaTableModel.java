@@ -38,18 +38,22 @@ public class AgencijaTableModel extends AbstractTableModel{
         Agencija agencija = agencije.get(rowIndex);
         
         switch (columnIndex) {
-            case 0:
+            case 0 -> {
                 return agencija.getId();
-            case 1:
+            }
+            case 1 -> {
                 return agencija.getNaziv();
-            case 2:
+            }
+            case 2 -> {
                 return agencija.getEmail();
-            case 3:
+            }
+            case 3 -> {
                 return agencija.getTelefon();
-            case 4:
+            }
+            case 4 -> {
                 return agencija.getDrzava().getNaziv();
-            default:
-                throw new AssertionError();
+            }
+            default -> throw new AssertionError();
         }
         
         

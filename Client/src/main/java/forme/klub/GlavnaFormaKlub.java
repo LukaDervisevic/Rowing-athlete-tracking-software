@@ -30,14 +30,14 @@ import java.awt.event.WindowEvent;
 import java.time.Period;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Agencija;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
 import forme.veslac.IzmeniVeslacForma;
+import java.awt.HeadlessException;
 import klijent.Klijent;
-import model.VeslackiKlub;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -60,13 +60,15 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private TakmicenjaTableModel ttm;
     private OsvojenaTakmicenjaTableModel ostm;
     private AgencijaTableModel atm;
+    
+    private static final Logger logger = LogManager.getRootLogger();
+
 
     public GlavnaFormaKlub() {
-        
         try {
                 UIManager.setLookAndFeel(new FlatLightLaf());
             } catch (UnsupportedLookAndFeelException ex) {
-                ex.printStackTrace();
+                logger.error(ex.getMessage());
             }
         
         initComponents();
@@ -170,7 +172,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                                         ptm.setPonude(ponude);
                                         ptm.fireTableDataChanged();
                                     } catch (Exception ex) {
-                                        ex.printStackTrace();
+                                        logger.error(ex.getMessage());
                                     }
 
                                 } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
@@ -195,18 +197,15 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                             }
                         }
                     } catch (Exception ex) {
-                        ex.printStackTrace();
+                        logger.error(ex.getMessage());
                     }
                 }
 
             });
-
             prebrojTakmicenja();
-
             
-
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
         
         
@@ -1871,7 +1870,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 }
 
             } catch (Exception ex) {
-                Logger.getLogger(GlavnaFormaKlub.class.getName()).log(Level.SEVERE, null, ex);
+                logger.error(ex.getMessage());
             }
 
         }
@@ -1899,7 +1898,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         }
         
         }catch(Exception ex){
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
 
     }//GEN-LAST:event_obrisiVeslacaButtonActionPerformed
@@ -1954,7 +1953,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                     veslaciTable.repaint();
                     veslaciTable.revalidate();
                     }catch(Exception ex){
-                        ex.printStackTrace();
+                        logger.error(ex.getMessage());
                     }
                 }
 
@@ -2066,15 +2065,15 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
-                ex.printStackTrace();
+                logger.error(ex.getMessage());
             }
 
         } else {
             JOptionPane.showMessageDialog(this, "Osvojeno takmičenje nije selektovano, selektujte takmičenje da bi ga obrisali", "Greška", JOptionPane.ERROR_MESSAGE);
         }
         
-        }catch(Exception ex){
-            ex.printStackTrace();
+        }catch(HeadlessException ex){
+            logger.error(ex.getMessage());
         }
 
     }//GEN-LAST:event_obrisiOsvojenoTakmicenjeButtonActionPerformed
@@ -2084,13 +2083,14 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
         if (ponudeTable.getSelectedRow() != -1) {
 
-            int idPonude = (int) ponudeTable.getValueAt(ponudeTable.getSelectedRow(), 0);
+            int idPonuda = (int) ponudeTable.getValueAt(ponudeTable.getSelectedRow(), 0);
             try {
-                Klijent.getInstance().obrisiPonudu(idPonude);
-                ptm.obrisiPonudu(idPonude);
+                Klijent.getInstance().obrisiPonudu(idPonuda);
+                ptm.obrisiPonudu(idPonuda);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, ex, "Greska", JOptionPane.ERROR_MESSAGE);
+                logger.error(ex.getMessage());
             }
 
         } else {
@@ -2151,8 +2151,8 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Stavka nije selektovana,selektujte stavku da bi obrisali stavku ponude", "Greska", JOptionPane.ERROR_MESSAGE);
         }
         
-        }catch(Exception ex){
-            ex.printStackTrace();
+        }catch(HeadlessException ex){
+            logger.error(ex.getMessage());
         }
         
     }//GEN-LAST:event_obrisiStavkuButtonActionPerformed
@@ -2207,7 +2207,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         }
         
         }catch(Exception ex){
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
         
     }//GEN-LAST:event_dodajStavkuButtonActionPerformed
@@ -2225,7 +2225,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                     veslaciKlubaPonuda.add(stavka.getVeslac());
                 }
 
-                StavkaPonudeTableModel sptm = (StavkaPonudeTableModel) stavkaPonudeTable.getModel();
+                sptm = (StavkaPonudeTableModel) stavkaPonudeTable.getModel();
                 sptm.clear();
 
             } catch (Exception ex) {
@@ -2249,7 +2249,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         bronzaLabel.setText(brMesta[2] + " osvojenih bronzi");
         
         }catch(Exception ex){
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
     }
 

@@ -38,24 +38,31 @@ public class StavkaPonudeTableModel extends AbstractTableModel{
         StavkaPonude stavka = stavkePonude.get(rowIndex);
         
         switch (columnIndex) {
-            case 0:
+            case 0 -> {
                 return stavka.getRb();
-            case 1:
+            }
+            case 1 -> {
                 return stavka.getVeslac().getIdVeslaca();
-            case 2:
+            }
+            case 2 -> {
                 return stavka.getVeslac().getImePrezime();
-            case 3:
+            }
+            case 3 -> {
                 return stavka.getGodineTreniranja();
-            case 4:
+            }
+            case 4 -> {
                 return stavka.getVeslac().getVisina();
-            case 5:
+            }
+            case 5 -> {
                 return stavka.getVeslac().getTezina();
-            case 6:
+            }
+            case 6 -> {
                 return stavka.getVeslac().getKategorija();
-            case 7:
+            }
+            case 7 -> {
                 return stavka.getVeslac().getNajboljeVreme();
-            default:
-                throw new AssertionError();
+            }
+            default -> throw new AssertionError();
         }
         
     }

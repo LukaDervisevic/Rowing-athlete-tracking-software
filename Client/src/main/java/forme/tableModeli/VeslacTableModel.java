@@ -42,26 +42,34 @@ public class VeslacTableModel extends AbstractTableModel{
         Veslac veslac = veslaci.get(rowIndex);
          
         switch (columnIndex) {
-            case 0:
+            case 0 -> {
                 return veslac.getIdVeslaca();
-            case 1:
+            }
+            case 1 -> {
                 return veslac.getImePrezime();
-            case 2:
+            }
+            case 2 -> {
                 return veslac.getDatumRodjenja();
-            case 3:
+            }
+            case 3 -> {
                 return veslac.getVisina();
-            case 4:
+            }
+            case 4 -> {
                 return veslac.getTezina();
-            case 5:
+            }
+            case 5 -> {
                 return veslac.getKategorija();
-            case 6:
+            }
+            case 6 -> {
                 return veslac.getBMI();
-            case 7:
+            }
+            case 7 -> {
                 return veslac.getNajboljeVreme();
-            case 8:
+            }
+            case 8 -> {
                 return veslac.getDatumUpisa();
-            default:
-                throw new AssertionError();
+            }
+            default -> throw new AssertionError();
         }
         
     }
@@ -76,23 +84,12 @@ public class VeslacTableModel extends AbstractTableModel{
         Veslac veslac = veslaci.get(rowIndex);
         System.out.println(aValue);
         switch (columnIndex) {
-            case 1:
-                veslac.setImePrezime((String) aValue);  
-                break;
-            case 3:
-                veslac.setVisina(Float.parseFloat((String) aValue));
-                break;
-            case 4:
-                veslac.setTezina(Float.parseFloat((String) aValue));
-                break;
-            case 5:
-                veslac.setKategorija(KategorijaVeslaca.valueOf((String) aValue));
-                break;
-            case 7:
-                veslac.setNajboljeVreme(Float.parseFloat((String) aValue));
-                break;
-            default:
-                throw new AssertionError();
+            case 1 -> veslac.setImePrezime((String) aValue);
+            case 3 -> veslac.setVisina(Float.parseFloat((String) aValue));
+            case 4 -> veslac.setTezina(Float.parseFloat((String) aValue));
+            case 5 -> veslac.setKategorija(KategorijaVeslaca.valueOf((String) aValue));
+            case 7 -> veslac.setNajboljeVreme(Float.parseFloat((String) aValue));
+            default -> throw new AssertionError();
         }
         if(!veslaciZaAzuriranje.contains(veslac)){
             veslaciZaAzuriranje.add(veslac);

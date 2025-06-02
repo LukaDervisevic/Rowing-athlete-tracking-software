@@ -15,13 +15,16 @@ import klijent.Klijent;
 import model.Agencija;
 import model.Drzava;
 import model.TipNaloga;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author luka
  */
 public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
-
+    private static final Logger logger = LogManager.getRootLogger();
+    
     public IzmeniPodatkeAgencijaForma(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         
@@ -34,7 +37,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         initComponents();
         inicijalnoRenderovanje();
         
-        setLocationRelativeTo(this);
+        setLocationRelativeTo(null);
         
         Agencija ulogovaniKlub = (Agencija) Klijent.getInstance().getUlogovaniNalog();
         nazivInput.setText(ulogovaniKlub.getNaziv());
@@ -47,7 +50,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
         
         setVisible(true);
@@ -61,7 +64,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         try {
                 UIManager.setLookAndFeel(new FlatLightLaf());
             } catch (UnsupportedLookAndFeelException ex) {
-                ex.printStackTrace();
+                logger.error(ex.getMessage());
             }
         
         initComponents();
@@ -547,7 +550,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         }
         
         }catch(Exception ex){
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
 
         
@@ -577,7 +580,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         greskaPotvrdaLabel.setVisible(false);
         
         }catch(Exception ex){
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
 
         
