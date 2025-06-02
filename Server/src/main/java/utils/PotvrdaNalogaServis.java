@@ -5,12 +5,15 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import model.Nalog;
 import model.TipNaloga;
+import org.apache.logging.log4j.LogManager;
 
 public class PotvrdaNalogaServis {
 
     private Nalog nalog;
 
     private String uuid;
+    
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getRootLogger();
 
     public PotvrdaNalogaServis(Nalog nalog, String uuid) {
         this.nalog = nalog;
@@ -58,8 +61,7 @@ public class PotvrdaNalogaServis {
 
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
-
+            logger.error(ex.getMessage());
         }
 
     }

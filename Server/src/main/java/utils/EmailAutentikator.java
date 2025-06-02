@@ -5,6 +5,8 @@ import java.util.Properties;
 import java.util.UUID;
 import javax.mail.*;
 import javax.mail.internet.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -12,7 +14,9 @@ import javax.mail.internet.*;
  */
 public class EmailAutentikator{
     
-    private static Dotenv dotenv = Dotenv.load();
+    private static final Dotenv dotenv = Dotenv.load();
+    
+    private static final Logger logger = LogManager.getRootLogger();
     
     public static String posaljiEmail(String emailPrimaoca){
         
@@ -60,7 +64,7 @@ public class EmailAutentikator{
             
         // TODO instalirati java activation framework da bi MIME radio
         }catch(MessagingException ex){
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
             return null;
         }
         

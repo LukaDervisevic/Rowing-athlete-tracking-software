@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import operacije.Zahtev;
+import org.apache.logging.log4j.LogManager;
 
 /**
  *
@@ -14,6 +15,8 @@ import operacije.Zahtev;
 public class ObradaKlijentskihZahteva extends Thread {
 
     private Socket s;
+    
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getRootLogger();
 
     public ObradaKlijentskihZahteva(Socket s) {
         this.s = s;
@@ -53,7 +56,7 @@ public class ObradaKlijentskihZahteva extends Thread {
             }
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
 
         return null;

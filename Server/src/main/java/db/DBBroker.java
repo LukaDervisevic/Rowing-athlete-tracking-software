@@ -16,10 +16,14 @@ import model.Nalog;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
 import model.Veslac;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DBBroker {
 
     private static DBBroker instance;
+    
+    private static final Logger logger = LogManager.getRootLogger();
 
     private Dotenv dotenv = Dotenv.load();
 

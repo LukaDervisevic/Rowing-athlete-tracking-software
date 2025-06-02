@@ -13,9 +13,7 @@ import model.StavkaPonude;
 import model.Takmicenje;
 import model.Veslac;
 import model.VeslackiKlub;
-import utils.EmailAutentikator;
-import utils.PotvrdaNalogaServis;
-import utils.PozadinskiServis;
+
 
 
 public class Controller {
