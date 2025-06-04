@@ -2,3 +2,4 @@
 /Client/target/
 /Server/target/
 /Server/.env
+/logs
