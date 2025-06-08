@@ -9,6 +9,7 @@ import model.Takmicenje;
 import model.VeslackiKlub;
 import model.VrstaTrke;
 import io.github.cdimascio.dotenv.Dotenv;
+import java.time.LocalDate;
 import model.Agencija;
 import model.Drzava;
 import model.KlubTakmicenje;
@@ -887,7 +888,7 @@ public class DBBroker {
                         + "VALUES (?,0,0,0,0,?,?)";
 
                 PreparedStatement ps = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
-                ps.setDate(1, new Date(ponuda.getDatumKreiranja().getTime()));
+                ps.setDate(1, Date.valueOf(LocalDate.now()));
                 ps.setInt(2, ponuda.getIdKluba());
                 ps.setInt(3, ponuda.getIdAgencije());
 
@@ -960,7 +961,7 @@ public class DBBroker {
 
                 connection.commit();
 
-                kreiranaPonuda = new PonudaVeslaca(idPonude, ponuda.getDatumKreiranja(), brojKadet, brojJuniora, prosecnoVremeKadeti, prosecnoVremeJuniori, ponuda.getStavke(), ponuda.getIdKluba(), ponuda.getIdAgencije());
+                kreiranaPonuda = new PonudaVeslaca(idPonude, new java.util.Date(), brojKadet, brojJuniora, prosecnoVremeKadeti, prosecnoVremeJuniori, ponuda.getStavke(), ponuda.getIdKluba(), ponuda.getIdAgencije());
 
             } catch (Exception ex) {
                 connection.rollback();
