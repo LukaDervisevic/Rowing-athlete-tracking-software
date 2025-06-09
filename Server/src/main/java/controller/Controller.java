@@ -204,6 +204,10 @@ public class Controller {
         return dbb.obrisiPonuduDB(idPonude);
     }
 
+    public PonudaVeslaca vratiPonuduPoId(int idPonude) throws Exception{
+        return dbb.vratiPonuduPoIdDB(idPonude);
+    }
+    
     public List<PonudaVeslaca> pretraziPonudu(PonudaVeslaca ponuda) {
         return dbb.pretraziPonuduKlubaDB(ponuda);
     }

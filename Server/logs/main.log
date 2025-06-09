@@ -1,3 +1,4 @@
 2025-06-08 19:54:56 [main] ERROR  - Address already in use: bind
 2025-06-08 20:11:51 [main] ERROR  - Address already in use: bind
 2025-06-08 20:18:47 [main] ERROR  - Address already in use: bind
+2025-06-09 20:27:59 [main] ERROR  (Server.java:44) - Address already in use: bind

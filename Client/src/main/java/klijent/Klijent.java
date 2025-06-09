@@ -605,6 +605,18 @@ public class Klijent {
             return (Integer) odgovor.getParametar();
         }
     }
+
+    public PonudaVeslaca vratiPonuduPoId(int idPonude) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_PONUDU_PO_ID,idPonude);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else {
+            return (PonudaVeslaca) odgovor.getParametar();
+        }
+    }
     
     
 }

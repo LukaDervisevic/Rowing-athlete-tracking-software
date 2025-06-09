@@ -19,6 +19,7 @@ import model.StavkaPonude;
 import model.Veslac;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import utils.HesiranjeServis;
 
 public class DBBroker {
 
@@ -26,7 +27,7 @@ public class DBBroker {
     
     private static final Logger logger = LogManager.getRootLogger();
 
-    private Dotenv dotenv = Dotenv.load();
+    private final Dotenv dotenv = Dotenv.load();
 
     private DBBroker() {
 
@@ -70,18 +71,17 @@ public class DBBroker {
     }
 
     public Nalog pretraziVeslackiKlubLogin(Nalog nalog) throws Exception {
-
+        
         VeslackiKlub klub = new VeslackiKlub();
 
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
                 dotenv.get("MYSQL_USER"),
                 dotenv.get("MYSQL_PASS"));
 
-        String upit = "SELECT * FROM `veslanje`.`veslacki_klub` WHERE korisnicko_ime=? AND sifra=?";
+        String upit = "SELECT * FROM `veslanje`.`veslacki_klub` WHERE korisnicko_ime=?";
         PreparedStatement statement = connection.prepareStatement(upit);
-
+                
         statement.setString(1, nalog.getKorisnicko_ime());
-        statement.setString(2, nalog.getSifra());
 
         ResultSet rs = statement.executeQuery();
 
@@ -93,9 +93,9 @@ public class DBBroker {
             klub.setTelefon(rs.getString("telefon"));
             klub.setKorisnickoIme(rs.getString("korisnicko_ime"));
             klub.setSifra(rs.getString("sifra"));
-
-            return klub;
-
+            
+            boolean sifraValidna = HesiranjeServis.proveriSifru(nalog.getSifra(), klub.getSifra());
+            if (sifraValidna) return klub;
         }
 
         return null;
@@ -105,8 +105,7 @@ public class DBBroker {
     public VeslackiKlub kreirajVeslackiKlubUBazi(VeslackiKlub klub) throws Exception {
 
         VeslackiKlub kreiraniKlub = null;
-
-        int brPromenjenihRedova = 0;
+        int brPromenjenihRedova;
 
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
                 dotenv.get("MYSQL_USER"),
@@ -115,6 +114,9 @@ public class DBBroker {
         String upit = "INSERT INTO `veslanje`.`veslacki_klub` (naziv,adresa,email,telefon,korisnicko_ime,sifra) VALUES(?,?,?,?,?,?);";
         PreparedStatement statement = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
 
+        // Hesiranje
+        klub.setSifra(HesiranjeServis.hesirajSifru(klub.getSifra()));
+        
         statement.setString(1, klub.getNaziv());
         statement.setString(2, klub.getAdresa());
         statement.setString(3, klub.getEmail());
@@ -130,7 +132,6 @@ public class DBBroker {
             if (generatedKeys.next()) {
                 kreiraniKlub = vratiVeslackiKlubPoIdDB(generatedKeys.getInt(1));
             }
-
         }
 
         return kreiraniKlub;
@@ -139,8 +140,8 @@ public class DBBroker {
 
     public Veslac kreirajVeslacaUBazi(Veslac veslac) throws Exception {
 
-        Veslac kreiranVeslac = null;
-        Connection connection = null;
+        Veslac kreiranVeslac;
+        Connection connection;
         int idVeslaca = 0;
 
         connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
@@ -1616,6 +1617,33 @@ public class DBBroker {
 
         return brRedova;
         
+    }
+
+    public PonudaVeslaca vratiPonuduPoIdDB(int idPonude) throws Exception {
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+                dotenv.get("MYSQL_USER"),
+                dotenv.get("MYSQL_PASS"));
+        
+        String upit = "SELECT * FROM `veslanje`.`ponuda_veslaca` WHERE id=?;";
+        PreparedStatement statement = connection.prepareStatement(upit);
+        statement.setInt(1, idPonude);
+        
+        ResultSet rs = statement.executeQuery();
+        
+        if(rs.next()){
+            PonudaVeslaca ponudaVeslaca = new PonudaVeslaca();
+            ponudaVeslaca.setId(rs.getInt("id"));
+            ponudaVeslaca.setDatumKreiranja(new java.util.Date(rs.getDate("datum_kreiranja").getTime()));
+            ponudaVeslaca.setBrojKadeta(rs.getInt("broj_kadeta"));
+            ponudaVeslaca.setBrojJuniora(rs.getInt("broj_juniora"));
+            ponudaVeslaca.setProsecnoVremeJuniori(rs.getInt("prosecno_vreme_junior"));
+            ponudaVeslaca.setProsecnoVremeKadeti(rs.getInt("prosecno_vreme_kadeti"));
+            ponudaVeslaca.setIdAgencije(rs.getInt("id_agencije"));
+            ponudaVeslaca.setIdKluba(rs.getInt("id_kluba"));
+            
+            return ponudaVeslaca;
+        }
+        throw new Exception("Neuspelo vracanje ponude sa datim id-om.");
     }
 
 }
