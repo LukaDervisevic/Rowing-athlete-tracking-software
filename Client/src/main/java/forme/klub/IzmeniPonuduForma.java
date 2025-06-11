@@ -28,7 +28,7 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
     private PonudaVeslaca ponudaVeslaca;
     private List<Veslac> veslaciVanPonude;
     private List<Veslac> obrisaniVeslaci;
-    private List<StavkaPonude> stavkePonude = new LinkedList<>();
+    private List<StavkaPonude> stavkePonude;
     private Queue<Integer> izbaceniRb = new LinkedList<>();
     
     private int rb;

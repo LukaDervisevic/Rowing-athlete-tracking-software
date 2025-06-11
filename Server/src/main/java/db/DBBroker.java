@@ -1641,6 +1641,22 @@ public class DBBroker {
             ponudaVeslaca.setIdAgencije(rs.getInt("id_agencije"));
             ponudaVeslaca.setIdKluba(rs.getInt("id_kluba"));
             
+            String stavkeUpit = "SELECT * FROM `veslanje`.`stavka_ponude` WHERE id_ponude=?;";
+            PreparedStatement stavkeStatement = connection.prepareStatement(stavkeUpit);
+            stavkeStatement.setInt(1, idPonude);
+            
+            ResultSet rsStavke = stavkeStatement.executeQuery();
+            List<StavkaPonude> stavkePonude = new LinkedList<>();
+            while(rsStavke.next()){
+                StavkaPonude stavka = new StavkaPonude();
+                stavka.setIdEvidencije(idPonude);
+                stavka.setRb(rsStavke.getInt("rb"));
+                stavka.setGodineTreniranja(rsStavke.getInt("godine_treniranja"));
+                stavka.setVeslac(vratiVeslacaPoId(rsStavke.getInt("id_veslaca")));
+                stavkePonude.add(stavka);
+                
+            }
+            ponudaVeslaca.setStavke(stavkePonude);
             return ponudaVeslaca;
         }
         throw new Exception("Neuspelo vracanje ponude sa datim id-om.");

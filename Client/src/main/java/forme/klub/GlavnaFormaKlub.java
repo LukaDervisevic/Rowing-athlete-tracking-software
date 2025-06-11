@@ -2259,9 +2259,9 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private void promeniPonuduButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_promeniPonuduButtonActionPerformed
         // TODO add your handling code here:
         if(ponudeTable.getSelectedRow() != -1) {
-            int idPonude = (int) ponudeTable.getValueAt(ponudeTable.getSelectedRow(), 0);
+            int idPonuda = (int) ponudeTable.getValueAt(ponudeTable.getSelectedRow(), 0);
             try {
-                PonudaVeslaca ponudaVeslaca = Klijent.getInstance().vratiPonuduPoId(idPonude);
+                PonudaVeslaca ponudaVeslaca = Klijent.getInstance().vratiPonuduPoId(idPonuda);
                 IzmeniPonuduForma ipf = new IzmeniPonuduForma(this, true, ponudaVeslaca);
                 ipf.setVisible(true);
                 
