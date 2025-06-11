@@ -1,6 +1,7 @@
 package forme.klub;
 
 import forme.tableModeli.AgencijaTableModel;
+import forme.tableModeli.PonudaTableModelKlub;
 import forme.tableModeli.StavkaPonudeTableModel;
 import forme.tableModeli.VeslacTableModel;
 import java.time.LocalDate;
@@ -27,14 +28,20 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
     private static final Logger logger = LogManager.getRootLogger();
     private PonudaVeslaca ponudaVeslaca;
     private List<Veslac> veslaciVanPonude;
-    private List<Veslac> obrisaniVeslaci;
+    private List<Veslac> obrisaniVeslaci = new LinkedList<>();
     private List<StavkaPonude> stavkePonude;
     private Queue<Integer> izbaceniRb = new LinkedList<>();
+    
+    private VeslacTableModel vptm;
+    private StavkaPonudeTableModel sptm;
+    private AgencijaTableModel atm;
     
     private int rb;
     
     public IzmeniPonuduForma(java.awt.Frame parent, boolean modal, PonudaVeslaca ponudaVeslaca) {
         super(parent, modal);
+        
+        setResizable(false);
         try {
             initComponents();
             this.ponudaVeslaca = ponudaVeslaca;
@@ -51,6 +58,11 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
             veslaciTable.setModel(new VeslacTableModel(veslaciVanPonude));
             stavkeTable.setModel(new StavkaPonudeTableModel(stavkePonude));
             agencijaTable.setModel(new AgencijaTableModel(Klijent.getInstance().vratiSveAgencije()));
+            
+            vptm = (VeslacTableModel) veslaciTable.getModel();
+            sptm = (StavkaPonudeTableModel) stavkeTable.getModel();
+            atm = (AgencijaTableModel) agencijaTable.getModel();
+            
             
             
         } catch (Exception ex) {
@@ -88,9 +100,9 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(221, 221, 221));
 
-        jLabel21.setFont(new java.awt.Font("JetBrains Mono", 3, 24)); // NOI18N
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slike/document(2).png"))); // NOI18N
         jLabel21.setText("Ažuriranje stavki u ponudu veslača");
+        jLabel21.setFont(new java.awt.Font("JetBrains Mono", 3, 24)); // NOI18N
 
         javax.swing.GroupLayout glavnaFormaPanel25Layout = new javax.swing.GroupLayout(glavnaFormaPanel25);
         glavnaFormaPanel25.setLayout(glavnaFormaPanel25Layout);
@@ -122,10 +134,10 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
         ));
         jScrollPane2.setViewportView(veslaciTable);
 
+        dodajStavkuButton.setText("Dodaj u stavke");
         dodajStavkuButton.setBackground(new java.awt.Color(14, 146, 244));
         dodajStavkuButton.setFont(new java.awt.Font("JetBrains Mono", 1, 18)); // NOI18N
         dodajStavkuButton.setForeground(new java.awt.Color(255, 255, 255));
-        dodajStavkuButton.setText("Dodaj u stavke");
         dodajStavkuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dodajStavkuButtonActionPerformed(evt);
@@ -165,10 +177,10 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(stavkeTable);
 
+        obrisiStavkuButton.setText("Obriši iz stavki");
         obrisiStavkuButton.setBackground(new java.awt.Color(14, 146, 244));
         obrisiStavkuButton.setFont(new java.awt.Font("JetBrains Mono", 1, 18)); // NOI18N
         obrisiStavkuButton.setForeground(new java.awt.Color(255, 255, 255));
-        obrisiStavkuButton.setText("Obriši iz stavki");
         obrisiStavkuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 obrisiStavkuButtonActionPerformed(evt);
@@ -208,10 +220,10 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
         ));
         jScrollPane3.setViewportView(agencijaTable);
 
+        dodajStavkuButton2.setText("Ažuriraj ponudu");
         dodajStavkuButton2.setBackground(new java.awt.Color(14, 146, 244));
         dodajStavkuButton2.setFont(new java.awt.Font("JetBrains Mono", 1, 18)); // NOI18N
         dodajStavkuButton2.setForeground(new java.awt.Color(255, 255, 255));
-        dodajStavkuButton2.setText("Ažuriraj ponudu");
         dodajStavkuButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dodajStavkuButton2ActionPerformed(evt);
@@ -336,6 +348,21 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
 
     private void obrisiStavkuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiStavkuButtonActionPerformed
         // TODO add your handling code here:
+        if(stavkeTable.getSelectedRow() != -1) {
+            int idPonude = (int) stavkeTable.getValueAt(stavkeTable.getSelectedRow(), 0);
+            int rb = (int) stavkeTable.getValueAt(stavkeTable.getSelectedRow(), 1);
+            sptm.obrisiStavku(idPonude, rb);
+            
+            Veslac veslac = stavkePonude.stream().filter(s -> s.getRb() == rb).findFirst().get().getVeslac();
+            System.out.println(veslac);
+            
+            obrisaniVeslaci.add(veslac);
+            veslaciVanPonude.add(veslac);
+            vptm.dodajVeslaca(veslac);
+            
+        }
+        
+        
     }//GEN-LAST:event_obrisiStavkuButtonActionPerformed
 
     private void dodajStavkuButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajStavkuButton2ActionPerformed

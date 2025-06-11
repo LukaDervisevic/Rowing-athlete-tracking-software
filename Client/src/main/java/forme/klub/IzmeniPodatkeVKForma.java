@@ -29,7 +29,7 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
         initComponents();
         inicijalnoRenderovanje();
         
-        setLocationRelativeTo(this);
+        setLocationRelativeTo(null);
         
         VeslackiKlub ulogovaniKlub = (VeslackiKlub) Klijent.getInstance().getUlogovaniNalog();
         System.out.println(ulogovaniKlub);
