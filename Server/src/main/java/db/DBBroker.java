@@ -16,6 +16,7 @@ import model.KlubTakmicenje;
 import model.Nalog;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
+import model.TipNaloga;
 import model.Veslac;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -1091,6 +1092,98 @@ public class DBBroker {
 
         return ponude;
 
+    }
+    
+    public PonudaVeslaca azurirajPonuduDB(PonudaVeslaca ponudaVeslaca) throws Exception{
+        Connection connection = null;
+
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+                    dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"));
+            connection.setAutoCommit(false);
+            
+            // Pronadji staru verziju ponude
+            PonudaVeslaca staraPonuda = vratiPonuduPoIdDB(ponudaVeslaca.getId());
+            // Brisanje starih kolona
+            List<StavkaPonude> stavkeZaBrisanje = new LinkedList<>();
+            for (StavkaPonude staraStavka : staraPonuda.getStavke()){
+                if (!ponudaVeslaca.getStavke().contains(staraStavka)){
+                    stavkeZaBrisanje.add(staraStavka);
+                }
+            }
+            // Dodavanje novih kolona
+            List<StavkaPonude> stavkeZaDodavanje = new LinkedList<>();
+            for (StavkaPonude novaStavka : ponudaVeslaca.getStavke()) {
+                if(!staraPonuda.getStavke().contains(novaStavka)){
+                    stavkeZaDodavanje.add(novaStavka);
+                }
+            }
+            
+            String upitBrisanje = "DELETE FROM `veslanje`.`stavka_ponude` WHERE id_ponude=? AND rb=?;";
+            PreparedStatement psBrisanje = connection.prepareStatement(upitBrisanje);
+            for (StavkaPonude obrisanaStavka : stavkeZaBrisanje){
+                psBrisanje.setInt(1,obrisanaStavka.getIdEvidencije());
+                psBrisanje.setInt(2, obrisanaStavka.getRb());
+                
+                
+                int azuriraniRedovi = psBrisanje.executeUpdate();
+                if (azuriraniRedovi == 0) {
+                    connection.rollback();
+                }
+            }
+            connection.commit();
+            
+            String upitDodavanje = "INSERT INTO `veslanje`.`stavka_ponude` (id_ponude,rb,godine_treniranja,id_veslaca) VALUES(?,?,?,?)";
+            PreparedStatement psDodavanje = connection.prepareStatement(upitDodavanje);
+            for (StavkaPonude dodataStavka : stavkeZaDodavanje) {
+                System.out.println(dodataStavka);
+                psDodavanje.setInt(1, ponudaVeslaca.getId());
+                psDodavanje.setInt(2, dodataStavka.getRb());
+                psDodavanje.setInt(3, dodataStavka.getGodineTreniranja());
+                psDodavanje.setInt(4, dodataStavka.getVeslac().getIdVeslaca());
+                
+                int azuriraniRedovi = psDodavanje.executeUpdate();
+                if( azuriraniRedovi == 0) {
+                    connection.rollback();
+                }
+            }
+            connection.commit();
+            
+            // Prebrojavanje novih veslaca
+            int brojJuniora = prebrojVeslace(ponudaVeslaca.getId(),"JUNIOR", ponudaVeslaca.getIdKluba(), ponudaVeslaca.getIdAgencije());
+            int brojKadeta = prebrojVeslace(ponudaVeslaca.getId(),"KADET", ponudaVeslaca.getIdKluba(), ponudaVeslaca.getIdAgencije());
+            
+            float prosecnoVremeJuniori = prosecnoVremeVeslaci(ponudaVeslaca.getId(),"JUNIOR", ponudaVeslaca.getIdKluba(), ponudaVeslaca.getIdAgencije());
+            float prosecnoVremeKadeti = prosecnoVremeVeslaci(ponudaVeslaca.getId(),"KADET", ponudaVeslaca.getIdKluba(), ponudaVeslaca.getIdAgencije());
+            
+            ponudaVeslaca.setBrojJuniora(brojJuniora);
+            ponudaVeslaca.setBrojKadeta(brojKadeta);
+            ponudaVeslaca.setProsecnoVremeJuniori(prosecnoVremeJuniori);
+            ponudaVeslaca.setProsecnoVremeKadeti(prosecnoVremeKadeti);
+            
+            String upitAzuriranje = "UPDATE `veslanje`.`ponuda_veslaca` SET broj_kadeta=?, broj_juniora=?, prosecno_vreme_junior=?, prosecno_vreme_kadeti=? WHERE id=?;";
+            PreparedStatement psAzuriranje = connection.prepareStatement(upitAzuriranje);
+            psAzuriranje.setInt(1, brojKadeta);
+            psAzuriranje.setInt(2, brojJuniora);
+            psAzuriranje.setFloat(3, prosecnoVremeJuniori);
+            psAzuriranje.setFloat(4, prosecnoVremeKadeti);
+            psAzuriranje.setInt(5, ponudaVeslaca.getId());
+            
+            int azuriraniRedovi = psAzuriranje.executeUpdate();
+            if(azuriraniRedovi == 0){
+                connection.rollback();
+            }
+            else connection.commit();
+            
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            connection.rollback();
+            throw new Exception(ex);
+        } finally {
+            connection.close();
+        }
+        return ponudaVeslaca;
     }
 
     public Integer obrisiPonuduDB(Integer idPonude) throws Exception {

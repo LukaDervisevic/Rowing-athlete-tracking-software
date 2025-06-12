@@ -83,10 +83,6 @@ public class Controller {
         this.dbb = dbb;
     }
     
-    
-    
-    
-    
     public Nalog login(Nalog nalog) throws Exception{
         
         Nalog ulogovaniNalog = dbb.pretraziVeslackiKlubLogin(nalog);
@@ -206,6 +202,10 @@ public class Controller {
 
     public PonudaVeslaca vratiPonuduPoId(int idPonude) throws Exception{
         return dbb.vratiPonuduPoIdDB(idPonude);
+    }
+    
+    public PonudaVeslaca azurirajPonudu(PonudaVeslaca ponudaVeslaca) throws Exception {
+        return dbb.azurirajPonuduDB(ponudaVeslaca);
     }
     
     public List<PonudaVeslaca> pretraziPonudu(PonudaVeslaca ponuda) {

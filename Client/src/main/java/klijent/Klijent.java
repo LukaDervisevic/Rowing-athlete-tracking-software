@@ -387,6 +387,20 @@ public class Klijent {
             return (Integer) odgovor.getParametar();
         }
     }
+    
+    public PonudaVeslaca promeniPonudu(PonudaVeslaca ponudaVeslaca) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.PROMENA_PONUDE, ponudaVeslaca);
+        posiljalac.posaljiPoruku(zahtev);
+        
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        
+        if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
+            throw new Exception((Throwable) odgovor.getParametar());
+        }else{
+            return (PonudaVeslaca) odgovor.getParametar();
+        }
+        
+    }
 
     public Veslac vratiVeslacaPoId(int idVeslaca) throws Exception {
         Zahtev zahtev = new Zahtev(Operacija.VRATI_VESLACA_PO_ID,idVeslaca);

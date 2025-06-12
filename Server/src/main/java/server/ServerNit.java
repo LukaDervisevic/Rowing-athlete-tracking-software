@@ -210,6 +210,11 @@ class ServerNit extends Thread {
                     objekat = Controller.getInstance().vratiPonuduPoId((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
+                
+                case Operacija.PROMENA_PONUDE -> {
+                    objekat = Controller.getInstance().azurirajPonudu((PonudaVeslaca) korisnikovZahtev.getParametar());
+                    return new Odgovor(StatusPoruke.OK, objekat);
+                }
 
                 case Operacija.VRATI_SVE_STAVKE_PONUDE -> {
                     objekat = Controller.getInstance().vratiSveStavkePonude((Integer) korisnikovZahtev.getParametar());

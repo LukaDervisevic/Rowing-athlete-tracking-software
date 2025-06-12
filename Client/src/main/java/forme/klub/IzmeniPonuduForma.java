@@ -1,7 +1,6 @@
 package forme.klub;
 
 import forme.tableModeli.AgencijaTableModel;
-import forme.tableModeli.PonudaTableModelKlub;
 import forme.tableModeli.StavkaPonudeTableModel;
 import forme.tableModeli.VeslacTableModel;
 import java.time.LocalDate;
@@ -10,7 +9,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 import javax.swing.JOptionPane;
 import klijent.Klijent;
@@ -29,8 +27,8 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
     private static final Logger logger = LogManager.getRootLogger();
     private PonudaVeslaca ponudaVeslaca;
     private List<Veslac> veslaciVanPonude;
-    private List<Veslac> obrisaniVeslaci = new LinkedList<>();
-    private List<Veslac> dodatiVeslaci = new LinkedList<>();
+    private List<StavkaPonude> obrisaneStavke = new LinkedList<>();
+    private List<StavkaPonude> dodateStavke = new LinkedList<>();
     private List<StavkaPonude> stavkePonude;
     private Stack<Integer> izbaceniRb = new Stack<>();
     
@@ -316,14 +314,12 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
                     s.setRb(++rb);
                 } else {
                     rb = izbaceniRb.pop();
-                    s.setRb(rb);
-                    
+                    s.setRb(rb);             
                 }
                 
-                
                 sptm.dodajStavku(s);
-                obrisaniVeslaci.remove(s.getVeslac());
-                dodatiVeslaci.add(s.getVeslac());
+                dodateStavke.add(s);
+                obrisaneStavke.remove(s);
                 vptm.obrisiVeslaca(s.getVeslac().getIdVeslaca());
                                 
 
@@ -342,18 +338,36 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
         if(stavkeTable.getSelectedRow() != -1) {
             int rba = (int) stavkeTable.getValueAt(stavkeTable.getSelectedRow(), 0);
             izbaceniRb.add(rba);
-            Veslac veslac = stavkePonude.stream().filter(s -> s.getRb() == rba).findFirst().get().getVeslac();
+            StavkaPonude stavka = stavkePonude.stream().filter(s -> s.getRb() == rba).findFirst().get();
+            Veslac veslac = stavka.getVeslac();
             
             vptm.dodajVeslaca(veslac);
             sptm.obrisiStavku(rba);
-
-            obrisaniVeslaci.add(veslac);
-            dodatiVeslaci.remove(veslac);
+            
+            obrisaneStavke.add(stavka);
+            dodateStavke.remove(stavka);
         } 
     }//GEN-LAST:event_obrisiStavkuButtonActionPerformed
 
     private void dodajStavkuButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajStavkuButton2ActionPerformed
         // TODO add your handling code here:
+        try {
+            if(obrisaneStavke.isEmpty() && dodateStavke.isEmpty()){
+                return;
+            }
+
+            for(StavkaPonude obrisanaStavka : obrisaneStavke){
+                ponudaVeslaca.getStavke().remove(obrisanaStavka);
+            }
+
+            for(StavkaPonude dodataStavka : dodateStavke){
+                ponudaVeslaca.getStavke().add(dodataStavka);
+        }
+            PonudaVeslaca azuriranaPonuda = Klijent.getInstance().promeniPonudu(ponudaVeslaca);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex,"Greska pri azuriranju ponude veslaca", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_dodajStavkuButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
