@@ -85,9 +85,9 @@ public class StavkaPonudeTableModel extends AbstractTableModel{
         this.stavkePonude = stavkePonude;
     }
     
-    public void obrisiStavku(int idPonude, int rb) {
+    public void obrisiStavku(int rb) {
         stavkePonude.removeIf(s -> {
-            if(s.getIdEvidencije() == idPonude && s.getRb() == rb){
+            if(s.getRb() == rb){
                 int index = stavkePonude.indexOf(s);
                 fireTableRowsDeleted(index, index);
                 return true;
@@ -96,5 +96,10 @@ public class StavkaPonudeTableModel extends AbstractTableModel{
         });
     }
     
+    public void dodajStavku(StavkaPonude stavka) {
+        stavkePonude.add(stavka);
+        int index = stavkePonude.size() - 1;
+        fireTableRowsInserted(index, index);
+    }
     
 }

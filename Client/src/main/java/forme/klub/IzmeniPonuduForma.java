@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 import javax.swing.JOptionPane;
 import klijent.Klijent;
 import model.PonudaVeslaca;
@@ -29,8 +30,9 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
     private PonudaVeslaca ponudaVeslaca;
     private List<Veslac> veslaciVanPonude;
     private List<Veslac> obrisaniVeslaci = new LinkedList<>();
+    private List<Veslac> dodatiVeslaci = new LinkedList<>();
     private List<StavkaPonude> stavkePonude;
-    private Queue<Integer> izbaceniRb = new LinkedList<>();
+    private Stack<Integer> izbaceniRb = new Stack<>();
     
     private VeslacTableModel vptm;
     private StavkaPonudeTableModel sptm;
@@ -298,8 +300,8 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
             if (veslaciTable.getSelectedRow() != -1) {
                 int idVeslaca = (int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 0);
                 StavkaPonude s = new StavkaPonude();
-
-                Veslac izabraniVeslac = Klijent.getInstance().vratiVeslacaPoId(idVeslaca);
+                
+                Veslac izabraniVeslac = veslaciVanPonude.stream().filter(v -> v.getIdVeslaca() == idVeslaca).findFirst().get();
                 s.setVeslac(izabraniVeslac);
                 Date datumUpisa = izabraniVeslac.getDatumUpisa();
                 LocalDate datumUpisaLD = datumUpisa.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -313,28 +315,17 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
                 if (izbaceniRb.isEmpty()) {
                     s.setRb(++rb);
                 } else {
-                    s.setRb(izbaceniRb.remove());
+                    rb = izbaceniRb.pop();
+                    s.setRb(rb);
+                    
                 }
-
-                stavkePonude.add(s);
-
-                veslaciVanPonude.removeIf(veslac -> {
-                    if (veslac.equals(s.getVeslac())) {
-                        obrisaniVeslaci.add(veslac);
-                        return true;
-                    } else {
-                        return false;
-                    }
-
-                });
-                // Isto, ako bude moralo
-                veslaciTable.setModel(new VeslacTableModel((LinkedList<Veslac>) veslaciVanPonude));
-                veslaciTable.repaint();
-                veslaciTable.revalidate();
-
-                stavkeTable.setModel(new StavkaPonudeTableModel(stavkePonude));
-                stavkeTable.repaint();
-                stavkeTable.revalidate();
+                
+                
+                sptm.dodajStavku(s);
+                obrisaniVeslaci.remove(s.getVeslac());
+                dodatiVeslaci.add(s.getVeslac());
+                vptm.obrisiVeslaca(s.getVeslac().getIdVeslaca());
+                                
 
             } else {
                 JOptionPane.showMessageDialog(this, "Veslac nije selektovan,selektujte veslaca da bi kreirali stavku ponude", "Greska", JOptionPane.ERROR_MESSAGE);
@@ -349,20 +340,16 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
     private void obrisiStavkuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiStavkuButtonActionPerformed
         // TODO add your handling code here:
         if(stavkeTable.getSelectedRow() != -1) {
-            int idPonude = (int) stavkeTable.getValueAt(stavkeTable.getSelectedRow(), 0);
-            int rb = (int) stavkeTable.getValueAt(stavkeTable.getSelectedRow(), 1);
-            sptm.obrisiStavku(idPonude, rb);
+            int rba = (int) stavkeTable.getValueAt(stavkeTable.getSelectedRow(), 0);
+            izbaceniRb.add(rba);
+            Veslac veslac = stavkePonude.stream().filter(s -> s.getRb() == rba).findFirst().get().getVeslac();
             
-            Veslac veslac = stavkePonude.stream().filter(s -> s.getRb() == rb).findFirst().get().getVeslac();
-            System.out.println(veslac);
-            
-            obrisaniVeslaci.add(veslac);
-            veslaciVanPonude.add(veslac);
             vptm.dodajVeslaca(veslac);
-            
-        }
-        
-        
+            sptm.obrisiStavku(rba);
+
+            obrisaniVeslaci.add(veslac);
+            dodatiVeslaci.remove(veslac);
+        } 
     }//GEN-LAST:event_obrisiStavkuButtonActionPerformed
 
     private void dodajStavkuButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajStavkuButton2ActionPerformed

@@ -16,7 +16,7 @@ public class VeslacTableModel extends AbstractTableModel{
     
     String[] kolone = {"Id","Ime Prezime","Datum Rodjenja","Visina","Tezina","Kategorija","BMI","Najbolje vreme","Datum Upisa"};
     
-    List<Veslac> veslaciZaAzuriranje = new LinkedList<>();
+    LinkedList<Veslac> veslaciZaAzuriranje = new LinkedList<>();
     
     public VeslacTableModel(){
         this.veslaci = new LinkedList<>();
