@@ -352,20 +352,12 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
     private void dodajStavkuButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajStavkuButton2ActionPerformed
         // TODO add your handling code here:
         try {
-            if(obrisaneStavke.isEmpty() && dodateStavke.isEmpty()){
-                return;
-            }
-
-//            for(StavkaPonude obrisanaStavka : obrisaneStavke){
-//                ponudaVeslaca.getStavke().remove(obrisanaStavka);
-//            }
-//
-//            for(StavkaPonude dodataStavka : dodateStavke){
-//                ponudaVeslaca.getStavke().add(dodataStavka);
-        
+            if(obrisaneStavke.isEmpty() && dodateStavke.isEmpty()) return;         
+            
             PonudaVeslaca azuriranaPonuda = Klijent.getInstance().promeniPonudu(ponudaVeslaca);
             JOptionPane.showMessageDialog(this, "Uspesno kreiranje ponude veslaca","Uspeh",JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex,"Greska pri azuriranju ponude veslaca", JOptionPane.ERROR_MESSAGE);
         }

@@ -52,6 +52,12 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private List<Veslac> obrisaniVeslaci = new LinkedList<>();
     private Queue<Integer> izbaceniRb = new LinkedList<>();
     private List<Veslac> veslaciKlubaPonuda;
+    
+    private List<Veslac> veslaciKluba = new LinkedList<>();
+    private List<Takmicenje> takmicenja = new LinkedList<>();
+    private List<KlubTakmicenje> osvojenaTakmicenja = new LinkedList<>();
+    private List<Agencija> agencije = new LinkedList<>();
+    private List<PonudaVeslaca> ponudeVeslaca = new LinkedList<>();
 
     private PonudaTableModelKlub ptm;
     private StavkaPonudeTableModel sptm;
@@ -72,41 +78,20 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             }
         
         initComponents();
-
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
         setSize(screenSize);
+        
         try {
             
             idKluba = Klijent.getInstance().getUlogovaniNalog().getId();
             idPonude = Klijent.getInstance().vratiPoslednjiIdPonude() + 1;
             rb = 0;
 
-            // Inicijalno prikupljanje objekata
-            List<Veslac> veslaci = Klijent.getInstance().vratiSveVeslace(idKluba);
-            veslaciKlubaPonuda = Klijent.getInstance().vratiSveVeslace(idKluba);
-            List<Takmicenje> takmicenja = Klijent.getInstance().vratiSvaTakmicenja();
-            List<KlubTakmicenje> osvojenaTakmicenja = Klijent.getInstance().vratiTakmicenjaKluba(idKluba);
-            List<PonudaVeslaca> ponudeVeslaca = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
-            List<Agencija> agencije = Klijent.getInstance().vratiSveAgencije();
-
-            // Dodeljivanje TableModela tabelama
+            // Inicijalno prikupljanje objekata ponude veslaca
+            ponudeVeslaca = Klijent.getInstance().vratiSvePonudeKluba(idKluba);
             ponudeTable.setModel(new PonudaTableModelKlub(ponudeVeslaca));
-            veslaciTable.setModel(new VeslacTableModel(veslaci));
-            takmicenjaTable.setModel(new TakmicenjaTableModel(takmicenja));
-            osvojenaTakmicenjaTable.setModel(new OsvojenaTakmicenjaTableModel(osvojenaTakmicenja));
-            veslaciPonudaTable.setModel(new VeslacTableModel((LinkedList<Veslac>) veslaciKlubaPonuda));
-            stavkaPonudeTable.setModel(new StavkaPonudeTableModel(stavkePonude));
-            agencijeTable.setModel(new AgencijaTableModel(agencije));
-
-            // Izvdajanje table modela
             ptm = (PonudaTableModelKlub) ponudeTable.getModel();
-            vtm = (VeslacTableModel) veslaciTable.getModel();
-            ttm = (TakmicenjaTableModel) takmicenjaTable.getModel();
-            ostm = (OsvojenaTakmicenjaTableModel) osvojenaTakmicenjaTable.getModel();
-            vptm = (VeslacTableModel) veslaciPonudaTable.getModel();
-            sptm = (StavkaPonudeTableModel) stavkaPonudeTable.getModel();
-            atm = (AgencijaTableModel) agencijeTable.getModel();
+
 
             mestoComboBox.addItem(1);
             mestoComboBox.addItem(2);
@@ -1737,6 +1722,42 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         cardPanel.add(kreirajPonuduPanel);
         cardPanel.repaint();
         cardPanel.revalidate();
+        // Ucitavanje veslaca za ponudu
+        try {
+            veslaciKlubaPonuda = Klijent.getInstance().vratiSveVeslace(idKluba);
+            if(!(veslaciPonudaTable.getModel() instanceof VeslacTableModel)){
+                veslaciPonudaTable.setModel(new VeslacTableModel((LinkedList<Veslac>) veslaciKlubaPonuda));
+            }
+            if(vptm == null) {
+                vptm = (VeslacTableModel) veslaciPonudaTable.getModel();
+            }
+        } catch (Exception ex) {
+            logger.error("Neuspesno ucitavanje veslaca za kreiranje ponude");
+
+        }
+        // Ucitavanje tabele stavki
+        if(!(stavkaPonudeTable.getModel() instanceof StavkaPonudeTableModel)){
+            stavkaPonudeTable.setModel(new StavkaPonudeTableModel(stavkePonude));
+        }
+        if(sptm == null) {
+            sptm = (StavkaPonudeTableModel) stavkaPonudeTable.getModel();
+        }
+        
+        // Ucitavanje agencija
+        try {
+            agencije = Klijent.getInstance().vratiSveAgencije();
+            if(!(agencijeTable.getModel() instanceof AgencijaTableModel)){
+                agencijeTable.setModel(new AgencijaTableModel(agencije));
+            }
+            if(atm == null){
+                atm = (AgencijaTableModel) agencijeTable.getModel();
+            }
+
+        } catch (Exception ex) {
+            logger.error("Neuspesno ucitavanje agencija za kreiranje ponude");
+        }
+        
+
     }//GEN-LAST:event_ponudaButtonActionPerformed
 
     private void kontrolnaTablaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kontrolnaTablaButtonActionPerformed
@@ -1746,6 +1767,8 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         cardPanel.add(kontrolnaTablaPanel);
         cardPanel.repaint();
         cardPanel.revalidate();
+        
+        // Ucitavanje potrebnih objekata
 
     }//GEN-LAST:event_kontrolnaTablaButtonActionPerformed
 
@@ -1756,6 +1779,30 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         cardPanel.add(takmicenjaPanel);
         cardPanel.repaint();
         cardPanel.revalidate();
+        
+        try {
+            // Ucitavanje potrebnih objekata
+            takmicenja = Klijent.getInstance().vratiSvaTakmicenja();
+            if(!(takmicenjaTable.getModel() instanceof TakmicenjaTableModel)){
+                takmicenjaTable.setModel(new TakmicenjaTableModel(takmicenja));
+            }
+            if(ttm == null) {
+                ttm = (TakmicenjaTableModel) takmicenjaTable.getModel();
+            } 
+            
+            osvojenaTakmicenja = Klijent.getInstance().vratiTakmicenjaKluba(idKluba);
+            if(!(osvojenaTakmicenjaTable.getModel() instanceof OsvojenaTakmicenjaTableModel)){
+                osvojenaTakmicenjaTable.setModel(new OsvojenaTakmicenjaTableModel(osvojenaTakmicenja));
+            }
+            if(ostm == null) {
+                ostm = (OsvojenaTakmicenjaTableModel) osvojenaTakmicenjaTable.getModel();
+            }
+            
+        } catch (Exception ex) {
+            logger.error("Neuspesno ucitavanje takmicenja i osvojenih takmicenja");
+        }
+        
+
     }//GEN-LAST:event_takmicenjaButtonActionPerformed
 
     private void evidentirajButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_evidentirajButtonActionPerformed
@@ -1765,6 +1812,20 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         cardPanel.add(veslacPanel);
         cardPanel.repaint();
         cardPanel.revalidate();
+        
+        try {
+            veslaciKluba = Klijent.getInstance().vratiSveVeslace(idKluba);
+            if(!(veslaciTable.getModel() instanceof VeslacTableModel)){
+                veslaciTable.setModel(new VeslacTableModel(veslaciKluba));
+            }
+            
+            if(vtm == null) {
+                 vtm = (VeslacTableModel) veslaciTable.getModel();
+            }
+        } catch (Exception ex) {
+            logger.error("Neuspesno ucitavanje veslaca kluba");
+        }
+        
     }//GEN-LAST:event_evidentirajButtonActionPerformed
 
     private void imePrezimeInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_imePrezimeInputFocusGained
