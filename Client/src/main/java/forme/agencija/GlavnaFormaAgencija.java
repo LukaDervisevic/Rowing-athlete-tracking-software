@@ -11,6 +11,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -31,17 +32,20 @@ import org.apache.logging.log4j.Logger;
 public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
     private int idAgencije;
+    
+    private List<PonudaVeslaca> ponudeAgencije = new LinkedList<>();
+    private List<VeslackiKlub> klubovi = new LinkedList<>();
+    
     private PonudaTableModelAgencija patm;
     private PonudaTableModelAgencija patvm;
     private KlubTableModel ktm;
     private OsvojenaTakmicenjaTableModel ostm;
     private StavkaPonudeTableModel sptm;
+    
     private static final Logger logger = LogManager.getRootLogger();
 
     public GlavnaFormaAgencija() {
-
         try {
-            
             try {
                 UIManager.setLookAndFeel(new FlatLightLaf());
             } catch (UnsupportedLookAndFeelException ex) {
@@ -49,29 +53,15 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
             }
 
             initComponents();
-
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             setSize(screenSize);
 
             idAgencije = Klijent.getInstance().getUlogovaniNalog().getId();
-
-            List<PonudaVeslaca> ponudeAgencije = Klijent.getInstance().vratiSvePonudeAgencije(idAgencije);
-            List<VeslackiKlub> klubovi = Klijent.getInstance().vratiSveKlubove();
-
+            ponudeAgencije = Klijent.getInstance().vratiSvePonudeAgencije(idAgencije);
             ponudeTable.setModel(new PonudaTableModelAgencija(ponudeAgencije));
-            veslackiKluboviTable.setModel(new KlubTableModel(klubovi));
-            ponudeVeslacaTable.setModel(new PonudaTableModelAgencija(ponudeAgencije));
-            stavkePonudeTable.setModel(new StavkaPonudeTableModel());
-            osvojenaTakmicenjaTable.setModel(new OsvojenaTakmicenjaTableModel());
-
             patm = (PonudaTableModelAgencija) ponudeTable.getModel();
-            ktm = (KlubTableModel) veslackiKluboviTable.getModel();
-            patvm = (PonudaTableModelAgencija) ponudeVeslacaTable.getModel();
-            ostm = (OsvojenaTakmicenjaTableModel) osvojenaTakmicenjaTable.getModel();
-            sptm = (StavkaPonudeTableModel) stavkePonudeTable.getModel();
-
+            
             nalogLabel.setText(Klijent.getInstance().getUlogovaniNalog().getNaziv());
-
             pretraziInput.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
@@ -140,11 +130,9 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                 }
 
             });
-
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
-
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -783,6 +771,15 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         cardPanel.add(pretrazivanjePonudaPanel);
         cardPanel.repaint();
         cardPanel.revalidate();
+        if(!(ponudeVeslacaTable.getModel() instanceof PonudaTableModelAgencija)) {
+            ponudeVeslacaTable.setModel(new PonudaTableModelAgencija(ponudeAgencije));
+        }
+        if(patvm == null) {
+            patvm = (PonudaTableModelAgencija) ponudeVeslacaTable.getModel();
+        }
+        
+        stavkePonudeTable.setModel(new StavkaPonudeTableModel());
+        sptm = (StavkaPonudeTableModel) stavkePonudeTable.getModel();
     }//GEN-LAST:event_pretraziButtonActionPerformed
 
     private void takmicenjaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_takmicenjaButtonActionPerformed
@@ -791,6 +788,22 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         cardPanel.add(pretrazivanjeTakmicenjaPanel);
         cardPanel.repaint();
         cardPanel.revalidate();
+        
+        try {
+            klubovi = Klijent.getInstance().vratiSveKlubove();
+        } catch (Exception ex) {
+            logger.error("Neuspeno ucitavanje klubova");
+        }
+        if(!(veslackiKluboviTable.getModel() instanceof KlubTableModel)){
+            veslackiKluboviTable.setModel(new KlubTableModel(klubovi));
+        }
+        if(ktm == null){
+            ktm = (KlubTableModel) veslackiKluboviTable.getModel();
+        }
+
+        ostm = (OsvojenaTakmicenjaTableModel) osvojenaTakmicenjaTable.getModel();
+        osvojenaTakmicenjaTable.setModel(new OsvojenaTakmicenjaTableModel());
+
     }//GEN-LAST:event_takmicenjaButtonActionPerformed
 
     private void azurirajNalogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_azurirajNalogButtonActionPerformed
@@ -841,47 +854,33 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
     }//GEN-LAST:event_odbaciPonuduButtonActionPerformed
 
     private void prikaziTakmicenjaKlubaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prikaziTakmicenjaKlubaButtonActionPerformed
-
         try{
-            
-        
-        if (veslackiKluboviTable.getSelectedRow() != -1) {
+            if (veslackiKluboviTable.getSelectedRow() != -1) {
+                int idKluba = (int) veslackiKluboviTable.getValueAt(veslackiKluboviTable.getSelectedRow(), 0);
+                List<KlubTakmicenje> takmicenjaKluba = Klijent.getInstance().vratiTakmicenjaKluba(idKluba);
+                ostm.setOsvojenaTakmicenja(takmicenjaKluba);
+                ostm.fireTableDataChanged();
 
-            int idKluba = (int) veslackiKluboviTable.getValueAt(veslackiKluboviTable.getSelectedRow(), 0);
-            List<KlubTakmicenje> takmicenjaKluba = Klijent.getInstance().vratiTakmicenjaKluba(idKluba);
-            ostm.setOsvojenaTakmicenja(takmicenjaKluba);
-            ostm.fireTableDataChanged();
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Klub nije selektovan, selektujte klub kako bi prikazali takmicenja", "Greska", JOptionPane.ERROR_MESSAGE);
-        }
-        
+            } else {
+                JOptionPane.showMessageDialog(this, "Klub nije selektovan, selektujte klub kako bi prikazali takmicenja", "Greska", JOptionPane.ERROR_MESSAGE);
+            }   
         }catch(Exception ex){
             logger.error(ex.getMessage());
-        }
-        
-        
+        }  
     }//GEN-LAST:event_prikaziTakmicenjaKlubaButtonActionPerformed
 
     private void prikaziStavkeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prikaziStavkeButtonActionPerformed
-        // TODO add your handling code here:
-        
+           
         try{
-            
-        
-        if (ponudeVeslacaTable.getSelectedRow() != -1) {
+            if (ponudeVeslacaTable.getSelectedRow() != -1) {
+                int idPonude = (int) ponudeVeslacaTable.getValueAt(ponudeVeslacaTable.getSelectedRow(), 0);
+                List<StavkaPonude> stavkePonude = Klijent.getInstance().vratiSveStavkePonude(idPonude);
+                sptm.setStavkePonude(stavkePonude);
+                sptm.fireTableDataChanged();
 
-            int idPonude = (int) ponudeVeslacaTable.getValueAt(ponudeVeslacaTable.getSelectedRow(), 0);
-
-            List<StavkaPonude> stavkePonude = Klijent.getInstance().vratiSveStavkePonude(idPonude);
-            sptm.setStavkePonude(stavkePonude);
-            sptm.fireTableDataChanged();
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Ponuda nije selektovana, selektujte ponudu kako bi prikazali stavke ponude", "Greska", JOptionPane.ERROR_MESSAGE);
-
-        }
-        
+            } else {
+                JOptionPane.showMessageDialog(this, "Ponuda nije selektovana, selektujte ponudu kako bi prikazali stavke ponude", "Greska", JOptionPane.ERROR_MESSAGE);
+            } 
         }catch(Exception ex){
            logger.error(ex.getMessage());
         }

@@ -191,11 +191,8 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             logger.error(ex.getMessage());
         }
         
-        
-
             setVisible(true);
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 
     @SuppressWarnings("unchecked")
