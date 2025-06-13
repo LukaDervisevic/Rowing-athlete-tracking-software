@@ -46,7 +46,7 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
             initComponents();
             this.ponudaVeslaca = ponudaVeslaca;
             stavkePonude = ponudaVeslaca.getStavke();
-            rb = ponudaVeslaca.getStavke().size() - 1;
+            rb = ponudaVeslaca.getStavke().size();
             
             veslaciVanPonude = Klijent.getInstance().vratiSveVeslace(ponudaVeslaca.getIdKluba());
             for (StavkaPonude stavka : stavkePonude) {
@@ -356,14 +356,16 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
                 return;
             }
 
-            for(StavkaPonude obrisanaStavka : obrisaneStavke){
-                ponudaVeslaca.getStavke().remove(obrisanaStavka);
-            }
-
-            for(StavkaPonude dodataStavka : dodateStavke){
-                ponudaVeslaca.getStavke().add(dodataStavka);
-        }
+//            for(StavkaPonude obrisanaStavka : obrisaneStavke){
+//                ponudaVeslaca.getStavke().remove(obrisanaStavka);
+//            }
+//
+//            for(StavkaPonude dodataStavka : dodateStavke){
+//                ponudaVeslaca.getStavke().add(dodataStavka);
+        
             PonudaVeslaca azuriranaPonuda = Klijent.getInstance().promeniPonudu(ponudaVeslaca);
+            JOptionPane.showMessageDialog(this, "Uspesno kreiranje ponude veslaca","Uspeh",JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex,"Greska pri azuriranju ponude veslaca", JOptionPane.ERROR_MESSAGE);
         }

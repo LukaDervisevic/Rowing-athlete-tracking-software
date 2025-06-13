@@ -1135,6 +1135,7 @@ public class DBBroker {
             
             String upitDodavanje = "INSERT INTO `veslanje`.`stavka_ponude` (id_ponude,rb,godine_treniranja,id_veslaca) VALUES(?,?,?,?)";
             PreparedStatement psDodavanje = connection.prepareStatement(upitDodavanje);
+            System.out.println(stavkeZaDodavanje);
             for (StavkaPonude dodataStavka : stavkeZaDodavanje) {
                 System.out.println(dodataStavka);
                 psDodavanje.setInt(1, ponudaVeslaca.getId());
