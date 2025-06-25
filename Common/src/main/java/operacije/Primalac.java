@@ -2,34 +2,25 @@ package operacije;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.net.Socket;
 
 /**
  *
  * @author luka
  */
-public class Primalac {
-    
-    private final Socket soket;
+public class Primalac implements Serializable {
 
-    public Primalac(Socket soket) {
+    private final Socket soket;
+    private final ObjectInputStream ois;
+
+    public Primalac(Socket soket) throws IOException {
         this.soket = soket;
+        this.ois = new ObjectInputStream(soket.getInputStream());
     }
-    
+
     public Object primiPoruku() throws Exception {
-        
-        ObjectInputStream ois;
-        
-        try{
-            
-            ois = new ObjectInputStream(soket.getInputStream());
-            return ois.readObject();
-            
-        }catch(IOException ex){
-            ex.printStackTrace();
-            throw new Error(ex);
-        }
-        
+        return ois.readObject();
     }
-    
+
 }

@@ -1,8 +1,10 @@
 package server;
 
 import controller.Controller;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
+import java.util.logging.Level;
 import model.Agencija;
 import model.Drzava;
 import model.KlubTakmicenje;
@@ -34,10 +36,14 @@ class ServerNit extends Thread {
     Primalac primalac;
 
     public ServerNit(Socket soketZaKomunikaciju, List<ServerNit> klijenti) {
-        this.soketZaKomunikaciju = soketZaKomunikaciju;
-        this.klijenti = klijenti;
-        this.posiljalac = new Posiljalac(soketZaKomunikaciju);
-        this.primalac = new Primalac(soketZaKomunikaciju);
+        try {
+            this.soketZaKomunikaciju = soketZaKomunikaciju;
+            this.klijenti = klijenti;
+            this.posiljalac = new Posiljalac(soketZaKomunikaciju);
+            this.primalac = new Primalac(soketZaKomunikaciju);
+        } catch (IOException ex) {
+            logger.error(ex);
+        }
     }
 
     @Override
