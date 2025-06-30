@@ -17,6 +17,7 @@ public class Posiljalac implements Serializable{
     public Posiljalac(Socket soket) throws IOException {
         this.soket = soket;
         this.oos = new ObjectOutputStream(soket.getOutputStream());
+        this.oos.flush();
     }
     
     public void posaljiPoruku(Object poruka) throws Exception{

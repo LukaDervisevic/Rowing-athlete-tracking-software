@@ -29,44 +29,48 @@ import org.apache.logging.log4j.Logger;
 class ServerNit extends Thread {
 
     private static final Logger logger = LogManager.getRootLogger();
-    
+
     Socket soketZaKomunikaciju;
     List<ServerNit> klijenti;
     Posiljalac posiljalac;
     Primalac primalac;
 
     public ServerNit(Socket soketZaKomunikaciju, List<ServerNit> klijenti) {
-        try {
-            this.soketZaKomunikaciju = soketZaKomunikaciju;
-            this.klijenti = klijenti;
-            this.posiljalac = new Posiljalac(soketZaKomunikaciju);
-            this.primalac = new Primalac(soketZaKomunikaciju);
-        } catch (IOException ex) {
-            logger.error(ex);
-        }
+        this.soketZaKomunikaciju = soketZaKomunikaciju;
+        this.klijenti = klijenti;
     }
 
     @Override
     public void run() {
+        try {
+            this.posiljalac = new Posiljalac(soketZaKomunikaciju);
+            this.primalac = new Primalac(soketZaKomunikaciju);
+        } catch (IOException ex) {
+            logger.error(ex.getMessage());
+        }
 
         try {
-            while (true) {
-
+            while (!soketZaKomunikaciju.isClosed()) {
                 Zahtev korisnikovZahtev = (Zahtev) primalac.primiPoruku();
-
                 Object odgovorServera = obradiZahtev(korisnikovZahtev);
-
                 posiljalac.posaljiPoruku(odgovorServera);
-
             }
 
         } catch (Exception ex) {
-            logger.error(ex.getMessage());
+            logger.info("Klijent se odjavio");
+        } finally {
+            try {
+                soketZaKomunikaciju.close();
+            } catch (IOException ex) {
+                logger.error(ex.getMessage());
+            }
+            klijenti.remove(this);
+            System.out.println("Klijent obrisan: " + soketZaKomunikaciju);
         }
 
     }
 
-    private synchronized Object obradiZahtev(Zahtev korisnikovZahtev){
+    private synchronized Object obradiZahtev(Zahtev korisnikovZahtev) {
 
         Object objekat;
 
@@ -99,12 +103,12 @@ class ServerNit extends Thread {
 
                 case Operacija.VRATI_SVE_KLUBOVE -> {
                     objekat = Controller.getInstance().vratiSveKlubove();
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                
+
                 case Operacija.VRATI_KLUB_PO_ID -> {
                     objekat = Controller.getInstance().vratiVeslackiKlubPoId((Integer) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
                 case Operacija.KREIRANJE_AGENCIJA -> {
                     objekat = Controller.getInstance().kreirajAgenciju((Agencija) korisnikovZahtev.getParametar());
@@ -118,17 +122,17 @@ class ServerNit extends Thread {
 
                 case Operacija.PRETRAZIVANJE_AGENCIJA -> {
                     objekat = Controller.getInstance().pretraziAgenciju((String) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                    
+
                 case Operacija.BRISANJE_AGENCIJA -> {
                     objekat = Controller.getInstance().obrisiAgenciju((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                    
+
                 case Operacija.VRATI_SVE_AGENCIJE -> {
                     objekat = Controller.getInstance().vratiSveAgencije();
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
                 case Operacija.KREIRANJE_VESLAC -> {
                     objekat = Controller.getInstance().kreirajVeslaca((Veslac) korisnikovZahtev.getParametar());
@@ -149,15 +153,15 @@ class ServerNit extends Thread {
                     objekat = Controller.getInstance().obrisiVeslaca((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                    
+
                 case Operacija.VRATI_SVE_VESLACE -> {
                     objekat = Controller.getInstance().vratiSveVeslace((Integer) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                    
+
                 case Operacija.VRATI_VESLACA_PO_ID -> {
                     objekat = Controller.getInstance().vratiVeslacaPoId((Integer) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
                 case Operacija.UBACIVANJE_TAKMICENJE -> {
                     objekat = Controller.getInstance().dodajTakmicenje((Takmicenje) korisnikovZahtev.getParametar());
@@ -173,15 +177,15 @@ class ServerNit extends Thread {
                     objekat = Controller.getInstance().obrisiTakmicenje((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                    
+
                 case Operacija.VRATI_SVA_TAKMICENJA -> {
                     objekat = Controller.getInstance().vratiSvaTakmicenja();
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                    
+
                 case Operacija.VRATI_TAKMICENJE_PO_ID -> {
                     objekat = Controller.getInstance().vratiTakmicenjePoId((Integer) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
                 case Operacija.KREIRANJE_PONUDE -> {
                     objekat = Controller.getInstance().kreirajPonuduVeslaca((PonudaVeslaca) korisnikovZahtev.getParametar());
@@ -196,27 +200,27 @@ class ServerNit extends Thread {
                     objekat = Controller.getInstance().obrisiPonudu((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                    
+
                 case Operacija.VRATI_SVE_PONUDE_KLUBA -> {
                     objekat = Controller.getInstance().vratiSvePonudeKluba((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                
+
                 case Operacija.VRATI_SVE_PONUDE_AGENCIJE -> {
                     objekat = Controller.getInstance().vratiSvePonudeAgencije((Integer) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                    
+
                 case Operacija.VRATI_POSLEDNJI_ID_PONUDE -> {
                     objekat = Controller.getInstance().vratiPoslednjiIdPonude();
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                
+
                 case Operacija.VRATI_PONUDU_PO_ID -> {
                     objekat = Controller.getInstance().vratiPonuduPoId((Integer) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                
+
                 case Operacija.PROMENA_PONUDE -> {
                     objekat = Controller.getInstance().azurirajPonudu((PonudaVeslaca) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
@@ -224,47 +228,47 @@ class ServerNit extends Thread {
 
                 case Operacija.VRATI_SVE_STAVKE_PONUDE -> {
                     objekat = Controller.getInstance().vratiSveStavkePonude((Integer) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
                 case Operacija.UBACIVANJE_DRZAVA -> {
                     objekat = Controller.getInstance().ubaciDrzavu((Drzava) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
 
                 case Operacija.BRISANJE_DRZAVA -> {
                     objekat = Controller.getInstance().obrisiDrzavu((Integer) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                    
+
                 case Operacija.VRATI_SVE_DRZAVE -> {
                     objekat = Controller.getInstance().vratiSveDrzave();
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
                 case Operacija.OSVOJI_TAKMICENJE -> {
                     objekat = Controller.getInstance().dodajOsvojenoTakmicenje((KlubTakmicenje) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                
+
                 case Operacija.BRISANJE_OSVOJENO_TAKMICENJE -> {
                     objekat = Controller.getInstance().obrisiOsvojenoTakmicenje((KlubTakmicenje) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                    
+
                 case Operacija.VRATI_TAKMICENJA_KLUBA -> {
                     objekat = Controller.getInstance().vratiTakmicenjaKluba((Integer) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                
+
                 case Operacija.PREBROJ_OSVOJENA_TAKMICENJA -> {
                     objekat = Controller.getInstance().prebrojOsvojenaTakmicenja((Integer) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK,objekat);
+                    return new Odgovor(StatusPoruke.OK, objekat);
                 }
                 case Operacija.PREKID -> {
                     soketZaKomunikaciju.close();
                     klijenti.remove(this);
-                    return new Odgovor(StatusPoruke.OK,"Konekcija prekinuta");
+                    return new Odgovor(StatusPoruke.OK, "Konekcija prekinuta");
                 }
-                
+
                 default -> {
                     return new Odgovor(StatusPoruke.GRESKA, new Exception("Greska nepostojeca operacija"));
                 }
@@ -279,9 +283,9 @@ class ServerNit extends Thread {
             // DRZAVA
             // KLUB TAKMICENJE
             // Nije dobra logika
-            
+
         } catch (Exception ex) {
-            return new Odgovor(StatusPoruke.GRESKA,ex);
+            return new Odgovor(StatusPoruke.GRESKA, ex);
         }
     }
 

@@ -8,3 +8,4 @@
 2025-06-12 15:04:20 [main] ERROR  (Server.java:44) - Address already in use: bind
 2025-06-12 15:06:30 [main] ERROR  (Server.java:44) - Address already in use: bind
 2025-06-12 15:10:16 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-06-30 20:20:49 [Thread-0] ERROR  (ServerNit.java:60) - Klijent se odjavio
