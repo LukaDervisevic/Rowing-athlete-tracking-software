@@ -1,10 +1,11 @@
 package server;
 
 import controller.Controller;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
-import java.util.logging.Level;
 import model.Agencija;
 import model.Drzava;
 import model.KlubTakmicenje;
@@ -45,19 +46,38 @@ class ServerNit extends Thread {
         try {
             this.posiljalac = new Posiljalac(soketZaKomunikaciju);
             this.primalac = new Primalac(soketZaKomunikaciju);
-        } catch (IOException ex) {
-            logger.error(ex.getMessage());
-        }
 
-        try {
             while (!soketZaKomunikaciju.isClosed()) {
-                Zahtev korisnikovZahtev = (Zahtev) primalac.primiPoruku();
-                Object odgovorServera = obradiZahtev(korisnikovZahtev);
-                posiljalac.posaljiPoruku(odgovorServera);
+                try {
+
+                    Zahtev korisnikovZahtev = (Zahtev) primalac.primiPoruku();
+                    if (korisnikovZahtev == null) {
+                        System.out.println("Korisnik se odjavio");
+                        break;
+                    }
+
+                    Object odgovorServera = obradiZahtev(korisnikovZahtev);
+                    posiljalac.posaljiPoruku(odgovorServera);
+
+                } catch (EOFException ex) {
+                    logger.info("Klijent je zatvorio soket: " + ex);
+                    break;
+                } catch (SocketException ex) {
+                    logger.info("Soket klijenta se gasi");
+                    break;
+
+                } catch (IOException | ClassNotFoundException ex) {
+                    logger.error(ex.getMessage());
+                    break;
+                } catch (Exception ex) {
+                    logger.error("Greska pri obradi: " + ex);
+                    break;
+                }
+
             }
 
-        } catch (Exception ex) {
-            logger.info("Klijent se odjavio");
+        } catch (IOException ex) {
+            logger.error(ex.getMessage());
         } finally {
             try {
                 soketZaKomunikaciju.close();
@@ -67,7 +87,6 @@ class ServerNit extends Thread {
             klijenti.remove(this);
             System.out.println("Klijent obrisan: " + soketZaKomunikaciju);
         }
-
     }
 
     private synchronized Object obradiZahtev(Zahtev korisnikovZahtev) {
