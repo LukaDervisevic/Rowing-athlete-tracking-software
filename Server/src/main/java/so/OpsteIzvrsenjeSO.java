@@ -12,12 +12,12 @@ import transfer.TransferObjekat;
  *
  * @author luka
  */
-public abstract class OpsteIzvrsenjeSo {
-    private BrokerBazePodataka bbp = new BrokerBazePodataka("veslanje");
-    private int brojSlogova;
-    private int trenutniSlog = -1;
-    private OpstiDomenskiObjekat odo;
-    private TransferObjekat to;
+public abstract class OpsteIzvrsenjeSO {
+    protected BrokerBazePodataka bbp = new BrokerBazePodataka("veslanje");
+    protected int brojSlogova;
+    protected int trenutniSlog = -1;
+    protected OpstiDomenskiObjekat odo;
+    protected TransferObjekat to;
     
     synchronized public boolean opsteIzvrsenjeSO() {
         bbp.napraviKonekciju();
