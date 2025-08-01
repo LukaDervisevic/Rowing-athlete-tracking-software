@@ -12,7 +12,7 @@ import java.sql.SQLException;
  *
  * @author lukad
  */
-public abstract class OpstiDomenskiObjekat implements Serializable{
+public interface OpstiDomenskiObjekat extends Serializable{
     
     abstract public String getVrednostAtributa();
     
