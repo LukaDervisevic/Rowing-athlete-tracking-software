@@ -1,11 +1,12 @@
 
 package model;
 
-import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 
 
-public class VeslackiKlub extends Nalog implements Serializable{
+public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
 
     
     private int id;
@@ -146,6 +147,41 @@ public class VeslackiKlub extends Nalog implements Serializable{
             return false;
         }
         return Objects.equals(this.korisnickoIme, other.korisnickoIme);
+    }
+
+    @Override
+    public String vrednostiAtributaZaKreiranje() {
+        return naziv + "," + adresa + "," + email + "," + telefon + "," +  korisnickoIme + "," + sifra;
+    }
+
+    @Override
+    public String azurirajVrednostiAtributa() {
+        return "naziv=" + naziv + ",adresa="+ adresa + ",email=" + email + ",telefon=" + telefon + ",korisnicko_ime=" + korisnickoIme + ",sifra=" + sifra;
+    }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "veslacki_klub";
+    }
+
+    @Override
+    public String vratiWhereUslov() {
+        return "id = " + id;
+    }
+
+    @Override
+    public String vratiImePoKoloni(int kolona) {
+        return null;
+    }
+
+    @Override
+    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
+        return new VeslackiKlub(rs.getInt("id"), rs.getString("naziv"),rs.getString("adresa"), rs.getString("email"), rs.getString("telefon"), rs.getString("korisnicko_ime"), rs.getString("sifra"));
+    }
+
+    @Override
+    public String vratiPrimarniKljuc() {
+        return "id = " + id;
     }
 
 }

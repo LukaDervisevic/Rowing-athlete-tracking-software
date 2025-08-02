@@ -69,48 +69,38 @@ public class Drzava implements OpstiDomenskiObjekat{
     }
 
     @Override
-    public String getVrednostAtributa() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String vrednostiAtributaZaKreiranje() {
+        return "naziv = "+naziv;
     }
 
     @Override
-    public String setVrednostAtributa() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String azurirajVrednostiAtributa() {
+        return "naziv = "+naziv;
+    }
+    
+    @Override
+    public String vratiWhereUslov() {
+        return "id = "+id;
     }
 
     @Override
-    public String getClassName() {
-        return "";
-    }
-
-    @Override
-    public String getWhereUslov() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String getImePoKoloni(int kolona) {
+    public String vratiImePoKoloni(int kolona) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new Drzava(rs.getInt("id"), rs.getString("naziv"));
     }
 
     @Override
-    public int getPrimaryKey() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String vratiPrimarniKljuc() {
+        return "id = " + id;
     }
 
     @Override
-    public void setPrimarniKljuc(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void print() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public String vratiNazivTabele() {
+        return "drzava";
     }
     
     

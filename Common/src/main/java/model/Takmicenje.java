@@ -1,6 +1,7 @@
 package model;
 
-import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
 
@@ -8,7 +9,7 @@ import java.util.Objects;
  *
  * @author luka
  */
-public class Takmicenje implements Serializable{
+public class Takmicenje implements OpstiDomenskiObjekat{
     
     private int id;
     
@@ -107,6 +108,41 @@ public class Takmicenje implements Serializable{
             return false;
         }
         return Objects.equals(this.datum, other.datum);
+    }
+
+    @Override
+    public String vrednostiAtributaZaKreiranje() {
+        return naziv + "," + starosnaKategorija.toString() + "," + vrstaTrke.toString() + "," + new java.sql.Date(datum.getTime());
+    }
+
+    @Override
+    public String azurirajVrednostiAtributa() {
+        return "naziv=" + naziv + ",starosna_kategorija=" + starosnaKategorija.toString() + ",vrsta_trke=" + vrstaTrke.toString() + ",datum=" + new java.sql.Date(datum.getTime());
+    }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "takmicenje";
+    }
+
+    @Override
+    public String vratiWhereUslov() {
+        return "id = " + id;
+    }
+
+    @Override
+    public String vratiImePoKoloni(int kolona) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
+        return new Takmicenje(rs.getInt("id"), rs.getString("naziv"), KategorijaVeslaca.valueOf(rs.getString("starosna_kategorija")), VrstaTrke.valueOf("vrsta_trke"), new java.util.Date(rs.getDate("datum").getTime()));
+    }
+
+    @Override
+    public String vratiPrimarniKljuc() {
+        return "id = " + id;
     }
     
     

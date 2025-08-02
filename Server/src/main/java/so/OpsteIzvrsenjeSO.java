@@ -4,7 +4,7 @@
  */
 package so;
 
-import db.BrokerBazePodataka;
+import bbp.BrokerBazePodataka;
 import model.OpstiDomenskiObjekat;
 import transfer.TransferObjekat;
 

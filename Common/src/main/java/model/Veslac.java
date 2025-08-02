@@ -2,6 +2,8 @@ package model;
 
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Objects;
 
@@ -9,32 +11,23 @@ import java.util.Objects;
  *
  * @author luka
  */
-public class Veslac implements Serializable{
+public class Veslac implements OpstiDomenskiObjekat{
 
     private int idVeslaca;
-
     private String imePrezime;
-
     private Date datumRodjenja;
-
     private float visina;
-
     private float tezina;
-
     private KategorijaVeslaca kategorija;
-
     private float BMI;
-
     private float najboljeVreme;
-
     private Date datumUpisa;
-    
-    private int idKluba;
+    private VeslackiKlub klub;
 
     public Veslac() {
     }
 
-    public Veslac(int idVeslaca,String imePrezime, Date datumRodjenja, float visina, float tezina, KategorijaVeslaca kategorija, float najboljeVreme, Date datumUpisa,int idKluba) {
+    public Veslac(int idVeslaca,String imePrezime, Date datumRodjenja, float visina, float tezina, KategorijaVeslaca kategorija, float najboljeVreme, Date datumUpisa,VeslackiKlub klub) {
         this.idVeslaca = idVeslaca;
         this.imePrezime = imePrezime;
         this.datumRodjenja = datumRodjenja;
@@ -44,7 +37,7 @@ public class Veslac implements Serializable{
         this.kategorija = kategorija;
         this.najboljeVreme = najboljeVreme;
         this.datumUpisa = datumUpisa;
-        this.idKluba = idKluba;
+        this.klub = klub;
     }
 
     public int getIdVeslaca() {
@@ -119,19 +112,19 @@ public class Veslac implements Serializable{
         this.BMI = BMI;
     }
 
-    public int getIdKluba() {
-        return idKluba;
+    public VeslackiKlub getKlub() {
+        return klub;
     }
 
-    public void setIdKluba(int idKluba) {
-        this.idKluba = idKluba;
+    public void setKlub(VeslackiKlub klub) {
+        this.klub = klub;
     }
 
     @Override
     public String toString() {
-        return "Veslac{" + "idVeslaca=" + idVeslaca + ", imePrezime=" + imePrezime + ", datumRodjenja=" + datumRodjenja + ", visina=" + visina + ", tezina=" + tezina + ", kategorija=" + kategorija + ", BMI=" + BMI + ", najboljeVreme=" + najboljeVreme + ", datumUpisa=" + datumUpisa + ", idKluba=" + idKluba + '}';
+        return "Veslac{" + "idVeslaca=" + idVeslaca + ", imePrezime=" + imePrezime + ", datumRodjenja=" + datumRodjenja + ", visina=" + visina + ", tezina=" + tezina + ", kategorija=" + kategorija + ", BMI=" + BMI + ", najboljeVreme=" + najboljeVreme + ", datumUpisa=" + datumUpisa + ", klub=" + klub + '}';
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -162,13 +155,10 @@ public class Veslac implements Serializable{
         if (Float.floatToIntBits(this.BMI) != Float.floatToIntBits(other.BMI)) {
             return false;
         }
-        if (this.idKluba != other.idKluba) {
+        if (Float.floatToIntBits(this.najboljeVreme) != Float.floatToIntBits(other.najboljeVreme)) {
             return false;
         }
         if (!Objects.equals(this.imePrezime, other.imePrezime)) {
-            return false;
-        }
-        if (!Objects.equals(this.najboljeVreme, other.najboljeVreme)) {
             return false;
         }
         if (!Objects.equals(this.datumRodjenja, other.datumRodjenja)) {
@@ -177,9 +167,48 @@ public class Veslac implements Serializable{
         if (this.kategorija != other.kategorija) {
             return false;
         }
-        return Objects.equals(this.datumUpisa, other.datumUpisa);
+        if (!Objects.equals(this.datumUpisa, other.datumUpisa)) {
+            return false;
+        }
+        return Objects.equals(this.klub, other.klub);
     }
 
     
-    
+
+    @Override
+    public String vrednostiAtributaZaKreiranje() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String azurirajVrednostiAtributa() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "veslac";
+    }
+
+    @Override
+    public String vratiWhereUslov() {
+        return "id = " + idVeslaca;
+    }
+
+    @Override
+    public String vratiImePoKoloni(int kolona) {
+        String[] kolone = {};
+        return kolone[kolona];
+    }
+    // TODO: Obavezno popraviti klub id treba da bude veslacki klub kao atribut
+    @Override
+    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
+        return new Veslac(rs.getInt("v.id"), rs.getString("v.ime_prezime"), new Date(rs.getDate("v.datum_rodjenja").getTime()), rs.getFloat("v.visina"), rs.getFloat("v.tezina"), KategorijaVeslaca.valueOf(rs.getString("v.kategorija")), rs.getFloat("v.najbolje_vreme"), new Date(rs.getDate("v.datum_upisa").getTime()), 
+                new VeslackiKlub(rs.getInt("vk.id"), rs.getString("vk.naziv"), rs.getString("vk.adresa"), rs.getString("vk.email"), rs.getString("vk.telefon"), rs.getString("vk.korisnicko_ime"), rs.getString("vk.sifra")));
+    }
+
+    @Override
+    public String vratiPrimarniKljuc() {
+        return "idVeslaca";
+    }
 }

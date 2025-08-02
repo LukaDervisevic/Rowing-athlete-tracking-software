@@ -1,6 +1,6 @@
-package db;
+package bbp;
 
-import controller.Controller;
+import kontroller.Controller;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;

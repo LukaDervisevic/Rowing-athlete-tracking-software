@@ -1,6 +1,6 @@
 package server;
 
-import controller.Controller;
+import kontroller.Controller;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;

@@ -1,9 +1,10 @@
 package model;
 
-import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 
-public class Agencija extends Nalog implements Serializable{
+public class Agencija extends Nalog implements OpstiDomenskiObjekat{
     
     private int id;
     
@@ -130,6 +131,42 @@ public class Agencija extends Nalog implements Serializable{
             return false;
         }
         return Objects.equals(this.drzava, other.drzava);
+    }
+
+    @Override
+    public String vrednostiAtributaZaKreiranje() {
+        return naziv + "," + email + "," + telefon + "," + korisnickoIme + "," + sifra + "," + drzava.getId();
+    }
+
+    @Override
+    public String azurirajVrednostiAtributa() {
+        return "naziv=" + naziv + ",email=" + email + ",telefon=" + telefon + ",korisnicko_ime=" + korisnickoIme + ",sifra=" + sifra + ",id_drzave=" + drzava.getId();
+    }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "agencija";
+    }
+
+    @Override
+    public String vratiWhereUslov() {
+        return "id = " + id;
+    }
+
+    @Override
+    public String vratiImePoKoloni(int kolona) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
+        return new Agencija(rs.getInt("a.id"), rs.getString("a.naziv"), rs.getString("a.email"), rs.getString("a.telefon"), rs.getString("a.korisnicko_ime"), rs.getString("a.sifra"),
+        new Drzava(rs.getInt("d.id"), rs.getString("d.naziv")));
+    }
+
+    @Override
+    public String vratiPrimarniKljuc() {
+        return "id = " + id;
     }
 
     

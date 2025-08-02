@@ -1,6 +1,6 @@
 package utils;
 
-import controller.Controller;
+import kontroller.Controller;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import model.Nalog;

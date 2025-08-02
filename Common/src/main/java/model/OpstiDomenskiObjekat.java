@@ -14,22 +14,19 @@ import java.sql.SQLException;
  */
 public interface OpstiDomenskiObjekat extends Serializable{
     
-    abstract public String getVrednostAtributa();
+    abstract public String vrednostiAtributaZaKreiranje();
     
-    abstract public String setVrednostAtributa();
+    abstract public String azurirajVrednostiAtributa();
     
-    abstract public String getClassName();
+    abstract public String vratiNazivTabele();
     
-    abstract public String getWhereUslov();
+    abstract public String vratiWhereUslov();
     
-    abstract public String getImePoKoloni(int kolona);
+    abstract public String vratiImePoKoloni(int kolona);
     
     abstract public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException;
     
-    abstract public int getPrimaryKey();
-    
-    abstract public void setPrimarniKljuc(int id);
-    
-    abstract public void print();
+    abstract public String vratiPrimarniKljuc();
+     
     
 }
