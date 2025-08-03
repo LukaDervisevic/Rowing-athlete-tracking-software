@@ -102,6 +102,16 @@ public class Drzava implements OpstiDomenskiObjekat{
     public String vratiNazivTabele() {
         return "drzava";
     }
+
+    @Override
+    public String join() {
+        return "";
+    }
+
+    @Override
+    public String alias() {
+        return "D";
+    }
     
     
     

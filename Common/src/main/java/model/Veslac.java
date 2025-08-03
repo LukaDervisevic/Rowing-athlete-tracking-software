@@ -200,15 +200,24 @@ public class Veslac implements OpstiDomenskiObjekat{
         String[] kolone = {};
         return kolone[kolona];
     }
-    // TODO: Obavezno popraviti klub id treba da bude veslacki klub kao atribut
     @Override
     public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return new Veslac(rs.getInt("v.id"), rs.getString("v.ime_prezime"), new Date(rs.getDate("v.datum_rodjenja").getTime()), rs.getFloat("v.visina"), rs.getFloat("v.tezina"), KategorijaVeslaca.valueOf(rs.getString("v.kategorija")), rs.getFloat("v.najbolje_vreme"), new Date(rs.getDate("v.datum_upisa").getTime()), 
-                new VeslackiKlub(rs.getInt("vk.id"), rs.getString("vk.naziv"), rs.getString("vk.adresa"), rs.getString("vk.email"), rs.getString("vk.telefon"), rs.getString("vk.korisnicko_ime"), rs.getString("vk.sifra")));
+        return new Veslac(rs.getInt(alias()+".id"), rs.getString(alias()+".ime_prezime"), new Date(rs.getDate(alias()+".datum_rodjenja").getTime()), rs.getFloat(alias()+".visina"), rs.getFloat(alias()+".tezina"), KategorijaVeslaca.valueOf(rs.getString(alias()+".kategorija")), rs.getFloat(alias()+".najbolje_vreme"), new Date(rs.getDate(alias()+".datum_upisa").getTime()), 
+                new VeslackiKlub(rs.getInt(klub.alias()+".id"), rs.getString(klub.alias()+".naziv"), rs.getString(klub.alias()+".adresa"), rs.getString(klub.alias()+".email"), rs.getString(klub.alias()+".telefon"), rs.getString(klub.alias()+".korisnicko_ime"), rs.getString(klub.alias()+".sifra")));
     }
 
     @Override
     public String vratiPrimarniKljuc() {
         return "idVeslaca";
+    }
+
+    @Override
+    public String join() {
+        return "JOIN `veslanje`.`" + klub.vratiNazivTabele() + "` AS " + klub.alias() + " ON " + alias() + ".id_kluba = " + klub.alias() + ".id";
+    }
+
+    @Override
+    public String alias() {
+        return "V";
     }
 }

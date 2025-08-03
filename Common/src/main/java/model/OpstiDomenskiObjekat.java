@@ -28,5 +28,7 @@ public interface OpstiDomenskiObjekat extends Serializable{
     
     abstract public String vratiPrimarniKljuc();
      
+    abstract public String join();
     
+    abstract public String alias();
 }

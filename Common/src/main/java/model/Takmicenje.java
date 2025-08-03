@@ -137,12 +137,22 @@ public class Takmicenje implements OpstiDomenskiObjekat{
 
     @Override
     public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return new Takmicenje(rs.getInt("id"), rs.getString("naziv"), KategorijaVeslaca.valueOf(rs.getString("starosna_kategorija")), VrstaTrke.valueOf("vrsta_trke"), new java.util.Date(rs.getDate("datum").getTime()));
+        return new Takmicenje(rs.getInt(alias()+".id"), rs.getString(alias()+".naziv"), KategorijaVeslaca.valueOf(rs.getString(alias()+".starosna_kategorija")), VrstaTrke.valueOf(alias()+".vrsta_trke"), new java.util.Date(rs.getDate(alias()+".datum").getTime()));
     }
 
     @Override
     public String vratiPrimarniKljuc() {
         return "id = " + id;
+    }
+
+    @Override
+    public String join() {
+        return "";
+    }
+
+    @Override
+    public String alias() {
+        return "T";
     }
     
     

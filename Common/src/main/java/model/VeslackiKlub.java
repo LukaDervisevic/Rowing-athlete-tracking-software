@@ -76,9 +76,6 @@ public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
     }
 
     public void setTelefon(String telefon) {
-//        if (telefon == null || !telefon.contains("+")) {
-//            return;
-//        }
         this.telefon = telefon;
     }
 
@@ -176,12 +173,22 @@ public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
 
     @Override
     public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return new VeslackiKlub(rs.getInt("id"), rs.getString("naziv"),rs.getString("adresa"), rs.getString("email"), rs.getString("telefon"), rs.getString("korisnicko_ime"), rs.getString("sifra"));
+        return new VeslackiKlub(rs.getInt(alias()+".id"), rs.getString(alias()+".naziv"),rs.getString(alias()+".adresa"), rs.getString(alias()+".email"), rs.getString(alias()+".telefon"), rs.getString(alias()+".korisnicko_ime"), rs.getString(alias()+".sifra"));
     }
 
     @Override
     public String vratiPrimarniKljuc() {
         return "id = " + id;
+    }
+
+    @Override
+    public String join() {
+        return "";
+    }
+
+    @Override
+    public String alias() {
+        return "VK";
     }
 
 }

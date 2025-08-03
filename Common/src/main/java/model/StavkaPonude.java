@@ -1,13 +1,16 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.Objects;
 
 /**
  *
  * @author luka
  */
-public class StavkaPonude implements Serializable{
+public class StavkaPonude implements OpstiDomenskiObjekat{
  
     private int idEvidencije;
     
@@ -92,6 +95,53 @@ public class StavkaPonude implements Serializable{
             return false;
         }
         return Objects.equals(this.veslac, other.veslac);
+    }
+
+    @Override
+    public String vrednostiAtributaZaKreiranje() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String azurirajVrednostiAtributa() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "stavka_ponude";
+    }
+
+    @Override
+    public String vratiWhereUslov() {
+        return "id_ponude = " + idEvidencije + " AND rb = " + rb; 
+    }
+
+    @Override
+    public String vratiImePoKoloni(int kolona) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
+        return new StavkaPonude(rs.getInt(alias()+".id_ponude"),rs.getInt(alias()+".rb"), rs.getInt(alias()+".godine_treniranja"), 
+        new Veslac(rs.getInt(veslac.alias()+".id"), rs.getString(veslac.alias()+".ime_prezime"), new Date(rs.getDate(veslac.alias()+".datum_rodjenja").getTime()), rs.getFloat(veslac.alias()+".visina"), rs.getFloat(veslac.alias()+".tezina"), KategorijaVeslaca.valueOf(rs.getString(veslac.alias()+".kategorija")), rs.getFloat(veslac.alias()+".najbolje_vreme"), new Date(rs.getDate(veslac.alias()+".datum_upisa").getTime()),
+        new VeslackiKlub(rs.getInt(veslac.getKlub().alias()+".id"), rs.getString(veslac.getKlub().alias()+".naziv"), rs.getString(veslac.getKlub().alias()+".adresa"), rs.getString(veslac.getKlub().alias()+".email"), rs.getString(veslac.getKlub().alias()+".telefon"), rs.getString(veslac.getKlub().alias()+".korisnicko_ime"), rs.getString(veslac.getKlub().alias()+".sifra"))));
+    }
+
+    @Override
+    public String vratiPrimarniKljuc() {
+        return "id_stavke = " + idEvidencije + " AND " + " rb = " + rb;
+    }
+
+    @Override
+    public String join() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String alias() {
+        return "SP";
     }
 
     

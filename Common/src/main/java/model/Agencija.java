@@ -169,6 +169,16 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
         return "id = " + id;
     }
 
+    @Override
+    public String join() {
+        return "JOIN `veslanje`.`" + drzava.vratiNazivTabele() +"` AS " + drzava.alias() + " ON " + alias() + ".id_drzave = " + drzava.alias() + ".id";
+    }
+
+    @Override
+    public String alias() {
+        return "A";
+    }
+
     
     
     

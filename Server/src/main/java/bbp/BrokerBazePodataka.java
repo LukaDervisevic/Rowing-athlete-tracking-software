@@ -80,7 +80,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
     public OpstiDomenskiObjekat pronadjiSlog(OpstiDomenskiObjekat odo) {
         ResultSet rs = null;
         Statement statement = null;
-        String upit = "SELECT * FROM `" + imeBaze +"` `"  + odo.vratiNazivTabele() + "` WHERE " + odo.vratiWhereUslov();
+        String upit = "SELECT * FROM `" + imeBaze +"` `"  + odo.vratiNazivTabele() + "` AS "+ odo.alias() + " " + odo.join()+ " WHERE " + odo.vratiWhereUslov();
         boolean signal;
 
         try {
@@ -103,7 +103,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
     public List<OpstiDomenskiObjekat> pronadjiSlog(OpstiDomenskiObjekat odo, String where) {
         ResultSet rs = null;
         Statement statement = null;
-        String upit = "SELECT * FROM `" + imeBaze +"` `"  + odo.vratiNazivTabele() + "` WHERE " + where;
+        String upit = "SELECT * FROM `" + imeBaze +"` `"  + odo.vratiNazivTabele()+ "` AS " + odo.alias() + " " + odo.join()  + " WHERE " + where;
         List<OpstiDomenskiObjekat> lista = new LinkedList<>();
 
         try {
