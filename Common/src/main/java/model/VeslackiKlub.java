@@ -147,8 +147,21 @@ public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
     }
 
     @Override
+    public String vratiNaziveKolona() {
+        return "naziv,adresa,email,telefon,korisnicko_ime,sifra";
+    }
+    
+    @Override
+    public String vratiImePoKoloni(int i) {
+        String[] kolone = {"id","naziv","adresa","email","telefon","korisnicko_ime","sifra"};
+        return kolone[i];
+    }
+    
+    @Override
     public String vrednostiAtributaZaKreiranje() {
-        return naziv + "," + adresa + "," + email + "," + telefon + "," +  korisnickoIme + "," + sifra;
+        String atributi =  "'" + naziv + "','" + adresa + "','" + email + "','" + telefon + "','" +  korisnickoIme + "','" + sifra + "'";
+        System.out.println(atributi);
+        return atributi;
     }
 
     @Override
@@ -164,11 +177,6 @@ public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
     @Override
     public String vratiWhereUslov() {
         return "id = " + id;
-    }
-
-    @Override
-    public String vratiImePoKoloni(int kolona) {
-        return null;
     }
 
     @Override
@@ -190,5 +198,4 @@ public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
     public String alias() {
         return "VK";
     }
-
 }

@@ -43,7 +43,7 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         }
         
         najboljeVremeInput.setText(String.valueOf(veslac.getNajboljeVreme()));
-        idKlubaInput.setText(String.valueOf(veslac.getIdKluba()));
+//        idKlubaInput.setText(String.valueOf(veslac.getIdKluba()));
         
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -377,7 +377,7 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
 //            veslac.setNajboljeVreme(Float.parseFloat(najboljeVremeInput.getText()));
             veslac.setNajboljeVreme(Float.parseFloat(najboljeVremeInput.getText()));
             veslac.setDatumUpisa(datumUpis);
-            veslac.setIdKluba(Integer.parseInt(idKlubaInput.getText()));
+//            veslac.setIdKluba(Integer.parseInt(idKlubaInput.getText()));
             
             try {
                 Klijent.getInstance().azurirajVeslaca(veslac);

@@ -1,7 +1,6 @@
 package model;
 
 
-import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -173,16 +172,26 @@ public class Veslac implements OpstiDomenskiObjekat{
         return Objects.equals(this.klub, other.klub);
     }
 
+    @Override
+    public String vratiNaziveKolona() {
+        return "ime_prezime,datum_rodjenja,visina,tezina,kategorija,BMI,najbolje_vreme,datum_upisa,id_kluba";
+    }
     
+    @Override
+    public String vratiImePoKoloni(int i) {
+        String[] kolone = {"id","ime_prezime","datum_rodjenja","visina","tezina","kategorija","BMI","najbolje_vreme","datum_upisa","id_kluba"};
+        return kolone[i];
+    }
 
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return imePrezime + "," + new java.sql.Date(datumRodjenja.getTime()) + "," + visina + "," + tezina + "," + kategorija + "," + BMI + "," + najboljeVreme + "," + new java.sql.Date(datumUpisa.getTime()) + ","+ klub.getId();
     }
 
     @Override
     public String azurirajVrednostiAtributa() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "ime_prezime = " + imePrezime + ",datum_rodjenja = " + datumRodjenja + ",visina = " + visina + ",tezina = " + tezina + ",kategorija = " + kategorija.toString() + ",BMI = " + BMI + ",najbolje_vreme = " 
+                + najboljeVreme + ",datum_upisa = " + new java.sql.Date(datumUpisa.getTime()) + ",id_kluba = " + klub.getId();
     }
 
     @Override
@@ -195,11 +204,6 @@ public class Veslac implements OpstiDomenskiObjekat{
         return "id = " + idVeslaca;
     }
 
-    @Override
-    public String vratiImePoKoloni(int kolona) {
-        String[] kolone = {};
-        return kolone[kolona];
-    }
     @Override
     public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
         return new Veslac(rs.getInt(alias()+".id"), rs.getString(alias()+".ime_prezime"), new Date(rs.getDate(alias()+".datum_rodjenja").getTime()), rs.getFloat(alias()+".visina"), rs.getFloat(alias()+".tezina"), KategorijaVeslaca.valueOf(rs.getString(alias()+".kategorija")), rs.getFloat(alias()+".najbolje_vreme"), new Date(rs.getDate(alias()+".datum_upisa").getTime()), 

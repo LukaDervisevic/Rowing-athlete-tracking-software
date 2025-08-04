@@ -1,6 +1,5 @@
 package model;
 
-import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -69,6 +68,17 @@ public class Drzava implements OpstiDomenskiObjekat{
     }
 
     @Override
+    public String vratiNaziveKolona() {
+        return "naziv";
+    }
+    
+    @Override
+    public String vratiImePoKoloni(int i) {
+        String[] kolone = {"id","naziv"};
+        return kolone[i];
+    }
+    
+    @Override
     public String vrednostiAtributaZaKreiranje() {
         return "naziv = "+naziv;
     }
@@ -81,11 +91,6 @@ public class Drzava implements OpstiDomenskiObjekat{
     @Override
     public String vratiWhereUslov() {
         return "id = "+id;
-    }
-
-    @Override
-    public String vratiImePoKoloni(int kolona) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -112,7 +117,4 @@ public class Drzava implements OpstiDomenskiObjekat{
     public String alias() {
         return "D";
     }
-    
-    
-    
 }

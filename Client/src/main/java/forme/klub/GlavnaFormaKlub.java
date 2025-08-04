@@ -159,11 +159,11 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                                     }
 
                                 } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
-                                    String imePrezime = upitZaPretragu;
-                                    List<Veslac> veslaci = Klijent.getInstance().pretraziVeslaca(
-                                            new Veslac(0, imePrezime, null, 0, 0, null, 0, null, idKluba));
-                                    vtm.setVeslaci(veslaci);
-                                    vtm.fireTableDataChanged();
+//                                    String imePrezime = upitZaPretragu;
+//                                    List<Veslac> veslaci = Klijent.getInstance().pretraziVeslaca(
+//                                            new Veslac(0, imePrezime, null, 0, 0, null, 0, null, idKluba));
+//                                    vtm.setVeslaci(veslaci);
+//                                    vtm.fireTableDataChanged();
 
                                 } else if (cardPanel.getComponentZOrder(takmicenjaPanel) >= 0){
                                     String nazivTakmicenja = upitZaPretragu;
@@ -1928,21 +1928,21 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
             float najboljeVremeFloat = Float.parseFloat(najboljeVreme);
 
-            Veslac kreiranVeslac;
-            try {
-                kreiranVeslac = Klijent.getInstance().kreirajVeslaca(new Veslac(0, imePrezime, dRodjenja, visina, tezina, kategorija, najboljeVremeFloat, dUpisa, idKluba));
-
-                if (kreiranVeslac != null) {
-                    JOptionPane.showMessageDialog(this, "Veslač je unet u bazu", "Upseh", JOptionPane.INFORMATION_MESSAGE);
-                    vtm.dodajVeslaca(kreiranVeslac);
-
-                } else {
-                    JOptionPane.showMessageDialog(this, "Greska pri unosu veslača u bazu, pokušajte ponovo", "Greska", JOptionPane.ERROR_MESSAGE);
-                }
-
-            } catch (Exception ex) {
-                logger.error(ex.getMessage());
-            }
+//            Veslac kreiranVeslac;
+//            try {
+//                kreiranVeslac = Klijent.getInstance().kreirajVeslaca(new Veslac(0, imePrezime, dRodjenja, visina, tezina, kategorija, najboljeVremeFloat, dUpisa, idKluba));
+//
+//                if (kreiranVeslac != null) {
+//                    JOptionPane.showMessageDialog(this, "Veslač je unet u bazu", "Upseh", JOptionPane.INFORMATION_MESSAGE);
+//                    vtm.dodajVeslaca(kreiranVeslac);
+//
+//                } else {
+//                    JOptionPane.showMessageDialog(this, "Greska pri unosu veslača u bazu, pokušajte ponovo", "Greska", JOptionPane.ERROR_MESSAGE);
+//                }
+//
+//            } catch (Exception ex) {
+//                logger.error(ex.getMessage());
+//            }
 
         }
     }//GEN-LAST:event_evidentirajVeslacaButtonActionPerformed
@@ -1990,50 +1990,50 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
     private void promeniVeslacaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_promeniVeslacaButtonActionPerformed
         // TODO add your handling code here:
-        if (veslaciTable.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(this, "Morate selektovati veslača za ažuriranje", "Greska", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        Veslac v = new Veslac();
-        v.setIdVeslaca((int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 0));
-        v.setImePrezime((String) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 1));
-        v.setDatumRodjenja((java.util.Date) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 2));
-        v.setVisina((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 3));
-        v.setTezina((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 4));
-        v.setKategorija((KategorijaVeslaca) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 5));
-        v.setBMI((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 6));
-        v.setNajboljeVreme((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 7));
-//        v.setNajboljeVreme(Math.floor(najboljeVremeFloat / 60) + ":" + Math.floor(najboljeVremeFloat % 60));
-        v.setDatumUpisa((java.util.Date) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 8));
-        v.setIdKluba(idKluba);
-
-        try {
-            IzmeniVeslacForma ivf = new IzmeniVeslacForma(this, true, v);
-
-            ivf.addWindowListener(new WindowAdapter() {
-                
-                
-                @Override
-                public void windowClosed(WindowEvent e) {
-
-                    
-                    try{
-                    List<Veslac> veslaci =  Klijent.getInstance().vratiSveVeslace(idKluba);
-                    veslaciTable.setModel(new VeslacTableModel(veslaci));
-                    veslaciTable.repaint();
-                    veslaciTable.revalidate();
-                    }catch(Exception ex){
-                        logger.error(ex.getMessage());
-                    }
-                }
-
-            });
-
-//        
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Greška", "Greška pri ažuriranju veslača", JOptionPane.ERROR_MESSAGE);
-        }
+//        if (veslaciTable.getSelectedRow() == -1) {
+//            JOptionPane.showMessageDialog(this, "Morate selektovati veslača za ažuriranje", "Greska", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
+//
+//        Veslac v = new Veslac();
+//        v.setIdVeslaca((int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 0));
+//        v.setImePrezime((String) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 1));
+//        v.setDatumRodjenja((java.util.Date) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 2));
+//        v.setVisina((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 3));
+//        v.setTezina((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 4));
+//        v.setKategorija((KategorijaVeslaca) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 5));
+//        v.setBMI((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 6));
+//        v.setNajboljeVreme((float) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 7));
+////        v.setNajboljeVreme(Math.floor(najboljeVremeFloat / 60) + ":" + Math.floor(najboljeVremeFloat % 60));
+//        v.setDatumUpisa((java.util.Date) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 8));
+//        v.setIdKluba(idKluba);
+//
+//        try {
+//            IzmeniVeslacForma ivf = new IzmeniVeslacForma(this, true, v);
+//
+//            ivf.addWindowListener(new WindowAdapter() {
+//                
+//                
+//                @Override
+//                public void windowClosed(WindowEvent e) {
+//
+//                    
+//                    try{
+//                    List<Veslac> veslaci =  Klijent.getInstance().vratiSveVeslace(idKluba);
+//                    veslaciTable.setModel(new VeslacTableModel(veslaci));
+//                    veslaciTable.repaint();
+//                    veslaciTable.revalidate();
+//                    }catch(Exception ex){
+//                        logger.error(ex.getMessage());
+//                    }
+//                }
+//
+//            });
+//
+////        
+//        } catch (Exception ex) {
+//            JOptionPane.showMessageDialog(this, "Greška", "Greška pri ažuriranju veslača", JOptionPane.ERROR_MESSAGE);
+//        }
 
 
     }//GEN-LAST:event_promeniVeslacaButtonActionPerformed

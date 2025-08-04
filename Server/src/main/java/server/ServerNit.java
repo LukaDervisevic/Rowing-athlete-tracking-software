@@ -22,6 +22,7 @@ import operacije.StatusPoruke;
 import operacije.Zahtev;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import transfer.TransferObjekat;
 
 /**
  *
@@ -92,17 +93,22 @@ class ServerNit extends Thread {
     private synchronized Object obradiZahtev(Zahtev korisnikovZahtev) {
 
         Object objekat;
+        TransferObjekat transferObj;
 
         try {
-
+            transferObj = (TransferObjekat) korisnikovZahtev.getParametar();
             switch (korisnikovZahtev.getOperacija()) {
                 case Operacija.PRIJAVA -> {
                     objekat = Controller.getInstance().login((Nalog) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
                 case Operacija.KREIRANJE_KLUB -> {
-                    objekat = Controller.getInstance().kreirajVeslackiKlub((VeslackiKlub) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK, objekat);
+                    
+                    boolean signal = Controller.getInstance().kreirajVeslackiKlub((TransferObjekat) korisnikovZahtev.getParametar());
+                    if(signal) {
+                       return new Odgovor(StatusPoruke.OK, transferObj); 
+                    }
+                    
                 }
 
                 case Operacija.PROMENA_KLUB -> {
@@ -153,20 +159,20 @@ class ServerNit extends Thread {
                     objekat = Controller.getInstance().vratiSveAgencije();
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
-                case Operacija.KREIRANJE_VESLAC -> {
-                    objekat = Controller.getInstance().kreirajVeslaca((Veslac) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK, objekat);
-                }
-
-                case Operacija.PRETRAZIVANJE_VESLAC -> {
-                    objekat = Controller.getInstance().pretraziVeslaca((Veslac) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK, objekat);
-                }
-
-                case Operacija.PROMENA_VESLAC -> {
-                    objekat = Controller.getInstance().azurirajVeslaca((Veslac) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK, objekat);
-                }
+//                case Operacija.KREIRANJE_VESLAC -> {
+//                    objekat = Controller.getInstance().kreirajVeslaca((Veslac) korisnikovZahtev.getParametar());
+//                    return new Odgovor(StatusPoruke.OK, objekat);
+//                }
+//
+//                case Operacija.PRETRAZIVANJE_VESLAC -> {
+//                    objekat = Controller.getInstance().pretraziVeslaca((Veslac) korisnikovZahtev.getParametar());
+//                    return new Odgovor(StatusPoruke.OK, objekat);
+//                }
+//
+//                case Operacija.PROMENA_VESLAC -> {
+//                    objekat = Controller.getInstance().azurirajVeslaca((Veslac) korisnikovZahtev.getParametar());
+//                    return new Odgovor(StatusPoruke.OK, objekat);
+//                }
 
                 case Operacija.BRISANJE_VESLAC -> {
                     objekat = Controller.getInstance().obrisiVeslaca((Integer) korisnikovZahtev.getParametar());
@@ -306,6 +312,7 @@ class ServerNit extends Thread {
         } catch (Exception ex) {
             return new Odgovor(StatusPoruke.GRESKA, ex);
         }
+        throw new RuntimeException("Ne bi trebalo da se dodje do ovde");
     }
 
 }

@@ -4,10 +4,17 @@
  */
 package so.agencija;
 
+import so.OpsteIzvrsenjeSO;
+
 /**
  *
  * @author lukad
  */
-public class SOKreirajAgenciju {
+public class SOKreirajAgenciju extends OpsteIzvrsenjeSO{
+
+    @Override
+    public boolean izvrsiSO() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

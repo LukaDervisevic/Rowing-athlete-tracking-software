@@ -1,6 +1,5 @@
 package model;
 
-import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -98,13 +97,24 @@ public class StavkaPonude implements OpstiDomenskiObjekat{
     }
 
     @Override
+    public String vratiNaziveKolona() {
+        return "id_ponude,rb,godine_treniranja,id_veslaca";
+    }
+    
+    @Override
+    public String vratiImePoKoloni(int i) {
+        String[] kolone = {"id_ponude","rb","godine_treniranja","id_veslaca"};
+        return kolone[i];
+    }
+    
+    @Override
     public String vrednostiAtributaZaKreiranje() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return idEvidencije + "," + rb + "," + godineTreniranja + "," + veslac.getIdVeslaca();
     }
 
     @Override
     public String azurirajVrednostiAtributa() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "id_ponude = " + idEvidencije + ",rb = " + rb + ",godine_treniranja = " + godineTreniranja + ",id_veslaca = " + veslac.getIdVeslaca();
     }
 
     @Override
@@ -115,11 +125,6 @@ public class StavkaPonude implements OpstiDomenskiObjekat{
     @Override
     public String vratiWhereUslov() {
         return "id_ponude = " + idEvidencije + " AND rb = " + rb; 
-    }
-
-    @Override
-    public String vratiImePoKoloni(int kolona) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -136,13 +141,19 @@ public class StavkaPonude implements OpstiDomenskiObjekat{
 
     @Override
     public String join() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "JOIN `veslanje`.`" + veslac.vratiNazivTabele() + "` ON " + alias() + ".id_veslaca = " + veslac.alias() + ".id" + 
+                "JOIN `veslanje`.`" + veslac.getKlub().vratiNazivTabele() +"` ON " + veslac.alias() + ".id_kluba = " 
+                + veslac.getKlub().alias() + ".id";
     }
 
     @Override
     public String alias() {
         return "SP";
     }
+
+    
+
+    
 
     
 

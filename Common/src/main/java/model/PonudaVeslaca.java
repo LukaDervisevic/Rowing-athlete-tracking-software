@@ -1,6 +1,7 @@
 package model;
 
-import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +10,7 @@ import java.util.Objects;
  *
  * @author luka
  */
-public class PonudaVeslaca implements Serializable{
+public class PonudaVeslaca implements OpstiDomenskiObjekat{
     
     private int id;
     
@@ -162,9 +163,56 @@ public class PonudaVeslaca implements Serializable{
         }
         return Objects.equals(this.datumKreiranja, other.datumKreiranja);
     }
+
+    @Override
+    public String vratiNaziveKolona() {
+        return "datum_kreiranja,broj_kadeta,broj_juniora,prosecno_vreme_kadeti,prosecno_vreme_junior,id_kluba,id_agencije";
+    }
     
+    @Override
+    public String vratiImePoKoloni(int i) {
+        String[] kolone = {"id,datum_kreiranja,broj_kadeta,broj_juniora,prosecno_vreme_kadeti,prosecno_vreme_junior,id_kluba,id_agencije"};
+        return kolone[i];
+    }
     
-    
-    
-    
+    @Override
+    public String vrednostiAtributaZaKreiranje() {
+        return "datum_kreiranja,broj_kadeta,broj_juniora,prosecno_vreme_kadeti,prosecno_vreme_junior,id_kluba,id_agencije";
+    }
+
+    @Override
+    public String azurirajVrednostiAtributa() {
+        return "datum_kreiranja = " + new java.sql.Date(datumKreiranja.getTime()) + ",broj_kadeta = " + brojKadeta + 
+                ",broj_juniora = " + brojJuniora + ",prosecno_vreme_kadeti = " + prosecnoVremeKadeti + ",prosecno_vreme_junior = " + prosecnoVremeJuniori + ", id_kluba = " + idKluba + ",id_agencije = " + idAgencije;
+    }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "ponuda_veslaca";
+    }
+
+    @Override
+    public String vratiWhereUslov() {
+        return "id_ponude = " + id;
+    }
+
+    @Override
+    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public String vratiPrimarniKljuc() {
+        return "id_ponude = " + id;
+    }
+
+    @Override
+    public String join() {
+        return "";
+    }
+
+    @Override
+    public String alias() {
+        return "P";
+    }
 }

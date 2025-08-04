@@ -111,6 +111,17 @@ public class Takmicenje implements OpstiDomenskiObjekat{
     }
 
     @Override
+    public String vratiNaziveKolona() {
+        return "naziv,starosna_kategorija,vrsta_trke,datum";
+    }
+    
+    @Override
+    public String vratiImePoKoloni(int i) {
+        String[] kolone = {"id","naziv","starosna_kategorija","vrsta_trke","datum"};
+        return kolone[i];
+    }
+    
+    @Override
     public String vrednostiAtributaZaKreiranje() {
         return naziv + "," + starosnaKategorija.toString() + "," + vrstaTrke.toString() + "," + new java.sql.Date(datum.getTime());
     }
@@ -128,11 +139,6 @@ public class Takmicenje implements OpstiDomenskiObjekat{
     @Override
     public String vratiWhereUslov() {
         return "id = " + id;
-    }
-
-    @Override
-    public String vratiImePoKoloni(int kolona) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -154,7 +160,4 @@ public class Takmicenje implements OpstiDomenskiObjekat{
     public String alias() {
         return "T";
     }
-    
-    
-    
 }

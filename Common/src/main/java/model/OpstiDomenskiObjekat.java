@@ -18,12 +18,12 @@ public interface OpstiDomenskiObjekat extends Serializable{
     
     abstract public String azurirajVrednostiAtributa();
     
+    abstract public String vratiNaziveKolona();
+    
     abstract public String vratiNazivTabele();
     
     abstract public String vratiWhereUslov();
-    
-    abstract public String vratiImePoKoloni(int kolona);
-    
+        
     abstract public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException;
     
     abstract public String vratiPrimarniKljuc();
@@ -31,4 +31,7 @@ public interface OpstiDomenskiObjekat extends Serializable{
     abstract public String join();
     
     abstract public String alias();
+    
+    abstract public String vratiImePoKoloni(int i);
+ 
 }

@@ -13,6 +13,8 @@ import model.StavkaPonude;
 import model.Takmicenje;
 import model.Veslac;
 import model.VeslackiKlub;
+import so.KreirajDK;
+import transfer.TransferObjekat;
 
 
 
@@ -99,13 +101,14 @@ public class Controller {
        
     }
 
-    public VeslackiKlub kreirajVeslackiKlub(VeslackiKlub klub) throws Exception{
-        return dbb.kreirajVeslackiKlubUBazi(klub);
+    public boolean kreirajVeslackiKlub(TransferObjekat to) throws Exception{
+        KreirajDK kreirajSo = new KreirajDK(to);
+        return kreirajSo.opsteIzvrsenjeSO();
     }
 
-    public Veslac kreirajVeslaca(Veslac veslac) throws Exception {
-        return dbb.kreirajVeslacaUBazi(veslac);
-    }
+//    public Veslac kreirajVeslaca(Veslac veslac) throws Exception {
+//        return dbb.kreirajVeslacaUBazi(veslac);
+//    }
 
     public List<Takmicenje> vratiTakmicenja() {
         return dbb.vratiTakmicenjaIzBaze();
@@ -135,9 +138,9 @@ public class Controller {
         return dbb.obrisiVeslacaIzBaze(id);
     }
 
-    public Veslac azurirajVeslaca(Veslac veslac) throws Exception {
-        return dbb.azurirajVeslacaUBazi(veslac);
-    }
+//    public Veslac azurirajVeslaca(Veslac veslac) throws Exception {
+//        return dbb.azurirajVeslacaUBazi(veslac);
+//    }
 
     public Nalog kreirajAgenciju(Agencija agencija) throws Exception {
         return dbb.kreirajAgencijuUBazi(agencija);
@@ -212,9 +215,9 @@ public class Controller {
         return dbb.pretraziPonuduKlubaDB(ponuda);
     }
 
-    public List<Veslac> pretraziVeslaca(Veslac veslac) {
-        return dbb.pretraziVeslacaDB(veslac);
-    }
+//    public List<Veslac> pretraziVeslaca(Veslac veslac) {
+//        return dbb.pretraziVeslacaDB(veslac);
+//    }
 
     // Mozda i da ostavim ovako
     

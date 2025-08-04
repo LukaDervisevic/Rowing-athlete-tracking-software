@@ -134,6 +134,17 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
     }
 
     @Override
+    public String vratiNaziveKolona() {
+        return "naziv,email,telefon,korisnicko_ime,sifra,id_drzave";
+    }
+    
+    @Override
+    public String vratiImePoKoloni(int i) {
+        String[] kolone = {"id","naziv","email","telefon","korisnicko_ime","sifra","id_drzave"};
+        return kolone[i];
+    }
+    
+    @Override
     public String vrednostiAtributaZaKreiranje() {
         return naziv + "," + email + "," + telefon + "," + korisnickoIme + "," + sifra + "," + drzava.getId();
     }
@@ -151,11 +162,6 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
     @Override
     public String vratiWhereUslov() {
         return "id = " + id;
-    }
-
-    @Override
-    public String vratiImePoKoloni(int kolona) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -178,9 +184,4 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
     public String alias() {
         return "A";
     }
-
-    
-    
-    
-    
 }

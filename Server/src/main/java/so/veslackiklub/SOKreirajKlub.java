@@ -4,10 +4,25 @@
  */
 package so.veslackiklub;
 
+import model.VeslackiKlub;
+import so.OpsteIzvrsenjeSO;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOKreirajKlub {
+public class SOKreirajKlub extends OpsteIzvrsenjeSO{
+    
+    public SOKreirajKlub(TransferObjekat to) {
+        this.setTo(to);
+        opsteIzvrsenjeSO();
+    }
+
+    @Override
+    public boolean izvrsiSO() {  
+        boolean signal = bbp.kreirajSlog(to.getOdo());
+        return signal;
+    }
     
 }

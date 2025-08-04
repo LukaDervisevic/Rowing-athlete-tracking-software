@@ -21,6 +21,7 @@ import operacije.StatusPoruke;
 import operacije.Zahtev;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import transfer.TransferObjekat;
 /**
  *
  * @author luka
@@ -111,7 +112,11 @@ public class Klijent {
     }
 
     public VeslackiKlub kreirajVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_KLUB,veslackiKlub);
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(veslackiKlub);
+        transferObj.setNazivSo("kreirajVeslackiKlub");
+        
+        Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_KLUB,transferObj);
         posiljalac.posaljiPoruku(zahtev);
         
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -119,7 +124,8 @@ public class Klijent {
         if(odgovor.getStatus().equals(StatusPoruke.GRESKA)){
             throw new Exception((Throwable) odgovor.getParametar());
         }else{
-            return (VeslackiKlub) odgovor.getParametar();
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return (VeslackiKlub) transferObj.getOdo();
         }
     }
 

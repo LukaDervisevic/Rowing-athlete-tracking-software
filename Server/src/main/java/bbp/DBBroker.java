@@ -16,7 +16,6 @@ import model.KlubTakmicenje;
 import model.Nalog;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
-import model.TipNaloga;
 import model.Veslac;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -139,54 +138,54 @@ public class DBBroker {
 
     }
 
-    public Veslac kreirajVeslacaUBazi(Veslac veslac) throws Exception {
-
-        Veslac kreiranVeslac;
-        Connection connection;
-        int idVeslaca = 0;
-
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
-                dotenv.get("MYSQL_USER"),
-                dotenv.get("MYSQL_PASS"));
-        connection.setAutoCommit(false);
-
-        String upit = "INSERT INTO `veslanje`.`veslac` (ime_prezime,datum_rodjenja,visina,tezina,kategorija, datum_upisa, najbolje_vreme,BMI,id_kluba) VALUES(?,?,?,?,?,?,?,?,?);";
-        PreparedStatement statement = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
-
-        statement.setString(1, veslac.getImePrezime());
-
-        java.sql.Date datumRodjenjaSQL = new Date(veslac.getDatumRodjenja().getTime());
-        statement.setDate(2, datumRodjenjaSQL);
-
-        statement.setFloat(3, veslac.getVisina());
-        statement.setFloat(4, veslac.getTezina());
-        statement.setString(5, veslac.getKategorija().toString());
-
-        java.sql.Date datumUpisaSQL = new Date(veslac.getDatumUpisa().getTime());
-        statement.setDate(6, datumUpisaSQL);
-
-        statement.setFloat(7, veslac.getNajboljeVreme());
-
-        float BMI = veslac.getTezina() / (veslac.getVisina() * veslac.getVisina());
-
-        statement.setFloat(8, BMI);
-        statement.setInt(9, veslac.getIdKluba());
-
-        statement.executeUpdate();
-
-        ResultSet rs = statement.getGeneratedKeys();
-        if (rs.next()) {
-            idVeslaca = rs.getInt(1);
-        }
-
-        connection.commit();
-
-        kreiranVeslac = new Veslac(idVeslaca, veslac.getImePrezime(), veslac.getDatumRodjenja(), veslac.getVisina(),
-                veslac.getTezina(), veslac.getKategorija(), veslac.getNajboljeVreme(), veslac.getDatumUpisa(), veslac.getIdKluba());
-
-        return kreiranVeslac;
-
-    }
+//    public Veslac kreirajVeslacaUBazi(Veslac veslac) throws Exception {
+//
+//        Veslac kreiranVeslac;
+//        Connection connection;
+//        int idVeslaca = 0;
+//
+//        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+//                dotenv.get("MYSQL_USER"),
+//                dotenv.get("MYSQL_PASS"));
+//        connection.setAutoCommit(false);
+//
+//        String upit = "INSERT INTO `veslanje`.`veslac` (ime_prezime,datum_rodjenja,visina,tezina,kategorija, datum_upisa, najbolje_vreme,BMI,id_kluba) VALUES(?,?,?,?,?,?,?,?,?);";
+//        PreparedStatement statement = connection.prepareStatement(upit, Statement.RETURN_GENERATED_KEYS);
+//
+//        statement.setString(1, veslac.getImePrezime());
+//
+//        java.sql.Date datumRodjenjaSQL = new Date(veslac.getDatumRodjenja().getTime());
+//        statement.setDate(2, datumRodjenjaSQL);
+//
+//        statement.setFloat(3, veslac.getVisina());
+//        statement.setFloat(4, veslac.getTezina());
+//        statement.setString(5, veslac.getKategorija().toString());
+//
+//        java.sql.Date datumUpisaSQL = new Date(veslac.getDatumUpisa().getTime());
+//        statement.setDate(6, datumUpisaSQL);
+//
+//        statement.setFloat(7, veslac.getNajboljeVreme());
+//
+//        float BMI = veslac.getTezina() / (veslac.getVisina() * veslac.getVisina());
+//
+//        statement.setFloat(8, BMI);
+//        statement.setInt(9, veslac.getIdKluba());
+//
+//        statement.executeUpdate();
+//
+//        ResultSet rs = statement.getGeneratedKeys();
+//        if (rs.next()) {
+//            idVeslaca = rs.getInt(1);
+//        }
+//
+//        connection.commit();
+//
+//        kreiranVeslac = new Veslac(idVeslaca, veslac.getImePrezime(), veslac.getDatumRodjenja(), veslac.getVisina(),
+//                veslac.getTezina(), veslac.getKategorija(), veslac.getNajboljeVreme(), veslac.getDatumUpisa(), veslac.getIdKluba());
+//
+//        return kreiranVeslac;
+//
+//    }
 
     public List<Takmicenje> vratiTakmicenjaIzBaze() {
 
@@ -359,50 +358,50 @@ public class DBBroker {
         return brRedova;
     }
 
-    public Veslac azurirajVeslacaUBazi(Veslac veslac) throws Exception {
-
-        Connection connection = null;
-        Veslac azuriraniVeslac = null;
-
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje", dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"));
-            connection.setAutoCommit(false);
-
-            String upit = "UPDATE `veslanje`.`veslac` SET ime_prezime=?, datum_rodjenja=?, visina=?, tezina=?, kategorija=?, BMI=?, najbolje_vreme=?, datum_upisa=?,id_kluba=? WHERE id=?;";
-            PreparedStatement ps = connection.prepareStatement(upit);
-            ps.setString(1, veslac.getImePrezime());
-
-            java.sql.Date datum_rodjenja = new java.sql.Date(veslac.getDatumRodjenja().getTime());
-            ps.setDate(2, datum_rodjenja);
-
-            ps.setFloat(3, veslac.getVisina());
-            ps.setFloat(4, veslac.getTezina());
-
-            ps.setString(5, veslac.getKategorija().toString());
-            ps.setFloat(6, veslac.getBMI());
-            ps.setFloat(7, veslac.getNajboljeVreme());
-
-            java.sql.Date datum_upisa = new java.sql.Date(veslac.getDatumUpisa().getTime());
-            ps.setDate(8, datum_upisa);
-
-            ps.setInt(9, veslac.getIdKluba());
-
-            ps.setInt(10, veslac.getIdVeslaca());
-
-            ps.executeUpdate();
-            connection.commit();
-            azuriraniVeslac = vratiVeslacaPoId(veslac.getIdVeslaca());
-        } catch (SQLException ex) {
-            connection.rollback();
-            throw new Exception(ex);
-
-        } finally {
-            connection.close();
-        }
-
-        return veslac;
-
-    }
+//    public Veslac azurirajVeslacaUBazi(Veslac veslac) throws Exception {
+//
+//        Connection connection = null;
+//        Veslac azuriraniVeslac = null;
+//
+//        try {
+//            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje", dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"));
+//            connection.setAutoCommit(false);
+//
+//            String upit = "UPDATE `veslanje`.`veslac` SET ime_prezime=?, datum_rodjenja=?, visina=?, tezina=?, kategorija=?, BMI=?, najbolje_vreme=?, datum_upisa=?,id_kluba=? WHERE id=?;";
+//            PreparedStatement ps = connection.prepareStatement(upit);
+//            ps.setString(1, veslac.getImePrezime());
+//
+//            java.sql.Date datum_rodjenja = new java.sql.Date(veslac.getDatumRodjenja().getTime());
+//            ps.setDate(2, datum_rodjenja);
+//
+//            ps.setFloat(3, veslac.getVisina());
+//            ps.setFloat(4, veslac.getTezina());
+//
+//            ps.setString(5, veslac.getKategorija().toString());
+//            ps.setFloat(6, veslac.getBMI());
+//            ps.setFloat(7, veslac.getNajboljeVreme());
+//
+//            java.sql.Date datum_upisa = new java.sql.Date(veslac.getDatumUpisa().getTime());
+//            ps.setDate(8, datum_upisa);
+//
+//            ps.setInt(9, veslac.getIdKluba());
+//
+//            ps.setInt(10, veslac.getIdVeslaca());
+//
+//            ps.executeUpdate();
+//            connection.commit();
+//            azuriraniVeslac = vratiVeslacaPoId(veslac.getIdVeslaca());
+//        } catch (SQLException ex) {
+//            connection.rollback();
+//            throw new Exception(ex);
+//
+//        } finally {
+//            connection.close();
+//        }
+//
+//        return veslac;
+//
+//    }
 
     public Agencija kreirajAgencijuUBazi(Agencija agencija) throws Exception {
 
@@ -1249,62 +1248,62 @@ public class DBBroker {
 
     }
 
-    public List<Veslac> pretraziVeslacaDB(Veslac veslac) {
-
-        List<Veslac> veslaci = new LinkedList<>();
-
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
-                dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"))) {
-
-            String upit;
-
-            if (veslac.getIdKluba() == 0) {
-                upit = "SELECT * FROM `veslanje`.`veslac` WHERE ime_prezime LIKE ?;";
-            } else {
-                upit = "SELECT * FROM `veslanje`.`veslac` WHERE ime_prezime LIKE ? AND id_kluba=?;";
-
-            }
-
-            String imePrezime = "%" + veslac.getImePrezime() + "%";
-            PreparedStatement ps = connection.prepareStatement(upit);
-            ps.setString(1, imePrezime);
-            if (veslac.getIdKluba() != 0) {
-                ps.setInt(2, veslac.getIdKluba());
-            }
-
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-
-                Veslac pretrazenVeslac = new Veslac();
-                pretrazenVeslac.setIdVeslaca(rs.getInt("id"));
-                pretrazenVeslac.setDatumRodjenja(new java.util.Date(rs.getDate("datum_rodjenja").getTime()));
-                pretrazenVeslac.setDatumUpisa(new java.util.Date(rs.getDate("datum_upisa").getTime()));
-                pretrazenVeslac.setImePrezime(rs.getString("ime_prezime"));
-                pretrazenVeslac.setKategorija(KategorijaVeslaca.valueOf(rs.getString("kategorija")));
-//                float nbv = rs.getFloat("najbolje_vreme");
-//                String najbolje_vreme;
-//                if (nbv % 60 < 10) {
-//                    najbolje_vreme = nbv / 60 + ":0" + nbv % 60;
-//                } else {
-//                    najbolje_vreme = nbv / 60 + ":" + nbv % 60;
-//                }
-
-                pretrazenVeslac.setNajboljeVreme(rs.getFloat("najbolje_vreme"));
-                pretrazenVeslac.setBMI(rs.getFloat("BMI"));
-                pretrazenVeslac.setTezina(rs.getFloat("tezina"));
-                pretrazenVeslac.setVisina(rs.getFloat("visina"));
-                pretrazenVeslac.setIdKluba(rs.getInt("id_kluba"));
-
-                veslaci.add(pretrazenVeslac);
-                System.out.println(pretrazenVeslac);
-
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return veslaci;
-    }
+//    public List<Veslac> pretraziVeslacaDB(Veslac veslac) {
+//
+//        List<Veslac> veslaci = new LinkedList<>();
+//
+//        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+//                dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"))) {
+//
+//            String upit;
+//
+//            if (veslac.getIdKluba() == 0) {
+//                upit = "SELECT * FROM `veslanje`.`veslac` WHERE ime_prezime LIKE ?;";
+//            } else {
+//                upit = "SELECT * FROM `veslanje`.`veslac` WHERE ime_prezime LIKE ? AND id_kluba=?;";
+//
+//            }
+//
+//            String imePrezime = "%" + veslac.getImePrezime() + "%";
+//            PreparedStatement ps = connection.prepareStatement(upit);
+//            ps.setString(1, imePrezime);
+//            if (veslac.getIdKluba() != 0) {
+//                ps.setInt(2, veslac.getIdKluba());
+//            }
+//
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//
+//                Veslac pretrazenVeslac = new Veslac();
+//                pretrazenVeslac.setIdVeslaca(rs.getInt("id"));
+//                pretrazenVeslac.setDatumRodjenja(new java.util.Date(rs.getDate("datum_rodjenja").getTime()));
+//                pretrazenVeslac.setDatumUpisa(new java.util.Date(rs.getDate("datum_upisa").getTime()));
+//                pretrazenVeslac.setImePrezime(rs.getString("ime_prezime"));
+//                pretrazenVeslac.setKategorija(KategorijaVeslaca.valueOf(rs.getString("kategorija")));
+////                float nbv = rs.getFloat("najbolje_vreme");
+////                String najbolje_vreme;
+////                if (nbv % 60 < 10) {
+////                    najbolje_vreme = nbv / 60 + ":0" + nbv % 60;
+////                } else {
+////                    najbolje_vreme = nbv / 60 + ":" + nbv % 60;
+////                }
+//
+//                pretrazenVeslac.setNajboljeVreme(rs.getFloat("najbolje_vreme"));
+//                pretrazenVeslac.setBMI(rs.getFloat("BMI"));
+//                pretrazenVeslac.setTezina(rs.getFloat("tezina"));
+//                pretrazenVeslac.setVisina(rs.getFloat("visina"));
+//                pretrazenVeslac.setIdKluba(rs.getInt("id_kluba"));
+//
+//                veslaci.add(pretrazenVeslac);
+//                System.out.println(pretrazenVeslac);
+//
+//            }
+//
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//        return veslaci;
+//    }
 
     public List<Takmicenje> pretraziTakmicenjaDB(String nazivTakmicenja) {
 
