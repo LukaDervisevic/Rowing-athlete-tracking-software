@@ -4,10 +4,19 @@
  */
 package so.veslac;
 
+import so.PromeniDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOPromeniVeslaca {
+public class SOPromeniVeslaca extends PromeniDK{
+
+    public SOPromeniVeslaca(TransferObjekat to) {
+        setTo(to);
+        porukaUspeh = "Uspesno azuriranje veslaca";
+        porukaGreska = "Greska pri azuriranju veslaca: " + to.getPoruka();
+    }
     
 }

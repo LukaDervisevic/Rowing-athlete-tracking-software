@@ -4,10 +4,19 @@
  */
 package so.ponudaveslaca;
 
+import so.ObrisiDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOObrisiPonudu {
-    
+public class SOObrisiPonudu extends ObrisiDK {
+
+    public SOObrisiPonudu(TransferObjekat to) {
+        setTo(to);
+        porukaUspesno = "Uspesno brisanje ponude veslaca";
+        porukaGreska = "Greska pri brisanju ponude veslaca";
+    }
+
 }

@@ -4,10 +4,19 @@
  */
 package so.agencija;
 
+import so.NadjiDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOPretraziAgenciju {
+public class SOPretraziAgenciju extends NadjiDK{
+
+    public SOPretraziAgenciju(TransferObjekat to) {
+        setTo(to);
+        porukaUspeh = "Uspesno pretrazivanje agencija";
+        porukaGreska = "Greska pri pretrazivanju agencija";
+    }
     
 }

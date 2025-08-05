@@ -185,7 +185,7 @@ public class Veslac implements OpstiDomenskiObjekat{
 
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        return imePrezime + "," + new java.sql.Date(datumRodjenja.getTime()) + "," + visina + "," + tezina + "," + kategorija + "," + BMI + "," + najboljeVreme + "," + new java.sql.Date(datumUpisa.getTime()) + ","+ klub.getId();
+        return "'" + imePrezime + "'," + new java.sql.Date(datumRodjenja.getTime()) + "," + visina + "," + tezina + ",'" + kategorija + "'," + BMI + "," + najboljeVreme + "," + new java.sql.Date(datumUpisa.getTime()) + ","+ klub.getId();
     }
 
     @Override

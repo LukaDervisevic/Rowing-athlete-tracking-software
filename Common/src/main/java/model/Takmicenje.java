@@ -123,7 +123,7 @@ public class Takmicenje implements OpstiDomenskiObjekat{
     
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        return naziv + "," + starosnaKategorija.toString() + "," + vrstaTrke.toString() + "," + new java.sql.Date(datum.getTime());
+        return "'" + naziv + "','" + starosnaKategorija.toString() + "','" + vrstaTrke.toString() + "'," + new java.sql.Date(datum.getTime());
     }
 
     @Override

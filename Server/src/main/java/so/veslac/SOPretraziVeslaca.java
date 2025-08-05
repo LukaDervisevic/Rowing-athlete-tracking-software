@@ -4,10 +4,18 @@
  */
 package so.veslac;
 
+import so.NadjiDK;
+
 /**
  *
  * @author lukad
  */
-public class SOPretraziVeslaca {
+public class SOPretraziVeslaca extends NadjiDK{
+
+    public SOPretraziVeslaca() {
+        setTo(to);
+        porukaUspeh = "Uspesno pretrazivanje veslaca";
+        porukaGreska = "Greska pri pretrazivanju veslaca: " + to.getPoruka();
+    }
     
 }

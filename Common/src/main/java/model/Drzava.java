@@ -80,7 +80,7 @@ public class Drzava implements OpstiDomenskiObjekat{
     
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        return "naziv = "+naziv;
+        return "'" + naziv + "'";
     }
 
     @Override

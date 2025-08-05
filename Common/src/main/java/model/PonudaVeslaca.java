@@ -177,7 +177,7 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat{
     
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        return "datum_kreiranja,broj_kadeta,broj_juniora,prosecno_vreme_kadeti,prosecno_vreme_junior,id_kluba,id_agencije";
+        return datumKreiranja + "," + brojKadeta + "," + brojJuniora + "," + prosecnoVremeKadeti + "," + prosecnoVremeJuniori + "," + idKluba + "," + idAgencije;
     }
 
     @Override

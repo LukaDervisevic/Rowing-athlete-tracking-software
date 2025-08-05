@@ -4,10 +4,19 @@
  */
 package so.drzava;
 
+import so.ObrisiDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOObrisiDrzavu {
+public class SOObrisiDrzavu extends ObrisiDK{
+
+    public SOObrisiDrzavu(TransferObjekat to) {
+        setTo(to);
+        porukaUspesno = "Uspesno brisanje drzave";
+        porukaGreska = "Greska pri brisanju drzave: " + to.getPoruka();
+    }
     
 }

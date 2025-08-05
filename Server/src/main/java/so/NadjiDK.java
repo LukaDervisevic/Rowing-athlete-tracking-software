@@ -5,33 +5,42 @@
 package so;
 
 import model.OpstiDomenskiObjekat;
+import ogranicenja.Ogranicenje;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author luka
  */
-public class NadjiDK extends OpsteIzvrsenjeSO{
+public class NadjiDK extends OpsteIzvrsenjeSO {
 
+    protected String porukaUspeh;
+    protected String porukaGreska;
+    
     public void nadjiDK(TransferObjekat to) {
         setTo(to);
         opsteIzvrsenjeSO();
     }
-    
+
     @Override
     public boolean izvrsiSO() {
-        OpstiDomenskiObjekat odo = (OpstiDomenskiObjekat) bbp.pronadjiSlog(to.getOdo());
-        to.setOdo(odo);
-        if(odo != null) {
-            to.setSignal(true);
-            to.setTrenutniSlog(bbp.vratiPozicijuSloga(odo));
-            to.setPoruka("Uspesno pri vracanju domenskog objekta");
-        }else{
-            to.setSignal(false);
-            to.setTrenutniSlog(-1);
-            to.setPoruka("Neuspeh pri vracanju domenskog objekta");
+
+        Ogranicenje ogranicenje = new Ogranicenje();
+        if (ogranicenje.proveriOgranicenja(to)) {
+            OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) bbp.pronadjiSlog(to.getOdo());
+            if (vraceniOdo != null) {
+                to.setOdo(vraceniOdo);
+                to.setSignal(true);
+                to.setTrenutniSlog(bbp.vratiPozicijuSloga(odo));
+                to.setPoruka(porukaUspeh);
+            } else {
+                to.setSignal(false);
+                to.setTrenutniSlog(-1);
+                to.setPoruka(porukaGreska);
+            }
         }
+
         return to.isSignal();
     }
-    
+
 }

@@ -146,7 +146,7 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
     
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        return naziv + "," + email + "," + telefon + "," + korisnickoIme + "," + sifra + "," + drzava.getId();
+        return "'" + naziv + "','" + email + "','" + telefon + "','" + korisnickoIme + "','" + sifra + "'," + drzava.getId();
     }
 
     @Override

@@ -109,7 +109,7 @@ public class KlubTakmicenje implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiWhereUslov() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "id_kluba = " + klub.getId() + ",id_takmicenje = " + takmicenje.getId() + ",mesto = " + mesto;
     }
 
     @Override

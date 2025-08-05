@@ -4,10 +4,19 @@
  */
 package so.ponudaveslaca;
 
+import so.PromeniDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOPromeniPonudu {
+public class SOPromeniPonudu extends PromeniDK{
+
+    public SOPromeniPonudu(TransferObjekat to) {
+        setTo(to);
+        porukaUspeh = "Uspesno azuriranje ponude veslaca";
+        porukaGreska = "Greska pri azuriranju ponuda veslaca";
+    }
     
 }

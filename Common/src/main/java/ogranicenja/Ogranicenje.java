@@ -12,6 +12,10 @@ import transfer.TransferObjekat;
  */
 public class Ogranicenje {
     
+    public boolean proveriOgranicenja(TransferObjekat to) {
+        return true;
+    }
+    
     public boolean preduslovProstaVrednosnaOgranicenja_kreiraj(TransferObjekat to) {
         return true;
     }

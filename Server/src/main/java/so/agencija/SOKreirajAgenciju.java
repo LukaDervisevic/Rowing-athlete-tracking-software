@@ -4,17 +4,18 @@
  */
 package so.agencija;
 
-import so.OpsteIzvrsenjeSO;
+import so.KreirajDK;
 
 /**
  *
  * @author lukad
  */
-public class SOKreirajAgenciju extends OpsteIzvrsenjeSO{
+public class SOKreirajAgenciju extends KreirajDK{
 
-    @Override
-    public boolean izvrsiSO() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public SOKreirajAgenciju() {
+        setTo(to);
+        porukaUspesno = "Uspesno kreiranje agencije";
+        porukaGreska = "Greska pri kreiranju agencije: " + to.getPoruka();
     }
     
 }

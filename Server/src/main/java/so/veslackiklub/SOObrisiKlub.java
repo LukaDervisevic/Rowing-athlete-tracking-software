@@ -4,10 +4,19 @@
  */
 package so.veslackiklub;
 
+import so.ObrisiDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOObrisiKlub {
+public class SOObrisiKlub extends ObrisiDK{
+
+    public SOObrisiKlub(TransferObjekat to) {
+        setTo(to);
+        porukaUspesno = "Uspesno brisanje veslackog kluba";
+        porukaGreska = "Greska pri brisanju veslackog kluba: " + to.getPoruka();
+    }
     
 }

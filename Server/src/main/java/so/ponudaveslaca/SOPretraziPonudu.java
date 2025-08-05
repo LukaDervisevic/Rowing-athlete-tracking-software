@@ -4,10 +4,19 @@
  */
 package so.ponudaveslaca;
 
+import so.NadjiDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOPretraziPonudu {
+public class SOPretraziPonudu extends NadjiDK{
+
+    public SOPretraziPonudu(TransferObjekat to) {
+        setTo(to);
+        porukaUspeh = "Uspesno pretrazivanje ponuda veslaca";
+        porukaGreska = "Greska pri pretrazivanju ponude veslaca";
+    }
     
 }

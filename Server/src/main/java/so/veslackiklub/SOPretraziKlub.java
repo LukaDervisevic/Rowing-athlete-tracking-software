@@ -4,10 +4,21 @@
  */
 package so.veslackiklub;
 
+import so.NadjiDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOPretraziKlub {
+public class SOPretraziKlub extends NadjiDK{
+
+    public SOPretraziKlub(TransferObjekat to) {
+        setTo(to);
+        porukaUspeh = "Uspesna pretraga veslackih klubova";
+        porukaGreska = "Greska pri pretrazivanju veslackih klubova: " + to.getPoruka();
+    }
+
+    
     
 }

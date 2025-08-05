@@ -12,7 +12,6 @@ import model.KlubTakmicenje;
 import model.Nalog;
 import model.PonudaVeslaca;
 import model.Takmicenje;
-import model.Veslac;
 import model.VeslackiKlub;
 import operacije.Odgovor;
 import operacije.Operacija;
@@ -104,7 +103,7 @@ class ServerNit extends Thread {
                 }
                 case Operacija.KREIRANJE_KLUB -> {
                     
-                    boolean signal = Controller.getInstance().kreirajVeslackiKlub((TransferObjekat) korisnikovZahtev.getParametar());
+                    boolean signal = Controller.getInstance().kreirajVeslackiKlub(transferObj);
                     if(signal) {
                        return new Odgovor(StatusPoruke.OK, transferObj); 
                     }

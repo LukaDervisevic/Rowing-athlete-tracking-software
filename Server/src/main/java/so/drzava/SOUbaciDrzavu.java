@@ -4,10 +4,19 @@
  */
 package so.drzava;
 
+import so.KreirajDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOUbaciDrzavu {
+public class SOUbaciDrzavu extends KreirajDK{
+
+    public SOUbaciDrzavu(TransferObjekat to) {
+        setTo(to);
+        porukaUspesno = "Uspesno ubacivanje drzave";
+        porukaGreska = "Greska pri ubacivanju drzave: " + to.getPoruka();
+    }
     
 }

@@ -4,10 +4,18 @@
  */
 package so.takmicenje;
 
+import so.ObrisiDK;
+
 /**
  *
  * @author lukad
  */
-public class SOObrisiTakmicenje {
-    
+public class SOObrisiTakmicenje extends ObrisiDK {
+
+    public SOObrisiTakmicenje() {
+        setTo(to);
+        porukaUspesno = "Uspesno brisanje takmicenja";
+        porukaGreska  = "Greska pri brisanju takmicenja: " + to.getPoruka();
+    }
+
 }

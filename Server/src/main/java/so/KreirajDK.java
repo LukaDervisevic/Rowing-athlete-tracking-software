@@ -4,39 +4,45 @@
  */
 package so;
 
+import ogranicenja.Ogranicenje;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author luka
  */
-public class KreirajDK extends OpsteIzvrsenjeSO{
+public class KreirajDK extends OpsteIzvrsenjeSO {
+
+    protected String porukaUspesno;
+    protected String porukaGreska;
 
     public void kreirajDK(TransferObjekat to) {
         this.setTo(to);
         opsteIzvrsenjeSO();
     }
-    
+
     @Override
     public boolean izvrsiSO() {
-        
-        if(getBbp().kreirajSlog(getTo().getOdo())) {
-            getTo().poruka = "Uspesno kreirana domenska klasa";
-            getTo().signal = true;
-        }else{
-            getTo().poruka = "Neuspesno kreiranje domenske klase";
-            getTo().signal = false;
+        boolean signal = false;
+        Ogranicenje ogranicenje = new Ogranicenje();
+        if (ogranicenje.proveriOgranicenja(to)) {
+            signal = getBbp().kreirajSlog(getTo().getOdo());
+            if (signal) {
+                getTo().poruka = porukaUspesno;
+            } else {
+                getTo().poruka = porukaGreska;
+            }
+            getTo().signal = signal;
         }
-        
-        return getTo().signal;
+
+        return signal;
     }
 
     public KreirajDK() {
     }
-    
+
     public KreirajDK(TransferObjekat to) {
         this.setTo(to);
     }
-    
-    
+
 }

@@ -4,10 +4,19 @@
  */
 package so.agencija;
 
+import so.ObrisiDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOObrisiAgenciju {
+public class SOObrisiAgenciju extends ObrisiDK{
+
+    public SOObrisiAgenciju(TransferObjekat to) {
+        setTo(to);
+        porukaUspesno = "Uspesno brisanje agencije";
+        porukaGreska = "Greska pri brisanju agencije: " + to.getPoruka();
+    }
     
 }

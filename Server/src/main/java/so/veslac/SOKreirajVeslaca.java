@@ -4,10 +4,18 @@
  */
 package so.veslac;
 
+import so.KreirajDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOKreirajVeslaca {
-    
+public class SOKreirajVeslaca extends KreirajDK{
+
+    public SOKreirajVeslaca(TransferObjekat to) {
+        setTo(to);
+        porukaUspesno = "Uspesno kreiranje veslaca";
+        porukaGreska = "Greska pri kreiranju veslaca: " + to.getPoruka();
+    }  
 }

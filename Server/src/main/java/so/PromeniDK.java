@@ -5,6 +5,7 @@
 package so;
 
 import model.OpstiDomenskiObjekat;
+import ogranicenja.Ogranicenje;
 import transfer.TransferObjekat;
 
 /**
@@ -13,6 +14,9 @@ import transfer.TransferObjekat;
  */
 public class PromeniDK extends OpsteIzvrsenjeSO {
 
+    protected String porukaUspeh;
+    protected String porukaGreska;
+
     public void promeniDK(TransferObjekat to) {
         this.to = to;
         opsteIzvrsenjeSO();
@@ -20,19 +24,21 @@ public class PromeniDK extends OpsteIzvrsenjeSO {
 
     @Override
     public boolean izvrsiSO() {
+        Ogranicenje ogranicenje = new Ogranicenje();
+        if (ogranicenje.proveriOgranicenja(to)) {
+            OpstiDomenskiObjekat vraceniOdo = bbp.pronadjiSlog(to.getOdo());
+            if (vraceniOdo != null) {
 
-        OpstiDomenskiObjekat vraceniOdo = bbp.pronadjiSlog(to.getOdo());
-        if (vraceniOdo != null) {
-
-            if (bbp.azurirajSlog(vraceniOdo)) {
-                to.setPoruka("Uspesno azuriranje domenskog objekta");
-                to.setSignal(true);
+                if (bbp.azurirajSlog(vraceniOdo)) {
+                    to.setPoruka(porukaUspeh);
+                    to.setSignal(true);
+                } else {
+                    to.setPoruka(porukaGreska);
+                    to.setSignal(false);
+                }
             } else {
-                to.setPoruka("Neuspesno azuriranje domenskog objekta");
-                to.setSignal(false);
+                to.setPoruka("Neuspesno pronalazenje domenskog objekta koji treba da se azurira");
             }
-        } else {
-            to.setPoruka("Neuspesno pronalazenje domenskog objekta koji treba da se azurira");
         }
 
         return to.isSignal();

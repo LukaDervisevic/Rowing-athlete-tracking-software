@@ -144,6 +144,12 @@ public class OgranicenjeVeslackiKlub extends Ogranicenje{
         }
         return signal;
     }
+
+    @Override
+    public boolean proveriOgranicenja(TransferObjekat to) {
+        return preduslovProstaVrednosnaOgranicenja_kreiraj(to) && preduslovProstaVrednosnaOgranicenja_obrisi(to) && preduslovProstaVrednosnaOgranicenja_promeni(to);
+    }
+    
     
     
     

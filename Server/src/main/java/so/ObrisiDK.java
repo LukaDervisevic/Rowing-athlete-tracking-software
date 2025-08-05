@@ -4,31 +4,38 @@
  */
 package so;
 
+import ogranicenja.Ogranicenje;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author luka
  */
-public class ObrisiDK extends OpsteIzvrsenjeSO{
+public class ObrisiDK extends OpsteIzvrsenjeSO {
+
+    protected String porukaUspesno;
+    protected String porukaGreska;
 
     public void obrisiDK(TransferObjekat to) {
         this.to = to;
         opsteIzvrsenjeSO();
     }
-    
+
     @Override
     public boolean izvrsiSO() {
-        if(bbp.obrisiSlog(to.getOdo())) {
-            to.setPoruka("Uspesno brisanje domenskog objekta");
-            to.setSignal(true);
-            to.setOdo(null);
-        }else{
-            to.setPoruka("Neuspeh pri brisanje domenskog objekta");
-            to.setSignal(false);
-            to.setOdo(odo);
+        boolean signal = false;
+        Ogranicenje ogranicenje = new Ogranicenje();
+        if (ogranicenje.proveriOgranicenja(to)) {
+            signal = bbp.obrisiSlog(to.getOdo());
+            if (signal) {
+                getTo().poruka = porukaUspesno;
+            } else {
+                getTo().poruka = porukaGreska;
+            }
+            getTo().setSignal(signal);
         }
-        return to.isSignal();
+
+        return signal;
     }
-    
+
 }

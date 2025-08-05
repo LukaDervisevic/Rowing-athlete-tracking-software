@@ -4,10 +4,19 @@
  */
 package so.takmicenje;
 
+import so.KreirajDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOUbaciTakmicenje {
+public class SOUbaciTakmicenje extends KreirajDK{
+
+    public SOUbaciTakmicenje(TransferObjekat to) {
+        setTo(to);
+        porukaUspesno = "Uspesno ubacivanje takmicenja";
+        porukaGreska = "Greska pri ubacivanju takmicenja: " + to.getPoruka();
+    }
     
 }

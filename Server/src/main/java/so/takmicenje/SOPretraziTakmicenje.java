@@ -4,10 +4,18 @@
  */
 package so.takmicenje;
 
+import so.NadjiDK;
+
 /**
  *
  * @author lukad
  */
-public class SOPretraziTakmicenje {
-    
+public class SOPretraziTakmicenje extends NadjiDK {
+
+    public SOPretraziTakmicenje() {
+        setTo(to);
+        porukaUspeh = "Uspesno pretrazivanje takmicenja";
+        porukaGreska = "Greska pri pretrazivanju takmicenja: " + to.getPoruka();
+    }
+
 }
