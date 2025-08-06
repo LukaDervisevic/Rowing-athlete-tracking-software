@@ -29,48 +29,48 @@ public class PotvrdaNalogaServis {
     }
 
     public void obrisiKorisnikaAkoIstekneVreme(Nalog nalog) {
-        try {
+//        try {
 
-            if (istekloVreme()) {
-                if (nalog.getTipNaloga().equals(TipNaloga.VESLACKI_KLUB)) {
-
-                    Nalog trenutniNalog = Controller.getInstance().vratiVeslackiKlubPoId(nalog.getId());
-                    System.out.println(uuid);
-                    System.out.println(trenutniNalog);
-
-                    if (trenutniNalog.getSifra().equals(uuid)) {
-                        Integer obrisaniId = Controller.getInstance().obrisiVeslackiKlub(trenutniNalog.getId());
-                        if (obrisaniId > 0) {
-                            System.out.println("Uspesno brisanje korisnika, gasenje...");
-                        }
-                    }
-
-                } else {
-                    Nalog trenutniNalog = Controller.getInstance().vratiAgencijuPoId(nalog.getId());
-                    System.out.println(uuid);
-                    System.out.println(trenutniNalog);
-
-                    if (trenutniNalog.getSifra().equals(uuid)) {
-                        Integer obrisaniId = Controller.getInstance().obrisiAgenciju(trenutniNalog.getId());
-                        if (obrisaniId > 0) {
-                            System.out.println("Uspesno brisanje korisnika, gasenje...");
-                        }
-                    }
-
-                }
-
-            }
-        } catch (Exception ex) {
-            logger.error(ex.getMessage());
-        }
+//            if (istekloVreme()) {
+//                if (nalog.getTipNaloga().equals(TipNaloga.VESLACKI_KLUB)) {
+//
+//                    Nalog trenutniNalog = Controller.getInstance().vratiVeslackiKlubPoId(nalog.getId());
+//                    System.out.println(uuid);
+//                    System.out.println(trenutniNalog);
+//
+//                    if (trenutniNalog.getSifra().equals(uuid)) {
+//                        Integer obrisaniId = Controller.getInstance().obrisiVeslackiKlub(trenutniNalog.getId());
+//                        if (obrisaniId > 0) {
+//                            System.out.println("Uspesno brisanje korisnika, gasenje...");
+//                        }
+//                    }
+//
+//                } else {
+//                    Nalog trenutniNalog = Controller.getInstance().vratiAgencijuPoId(nalog.getId());
+//                    System.out.println(uuid);
+//                    System.out.println(trenutniNalog);
+//
+//                    if (trenutniNalog.getSifra().equals(uuid)) {
+//                        Integer obrisaniId = Controller.getInstance().obrisiAgenciju(trenutniNalog.getId());
+//                        if (obrisaniId > 0) {
+//                            System.out.println("Uspesno brisanje korisnika, gasenje...");
+//                        }
+//                    }
+//
+//                }
+//
+//            }
+//        } catch (Exception ex) {
+//            logger.error(ex.getMessage());
+//        }
 
     }
 
-    public boolean istekloVreme() {
-        LocalDateTime trenutno = LocalDateTime.now();
-        Duration trajanje = Duration.between(Controller.getInstance().getVremeKreiranjaNaloga(), trenutno);
-
-        return trajanje.toMinutes() > 15;
-    }
+//    public boolean istekloVreme() {
+//        LocalDateTime trenutno = LocalDateTime.now();
+//        Duration trajanje = Duration.between(Controller.getInstance().getVremeKreiranjaNaloga(), trenutno);
+//
+//        return trajanje.toMinutes() > 15;
+//    }
 
 }

@@ -4,7 +4,9 @@
  */
 package so.takmicenje;
 
+import model.Takmicenje;
 import so.NadjiDK;
+import transfer.TransferObjekat;
 
 /**
  *
@@ -12,7 +14,7 @@ import so.NadjiDK;
  */
 public class SOPretraziTakmicenje extends NadjiDK {
 
-    public SOPretraziTakmicenje() {
+    public SOPretraziTakmicenje(TransferObjekat to) {
         setTo(to);
         porukaUspeh = "Uspesno pretrazivanje takmicenja";
         porukaGreska = "Greska pri pretrazivanju takmicenja: " + to.getPoruka();

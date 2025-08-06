@@ -5,6 +5,7 @@
 package so.takmicenje;
 
 import so.ObrisiDK;
+import transfer.TransferObjekat;
 
 /**
  *
@@ -12,7 +13,7 @@ import so.ObrisiDK;
  */
 public class SOObrisiTakmicenje extends ObrisiDK {
 
-    public SOObrisiTakmicenje() {
+    public SOObrisiTakmicenje(TransferObjekat to) {
         setTo(to);
         porukaUspesno = "Uspesno brisanje takmicenja";
         porukaGreska  = "Greska pri brisanju takmicenja: " + to.getPoruka();

@@ -5,6 +5,7 @@
 package so.agencija;
 
 import so.KreirajDK;
+import transfer.TransferObjekat;
 
 /**
  *
@@ -12,7 +13,7 @@ import so.KreirajDK;
  */
 public class SOKreirajAgenciju extends KreirajDK{
 
-    public SOKreirajAgenciju() {
+    public SOKreirajAgenciju(TransferObjekat to) {
         setTo(to);
         porukaUspesno = "Uspesno kreiranje agencije";
         porukaGreska = "Greska pri kreiranju agencije: " + to.getPoruka();

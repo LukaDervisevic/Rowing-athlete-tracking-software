@@ -5,6 +5,7 @@
 package so.veslac;
 
 import so.NadjiDK;
+import transfer.TransferObjekat;
 
 /**
  *
@@ -12,7 +13,7 @@ import so.NadjiDK;
  */
 public class SOPretraziVeslaca extends NadjiDK{
 
-    public SOPretraziVeslaca() {
+    public SOPretraziVeslaca(TransferObjekat to) {
         setTo(to);
         porukaUspeh = "Uspesno pretrazivanje veslaca";
         porukaGreska = "Greska pri pretrazivanju veslaca: " + to.getPoruka();
