@@ -14,7 +14,7 @@ import transfer.TransferObjekat;
 public class OgranicenjeDrzava extends Ogranicenje{
 
     @Override
-    public boolean preduslovProstaVrednosnaOgranicenja_kreiraj(TransferObjekat to) {
+    public boolean prostaVrednosnaOgranicenja(TransferObjekat to) {
         boolean signal = true;
         Drzava drzava = (Drzava) to.getOdo();
         if(drzava.getNaziv() == null || drzava.getNaziv().isBlank()) {
@@ -25,25 +25,13 @@ public class OgranicenjeDrzava extends Ogranicenje{
     }
 
     @Override
-    public boolean preduslovProstaVrednosnaOgranicenja_obrisi(TransferObjekat to) {
-        boolean signal = true;
-        Drzava drzava = (Drzava) to.getOdo();
-        if(drzava.getNaziv() == null || drzava.getNaziv().isBlank()) {
-            signal = false;
-            to.setPoruka(to.getPoruka() + " " + "Naruseno prosto vrednosno ogranicenje, naziv drzave ne moze biti prazan");
-        }
-        return signal;
+    public boolean slozenaVrednosnaOgranicenja(TransferObjekat to) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public boolean preduslovProstaVrednosnaOgranicenja_promeni(TransferObjekat to) {
-        boolean signal = true;
-        Drzava drzava = (Drzava) to.getOdo();
-        if(drzava.getNaziv() == null || drzava.getNaziv().isBlank()) {
-            signal = false;
-            to.setPoruka(to.getPoruka() + " " + "Naruseno prosto vrednosno ogranicenje, naziv drzave ne moze biti prazan");
-        }
-        return signal;
+    public boolean strukturnoOgranicenje(TransferObjekat to) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     

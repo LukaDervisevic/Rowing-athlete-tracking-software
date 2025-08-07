@@ -4,10 +4,48 @@
  */
 package ogranicenja;
 
+import model.StavkaPonude;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
 public class OgranicenjeStavkaPonude extends Ogranicenje{
+
+    @Override
+    public boolean prostaVrednosnaOgranicenja(TransferObjekat to) {
+        boolean signal = true;
+        StavkaPonude stavkaPonude = (StavkaPonude) to.getOdo();
+        if(stavkaPonude.getIdEvidencije() <= 0) {
+            signal = false;
+            to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - identifikator evidencije veslaca mora biti pozitivan");
+        }
+        if(stavkaPonude.getRb() <= 0) {
+            signal = false;
+            to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - redni broj stavke mora biti pozitivan");
+        }
+        if(stavkaPonude.getGodineTreniranja() < 0) {
+            signal = false;
+            to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - Godine treniranja moraju biti nenegativne");
+        }
+        
+        if(stavkaPonude.getVeslac().getIdVeslaca() <= 0) {
+            signal = false;
+            to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - Identifikator veslaca mora biti pozitivan ");
+        }
+        
+        return signal;
+    }
+
+    @Override
+    public boolean slozenaVrednosnaOgranicenja(TransferObjekat to) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean strukturnoOgranicenje(TransferObjekat to) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }
