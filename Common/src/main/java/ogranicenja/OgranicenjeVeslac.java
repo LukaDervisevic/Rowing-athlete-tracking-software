@@ -63,7 +63,16 @@ public class OgranicenjeVeslac extends Ogranicenje{
 
     @Override
     public boolean slozenaVrednosnaOgranicenja(TransferObjekat to) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean signal = true;
+        Veslac veslac = (Veslac) to.getOdo();
+        float bmi = (float) (veslac.getVisina() / (Math.pow(veslac.getTezina(), 2)));
+        if(bmi <= 0) {
+            signal = false;
+            to.setPoruka(to.getPoruka() + " Naruseno slozeno strukturno ogranicenje - BMI veslaca mora biti pozitivan");
+        }else{
+            veslac.setBMI(bmi);
+        }
+        return signal;
     }
 
     @Override

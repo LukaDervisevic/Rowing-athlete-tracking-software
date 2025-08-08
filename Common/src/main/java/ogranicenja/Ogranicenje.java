@@ -15,7 +15,7 @@ public class Ogranicenje {
     // TODO: Razmisliti da li je potrebno pisati odvojeno metode za preduslove i postuslove
     
     public boolean proveriOgranicenja(TransferObjekat to) {
-        return prostaVrednosnaOgranicenja(to) && slozenaVrednosnaOgranicenja(to) && strukturnoOgranicenje(to);
+        return slozenaVrednosnaOgranicenja(to) && prostaVrednosnaOgranicenja(to) && strukturnoOgranicenje(to);
     }
     
     public boolean prostaVrednosnaOgranicenja(TransferObjekat to){

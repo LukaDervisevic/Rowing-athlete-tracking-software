@@ -4,6 +4,7 @@
  */
 package ogranicenja;
 
+import java.util.Date;
 import model.StavkaPonude;
 import transfer.TransferObjekat;
 
@@ -40,7 +41,19 @@ public class OgranicenjeStavkaPonude extends Ogranicenje{
 
     @Override
     public boolean slozenaVrednosnaOgranicenja(TransferObjekat to) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean signal = true;
+        StavkaPonude stavkaPonude = (StavkaPonude) to.getOdo();
+        long vremeUpisa = stavkaPonude.getVeslac().getDatumUpisa().getTime();
+        long trenutnoVreme = new Date().getTime();
+        long razlika = trenutnoVreme - vremeUpisa;
+        int godine = (int) (razlika / (1000L * 60 * 60 * 24 * 365));
+        if(godine < 0) {
+            signal = false;
+            to.setPoruka(to.getPoruka() + " Naruseno slozeno vrednosno ogranicenje - godine treniranja moraju biti nenegativne");
+        }else{
+            stavkaPonude.setGodineTreniranja(godine);
+        }
+        return signal;
     }
 
     @Override
