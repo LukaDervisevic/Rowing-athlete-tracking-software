@@ -147,6 +147,11 @@ public class Controller {
         VratiListuDK vratiListuSo = new VratiListuDK(to, whereUslov);
         return vratiListuSo.opsteIzvrsenjeSO();
     }
+    
+    public boolean vratiListuSviVeslackiKlub(TransferObjekat to) {
+        VratiListuDK vratiListuDK = new VratiListuDK(to, "");
+        return vratiListuDK.opsteIzvrsenjeSO();
+    }
 
     public VeslackiKlub vratiVeslackiKlubPoId(Integer id) throws Exception {
         return dbb.vratiVeslackiKlubPoIdDB(id);
@@ -158,7 +163,7 @@ public class Controller {
         return kreirajSo.opsteIzvrsenjeSO();
     }
 
-    public boolean azurirajVeslac(TransferObjekat to) throws Exception {
+    public boolean promeniVeslac(TransferObjekat to) throws Exception {
         PromeniDK promeniSo = new SOPromeniVeslaca(to);
         return promeniSo.opsteIzvrsenjeSO();
     }
@@ -171,6 +176,11 @@ public class Controller {
     public boolean pretraziVeslac(TransferObjekat to) throws Exception {
         NadjiDK nadjiSo = new SOPretraziVeslaca(to);
         return nadjiSo.opsteIzvrsenjeSO();
+    }
+    
+    public boolean vratiListuSviVeslac(TransferObjekat to){
+        VratiListuDK vratiSo = new VratiListuDK(to, "");
+        return vratiSo.opsteIzvrsenjeSO();
     }
 
     public boolean vratiListuVeslac(TransferObjekat to, String kriterijumVeslac) {
@@ -201,6 +211,11 @@ public class Controller {
     public boolean pretraziAgencija(TransferObjekat to) throws Exception {
         NadjiDK nadjiSo = new SOPretraziAgenciju(to);
         return nadjiSo.opsteIzvrsenjeSO();
+    }
+    
+    public boolean vratiListuSviAgencija(TransferObjekat to) {
+        VratiListuDK vratiListuDK = new VratiListuDK(to, "");
+        return vratiListuDK.opsteIzvrsenjeSO();
     }
 
     public boolean vratiListuAgencija(TransferObjekat to, String kriterijumAgencija) {
@@ -276,39 +291,40 @@ public class Controller {
         return nadjiSo.opsteIzvrsenjeSO();
     }
     
-    public boolean vratiListPonudaVeslaca(TransferObjekat to, String kriterijum) {
+    public boolean vratiListuSviPonudaVeslaca(TransferObjekat to) {
+        VratiListuDK vratiSo = new VratiListuDK(to,"");
+        return vratiSo.opsteIzvrsenjeSO();
+    }
+    
+    public boolean vratiListuPonudaVeslaca(TransferObjekat to, String kriterijum) {
         VratiListuDK vratiSo = new VratiListuDK(to, kriterijum);
         return vratiSo.opsteIzvrsenjeSO();
     }
     
     // Klub - Takmicenje
     
-    public KlubTakmicenje dodajOsvojenoTakmicenje(KlubTakmicenje klubTakmicenje) throws Exception {
-        return dbb.dodajOsvojenoTakmicenjeDB(klubTakmicenje);
+    public boolean kreirajKlubTakmicenje(TransferObjekat to){
+        KreirajDK kreirajSo = new KreirajDK(to);
+        return kreirajSo.opsteIzvrsenjeSO();
+    }
+    
+    public boolean obrisiKlubTakmicenje(TransferObjekat to) throws Exception {
+        ObrisiDK obrisiSo = new ObrisiDK();
+        return obrisiSo.opsteIzvrsenjeSO();
     }
 
     public int[] prebrojOsvojenaTakmicenja(Integer idKluba) {
         return dbb.prebrojOsvojenaTakmicenjaDB(idKluba);
     }
 
-    public Integer obrisiOsvojenoTakmicenje(KlubTakmicenje klubTakmicenje) throws Exception {
-        return dbb.obrisiOsvojenoTakmicenjeDB(klubTakmicenje);
-    }
+    
 
     public int vratiPoslednjiIdPonude() {
         return dbb.vratiPoslednjiIdPonudeDB();
     }
 
-    public PonudaVeslaca vratiPonuduPoId(int idPonude) throws Exception {
-        return dbb.vratiPonuduPoIdDB(idPonude);
-    }
-
     public List<StavkaPonude> vratiSveStavkePonude(Integer idPonude) {
         return dbb.vratiSveStavkePonudeDB(idPonude);
-    }
-
-    public Takmicenje vratiTakmicenjePoId(Integer idTakmicenja) {
-        return dbb.vratiTakmicenjePoIdDB(idTakmicenja);
     }
 
 }
