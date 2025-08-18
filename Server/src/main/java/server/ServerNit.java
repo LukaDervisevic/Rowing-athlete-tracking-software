@@ -313,7 +313,7 @@ class ServerNit extends Thread {
                 }
                 // STA SA OVIM ????
                 case Operacija.VRATI_SVE_STAVKE_PONUDE -> {
-                    objekat = Controller.getInstance().vratiSveStavkePonude((Integer) korisnikovZahtev.getParametar());
+                    objekat = Controller.getInstance().vratiSveStavkePonude((TransferObjekat) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
 
@@ -341,12 +341,12 @@ class ServerNit extends Thread {
                 }
                 // STA CU SA OVIM ???
                 case Operacija.OSVOJI_TAKMICENJE -> {
-                    objekat = Controller.getInstance().kreirajKlubTakmicenje((KlubTakmicenje) korisnikovZahtev.getParametar());
+                    objekat = Controller.getInstance().kreirajKlubTakmicenje((TransferObjekat) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
 
                 case Operacija.BRISANJE_OSVOJENO_TAKMICENJE -> {
-                    objekat = Controller.getInstance().obrisiKlubTakmicenje((KlubTakmicenje) korisnikovZahtev.getParametar());
+                    objekat = Controller.getInstance().obrisiKlubTakmicenje((TransferObjekat) korisnikovZahtev.getParametar());
                     return new Odgovor(StatusPoruke.OK, objekat);
                 }
 

@@ -1460,39 +1460,39 @@ public class DBBroker {
         return klubovi;
     }
 
-    public List<StavkaPonude> vratiSveStavkePonudeDB(int idPonude) {
-
-        List<StavkaPonude> stavke = new LinkedList<>();
-
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
-                dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"))) {
-
-            String upit = "SELECT * FROM `veslanje`.`stavka_ponude` WHERE id_ponude=?;";
-
-            PreparedStatement ps = connection.prepareStatement(upit);
-            ps.setInt(1, idPonude);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-
-                StavkaPonude stavka = new StavkaPonude();
-                stavka.setIdEvidencije(idPonude);
-                stavka.setRb(rs.getInt("rb"));
-                stavka.setGodineTreniranja(rs.getInt("godine_treniranja"));
-                Veslac veslac = Controller.getInstance().vratiVeslacaPoId(rs.getInt("id_veslaca"));
-                stavka.setVeslac(veslac);
-
-                stavke.add(stavka);
-
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-        return stavke;
-
-    }
+//    public List<StavkaPonude> vratiSveStavkePonudeDB(int idPonude) {
+//
+//        List<StavkaPonude> stavke = new LinkedList<>();
+//
+//        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/veslanje",
+//                dotenv.get("MYSQL_USER"), dotenv.get("MYSQL_PASS"))) {
+//
+//            String upit = "SELECT * FROM `veslanje`.`stavka_ponude` WHERE id_ponude=?;";
+//
+//            PreparedStatement ps = connection.prepareStatement(upit);
+//            ps.setInt(1, idPonude);
+//            ResultSet rs = ps.executeQuery();
+//
+//            while (rs.next()) {
+//
+//                StavkaPonude stavka = new StavkaPonude();
+//                stavka.setIdEvidencije(idPonude);
+//                stavka.setRb(rs.getInt("rb"));
+//                stavka.setGodineTreniranja(rs.getInt("godine_treniranja"));
+//                Veslac veslac = Controller.getInstance().vratiVeslacaPoId(rs.getInt("id_veslaca"));
+//                stavka.setVeslac(veslac);
+//
+//                stavke.add(stavka);
+//
+//            }
+//
+//        } catch (SQLException ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        return stavke;
+//
+//    }
 
     public List<VeslackiKlub> pretraziKlubDB(String upitZaPretragu) {
 

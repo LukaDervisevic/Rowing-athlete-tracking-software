@@ -17,7 +17,6 @@ import so.KreirajDK;
 import so.NadjiDK;
 import so.ObrisiDK;
 import so.PromeniDK;
-import so.VratiDK;
 import so.VratiListuDK;
 import so.agencija.SOKreirajAgenciju;
 import so.agencija.SOPretraziAgenciju;
@@ -317,14 +316,13 @@ public class Controller {
         return dbb.prebrojOsvojenaTakmicenjaDB(idKluba);
     }
 
-    
-
     public int vratiPoslednjiIdPonude() {
         return dbb.vratiPoslednjiIdPonudeDB();
     }
 
-    public List<StavkaPonude> vratiSveStavkePonude(Integer idPonude) {
-        return dbb.vratiSveStavkePonudeDB(idPonude);
+    public boolean vratiSveStavkePonude(TransferObjekat to) {
+        VratiListuDK vratiSo = new VratiListuDK(to, "");
+        return vratiSo.opsteIzvrsenjeSO();
     }
 
 }
