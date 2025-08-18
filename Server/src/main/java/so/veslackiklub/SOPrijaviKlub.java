@@ -4,10 +4,21 @@
  */
 package so.veslackiklub;
 
+import so.PrijaviDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOPrijaviKlub {
+public class SOPrijaviKlub extends PrijaviDK{
+
+    public SOPrijaviKlub(TransferObjekat to) {
+        setTo(to);
+        porukaGreska = "Greska pri prijavljivanju veslackog kluba";
+        porukaUspeh = "Uspesno prijavljivanje veslackog kluba";
+    }
+    
+    
     
 }

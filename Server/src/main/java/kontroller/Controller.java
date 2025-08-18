@@ -16,10 +16,12 @@ import model.VeslackiKlub;
 import so.KreirajDK;
 import so.NadjiDK;
 import so.ObrisiDK;
+import so.PrijaviDK;
 import so.PromeniDK;
 import so.VratiListuDK;
 import so.agencija.SOKreirajAgenciju;
 import so.agencija.SOPretraziAgenciju;
+import so.agencija.SOPrijaviAgenciju;
 import so.agencija.SOPromeniAgenciju;
 import so.drzava.SOObrisiDrzavu;
 import so.drzava.SOUbaciDrzavu;
@@ -36,6 +38,7 @@ import so.veslac.SOPromeniVeslaca;
 import so.veslackiklub.SOKreirajKlub;
 import so.veslackiklub.SOObrisiKlub;
 import so.veslackiklub.SOPretraziKlub;
+import so.veslackiklub.SOPrijaviKlub;
 import so.veslackiklub.SOPromeniKlub;
 import transfer.TransferObjekat;
 
@@ -122,6 +125,11 @@ public class Controller {
     }
 
     // VESLACKI KLUB
+    public boolean prijaviVeslackiKlub(TransferObjekat to) throws Exception{
+        PrijaviDK prijaviSo = new SOPrijaviKlub(to);
+        return prijaviSo.opsteIzvrsenjeSO();
+    }
+    
     public boolean kreirajVeslackiKlub(TransferObjekat to) throws Exception {
         KreirajDK kreirajSo = new SOKreirajKlub(to);
         return kreirajSo.opsteIzvrsenjeSO();
@@ -150,10 +158,6 @@ public class Controller {
     public boolean vratiListuSviVeslackiKlub(TransferObjekat to) {
         VratiListuDK vratiListuDK = new VratiListuDK(to, "");
         return vratiListuDK.opsteIzvrsenjeSO();
-    }
-
-    public VeslackiKlub vratiVeslackiKlubPoId(Integer id) throws Exception {
-        return dbb.vratiVeslackiKlubPoIdDB(id);
     }
 
     // VESLAC
@@ -188,10 +192,11 @@ public class Controller {
     }
 
     // AGENCIJA
-    public Agencija vratiAgencijuPoId(Integer id) {
-        return dbb.vratiAgencijuPoId(id);
-    }
-
+    public boolean prijaviAgencija(TransferObjekat to) {
+        PrijaviDK prijavaSo = new SOPrijaviAgenciju(to);
+        return prijavaSo.opsteIzvrsenjeSO();
+    } 
+    
     public boolean kreirajAgencija(TransferObjekat to) throws Exception {
         KreirajDK kreirajSo = new SOKreirajAgenciju(to);
         return kreirajSo.opsteIzvrsenjeSO();
@@ -300,8 +305,7 @@ public class Controller {
         return vratiSo.opsteIzvrsenjeSO();
     }
     
-    // Klub - Takmicenje
-    
+    // Klub - Takmicenje   
     public boolean kreirajKlubTakmicenje(TransferObjekat to){
         KreirajDK kreirajSo = new KreirajDK(to);
         return kreirajSo.opsteIzvrsenjeSO();

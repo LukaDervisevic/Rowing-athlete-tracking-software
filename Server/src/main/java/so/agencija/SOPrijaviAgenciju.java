@@ -4,10 +4,21 @@
  */
 package so.agencija;
 
+import so.PrijaviDK;
+import transfer.TransferObjekat;
+
 /**
  *
  * @author lukad
  */
-public class SOPrijaviAgenciju {
+public class SOPrijaviAgenciju extends PrijaviDK{
+
+    public SOPrijaviAgenciju(TransferObjekat to) {
+        setTo(to);
+        porukaGreska += " Greska pri prijavi agencije";
+        porukaUspeh += " Uspeh pri prijavi agencije";
+    }
+    
+    
     
 }
