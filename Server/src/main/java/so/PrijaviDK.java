@@ -20,7 +20,9 @@ public class PrijaviDK extends OpsteIzvrsenjeSO{
     public boolean izvrsiSO() {
         Ogranicenje ogranicenje = new Ogranicenje();
         if (ogranicenje.proveriOgranicenja(to)) {
-            OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) bbp.pronadjiSlog(to.getOdo());
+            
+            OpstiDomenskiObjekat vraceniKlub= (OpstiDomenskiObjekat) bbp.prijaviSlog(to.getOdo(),"veslacki_klub");
+            OpstiDomenskiObjekat vracenaAgencija = (OpstiDomenskiObjekat) bbp.prijaviSlog(to.getOdo(), "agencija");
             if (vraceniOdo != null) {
                 to.setOdo(vraceniOdo);
                 to.setSignal(true);

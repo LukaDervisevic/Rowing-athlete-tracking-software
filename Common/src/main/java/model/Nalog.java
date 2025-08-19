@@ -1,10 +1,12 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
 
 
-public class Nalog implements Serializable{
+public class Nalog implements OpstiDomenskiObjekat{
     
     private int id;
 
@@ -147,6 +149,56 @@ public class Nalog implements Serializable{
             return false;
         }
         return this.tipNaloga == other.tipNaloga;
+    }
+
+    @Override
+    public String vrednostiAtributaZaKreiranje() {
+        return "";
+    }
+
+    @Override
+    public String azurirajVrednostiAtributa() {
+        return "";
+    }
+
+    @Override
+    public String vratiNaziveKolona() {
+        return "";
+    }
+
+    @Override
+    public String vratiNazivTabele() {
+        return "";
+    }
+
+    @Override
+    public String vratiWhereUslov() {
+        return "";
+    }
+    
+    @Override
+    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public String vratiPrimarniKljuc() {
+        return "";
+    }
+
+    @Override
+    public String join() {
+        return "";
+    }
+
+    @Override
+    public String alias() {
+        return "";
+    }
+
+    @Override
+    public String vratiImePoKoloni(int i) {
+        return "";
     }
     
     

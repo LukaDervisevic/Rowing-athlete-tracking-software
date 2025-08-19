@@ -4,6 +4,9 @@
  */
 package so.agencija;
 
+import model.Agencija;
+import model.OpstiDomenskiObjekat;
+import ogranicenja.Ogranicenje;
 import so.PrijaviDK;
 import transfer.TransferObjekat;
 
@@ -18,7 +21,5 @@ public class SOPrijaviAgenciju extends PrijaviDK{
         porukaGreska += " Greska pri prijavi agencije";
         porukaUspeh += " Uspeh pri prijavi agencije";
     }
-    
-    
     
 }

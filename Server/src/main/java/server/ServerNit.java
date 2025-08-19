@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.List;
+import model.Agencija;
 import model.KlubTakmicenje;
 import model.Nalog;
 import model.Veslac;
+import model.VeslackiKlub;
 import operacije.Odgovor;
 import operacije.Operacija;
 import operacije.Posiljalac;
@@ -94,8 +96,21 @@ class ServerNit extends Thread {
             transferObj = (TransferObjekat) korisnikovZahtev.getParametar();
             switch (korisnikovZahtev.getOperacija()) {
                 case Operacija.PRIJAVA -> {
-                    objekat = Controller.getInstance().login((Nalog) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK, objekat);
+                    boolean signal;
+                    
+                    Agencija agencija = (Agencija) transferObj.getOdo();
+                    transferObj.setOdo(agencija);
+                    signal = Controller.getInstance().prijaviAgencija(transferObj);
+                    if(signal) {
+                        return new Odgovor(StatusPoruke.OK, transferObj);
+                    }
+                    VeslackiKlub klub = (VeslackiKlub) transferObj.getOdo();
+                    transferObj.setOdo(klub);
+                    signal = Controller.getInstance().prijaviVeslackiKlub(transferObj);
+                    if(signal) {
+                        return new Odgovor(StatusPoruke.OK, transferObj);
+                    }
+                    return new Odgovor(StatusPoruke.GRESKA,null);
                 }
                 case Operacija.KREIRANJE_KLUB -> {
                     boolean signal = Controller.getInstance().kreirajVeslackiKlub(transferObj);
@@ -373,6 +388,7 @@ class ServerNit extends Thread {
             }
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new Odgovor(StatusPoruke.GRESKA, ex);
         }
         throw new RuntimeException("Ne bi trebalo da se dodje do ovde");

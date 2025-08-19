@@ -4,8 +4,10 @@
  */
 package so.agencija;
 
+import model.Agencija;
 import so.KreirajDK;
 import transfer.TransferObjekat;
+import utils.HesiranjeServis;
 
 /**
  *
@@ -15,6 +17,8 @@ public class SOKreirajAgenciju extends KreirajDK{
 
     public SOKreirajAgenciju(TransferObjekat to) {
         setTo(to);
+        Agencija agencija = (Agencija) to.getOdo();
+        agencija.setSifra(HesiranjeServis.hesirajSifru(agencija.getSifra()));
         porukaUspesno = "Uspesno kreiranje agencije";
         porukaGreska = "Greska pri kreiranju agencije: " + to.getPoruka();
     }

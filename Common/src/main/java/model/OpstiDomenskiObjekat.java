@@ -12,26 +12,28 @@ import java.sql.SQLException;
  *
  * @author lukad
  */
-public interface OpstiDomenskiObjekat extends Serializable{
-    
+// Promeniti u abstraktnuKlasu i dodati whereUslov String atribut
+public interface OpstiDomenskiObjekat extends Serializable {
+
     abstract public String vrednostiAtributaZaKreiranje();
-    
+
     abstract public String azurirajVrednostiAtributa();
-    
+
     abstract public String vratiNaziveKolona();
-    
+
     abstract public String vratiNazivTabele();
-    
+
     abstract public String vratiWhereUslov();
-        
+
     abstract public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException;
-    
+
     abstract public String vratiPrimarniKljuc();
-     
+
     abstract public String join();
-    
+
     abstract public String alias();
-    
-    abstract public String vratiImePoKoloni(int i);
- 
+
+    abstract public String vratiImePoKoloni(int i
+    );
+
 }

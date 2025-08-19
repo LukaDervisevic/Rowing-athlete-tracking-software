@@ -12,7 +12,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
+import model.Agencija;
 import model.OpstiDomenskiObjekat;
+import model.VeslackiKlub;
+import utils.HesiranjeServis;
 
 /**
  *
@@ -87,6 +90,41 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
             signal = rs.next();
             if (signal == true) {
                 odo = odo.vratiNoviSlog(rs);
+            } else {
+                odo = null;
+            }
+
+        } catch (SQLException ex) {
+            System.getLogger(BrokerBazePodataka.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        return odo;
+    }
+    
+    public OpstiDomenskiObjekat prijaviSlog(OpstiDomenskiObjekat odo,String nazivTabele) {
+        ResultSet rs = null;
+        Statement statement = null;
+        String upit = "SELECT * FROM `"+imeBaze+"`.`" + nazivTabele + "` WHERE " + odo.vratiWhereUslov();
+        boolean signal;
+        
+        try {
+            statement = konekcija.createStatement();
+            rs = statement.executeQuery(upit);
+            signal = rs.next();
+            if (signal == true) {
+                OpstiDomenskiObjekat vraceniOdo = odo.vratiNoviSlog(rs);
+                boolean verifikovano;
+                if(vraceniOdo instanceof Agencija) {
+                    Agencija prosledjenaAgencija = (Agencija) odo;
+                    Agencija vracenaAgencija = (Agencija) vraceniOdo;
+                    verifikovano = HesiranjeServis.proveriSifru(prosledjenaAgencija.getSifra(), vracenaAgencija.getSifra());
+                }else{
+                    VeslackiKlub prosledjeniKlub = (VeslackiKlub) odo;
+                    VeslackiKlub vraceniKlub = (VeslackiKlub) odo;
+                    verifikovano = HesiranjeServis.proveriSifru(prosledjeniKlub.getSifra(), vraceniKlub.getSifra());
+                }
+                if(!verifikovano) odo = null;
+                else odo = vraceniOdo;
+                
             } else {
                 odo = null;
             }
