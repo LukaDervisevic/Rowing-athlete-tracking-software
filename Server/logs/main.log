@@ -45,3 +45,4 @@
 2025-08-20 17:35:56 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
 2025-08-20 17:36:15 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
 2025-08-20 18:19:37 [Thread-1] ERROR  (ServerNit.java:78) - Connection reset
+2025-08-21 19:50:26 [Thread-0] INFO   (ServerNit.java:64) - Soket klijenta se gasi

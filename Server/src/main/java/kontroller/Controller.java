@@ -1,18 +1,8 @@
 package kontroller;
 
 import bbp.DBBroker;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.List;
-import model.Agencija;
-import model.Drzava;
-import model.KlubTakmicenje;
 import model.Nalog;
-import model.PonudaVeslaca;
-import model.StavkaPonude;
-import model.Takmicenje;
-import model.Veslac;
-import model.VeslackiKlub;
 import so.KreirajDK;
 import so.NadjiDK;
 import so.ObrisiDK;
