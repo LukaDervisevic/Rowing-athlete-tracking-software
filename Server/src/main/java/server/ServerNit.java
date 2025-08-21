@@ -97,20 +97,19 @@ class ServerNit extends Thread {
             switch (korisnikovZahtev.getOperacija()) {
                 case Operacija.PRIJAVA -> {
                     boolean signal;
-                    
-                    Agencija agencija = (Agencija) transferObj.getOdo();
-                    transferObj.setOdo(agencija);
-                    signal = Controller.getInstance().prijaviAgencija(transferObj);
-                    if(signal) {
+                    System.out.println(transferObj.getOdo().getClass().getName());
+                    if (transferObj.getOdo() instanceof VeslackiKlub) {
+                        signal = Controller.getInstance().prijaviVeslackiKlub(transferObj);
+                    } else {
+                        signal = Controller.getInstance().prijaviAgencija(transferObj);
+
+                    }
+
+                    if (signal) {
                         return new Odgovor(StatusPoruke.OK, transferObj);
                     }
-                    VeslackiKlub klub = (VeslackiKlub) transferObj.getOdo();
-                    transferObj.setOdo(klub);
-                    signal = Controller.getInstance().prijaviVeslackiKlub(transferObj);
-                    if(signal) {
-                        return new Odgovor(StatusPoruke.OK, transferObj);
-                    }
-                    return new Odgovor(StatusPoruke.GRESKA,null);
+
+                    return new Odgovor(StatusPoruke.GRESKA, null);
                 }
                 case Operacija.KREIRANJE_KLUB -> {
                     boolean signal = Controller.getInstance().kreirajVeslackiKlub(transferObj);

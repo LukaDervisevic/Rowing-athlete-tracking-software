@@ -9,6 +9,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
 import klijent.Klijent;
+import model.Agencija;
 import model.Nalog;
 import model.VeslackiKlub;
 import org.apache.logging.log4j.LogManager;
@@ -19,18 +20,20 @@ import org.apache.logging.log4j.Logger;
  * @author luka
  */
 public class PrijavaForma extends javax.swing.JFrame {
+
     private static final Logger logger = LogManager.getRootLogger();
+
     /**
      * Creates new form PrijavaFormav2
      */
     public PrijavaForma() {
-        
+
         try {
-                UIManager.setLookAndFeel(new FlatLightLaf());
-            } catch (UnsupportedLookAndFeelException ex) {
-                logger.error(ex.getMessage());
-            }
-        
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
+            logger.error(ex.getMessage());
+        }
+
         initComponents();
         this.setLocationRelativeTo(null);
         setVisible(true);
@@ -255,34 +258,51 @@ public class PrijavaForma extends javax.swing.JFrame {
             sifraGreskaLabel.setText("Greška pri unosu šifre, pokušajte ponovo");
             sifraGreskaLabel.setVisible(true);
         }
-        
+
         Nalog ulogovaniNalog = null;
         try {
-            ulogovaniNalog = Klijent.getInstance().login(new Nalog(null,0,null,null,null,null,korisnickoImeInput.getText(), sifraKorisnikaInput.getText()));
-            System.out.println(ulogovaniNalog);
+            VeslackiKlub ulovoganiKlub = Klijent.getInstance().prijaviVeslackiKlub(new VeslackiKlub(0, null, null, null, null, korisnickoImeInput.getText(), sifraKorisnikaInput.getText()));
+            if (ulovoganiKlub == null) {
+                Agencija ulogovanaAgencija = Klijent.getInstance().prijaviAgencija(new Agencija(0, null, null, null, korisnickoImeInput.getText(), sifraKorisnikaInput.getText(), null));
+                if (ulogovanaAgencija == null) {
+                    throw new RuntimeException();
+                } else {
+                    Klijent.getInstance().setUlogovaniNalog(ulogovanaAgencija);
+                    Klijent.getInstance().setOdjavaSignal(false);
+                    GlavnaFormaAgencija gva = new GlavnaFormaAgencija();
+                }
+            } else {
+                Klijent.getInstance().setUlogovaniNalog(ulovoganiKlub);
+                Klijent.getInstance().setOdjavaSignal(false);
+                GlavnaFormaKlub gvk = new GlavnaFormaKlub();
+            }
+
+            this.dispose();
+
         } catch (Exception ex) {
-            logger.error(ex.getMessage());
+//            logger.error(ex.getMessage());
+            ex.printStackTrace();
             sifraGreskaLabel.setText("Nalog nije pronadjen pokušajte ponovo");
             sifraGreskaLabel.setVisible(true);
         }
-        
-        if (ulogovaniNalog != null) {
-            Klijent.getInstance().setUlogovaniNalog(ulogovaniNalog);
-            Klijent.getInstance().setOdjavaSignal(false);
-            if(ulogovaniNalog instanceof VeslackiKlub){
-                GlavnaFormaKlub gvk = new GlavnaFormaKlub();
-            }else {
-                GlavnaFormaAgencija gva = new GlavnaFormaAgencija();
-            }
-            
-            this.dispose();
 
-        }
+//        if (ulogovaniNalog != null) {
+//            Klijent.getInstance().setUlogovaniNalog(ulogovaniNalog);
+//            Klijent.getInstance().setOdjavaSignal(false);
+//            if (ulogovaniNalog instanceof VeslackiKlub) {
+//                GlavnaFormaKlub gvk = new GlavnaFormaKlub();
+//            } else {
+//                GlavnaFormaAgencija gva = new GlavnaFormaAgencija();
+//            }
+//
+//            this.dispose();
+//
+//        }
     }//GEN-LAST:event_prijavaButtonActionPerformed
 
     private void registracijaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registracijaButtonActionPerformed
         // TODO add your handling code here:
-        RegistracijaForma forma = new RegistracijaForma(this,true);
+        RegistracijaForma forma = new RegistracijaForma(this, true);
     }//GEN-LAST:event_registracijaButtonActionPerformed
 
     private void sifraKorisnikaInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifraKorisnikaInputActionPerformed
@@ -312,7 +332,7 @@ public class PrijavaForma extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        
+
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

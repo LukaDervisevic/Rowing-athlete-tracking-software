@@ -25,3 +25,23 @@
 2025-08-19 22:19:30 [Thread-0] INFO   (ServerNit.java:64) - Soket klijenta se gasi
 2025-08-19 22:21:45 [Thread-0] INFO   (ServerNit.java:64) - Soket klijenta se gasi
 2025-08-19 22:24:11 [Thread-0] INFO   (ServerNit.java:64) - Soket klijenta se gasi
+2025-08-20 16:39:23 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 16:54:24 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 16:54:44 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 16:59:00 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:01:09 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:01:50 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:03:38 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:09:35 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:17:00 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:17:46 [main] ERROR  (Server.java:44) - Address already in use
+2025-08-20 17:18:09 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:20:43 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:22:57 [main] ERROR  (Server.java:44) - Address already in use
+2025-08-20 17:23:19 [Thread-1] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:30:36 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:33:43 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:35:54 [main] ERROR  (Server.java:44) - Address already in use
+2025-08-20 17:35:56 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 17:36:15 [Thread-0] INFO   (ServerNit.java:61) - Klijent je zatvorio soket: java.io.EOFException
+2025-08-20 18:19:37 [Thread-1] ERROR  (ServerNit.java:78) - Connection reset

@@ -31,7 +31,7 @@ public class NadjiDK extends OpsteIzvrsenjeSO {
             if (vraceniOdo != null) {
                 to.setOdo(vraceniOdo);
                 to.setSignal(true);
-                to.setTrenutniSlog(bbp.vratiPozicijuSloga(odo));
+                to.setTrenutniSlog(bbp.vratiPozicijuSloga(to.getOdo()));
                 to.setPoruka(porukaUspeh);
             } else {
                 to.setSignal(false);
