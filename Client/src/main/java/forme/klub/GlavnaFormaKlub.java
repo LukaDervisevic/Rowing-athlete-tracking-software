@@ -130,7 +130,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                                     ptm.fireTableDataChanged();
                                     
                                 } else if (cardPanel.getComponentZOrder(veslacPanel) >= 0) {
-                                    List<Veslac> sviVeslaci = Klijent.getInstance().vratiSveVeslace(idKluba);
+                                    List<Veslac> sviVeslaci = Klijent.getInstance().vratiListuSviVeslaci(idKluba);
                                     vtm.setVeslaci(sviVeslaci);
                                     vtm.fireTableDataChanged();
                                     
@@ -1721,7 +1721,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         cardPanel.revalidate();
         // Ucitavanje veslaca za ponudu
         try {
-            veslaciKlubaPonuda = Klijent.getInstance().vratiSveVeslace(idKluba);
+            veslaciKlubaPonuda = Klijent.getInstance().vratiListuSviVeslaci(idKluba);
             if(!(veslaciPonudaTable.getModel() instanceof VeslacTableModel)){
                 veslaciPonudaTable.setModel(new VeslacTableModel((LinkedList<Veslac>) veslaciKlubaPonuda));
             }
@@ -1811,7 +1811,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         cardPanel.revalidate();
         
         try {
-            veslaciKluba = Klijent.getInstance().vratiSveVeslace(idKluba);
+            veslaciKluba = Klijent.getInstance().vratiListuSviVeslaci(idKluba);
             if(!(veslaciTable.getModel() instanceof VeslacTableModel)){
                 veslaciTable.setModel(new VeslacTableModel(veslaciKluba));
             }
@@ -2236,7 +2236,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             int idVeslaca = (int) veslaciPonudaTable.getValueAt(veslaciPonudaTable.getSelectedRow(), 0);
             StavkaPonude s = new StavkaPonude();
 
-            Veslac izabraniVeslac = Klijent.getInstance().vratiVeslacaPoId(idVeslaca);
+            Veslac izabraniVeslac = Klijent.getInstance().vratiListuVeslaci(idVeslaca);
             s.setVeslac(izabraniVeslac);
             Date datumUpisa = izabraniVeslac.getDatumUpisa();
             LocalDate datumUpisaLD = datumUpisa.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

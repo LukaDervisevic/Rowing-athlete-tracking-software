@@ -48,7 +48,7 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
             stavkePonude = ponudaVeslaca.getStavke();
             rb = ponudaVeslaca.getStavke().size();
             
-            veslaciVanPonude = Klijent.getInstance().vratiSveVeslace(ponudaVeslaca.getIdKluba());
+            veslaciVanPonude = Klijent.getInstance().vratiListuSviVeslaci(ponudaVeslaca.getIdKluba());
             for (StavkaPonude stavka : stavkePonude) {
                 if(veslaciVanPonude.contains(stavka.getVeslac())){
                     veslaciVanPonude.remove(stavka.getVeslac());

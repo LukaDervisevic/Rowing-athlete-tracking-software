@@ -14,7 +14,6 @@ import model.StavkaPonude;
 import model.Takmicenje;
 import model.Veslac;
 import model.VeslackiKlub;
-import model.VrstaTrke;
 import operacije.Odgovor;
 import operacije.Operacija;
 import operacije.Posiljalac;
@@ -36,8 +35,6 @@ public class Klijent {
     private Nalog ulogovaniNalog;
 
     private boolean odjavaSignal;
-
-    private String uuid;
 
     private LocalDateTime vremeKreiranjaNaloga;
 
@@ -83,14 +80,6 @@ public class Klijent {
         this.odjavaSignal = odjavaSignal;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public LocalDateTime getVremeKreiranjaNaloga() {
         return vremeKreiranjaNaloga;
     }
@@ -99,24 +88,7 @@ public class Klijent {
         this.vremeKreiranjaNaloga = vremeKreiranjaNaloga;
     }
 
-//    public Nalog login(Nalog nalog) throws Exception {
-//        TransferObjekat transferObj = new TransferObjekat();
-//        transferObj.setOdo(nalog);
-//        transferObj.setNazivSo("prijava");
-//        
-//        Zahtev zahtev = new Zahtev(Operacija.PRIJAVA, transferObj);
-//        posiljalac.posaljiPoruku(zahtev);
-//
-//        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-//
-//        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-//            throw new Exception((Throwable) odgovor.getParametar());
-//        } else {
-//            return (Nalog) odgovor.getParametar();
-//        }
-//
-//    }
-
+    //VESLACKI KLUB
     public VeslackiKlub prijaviVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslackiKlub);
@@ -152,11 +124,116 @@ public class Klijent {
         }
     }
 
+    public VeslackiKlub azuirirajVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(veslackiKlub);
+        transferObj.setNazivSo("azurirajVeslackiKlub");
+
+        Zahtev zahtev = new Zahtev(Operacija.PROMENA_KLUB, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return (VeslackiKlub) transferObj.getOdo();
+        }
+    }
+
+    public Integer obrisiVeslackiKlub(Integer idKluba) throws Exception {
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(new VeslackiKlub(idKluba, null, null, null, null, null, null));
+        transferObj.setNazivSo("obrisiVeslackiKlub");
+
+        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_KLUB, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return ((VeslackiKlub) transferObj.getOdo()).getId();
+        }
+    }
+
+    public List<VeslackiKlub> pretraziKlub(String kriterijum, VeslackiKlub veslackiKlub) throws Exception {
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(veslackiKlub);
+        transferObj.setNazivSo("pretraziKlub");
+        transferObj.setWhereUslov(kriterijum);
+
+        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_KLUB, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            return (List<VeslackiKlub>) odgovor.getParametar();
+        }
+    }
+
+    public List<VeslackiKlub> vratiListuSviVeslackiKlub() throws Exception {
+
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_VESLACKI_KLUB, null);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+
+            return (List<VeslackiKlub>) odgovor.getParametar();
+        }
+
+    }
+
+    public List<VeslackiKlub> vratiListuVeslackiKlub(String kriterijum, List<VeslackiKlub> veslackiKlub) throws Exception {
+        TransferObjekat transferObjekat = new TransferObjekat();
+        transferObjekat.setListOdo(veslackiKlub);
+        transferObjekat.setNazivSo("vratiListuVeslackiKlub");
+
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_VESLACKI_KLUB, transferObjekat);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObjekat = (TransferObjekat) odgovor.getParametar();
+            return (List<VeslackiKlub>) transferObjekat.getListOdo();
+        }
+    }
+
+    //AGENCIJA
+    public Agencija prijaviAgencija(Agencija agencija) throws Exception {
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(agencija);
+        transferObj.setNazivSo("prijaviAgencija");
+        Zahtev zahtev = new Zahtev(Operacija.PRIJAVA, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return (Agencija) transferObj.getOdo();
+        }
+    }
+
     public Agencija kreirajAgenciju(Agencija agencija) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(agencija);
         transferObj.setNazivSo("KreirajAgencija");
-        
+
         Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_AGENCIJA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
 
@@ -170,25 +247,12 @@ public class Klijent {
         }
     }
 
-    public List<Drzava> vratiSveDrzave() throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_SVE_DRZAVE, null);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (List<Drzava>) odgovor.getParametar();
-        }
-    }
-
-    public Integer obrisiVeslackiKlub(Integer idKluba) throws Exception {
+    public Agencija azurirajAgenciju(Agencija agencija) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(new VeslackiKlub(idKluba, null, null, null, null, null, null));
-        transferObj.setNazivSo("obrisiVeslackiKlub");
-        
-        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_KLUB, idKluba);
+        transferObj.setOdo(agencija);
+        transferObj.setNazivSo("azurirajAgenciju");
+
+        Zahtev zahtev = new Zahtev(Operacija.PROMENA_AGENCIJA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -197,16 +261,16 @@ public class Klijent {
             throw new Exception((Throwable) odgovor.getParametar());
         } else {
             transferObj = (TransferObjekat) odgovor.getParametar();
-            return ((VeslackiKlub) transferObj.getOdo()).getId();
+            return (Agencija) transferObj.getOdo();
         }
     }
 
-    public VeslackiKlub azuirirajVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
+    public Integer obrisiAgenciju(Integer id) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(veslackiKlub);
-        transferObj.setNazivSo("azurirajVeslackiKlub");
-        
-        Zahtev zahtev = new Zahtev(Operacija.PROMENA_KLUB, veslackiKlub);
+        transferObj.setOdo(new Agencija(id, null, null, null, null, null, null));
+        transferObj.setNazivSo("azurirajAgenciju");
+
+        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_AGENCIJA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -215,68 +279,16 @@ public class Klijent {
             throw new Exception((Throwable) odgovor.getParametar());
         } else {
             transferObj = (TransferObjekat) odgovor.getParametar();
-            return (VeslackiKlub) transferObj.getOdo();
+            return ((Agencija) transferObj.getOdo()).getId();
         }
     }
 
-    public List<Veslac> vratiSveVeslace(Integer idKluba) throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_SVE_VESLACE, idKluba);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (List<Veslac>) odgovor.getParametar();
-        }
-    }
-
-    public List<KlubTakmicenje> vratiTakmicenjaKluba(Integer idKluba) throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_TAKMICENJA_KLUBA, idKluba);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (List<KlubTakmicenje>) odgovor.getParametar();
-        }
-    }
-
-    public List<PonudaVeslaca> vratiSvePonudeKluba(Integer idKluba) throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_SVE_PONUDE_KLUBA, idKluba);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (List<PonudaVeslaca>) odgovor.getParametar();
-        }
-    }
-
-    public List<Agencija> vratiSveAgencije() throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_SVE_AGENCIJE, null);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (List<Agencija>) odgovor.getParametar();
-        }
-    }
-
-    public List<PonudaVeslaca> pretraziPonudu(PonudaVeslaca ponuda) throws Exception {
+    public List<Agencija> pretraziAgenciju(String kriterijum, Agencija agencija) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(ponuda);
-        transferObj.setNazivSo("pretraziPonudu");
-        
-        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_PONUDE, ponuda);
+        transferObj.setOdo(agencija);
+        transferObj.setNazivSo("pretraziAgenciju");
+        transferObj.setWhereUslov(kriterijum);
+        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_AGENCIJA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -285,16 +297,15 @@ public class Klijent {
             throw new Exception((Throwable) odgovor.getParametar());
         } else {
             transferObj = (TransferObjekat) odgovor.getParametar();
-            return (List<PonudaVeslaca>) transferObj.getOdo();
+            return (List<Agencija>) transferObj.getListOdo();
         }
     }
 
-    public List<Veslac> pretraziVeslaca(Veslac veslac) throws Exception {
-        TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(veslac);
-        transferObj.setNazivSo("pretraziVeslaca");
-        
-        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_VESLAC, veslac);
+    public List<Agencija> vratiListuSveAgencije(List<Agencija> agencije) throws Exception {
+        TransferObjekat transferObjekat = new TransferObjekat();
+        transferObjekat.setListOdo(agencije);
+        transferObjekat.setNazivSo("vratiListuSveAgencije");
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVE_AGENCIJE, transferObjekat);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -302,14 +313,18 @@ public class Klijent {
         if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
             throw new Exception((Throwable) odgovor.getParametar());
         } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (List<Veslac>) transferObj.getOdo();
+            transferObjekat = (TransferObjekat) odgovor.getParametar();
+            return (List<Agencija>) transferObjekat.getListOdo();
         }
     }
 
-    public List<Takmicenje> pretraziTakmicenja(String upit) throws Exception {
-        
-        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_TAKMICENJE, upit);
+    public List<Agencija> vratiListuAgencije(String kriterijum, List<Agencija> agencije) throws Exception {
+        TransferObjekat transferObjekat = new TransferObjekat();
+        transferObjekat.setListOdo(agencije);
+        transferObjekat.setNazivSo("vratiListuSveAgencije");
+        transferObjekat.setWhereUslov(kriterijum);
+
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_AGENCIJE, transferObjekat);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -317,30 +332,18 @@ public class Klijent {
         if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
             throw new Exception((Throwable) odgovor.getParametar());
         } else {
-            
-            return (List<Takmicenje>) odgovor.getParametar();
+            transferObjekat = (TransferObjekat) odgovor.getParametar();
+            return (List<Agencija>) transferObjekat.getListOdo();
         }
     }
 
-    public List<Takmicenje> vratiSvaTakmicenja() throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_SVA_TAKMICENJA, null);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (List<Takmicenje>) odgovor.getParametar();
-        }
-    }
-
+    //VESLAC
     public Veslac kreirajVeslaca(Veslac veslac) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslac);
         transferObj.setNazivSo("kreirajVeslaca");
-        
-        Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_VESLAC, veslac);
+
+        Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_VESLAC, transferObj);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -353,12 +356,30 @@ public class Klijent {
         }
     }
 
+    public List<Veslac> pretraziVeslaca(Veslac veslac) throws Exception {
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(veslac);
+        transferObj.setNazivSo("pretraziVeslaca");
+
+        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_VESLAC, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return (List<Veslac>) transferObj.getOdo();
+        }
+    }
+
     public Integer obrisiVeslaca(Integer id) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(new Veslac(id, null, null, 0, 0, KategorijaVeslaca.KADET, 0, null, null));
+        transferObj.setOdo(new Veslac(id, null, null, 0, 0, KategorijaVeslaca.KADET, 0, null));
         transferObj.setNazivSo("kreirajVeslaca");
-        
-        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_VESLAC, id);
+
+        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_VESLAC, transferObj);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -371,12 +392,67 @@ public class Klijent {
         }
     }
 
+    public Veslac azurirajVeslaca(Veslac veslac) throws Exception {
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(veslac);
+        transferObj.setNazivSo("kreirajVeslaca");
+
+        Zahtev zahtev = new Zahtev(Operacija.PROMENA_VESLAC, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return (Veslac) transferObj.getOdo();
+        }
+    }
+
+    public List<Veslac> vratiListuSviVeslaci(List<Veslac> veslaci) throws Exception {
+        TransferObjekat transferObjekat = new TransferObjekat();
+        transferObjekat.setListOdo(veslaci);
+        transferObjekat.setNazivSo("vratiListuSviVeslaci");
+
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_VESLAC, veslaci);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObjekat = (TransferObjekat) odgovor.getParametar();
+            return (List<Veslac>) transferObjekat.getListOdo();
+        }
+    }
+
+    public List<Veslac> vratiListuVeslaci(String kriterijum, List<Veslac> veslaci) throws Exception {
+        TransferObjekat transferObjekat = new TransferObjekat();
+        transferObjekat.setListOdo(veslaci);
+        transferObjekat.setNazivSo("vratiListuVeslaci");
+
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_VESLAC, transferObjekat);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObjekat = (TransferObjekat) odgovor.getParametar();
+            return (List<Veslac>) transferObjekat.getListOdo();
+        }
+    }
+
+    //TAKMICENJE
     public Takmicenje dodajTakmicenje(Takmicenje takmicenje) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(takmicenje);
         transferObj.setNazivSo("ubaciTakmicenje");
-        
-        Zahtev zahtev = new Zahtev(Operacija.UBACIVANJE_TAKMICENJE, takmicenje);
+
+        Zahtev zahtev = new Zahtev(Operacija.UBACIVANJE_TAKMICENJE, transferObj);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -393,8 +469,8 @@ public class Klijent {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(new Takmicenje(idTakmicenja, null, null, null, null));
         transferObj.setNazivSo("kreirajVeslaca");
-        
-        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_TAKMICENJE, idTakmicenja);
+
+        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_TAKMICENJE, transferObj);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -407,14 +483,265 @@ public class Klijent {
         }
     }
 
+    public List<Takmicenje> pretraziTakmicenja(String upit) throws Exception {
+
+        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_TAKMICENJE, upit);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+
+            return (List<Takmicenje>) odgovor.getParametar();
+        }
+    }
+
+    public List<Takmicenje> vratiListuSvaTakmicenja(List<Takmicenje> takmicenja) throws Exception {
+        TransferObjekat transferObjekat = new TransferObjekat();
+        transferObjekat.setListOdo(takmicenja);
+        transferObjekat.setNazivSo("vratiListuSvaTakmicenja");
+
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_TAKMICENJA, null);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObjekat = (TransferObjekat) odgovor.getParametar();
+            return (List<Takmicenje>) transferObjekat.getListOdo();
+        }
+    }
+
+    public List<Takmicenje> vratiListuTakmicenja(String kriterijum, List takmicenja) throws Exception {
+        TransferObjekat transferObjekat = new TransferObjekat();
+        transferObjekat.setListOdo(takmicenja);
+        transferObjekat.setWhereUslov(kriterijum);
+
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_TAKMICENJA, transferObjekat);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObjekat = (TransferObjekat) odgovor.getParametar();
+            return (List<Takmicenje>) transferObjekat.getListOdo();
+        }
+    }
+
+    //PONUDA VESLACA
+    public PonudaVeslaca kreirajPonuduVeslaca(int idAgencije, int idKluba, List<StavkaPonude> stavkePonude) throws Exception {
+        PonudaVeslaca ponuda = new PonudaVeslaca(0, null, 0, 0, 0, 0, stavkePonude, idKluba, idAgencije);
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(ponuda);
+        transferObj.setNazivSo("kreirajPonudu");
+
+        Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_PONUDE, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return (PonudaVeslaca) transferObj.getOdo();
+        }
+    }
+
+    public List<PonudaVeslaca> pretraziPonudu(PonudaVeslaca ponuda) throws Exception {
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(ponuda);
+        transferObj.setNazivSo("pretraziPonudu");
+
+        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_PONUDE, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return (List<PonudaVeslaca>) transferObj.getOdo();
+        }
+    }
+
+    public Integer obrisiPonudu(Integer idPonude) throws Exception {
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(new PonudaVeslaca(idPonude, null, 0, 0, 0, 0, null, 0, 0));
+        transferObj.setNazivSo("obrisiPonudu");
+
+        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_PONUDE, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return ((PonudaVeslaca) transferObj.getOdo()).getId();
+        }
+    }
+
+    public PonudaVeslaca promeniPonudu(PonudaVeslaca ponudaVeslaca) throws Exception {
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(ponudaVeslaca);
+        transferObj.setNazivSo("promeniPonudu");
+
+        Zahtev zahtev = new Zahtev(Operacija.PROMENA_PONUDE, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return (PonudaVeslaca) transferObj.getOdo();
+        }
+
+    }
+
+    public List<PonudaVeslaca> vratiSvePonudeKluba(List<PonudaVeslaca> ponude) throws Exception {
+        TransferObjekat transferObjekat = new TransferObjekat();
+        transferObjekat.setListOdo(ponude);
+        transferObjekat.setNazivSo("vratiListuSvePonudeKluba");
+
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_PONUDE_VESLACA, transferObjekat);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObjekat = (TransferObjekat) odgovor.getParametar();
+            return (List<PonudaVeslaca>) transferObjekat.getListOdo();
+        }
+    }
+
+    public List<PonudaVeslaca> vratiListuPonude(String kriterijum, List<PonudaVeslaca> ponude) throws Exception {
+        TransferObjekat transferObjekat = new TransferObjekat();
+        transferObjekat.setListOdo(ponude);
+        transferObjekat.setNazivSo("vratiListuPonude");
+        transferObjekat.setWhereUslov(kriterijum);
+
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_PONUDE_VESLACA, transferObjekat);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObjekat = (TransferObjekat) odgovor.getParametar();
+            return (List<PonudaVeslaca>) transferObjekat.getListOdo();
+        }
+    }
+
+    //DRZAVA
+    public Drzava ubaciDrzavu(Drzava drzava) throws Exception {
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(drzava);
+        transferObj.setNazivSo("ubaciDrzavu");
+
+        Zahtev zahtev = new Zahtev(Operacija.UBACIVANJE_DRZAVA, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return (Drzava) transferObj.getOdo();
+        }
+    }
+
+    public Integer obrisiDrzavu(Integer id) throws Exception {
+        TransferObjekat transferObj = new TransferObjekat();
+        transferObj.setOdo(new Drzava(id, null));
+        transferObj.setNazivSo("obrisiDrzavu");
+
+        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_DRZAVA, transferObj);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObj = (TransferObjekat) odgovor.getParametar();
+            return ((Drzava) transferObj.getOdo()).getId();
+        }
+    }
+
+    public List<Drzava> vratiListuSveDrzave(List<Drzava> drzave) throws Exception {
+        TransferObjekat transferObjekat = new TransferObjekat();
+        transferObjekat.setListOdo(drzave);
+        transferObjekat.setNazivSo("vratiListuSveDrzave");
+
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVE_DRZAVE, transferObjekat);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObjekat = (TransferObjekat) odgovor.getParametar();
+            return (List<Drzava>) transferObjekat.getListOdo();
+        }
+    }
+
+    public List<Drzava> vratiListuDrzave(String kriterijum, List<Drzava> drzave) throws Exception {
+        TransferObjekat transferObjekat = new TransferObjekat();
+        transferObjekat.setListOdo(drzave);
+        transferObjekat.setNazivSo("vratiListuDrzave");
+        transferObjekat.setWhereUslov(kriterijum);
+
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_DRZAVE, transferObjekat);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            transferObjekat = (TransferObjekat) odgovor.getParametar();
+            return (List<Drzava>) transferObjekat.getListOdo();
+        }
+
+    }
+
+    // KLUB TAKMICENJE
+    public List<KlubTakmicenje> vratiTakmicenjaKluba(Integer idKluba) throws Exception {
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_KLUB_TAKMICENJA, idKluba);
+        posiljalac.posaljiPoruku(zahtev);
+
+        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
+
+        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
+            throw new Exception((Throwable) odgovor.getParametar());
+        } else {
+            return (List<KlubTakmicenje>) odgovor.getParametar();
+        }
+    }
+
     // Predstavlja problem
     public KlubTakmicenje dodajOsvojenoTakmicenje(int mesto, int idTakmicenja, int idKluba) throws Exception {
-        VeslackiKlub klub = vratiVeslackiKlubPoId(idKluba);
-        Takmicenje takmicenje = vratiTakmicenjePoId(idTakmicenja);
+        VeslackiKlub klub = vratiListuVeslackiKlub(idKluba);
+        Takmicenje takmicenje = vratiListuTakmicenja(idTakmicenja);
 
         KlubTakmicenje klubTakmicenje = new KlubTakmicenje(mesto, klub, takmicenje);
 
-        Zahtev zahtev = new Zahtev(Operacija.OSVOJI_TAKMICENJE, klubTakmicenje);
+        Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_KLUB_TAKMICENJE, klubTakmicenje);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -429,13 +756,13 @@ public class Klijent {
 
     // Predstavlja problem
     public Integer obrisiOsvojenoTakmicenje(int idKlub, int idTakmicenja, int mesto) throws Exception {
-        
-        Takmicenje takmicenje = vratiTakmicenjePoId(idTakmicenja);
-        VeslackiKlub veslackiKlub = vratiVeslackiKlubPoId(idKlub);
+
+        Takmicenje takmicenje = vratiListuTakmicenja(idTakmicenja);
+        VeslackiKlub veslackiKlub = vratiListuVeslackiKlub(idKlub);
 
         KlubTakmicenje klubTakmicenje = new KlubTakmicenje(mesto, veslackiKlub, takmicenje);
 
-        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_OSVOJENO_TAKMICENJE, klubTakmicenje);
+        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_KLUB_TAKMICENJE, klubTakmicenje);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -448,82 +775,9 @@ public class Klijent {
 
     }
 
-    public Integer obrisiPonudu(Integer idPonude) throws Exception {
-        TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(new PonudaVeslaca(idPonude, null, 0, 0, 0, 0, null, 0, 0));
-        transferObj.setNazivSo("obrisiPonudu");
-        
-        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_PONUDE, idPonude);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return ((PonudaVeslaca) transferObj.getOdo()).getId();        
-        }
-    }
-
-    public PonudaVeslaca promeniPonudu(PonudaVeslaca ponudaVeslaca) throws Exception {
-        TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(ponudaVeslaca);
-        transferObj.setNazivSo("promeniPonudu");
-        
-        Zahtev zahtev = new Zahtev(Operacija.PROMENA_PONUDE, ponudaVeslaca);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (PonudaVeslaca) transferObj.getOdo();
-        }
-
-    }
-
-    public Veslac vratiVeslacaPoId(int idVeslaca) throws Exception {
-        
-        
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_VESLACA_PO_ID, idVeslaca);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (Veslac) odgovor.getParametar();
-        }
-    }
-
-    // Predstavlja problem
-    public PonudaVeslaca kreirajPonuduVeslaca(int idAgencije, int idKluba, List<StavkaPonude> stavkePonude) throws Exception {
-        PonudaVeslaca ponuda = new PonudaVeslaca(0, null, 0, 0, 0, 0, stavkePonude, idKluba, idAgencije);
-        TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(ponuda);
-        transferObj.setNazivSo("kreirajPonudu");
-
-        Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_PONUDE, ponuda);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (PonudaVeslaca) transferObj.getOdo();
-        }
-    }
-
-    // Predstavlja problem
     public int[] prebrojOsvojenaTakmicenja(int idKluba) throws Exception {
 
-        Zahtev zahtev = new Zahtev(Operacija.PREBROJ_OSVOJENA_TAKMICENJA, (Integer) idKluba);
+        Zahtev zahtev = new Zahtev(Operacija.PREBROJ_TAKMICENJA, (Integer) idKluba);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -548,33 +802,6 @@ public class Klijent {
         }
     }
 
-    public List<PonudaVeslaca> vratiSvePonudeAgencije(Integer idAgencije) throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_SVE_PONUDE_AGENCIJE, idAgencije);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (List<PonudaVeslaca>) odgovor.getParametar();
-        }
-    }
-
-    public List<VeslackiKlub> vratiSveKlubove() throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_SVE_KLUBOVE, null);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (List<VeslackiKlub>) odgovor.getParametar();
-        }
-
-    }
-
     public List<StavkaPonude> vratiSveStavkePonude(Integer idPonude) throws Exception {
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_SVE_STAVKE_PONUDE, idPonude);
@@ -588,182 +815,6 @@ public class Klijent {
             return (List<StavkaPonude>) odgovor.getParametar();
         }
 
-    }
-
-    public List<VeslackiKlub> pretraziKlub(String upitZaPretragu) throws Exception {
-//        TransferObjekat transferObj = new TransferObjekat();
-//        transferObj.setOdo(ponuda);
-//        transferObj.setNazivSo("kreirajPonudu");
-        
-        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_KLUB, upitZaPretragu);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (List<VeslackiKlub>) odgovor.getParametar();
-        }
-    }
-
-    public Veslac azurirajVeslaca(Veslac veslac) throws Exception {
-        TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(veslac);
-        transferObj.setNazivSo("kreirajVeslaca");
-        
-        Zahtev zahtev = new Zahtev(Operacija.PROMENA_VESLAC, veslac);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (Veslac) transferObj.getOdo();
-        }
-    }
-
-    public Agencija azurirajAgenciju(Agencija agencija) throws Exception {
-        TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(agencija);
-        transferObj.setNazivSo("azurirajAgenciju");
-        
-        Zahtev zahtev = new Zahtev(Operacija.PROMENA_AGENCIJA, agencija);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (Agencija) transferObj.getOdo();
-        }
-    }
-
-    public Integer obrisiAgenciju(Integer id) throws Exception {
-        TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(new Agencija(id, null, null, null,null, null, null));
-        transferObj.setNazivSo("azurirajAgenciju");
-        
-        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_AGENCIJA, id);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return ((Agencija) transferObj.getOdo()).getId();
-        }
-    }
-
-    private Takmicenje vratiTakmicenjePoId(Integer idTakmicenja) throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_TAKMICENJE_PO_ID, idTakmicenja);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (Takmicenje) odgovor.getParametar();
-        }
-    }
-
-    private VeslackiKlub vratiVeslackiKlubPoId(Integer idKluba) throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_KLUB_PO_ID, idKluba);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (VeslackiKlub) odgovor.getParametar();
-        }
-    }
-
-    public Agencija prijaviAgencija(Agencija agencija) throws Exception {
-        TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(agencija);
-        transferObj.setNazivSo("prijaviAgencija");
-        Zahtev zahtev = new Zahtev(Operacija.PRIJAVA, agencija);
-        posiljalac.posaljiPoruku(zahtev);
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (Agencija) transferObj.getOdo();
-        }
-    }
-
-    public List<Agencija> pretraziAgenciju(String nazivAgencije) throws Exception {
-//        TransferObjekat transferObj = new TransferObjekat();
-//        transferObj.setOdo(agencija);
-//        transferObj.setNazivSo("pretraziAgenciju");
-        Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_AGENCIJA, nazivAgencije);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (List<Agencija>) odgovor.getParametar();
-        }
-    }
-
-    public Drzava ubaciDrzavu(Drzava drzava) throws Exception {
-        TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(drzava);
-        transferObj.setNazivSo("ubaciDrzavu");
-        
-        Zahtev zahtev = new Zahtev(Operacija.UBACIVANJE_DRZAVA, drzava);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (Drzava) transferObj.getOdo();
-        }
-    }
-
-    public Integer obrisiDrzavu(Integer id) throws Exception {
-        TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(new Drzava(id, null));
-        transferObj.setNazivSo("obrisiDrzavu");
-        
-        Zahtev zahtev = new Zahtev(Operacija.BRISANJE_DRZAVA, id);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return ((Drzava) transferObj.getOdo()).getId();
-        }
-    }
-
-    public PonudaVeslaca vratiPonuduPoId(int idPonude) throws Exception {
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_PONUDU_PO_ID, idPonude);
-        posiljalac.posaljiPoruku(zahtev);
-
-        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            return (PonudaVeslaca) odgovor.getParametar();
-        }
     }
 
 }

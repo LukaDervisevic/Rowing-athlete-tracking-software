@@ -21,12 +21,11 @@ public class Veslac implements OpstiDomenskiObjekat{
     private float BMI;
     private float najboljeVreme;
     private Date datumUpisa;
-    private VeslackiKlub klub;
 
     public Veslac() {
     }
 
-    public Veslac(int idVeslaca,String imePrezime, Date datumRodjenja, float visina, float tezina, KategorijaVeslaca kategorija, float najboljeVreme, Date datumUpisa,VeslackiKlub klub) {
+    public Veslac(int idVeslaca,String imePrezime, Date datumRodjenja, float visina, float tezina, KategorijaVeslaca kategorija, float najboljeVreme, Date datumUpisa) {
         this.idVeslaca = idVeslaca;
         this.imePrezime = imePrezime;
         this.datumRodjenja = datumRodjenja;
@@ -36,7 +35,6 @@ public class Veslac implements OpstiDomenskiObjekat{
         this.kategorija = kategorija;
         this.najboljeVreme = najboljeVreme;
         this.datumUpisa = datumUpisa;
-        this.klub = klub;
     }
 
     public int getIdVeslaca() {
@@ -111,17 +109,9 @@ public class Veslac implements OpstiDomenskiObjekat{
         this.BMI = BMI;
     }
 
-    public VeslackiKlub getKlub() {
-        return klub;
-    }
-
-    public void setKlub(VeslackiKlub klub) {
-        this.klub = klub;
-    }
-
     @Override
     public String toString() {
-        return "Veslac{" + "idVeslaca=" + idVeslaca + ", imePrezime=" + imePrezime + ", datumRodjenja=" + datumRodjenja + ", visina=" + visina + ", tezina=" + tezina + ", kategorija=" + kategorija + ", BMI=" + BMI + ", najboljeVreme=" + najboljeVreme + ", datumUpisa=" + datumUpisa + ", klub=" + klub + '}';
+        return "Veslac{" + "idVeslaca=" + idVeslaca + ", imePrezime=" + imePrezime + ", datumRodjenja=" + datumRodjenja + ", visina=" + visina + ", tezina=" + tezina + ", kategorija=" + kategorija + ", BMI=" + BMI + ", najboljeVreme=" + najboljeVreme + ", datumUpisa=" + datumUpisa +'}';
     }
 
     @Override
@@ -166,32 +156,31 @@ public class Veslac implements OpstiDomenskiObjekat{
         if (this.kategorija != other.kategorija) {
             return false;
         }
-        if (!Objects.equals(this.datumUpisa, other.datumUpisa)) {
-            return false;
-        }
-        return Objects.equals(this.klub, other.klub);
+        return Objects.equals(this.datumUpisa, other.datumUpisa);
     }
+
+    
 
     @Override
     public String vratiNaziveKolona() {
-        return "ime_prezime,datum_rodjenja,visina,tezina,kategorija,BMI,najbolje_vreme,datum_upisa,id_kluba";
+        return "ime_prezime,datum_rodjenja,visina,tezina,kategorija,BMI,najbolje_vreme,datum_upisa";
     }
     
     @Override
     public String vratiImePoKoloni(int i) {
-        String[] kolone = {"id","ime_prezime","datum_rodjenja","visina","tezina","kategorija","BMI","najbolje_vreme","datum_upisa","id_kluba"};
+        String[] kolone = {"id","ime_prezime","datum_rodjenja","visina","tezina","kategorija","BMI","najbolje_vreme","datum_upisa"};
         return kolone[i];
     }
 
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        return "'" + imePrezime + "'," + new java.sql.Date(datumRodjenja.getTime()) + "," + visina + "," + tezina + ",'" + kategorija + "'," + BMI + "," + najboljeVreme + "," + new java.sql.Date(datumUpisa.getTime()) + ","+ klub.getId();
+        return "'" + imePrezime + "'," + new java.sql.Date(datumRodjenja.getTime()) + "," + visina + "," + tezina + ",'" + kategorija + "'," + BMI + "," + najboljeVreme + "," + new java.sql.Date(datumUpisa.getTime());
     }
 
     @Override
     public String azurirajVrednostiAtributa() {
         return "ime_prezime = " + imePrezime + ",datum_rodjenja = " + datumRodjenja + ",visina = " + visina + ",tezina = " + tezina + ",kategorija = " + kategorija.toString() + ",BMI = " + BMI + ",najbolje_vreme = " 
-                + najboljeVreme + ",datum_upisa = " + new java.sql.Date(datumUpisa.getTime()) + ",id_kluba = " + klub.getId();
+                + najboljeVreme + ",datum_upisa = " + new java.sql.Date(datumUpisa.getTime());
     }
 
     @Override
@@ -206,8 +195,7 @@ public class Veslac implements OpstiDomenskiObjekat{
 
     @Override
     public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return new Veslac(rs.getInt(alias()+".id"), rs.getString(alias()+".ime_prezime"), new Date(rs.getDate(alias()+".datum_rodjenja").getTime()), rs.getFloat(alias()+".visina"), rs.getFloat(alias()+".tezina"), KategorijaVeslaca.valueOf(rs.getString(alias()+".kategorija")), rs.getFloat(alias()+".najbolje_vreme"), new Date(rs.getDate(alias()+".datum_upisa").getTime()), 
-                new VeslackiKlub(rs.getInt(klub.alias()+".id"), rs.getString(klub.alias()+".naziv"), rs.getString(klub.alias()+".adresa"), rs.getString(klub.alias()+".email"), rs.getString(klub.alias()+".telefon"), rs.getString(klub.alias()+".korisnicko_ime"), rs.getString(klub.alias()+".sifra")));
+        return new Veslac(rs.getInt(alias()+".id"), rs.getString(alias()+".ime_prezime"), new Date(rs.getDate(alias()+".datum_rodjenja").getTime()), rs.getFloat(alias()+".visina"), rs.getFloat(alias()+".tezina"), KategorijaVeslaca.valueOf(rs.getString(alias()+".kategorija")), rs.getFloat(alias()+".najbolje_vreme"), new Date(rs.getDate(alias()+".datum_upisa").getTime()));
     }
 
     @Override
@@ -217,7 +205,7 @@ public class Veslac implements OpstiDomenskiObjekat{
 
     @Override
     public String join() {
-        return "JOIN `veslanje`.`" + klub.vratiNazivTabele() + "` AS " + klub.alias() + " ON " + alias() + ".id_kluba = " + klub.alias() + ".id";
+        return "";
     }
 
     @Override

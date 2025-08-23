@@ -12,10 +12,11 @@ import ogranicenja.Ogranicenje;
 /**
  *
  * @author luka
+ * @param <T>
  */
-public class TransferObjekat implements Serializable{
+public class TransferObjekat<T extends OpstiDomenskiObjekat> implements Serializable{
     public OpstiDomenskiObjekat odo;
-    public List<OpstiDomenskiObjekat> listOdo;
+    public List<T> listOdo;
     public String poruka;
     public boolean signal;
     public int trenutniSlog;
@@ -56,11 +57,11 @@ public class TransferObjekat implements Serializable{
         this.nazivSo = nazivSo;
     }
 
-    public List<OpstiDomenskiObjekat> getListOdo() {
+    public List<T> getListOdo() {
         return listOdo;
     }
 
-    public void setListOdo(List<OpstiDomenskiObjekat> listOdo) {
+    public void setListOdo(List<T> listOdo) {
         this.listOdo = listOdo;
     }
 

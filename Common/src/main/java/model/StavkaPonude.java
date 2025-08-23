@@ -130,8 +130,7 @@ public class StavkaPonude implements OpstiDomenskiObjekat{
     @Override
     public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
         return new StavkaPonude(rs.getInt(alias()+".id_ponude"),rs.getInt(alias()+".rb"), rs.getInt(alias()+".godine_treniranja"), 
-        new Veslac(rs.getInt(veslac.alias()+".id"), rs.getString(veslac.alias()+".ime_prezime"), new Date(rs.getDate(veslac.alias()+".datum_rodjenja").getTime()), rs.getFloat(veslac.alias()+".visina"), rs.getFloat(veslac.alias()+".tezina"), KategorijaVeslaca.valueOf(rs.getString(veslac.alias()+".kategorija")), rs.getFloat(veslac.alias()+".najbolje_vreme"), new Date(rs.getDate(veslac.alias()+".datum_upisa").getTime()),
-        new VeslackiKlub(rs.getInt(veslac.getKlub().alias()+".id"), rs.getString(veslac.getKlub().alias()+".naziv"), rs.getString(veslac.getKlub().alias()+".adresa"), rs.getString(veslac.getKlub().alias()+".email"), rs.getString(veslac.getKlub().alias()+".telefon"), rs.getString(veslac.getKlub().alias()+".korisnicko_ime"), rs.getString(veslac.getKlub().alias()+".sifra"))));
+        new Veslac(rs.getInt(veslac.alias()+".id"), rs.getString(veslac.alias()+".ime_prezime"), new Date(rs.getDate(veslac.alias()+".datum_rodjenja").getTime()), rs.getFloat(veslac.alias()+".visina"), rs.getFloat(veslac.alias()+".tezina"), KategorijaVeslaca.valueOf(rs.getString(veslac.alias()+".kategorija")), rs.getFloat(veslac.alias()+".najbolje_vreme"), new Date(rs.getDate(veslac.alias()+".datum_upisa").getTime())));
     }
 
     @Override
@@ -141,9 +140,7 @@ public class StavkaPonude implements OpstiDomenskiObjekat{
 
     @Override
     public String join() {
-        return "JOIN `veslanje`.`" + veslac.vratiNazivTabele() + "` ON " + alias() + ".id_veslaca = " + veslac.alias() + ".id" + 
-                "JOIN `veslanje`.`" + veslac.getKlub().vratiNazivTabele() +"` ON " + veslac.alias() + ".id_kluba = " 
-                + veslac.getKlub().alias() + ".id";
+        return "JOIN `veslanje`.`" + veslac.vratiNazivTabele() + "` ON " + alias() + ".id_veslaca = " + veslac.alias() + ".id";
     }
 
     @Override

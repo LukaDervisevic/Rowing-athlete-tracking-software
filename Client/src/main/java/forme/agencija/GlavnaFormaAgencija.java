@@ -57,7 +57,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
             setSize(screenSize);
 
             idAgencije = Klijent.getInstance().getUlogovaniNalog().getId();
-            ponudeAgencije = Klijent.getInstance().vratiSvePonudeAgencije(idAgencije);
+            ponudeAgencije = Klijent.getInstance().vratiListuPonude(idAgencije);
             ponudeTable.setModel(new PonudaTableModelAgencija(ponudeAgencije));
             patm = (PonudaTableModelAgencija) ponudeTable.getModel();
             
@@ -71,15 +71,15 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                                     || pretraziInput.getText().equals("Pretraži ime kluba...")) {
 
                                 if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
-                                    List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiSvePonudeAgencije(idAgencije);
+                                    List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiListuPonude(idAgencije);
                                     patm.setPonude(svePonude);
                                     patm.fireTableDataChanged();
                                 } else if (cardPanel.getComponentZOrder(pretrazivanjeTakmicenjaPanel) >= 0) {
-                                    List<VeslackiKlub> sviKlubovi = Klijent.getInstance().vratiSveKlubove();
+                                    List<VeslackiKlub> sviKlubovi = Klijent.getInstance().vratiListuSviVeslackiKlub();
                                     ktm.setKlubovi(sviKlubovi);
                                     ktm.fireTableDataChanged();
                                 } else if (cardPanel.getComponentZOrder(pretrazivanjePonudaPanel) >= 0) {
-                                    List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiSvePonudeAgencije(idAgencije);
+                                    List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiListuPonude(idAgencije);
                                     patvm.setPonude(svePonude);
                                     patvm.fireTableDataChanged();
                                 }
@@ -790,7 +790,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         cardPanel.revalidate();
         
         try {
-            klubovi = Klijent.getInstance().vratiSveKlubove();
+            klubovi = Klijent.getInstance().vratiListuSviVeslackiKlub();
         } catch (Exception ex) {
             logger.error("Neuspeno ucitavanje klubova");
         }
