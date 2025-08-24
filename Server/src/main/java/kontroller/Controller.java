@@ -40,10 +40,6 @@ public class Controller {
 
     private boolean odjavaSignal;
 
-    private String uuid;
-
-    private LocalDateTime vremeKreiranjaNaloga;
-
     private DBBroker dbb = DBBroker.getInstance();
 
     private Controller() {
@@ -57,29 +53,12 @@ public class Controller {
         return instance;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public Nalog getUlogovaniNalog() {
         return ulogovaniNalog;
     }
 
     public void setUlogovaniNalog(Nalog ulogovaniNalog) {
         this.ulogovaniNalog = ulogovaniNalog;
-        this.vremeKreiranjaNaloga = LocalDateTime.now();
-    }
-
-    public LocalDateTime getVremeKreiranjaNaloga() {
-        return vremeKreiranjaNaloga;
-    }
-
-    public void setVremeKreiranjaNaloga(LocalDateTime vremeKreiranjaNaloga) {
-        this.vremeKreiranjaNaloga = vremeKreiranjaNaloga;
     }
 
     public boolean isOdjavaSignal() {
@@ -96,22 +75,6 @@ public class Controller {
 
     public void setDbb(DBBroker dbb) {
         this.dbb = dbb;
-    }
-
-    public Nalog login(Nalog nalog) throws Exception {
-
-        Nalog ulogovaniNalog = dbb.pretraziVeslackiKlubLogin(nalog);
-
-        if (ulogovaniNalog == null) {
-            ulogovaniNalog = dbb.pretraziAgencijuLogin(nalog);
-        }
-
-        if (ulogovaniNalog == null) {
-            throw new Exception("Neuspešna prijava naloga");
-        }
-
-        return ulogovaniNalog;
-
     }
 
     // VESLACKI KLUB

@@ -57,7 +57,7 @@ public class PonudaTableModelKlub extends AbstractTableModel {
                 return ponuda.getProsecnoVremeJuniori();
             }
             case 6 -> {
-                return ponuda.getIdAgencije();
+                return ponuda.getAgencija().getNaziv();
             }
 
             default -> throw new AssertionError();

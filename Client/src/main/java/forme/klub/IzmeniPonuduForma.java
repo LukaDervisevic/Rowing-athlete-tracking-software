@@ -48,16 +48,16 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
             stavkePonude = ponudaVeslaca.getStavke();
             rb = ponudaVeslaca.getStavke().size();
             
-            veslaciVanPonude = Klijent.getInstance().vratiListuSviVeslaci(ponudaVeslaca.getIdKluba());
-            for (StavkaPonude stavka : stavkePonude) {
-                if(veslaciVanPonude.contains(stavka.getVeslac())){
-                    veslaciVanPonude.remove(stavka.getVeslac());
-                }
-            }
+//            veslaciVanPonude = Klijent.getInstance().vratiListuSviVeslaci(ponudaVeslaca.getIdKluba());
+//            for (StavkaPonude stavka : stavkePonude) {
+//                if(veslaciVanPonude.contains(stavka.getVeslac())){
+//                    veslaciVanPonude.remove(stavka.getVeslac());
+//                }
+//            }
             
-            veslaciTable.setModel(new VeslacTableModel(veslaciVanPonude));
-            stavkeTable.setModel(new StavkaPonudeTableModel(stavkePonude));
-            agencijaTable.setModel(new AgencijaTableModel(Klijent.getInstance().vratiSveAgencije()));
+//            veslaciTable.setModel(new VeslacTableModel(veslaciVanPonude));
+//            stavkeTable.setModel(new StavkaPonudeTableModel(stavkePonude));
+//            agencijaTable.setModel(new AgencijaTableModel(Klijent.getInstance().vratiSveAgencije()));
             
             vptm = (VeslacTableModel) veslaciTable.getModel();
             sptm = (StavkaPonudeTableModel) stavkeTable.getModel();
@@ -299,7 +299,7 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
                 int idVeslaca = (int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 0);
                 StavkaPonude s = new StavkaPonude();
                 
-                Veslac izabraniVeslac = veslaciVanPonude.stream().filter(v -> v.getIdVeslaca() == idVeslaca).findFirst().get();
+                Veslac izabraniVeslac = veslaciVanPonude.stream().filter(v -> v.getId() == idVeslaca).findFirst().get();
                 s.setVeslac(izabraniVeslac);
                 Date datumUpisa = izabraniVeslac.getDatumUpisa();
                 LocalDate datumUpisaLD = datumUpisa.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -320,7 +320,7 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
                 sptm.dodajStavku(s);
                 dodateStavke.add(s);
                 obrisaneStavke.remove(s);
-                vptm.obrisiVeslaca(s.getVeslac().getIdVeslaca());
+                vptm.obrisiVeslaca(s.getVeslac().getId());
                                 
 
             } else {

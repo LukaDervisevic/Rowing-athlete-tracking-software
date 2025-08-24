@@ -136,6 +136,11 @@ public class KlubTakmicenje implements OpstiDomenskiObjekat{
         return "KT";
     }
 
+    @Override
+    public void postaviPrimarniKljuc(int id) {
+        
+    }
+
     
 
 }

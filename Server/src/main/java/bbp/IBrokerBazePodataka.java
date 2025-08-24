@@ -27,7 +27,7 @@ public interface IBrokerBazePodataka {
     public abstract OpstiDomenskiObjekat vratiSlog(OpstiDomenskiObjekat odo, int index);
     public abstract int vratiBrojSloga(OpstiDomenskiObjekat odo);
     public abstract int vratiPozicijuSloga(OpstiDomenskiObjekat odo);
-//    public abstract int vratiNoviKljucPoKoloni(OpstiDomenskiObjekat odo);
+    public abstract int vratiNoviKljucPoKoloni(OpstiDomenskiObjekat odo);
     public abstract boolean bazaPovezana();
 //    public abstract boolean izvrsiUpit(String sql);
     

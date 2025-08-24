@@ -42,7 +42,7 @@ public class StavkaPonudeTableModel extends AbstractTableModel{
                 return stavka.getRb();
             }
             case 1 -> {
-                return stavka.getVeslac().getIdVeslaca();
+                return stavka.getVeslac().getId();
             }
             case 2 -> {
                 return stavka.getVeslac().getImePrezime();

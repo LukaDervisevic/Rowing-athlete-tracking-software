@@ -10,30 +10,32 @@ import java.util.Objects;
  *
  * @author luka
  */
-public class PonudaVeslaca implements OpstiDomenskiObjekat{
-    
+public class PonudaVeslaca implements OpstiDomenskiObjekat {
+
     private int id;
-    
+
     private Date datumKreiranja;
-    
+
     private int brojKadeta;
-    
+
     private int brojJuniora;
-    
+
     private float prosecnoVremeKadeti;
-    
+
     private float prosecnoVremeJuniori;
-    
+
     private List<StavkaPonude> stavke;
-    
-    private int idKluba;
-    
-    private int idAgencije;
+
+    private VeslackiKlub veslackiKlub;
+
+    private Agencija agencija;
 
     public PonudaVeslaca() {
+        this.veslackiKlub = new VeslackiKlub();
+        this.agencija = new Agencija();
     }
 
-    public PonudaVeslaca(int id, Date datumKreiranja, int brojKadeta, int brojJuniora, float prosecnoVremeKadeti, float prosecnoVremeJuniori,List<StavkaPonude> stavke,int idKluba, int idAgencije) {
+    public PonudaVeslaca(int id, Date datumKreiranja, int brojKadeta, int brojJuniora, float prosecnoVremeKadeti, float prosecnoVremeJuniori, List<StavkaPonude> stavke, VeslackiKlub veslackiKlub, Agencija agencija) {
         this.id = id;
         this.datumKreiranja = datumKreiranja;
         this.brojKadeta = brojKadeta;
@@ -41,8 +43,8 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat{
         this.prosecnoVremeKadeti = prosecnoVremeKadeti;
         this.prosecnoVremeJuniori = prosecnoVremeJuniori;
         this.stavke = stavke;
-        this.idKluba = idKluba;
-        this.idAgencije = idAgencije;
+        this.veslackiKlub = veslackiKlub;
+        this.agencija = agencija;
     }
 
     public int getId() {
@@ -101,25 +103,25 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat{
         this.stavke = stavke;
     }
 
-    public int getIdKluba() {
-        return idKluba;
+    public VeslackiKlub getVeslackiKlub() {
+        return veslackiKlub;
     }
 
-    public void setIdKluba(int idKluba) {
-        this.idKluba = idKluba;
+    public void setVeslackiKlub(VeslackiKlub veslackiKlub) {
+        this.veslackiKlub = veslackiKlub;
     }
 
-    public int getIdAgencije() {
-        return idAgencije;
+    public Agencija getAgencija() {
+        return agencija;
     }
 
-    public void setIdAgencije(int idAgencije) {
-        this.idAgencije = idAgencije;
+    public void setAgencija(Agencija agencija) {
+        this.agencija = agencija;
     }
 
     @Override
     public String toString() {
-        return "PonudaVeslaca{" + "id=" + id + ", datumKreiranja=" + datumKreiranja + ", brojKadeta=" + brojKadeta + ", brojJuniora=" + brojJuniora + ", prosecnoVremeKadeti=" + prosecnoVremeKadeti + ", prosecnoVremeJuniori=" + prosecnoVremeJuniori + ", idKluba=" + idKluba + ", idAgencije=" + idAgencije + '}';
+        return "PonudaVeslaca{" + "id=" + id + ", datumKreiranja=" + datumKreiranja + ", brojKadeta=" + brojKadeta + ", brojJuniora=" + brojJuniora + ", prosecnoVremeKadeti=" + prosecnoVremeKadeti + ", prosecnoVremeJuniori=" + prosecnoVremeJuniori + ", stavke=" + stavke + ", veslackiKlub=" + veslackiKlub + ", agencija=" + agencija + '}';
     }
 
     @Override
@@ -149,41 +151,44 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat{
         if (this.brojJuniora != other.brojJuniora) {
             return false;
         }
-        if (this.idKluba != other.idKluba) {
+        if (Float.floatToIntBits(this.prosecnoVremeKadeti) != Float.floatToIntBits(other.prosecnoVremeKadeti)) {
             return false;
         }
-        if (this.idAgencije != other.idAgencije) {
+        if (Float.floatToIntBits(this.prosecnoVremeJuniori) != Float.floatToIntBits(other.prosecnoVremeJuniori)) {
             return false;
         }
-        if (!Objects.equals(this.prosecnoVremeKadeti, other.prosecnoVremeKadeti)) {
+        if (!Objects.equals(this.datumKreiranja, other.datumKreiranja)) {
             return false;
         }
-        if (!Objects.equals(this.prosecnoVremeJuniori, other.prosecnoVremeJuniori)) {
+        if (!Objects.equals(this.stavke, other.stavke)) {
             return false;
         }
-        return Objects.equals(this.datumKreiranja, other.datumKreiranja);
+        if (!Objects.equals(this.veslackiKlub, other.veslackiKlub)) {
+            return false;
+        }
+        return Objects.equals(this.agencija, other.agencija);
     }
 
     @Override
     public String vratiNaziveKolona() {
         return "datum_kreiranja,broj_kadeta,broj_juniora,prosecno_vreme_kadeti,prosecno_vreme_junior,id_kluba,id_agencije";
     }
-    
+
     @Override
     public String vratiImePoKoloni(int i) {
         String[] kolone = {"id,datum_kreiranja,broj_kadeta,broj_juniora,prosecno_vreme_kadeti,prosecno_vreme_junior,id_kluba,id_agencije"};
         return kolone[i];
     }
-    
+
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        return datumKreiranja + "," + brojKadeta + "," + brojJuniora + "," + prosecnoVremeKadeti + "," + prosecnoVremeJuniori + "," + idKluba + "," + idAgencije;
+        return datumKreiranja + "," + brojKadeta + "," + brojJuniora + "," + prosecnoVremeKadeti + "," + prosecnoVremeJuniori + "," + veslackiKlub.getId() + "," + agencija.getId();
     }
 
     @Override
     public String azurirajVrednostiAtributa() {
-        return "datum_kreiranja = " + new java.sql.Date(datumKreiranja.getTime()) + ",broj_kadeta = " + brojKadeta + 
-                ",broj_juniora = " + brojJuniora + ",prosecno_vreme_kadeti = " + prosecnoVremeKadeti + ",prosecno_vreme_junior = " + prosecnoVremeJuniori + ", id_kluba = " + idKluba + ",id_agencije = " + idAgencije;
+        return "datum_kreiranja = " + new java.sql.Date(datumKreiranja.getTime()) + ",broj_kadeta = " + brojKadeta
+                + ",broj_juniora = " + brojJuniora + ",prosecno_vreme_kadeti = " + prosecnoVremeKadeti + ",prosecno_vreme_junior = " + prosecnoVremeJuniori + ", id_kluba = " + veslackiKlub.getId() + ",id_agencije = " + agencija.getId();
     }
 
     @Override
@@ -198,7 +203,36 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat{
 
     @Override
     public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return null;
+        PonudaVeslaca ponuda = new PonudaVeslaca();
+        ponuda.setId(rs.getInt(alias() + ".id"));
+        ponuda.setDatumKreiranja(rs.getDate(alias() + ".datum_kreiranja"));
+        ponuda.setBrojKadeta(rs.getInt(alias() + ".broj_kadeta"));
+        ponuda.setBrojJuniora(rs.getInt(alias() + ".broj_juniora"));
+        ponuda.setProsecnoVremeKadeti(rs.getFloat(alias() + ".prosecno_vreme_kadeti"));
+        ponuda.setProsecnoVremeJuniori(rs.getFloat(alias() + ".prosecno_vreme_junior"));
+
+        VeslackiKlub vk = new VeslackiKlub(
+                rs.getInt(veslackiKlub.alias() + ".id"),
+                rs.getString(veslackiKlub.alias() + ".naziv"),
+                rs.getString(veslackiKlub.alias() + ".adresa"),
+                rs.getString(veslackiKlub.alias() + ".email"),
+                rs.getString(veslackiKlub.alias() + ".telefon"),
+                rs.getString(veslackiKlub.alias() + ".korisnicko_ime"),
+                rs.getString(veslackiKlub.alias() + ".sifra")
+        );
+
+        Agencija ag = new Agencija(
+                rs.getInt(agencija.alias() + ".id"),
+                rs.getString(agencija.alias() + ".naziv"),
+                rs.getString(agencija.alias() + ".email"),
+                rs.getString(agencija.alias() + ".telefon"),
+                rs.getString(agencija.alias() + ".korisnicko_ime"),
+                rs.getString(agencija.alias() + ".sifra"),
+                null);
+
+        ponuda.setVeslackiKlub(vk);
+        ponuda.setAgencija(ag);
+        return ponuda;
     }
 
     @Override
@@ -208,11 +242,18 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat{
 
     @Override
     public String join() {
-        return "";
+        return " JOIN veslacki_klub AS " + veslackiKlub.alias() + " ON " + alias() + ".id_kluba = " + veslackiKlub.alias() + ".id" +
+           " JOIN agencija AS " + agencija.alias() + " ON " + alias() + ".id_agencije = " + agencija.alias() + ".id" +
+           " JOIN drzava AS " + agencija.getDrzava().alias() + " ON " + agencija.alias() + ".id_drzave = " + agencija.getDrzava().alias() + ".id";
     }
 
     @Override
     public String alias() {
         return "P";
+    }
+
+    @Override
+    public void postaviPrimarniKljuc(int id) {
+        this.id = id;
     }
 }

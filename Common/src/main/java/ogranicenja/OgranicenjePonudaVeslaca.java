@@ -43,11 +43,11 @@ public class OgranicenjePonudaVeslaca extends Ogranicenje{
             signal = false;
             to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - Prosecno vreme kadeta mora biti nenegativno");
         }
-        if(ponudaVeslaca.getIdKluba() <= 0) {
+        if(ponudaVeslaca.getVeslackiKlub().getId() <= 0) {
             signal = false;
             to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - Identifikator veslackog kluba ponude mora biti pozitivan");
         }
-        if(ponudaVeslaca.getIdAgencije() <= 0) {
+        if(ponudaVeslaca.getAgencija().getId() <= 0) {
             signal = false;
             to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - Identifikator agencije ponude mora biti pozitivan");
         }

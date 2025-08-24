@@ -307,12 +307,12 @@ class ServerNit extends Thread {
                 }
 
                 // STA CU SA OVIM???
-                case Operacija.VRATI_PONUDU_PO_ID -> {
-                    boolean signal = Controller.getInstance().vratiListuPonudaVeslaca(transferObj, transferObj.getWhereUslov());
-                    if (signal) {
-                        return new Odgovor(StatusPoruke.OK, transferObj);
-                    }
-                }
+//                case Operacija.VRATI_PONUDU_PO_ID -> {
+//                    boolean signal = Controller.getInstance().vratiListuPonudaVeslaca(transferObj, transferObj.getWhereUslov());
+//                    if (signal) {
+//                        return new Odgovor(StatusPoruke.OK, transferObj);
+//                    }
+//                }
 
                 case Operacija.PROMENA_PONUDE -> {
                     boolean signal = Controller.getInstance().promeniPonudaVeslaca((TransferObjekat) korisnikovZahtev.getParametar());

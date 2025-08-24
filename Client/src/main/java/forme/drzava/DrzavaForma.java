@@ -2,6 +2,7 @@ package forme.drzava;
 
 import forme.tableModeli.DrzavaTableModel;
 import java.awt.Window;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -29,7 +30,7 @@ public class DrzavaForma extends javax.swing.JDialog {
         super(window);
         initComponents();
         try {
-            drzave = Klijent.getInstance().vratiSveDrzave();
+            drzave = Klijent.getInstance().vratiListuSveDrzave(new LinkedList<>());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,"Greška pri učitavanju država","Greška", JOptionPane.ERROR_MESSAGE);
         }

@@ -306,10 +306,10 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         infoPanel.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 380, 10, -1));
 
         rodjenjeDatePicker.setBackground(new java.awt.Color(221, 221, 221));
-        infoPanel.add(rodjenjeDatePicker, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, -1, -1));
+        infoPanel.add(rodjenjeDatePicker, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 210, -1));
 
         upisDatePicker.setBackground(new java.awt.Color(221, 221, 221));
-        infoPanel.add(upisDatePicker, new org.netbeans.lib.awtextra.AbsoluteConstraints(39, 560, 240, -1));
+        infoPanel.add(upisDatePicker, new org.netbeans.lib.awtextra.AbsoluteConstraints(79, 560, 200, -1));
 
         getContentPane().add(infoPanel);
 

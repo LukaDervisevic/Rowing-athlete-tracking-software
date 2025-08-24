@@ -123,12 +123,12 @@ public class Takmicenje implements OpstiDomenskiObjekat{
     
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        return "'" + naziv + "','" + starosnaKategorija.toString() + "','" + vrstaTrke.toString() + "'," + new java.sql.Date(datum.getTime());
+        return "'" + naziv + "','" + starosnaKategorija.toString() + "','" + vrstaTrke.toString() + "','" + new java.sql.Date(datum.getTime())+"'";
     }
 
     @Override
     public String azurirajVrednostiAtributa() {
-        return "naziv=" + naziv + ",starosna_kategorija=" + starosnaKategorija.toString() + ",vrsta_trke=" + vrstaTrke.toString() + ",datum=" + new java.sql.Date(datum.getTime());
+        return "naziv=" + naziv + ",starosna_kategorija=" + starosnaKategorija.toString() + ",vrsta_trke=" + vrstaTrke.toString() + ",datum='" + new java.sql.Date(datum.getTime())+"'";
     }
 
     @Override
@@ -143,7 +143,7 @@ public class Takmicenje implements OpstiDomenskiObjekat{
 
     @Override
     public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return new Takmicenje(rs.getInt(alias()+".id"), rs.getString(alias()+".naziv"), KategorijaVeslaca.valueOf(rs.getString(alias()+".starosna_kategorija")), VrstaTrke.valueOf(alias()+".vrsta_trke"), new java.util.Date(rs.getDate(alias()+".datum").getTime()));
+        return new Takmicenje(rs.getInt(alias()+".id"), rs.getString(alias()+".naziv"), KategorijaVeslaca.valueOf(rs.getString(alias()+".starosna_kategorija")), VrstaTrke.valueOf(rs.getString(alias()+".vrsta_trke")), new java.util.Date(rs.getDate(alias()+".datum").getTime()));
     }
 
     @Override
@@ -159,5 +159,10 @@ public class Takmicenje implements OpstiDomenskiObjekat{
     @Override
     public String alias() {
         return "T";
+    }
+
+    @Override
+    public void postaviPrimarniKljuc(int id) {
+        this.id = id;
     }
 }

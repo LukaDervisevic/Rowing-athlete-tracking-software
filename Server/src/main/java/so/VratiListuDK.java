@@ -24,7 +24,7 @@ public class VratiListuDK extends OpsteIzvrsenjeSO{
     @Override
     public boolean izvrsiSO() {
         boolean signal = false;
-        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlog(to.getOdo(), whereUslov);
+        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlog(to.getOdo(), to.getWhereUslov());
         if(!listaOdo.isEmpty()) {
             to.setListOdo(listaOdo);
             signal = true;

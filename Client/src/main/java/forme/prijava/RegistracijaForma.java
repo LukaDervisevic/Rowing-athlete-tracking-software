@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import forme.drzava.DrzavaForma;
 import java.awt.Color;
 import java.awt.Window;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -584,14 +585,14 @@ public class RegistracijaForma extends javax.swing.JDialog {
                 if (tipNalogaComboBox.getSelectedItem().equals(TipNaloga.VESLACKI_KLUB)) {
                     VeslackiKlub kreiraniKlub = Klijent.getInstance().kreirajVeslackiKlub(new VeslackiKlub(0, naziv, adresa, email, telefon, korisnickoIme, sifra));
                     Klijent.getInstance().setUlogovaniNalog(kreiraniKlub);
-                    JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Uspešno kreiranje naloga", "Uspeš", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 } else {
                     Drzava drzava = (Drzava) drzavaComboBox.getSelectedItem();
                     System.out.println(drzava);
                     Agencija kreiranaAgencija = Klijent.getInstance().kreirajAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, sifra, drzava));
                     Klijent.getInstance().setUlogovaniNalog(kreiranaAgencija);
-                    JOptionPane.showMessageDialog(this, "Sifra naloga je poslata na vaš email", "Uspešno kreiranje naloga", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Uspešno kreiranje naloga", "Uspeš", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 }
 
@@ -748,7 +749,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
             drzavePitanjeLbl.setVisible(false);
             dodajDrzavuBtn.setVisible(false);
 
-            List<Drzava> drzave = Klijent.getInstance().vratiSveDrzave();
+            List<Drzava> drzave = Klijent.getInstance().vratiListuSveDrzave(new LinkedList<>());
 
             drzavaComboBox.addItem(null);
 

@@ -24,7 +24,10 @@ public class KreirajDK extends OpsteIzvrsenjeSO {
     @Override
     public boolean izvrsiSO() {
         boolean signal = false;
-        Ogranicenje ogranicenje = new Ogranicenje();
+        int noviKljuc = getBbp().vratiNoviKljucPoKoloni(getTo().getOdo());
+        if(noviKljuc != 0) {
+            getTo().getOdo().postaviPrimarniKljuc(noviKljuc);
+            Ogranicenje ogranicenje = new Ogranicenje();
         if (ogranicenje.proveriOgranicenja(to)) {
             signal = getBbp().kreirajSlog(getTo().getOdo());
             if (signal) {
@@ -34,6 +37,8 @@ public class KreirajDK extends OpsteIzvrsenjeSO {
             }
             getTo().signal = signal;
         }
+        }
+        
 
         return signal;
     }

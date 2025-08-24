@@ -20,7 +20,7 @@ public class OgranicenjeVeslac extends Ogranicenje{
     public boolean prostaVrednosnaOgranicenja(TransferObjekat to) {
         boolean signal = true;
         Veslac veslac = (Veslac) to.getOdo();
-        if(veslac.getIdVeslaca() == 0) {
+        if(veslac.getId() == 0) {
             signal = false;
             to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - identifikator veslaca ne moze biti 0");
         }

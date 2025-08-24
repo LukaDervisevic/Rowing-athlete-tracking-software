@@ -43,7 +43,7 @@ public class VeslacTableModel extends AbstractTableModel{
          
         switch (columnIndex) {
             case 0 -> {
-                return veslac.getIdVeslaca();
+                return veslac.getId();
             }
             case 1 -> {
                 return veslac.getImePrezime();
@@ -117,7 +117,7 @@ public class VeslacTableModel extends AbstractTableModel{
     
     public void obrisiVeslaca(int id){
         veslaci.removeIf(v -> {
-            if(v.getIdVeslaca() == id){
+            if(v.getId() == id){
                 int index = veslaci.indexOf(v);
                 fireTableRowsDeleted(index,index);
                 return true;

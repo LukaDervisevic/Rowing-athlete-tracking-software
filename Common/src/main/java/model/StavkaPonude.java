@@ -9,14 +9,14 @@ import java.util.Objects;
  *
  * @author luka
  */
-public class StavkaPonude implements OpstiDomenskiObjekat{
- 
+public class StavkaPonude implements OpstiDomenskiObjekat {
+
     private int idEvidencije;
-    
+
     private int rb;
-    
+
     private int godineTreniranja;
-    
+
     private Veslac veslac;
 
     public StavkaPonude() {
@@ -87,7 +87,7 @@ public class StavkaPonude implements OpstiDomenskiObjekat{
         if (this.idEvidencije != other.idEvidencije) {
             return false;
         }
-        if(this.rb != other.rb){
+        if (this.rb != other.rb) {
             return false;
         }
         if (!Objects.equals(this.godineTreniranja, other.godineTreniranja)) {
@@ -100,21 +100,21 @@ public class StavkaPonude implements OpstiDomenskiObjekat{
     public String vratiNaziveKolona() {
         return "id_ponude,rb,godine_treniranja,id_veslaca";
     }
-    
+
     @Override
     public String vratiImePoKoloni(int i) {
-        String[] kolone = {"id_ponude","rb","godine_treniranja","id_veslaca"};
+        String[] kolone = {"id_ponude", "rb", "godine_treniranja", "id_veslaca"};
         return kolone[i];
     }
-    
+
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        return idEvidencije + "," + rb + "," + godineTreniranja + "," + veslac.getIdVeslaca();
+        return idEvidencije + "," + rb + "," + godineTreniranja + "," + veslac.getId();
     }
 
     @Override
     public String azurirajVrednostiAtributa() {
-        return "id_ponude = " + idEvidencije + ",rb = " + rb + ",godine_treniranja = " + godineTreniranja + ",id_veslaca = " + veslac.getIdVeslaca();
+        return "id_ponude = " + idEvidencije + ",rb = " + rb + ",godine_treniranja = " + godineTreniranja + ",id_veslaca = " + veslac.getId();
     }
 
     @Override
@@ -124,13 +124,35 @@ public class StavkaPonude implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiWhereUslov() {
-        return "id_ponude = " + idEvidencije + " AND rb = " + rb; 
+        return "id_ponude = " + idEvidencije + " AND rb = " + rb;
     }
 
     @Override
     public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return new StavkaPonude(rs.getInt(alias()+".id_ponude"),rs.getInt(alias()+".rb"), rs.getInt(alias()+".godine_treniranja"), 
-        new Veslac(rs.getInt(veslac.alias()+".id"), rs.getString(veslac.alias()+".ime_prezime"), new Date(rs.getDate(veslac.alias()+".datum_rodjenja").getTime()), rs.getFloat(veslac.alias()+".visina"), rs.getFloat(veslac.alias()+".tezina"), KategorijaVeslaca.valueOf(rs.getString(veslac.alias()+".kategorija")), rs.getFloat(veslac.alias()+".najbolje_vreme"), new Date(rs.getDate(veslac.alias()+".datum_upisa").getTime())));
+        return new StavkaPonude(
+                rs.getInt(alias() + ".id_ponude"),
+                rs.getInt(alias() + ".rb"),
+                rs.getInt(alias() + ".godine_treniranja"),
+                new Veslac(
+                        rs.getInt(veslac.alias() + ".id"),
+                        rs.getString(veslac.alias() + ".ime_prezime"),
+                        new Date(rs.getDate(veslac.alias() + ".datum_rodjenja").getTime()),
+                        rs.getFloat(veslac.alias() + ".visina"),
+                        rs.getFloat(veslac.alias() + ".tezina"),
+                        KategorijaVeslaca.valueOf(rs.getString(veslac.alias() + ".kategorija")),
+                        rs.getFloat(veslac.alias() + ".najbolje_vreme"),
+                        new Date(rs.getDate(veslac.alias() + ".datum_upisa").getTime()), // ✅ close Date() here
+                        new VeslackiKlub(
+                                rs.getInt(veslac.getVeslackiKlub().alias() + ".id"),
+                                rs.getString(veslac.getVeslackiKlub().alias() + ".naziv"),
+                                rs.getString(veslac.getVeslackiKlub().alias() + ".adresa"),
+                                rs.getString(veslac.getVeslackiKlub().alias() + ".email"),
+                                rs.getString(veslac.getVeslackiKlub().alias() + ".telefon"),
+                                rs.getString(veslac.getVeslackiKlub().alias() + ".korisnicko_ime"),
+                                rs.getString(veslac.getVeslackiKlub().alias() + ".sifra")
+                        )
+                )
+        );
     }
 
     @Override
@@ -148,14 +170,9 @@ public class StavkaPonude implements OpstiDomenskiObjekat{
         return "SP";
     }
 
-    
+    @Override
+    public void postaviPrimarniKljuc(int id) {
+        this.rb = id;
+    }
 
-    
-
-    
-
-    
-    
-    
-    
 }

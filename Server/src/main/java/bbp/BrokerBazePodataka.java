@@ -14,7 +14,6 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 import model.Agencija;
-import model.Nalog;
 import model.OpstiDomenskiObjekat;
 import model.VeslackiKlub;
 import utils.HesiranjeServis;
@@ -52,6 +51,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
     @Override
     public boolean kreirajSlog(OpstiDomenskiObjekat odo) {
         String upit = "INSERT INTO `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` (" + odo.vratiNaziveKolona() + ") VALUES (" + odo.vrednostiAtributaZaKreiranje() + ")";
+        System.out.println(upit);
         return izvrsiAzuriranje(upit);
     }
 
@@ -150,9 +150,14 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
     public List<OpstiDomenskiObjekat> pronadjiSlog(OpstiDomenskiObjekat odo, String where) {
         ResultSet rs = null;
         Statement statement = null;
-        String upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " WHERE " + where;
+        String upit;
+        if(where == null) {
+           upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " ;"; 
+        }else{
+            upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " WHERE " + where + ";";
+        }
         List<OpstiDomenskiObjekat> lista = new LinkedList<>();
-
+        System.out.println(upit);
         try {
             statement = konekcija.createStatement();
             rs = statement.executeQuery(upit);
@@ -296,7 +301,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
             System.getLogger(BrokerBazePodataka.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             signal = false;
         } finally {
-            ugasi(null, statement, null);;
+            ugasi(null, statement, null);
         }
         return signal;
     }
@@ -326,5 +331,29 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
             }
         }
     }
+
+    @Override
+    public int vratiNoviKljucPoKoloni(OpstiDomenskiObjekat odo) {
+        ResultSet rs = null;
+        Statement statement = null;
+        String upit = "SELECT Max(" + odo.vratiImePoKoloni(0) + ") as noviKljuc FROM " + odo.vratiNazivTabele();
+        boolean signal;
+        try {
+            statement = konekcija.createStatement();
+            rs = statement.executeQuery(upit);
+            signal = rs.next(); 
+            if (signal == true) {
+                return rs.getInt("noviKljuc") + 1;
+            } else {
+                return 1;
+            }
+        } catch (SQLException ex) {
+            System.getLogger(BrokerBazePodataka.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        } finally {
+            ugasi(null, statement, rs);
+        }
+        return 0;
+    }
+    
 
 }

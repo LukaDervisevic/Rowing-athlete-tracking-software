@@ -117,4 +117,9 @@ public class Drzava implements OpstiDomenskiObjekat{
     public String alias() {
         return "D";
     }
+
+    @Override
+    public void postaviPrimarniKljuc(int id) {
+        this.id = id;
+    }
 }

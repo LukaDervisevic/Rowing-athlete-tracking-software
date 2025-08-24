@@ -33,7 +33,10 @@ public interface OpstiDomenskiObjekat extends Serializable {
 
     abstract public String alias();
 
-    abstract public String vratiImePoKoloni(int i
-    );
+    abstract public String vratiImePoKoloni(int i);
+    
+    abstract public void postaviPrimarniKljuc(int id);
+    
+    
 
 }

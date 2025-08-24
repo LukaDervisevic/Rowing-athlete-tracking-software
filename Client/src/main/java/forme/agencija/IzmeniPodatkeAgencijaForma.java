@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import forme.drzava.DrzavaForma;
 import java.awt.Color;
 import java.awt.Window;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -569,7 +570,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         
         tipNalogaComboBox.addItem(TipNaloga.AGENCIJA_ZA_TALENTE);
    
-        List<Drzava> drzave = Klijent.getInstance().vratiSveDrzave();
+        List<Drzava> drzave = Klijent.getInstance().vratiListuSveDrzave(new LinkedList<>());
         
         for(Drzava d: drzave) {
             drzavaComboBox.addItem(d);

@@ -21,6 +21,7 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
     private Drzava drzava;
 
     public Agencija() {
+        drzava = new Drzava();
     }
 
     public Agencija(int id, String naziv, String email, String telefon, String korisnickoIme, String sifra, Drzava drzava) {
@@ -183,5 +184,10 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
     @Override
     public String alias() {
         return "A";
+    }
+
+    @Override
+    public void postaviPrimarniKljuc(int id) {
+        this.id = id;
     }
 }

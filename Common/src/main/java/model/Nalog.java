@@ -199,6 +199,11 @@ public class Nalog implements OpstiDomenskiObjekat{
     public String vratiImePoKoloni(int i) {
         return "";
     }
+
+    @Override
+    public void postaviPrimarniKljuc(int id) {
+        this.id = id;
+    }
     
     
     

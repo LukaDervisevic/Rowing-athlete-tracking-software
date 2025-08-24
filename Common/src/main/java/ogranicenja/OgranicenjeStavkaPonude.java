@@ -31,7 +31,7 @@ public class OgranicenjeStavkaPonude extends Ogranicenje{
             to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - Godine treniranja moraju biti nenegativne");
         }
         
-        if(stavkaPonude.getVeslac().getIdVeslaca() <= 0) {
+        if(stavkaPonude.getVeslac().getId() <= 0) {
             signal = false;
             to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - Identifikator veslaca mora biti pozitivan ");
         }
