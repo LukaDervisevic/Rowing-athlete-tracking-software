@@ -176,13 +176,13 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat {
 
     @Override
     public String vratiImePoKoloni(int i) {
-        String[] kolone = {"id,datum_kreiranja,broj_kadeta,broj_juniora,prosecno_vreme_kadeti,prosecno_vreme_junior,id_kluba,id_agencije"};
+        String[] kolone = {"id","datum_kreiranja","broj_kadeta","broj_juniora","prosecno_vreme_kadeti","prosecno_vreme_junior","id_kluba","id_agencije"};
         return kolone[i];
     }
 
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        return datumKreiranja + "," + brojKadeta + "," + brojJuniora + "," + prosecnoVremeKadeti + "," + prosecnoVremeJuniori + "," + veslackiKlub.getId() + "," + agencija.getId();
+        return "'"+new java.sql.Date(datumKreiranja.getTime()) + "'," + brojKadeta + "," + brojJuniora + "," + prosecnoVremeKadeti + "," + prosecnoVremeJuniori + "," + veslackiKlub.getId() + "," + agencija.getId();
     }
 
     @Override

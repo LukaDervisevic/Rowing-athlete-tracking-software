@@ -1120,16 +1120,16 @@ public class DBBroker {
             
             String upitBrisanje = "DELETE FROM `veslanje`.`stavka_ponude` WHERE id_ponude=? AND rb=?;";
             PreparedStatement psBrisanje = connection.prepareStatement(upitBrisanje);
-            for (StavkaPonude obrisanaStavka : stavkeZaBrisanje){
-                psBrisanje.setInt(1,obrisanaStavka.getIdEvidencije());
-                psBrisanje.setInt(2, obrisanaStavka.getRb());
-                
-                
-                int azuriraniRedovi = psBrisanje.executeUpdate();
-                if (azuriraniRedovi == 0) {
-                    connection.rollback();
-                }
-            }
+//            for (StavkaPonude obrisanaStavka : stavkeZaBrisanje){
+//                psBrisanje.setInt(1,obrisanaStavka.getIdEvidencije());
+//                psBrisanje.setInt(2, obrisanaStavka.getRb());
+//                
+//                
+//                int azuriraniRedovi = psBrisanje.executeUpdate();
+//                if (azuriraniRedovi == 0) {
+//                    connection.rollback();
+//                }
+//            }
             connection.commit();
             
             String upitDodavanje = "INSERT INTO `veslanje`.`stavka_ponude` (id_ponude,rb,godine_treniranja,id_veslaca) VALUES(?,?,?,?)";
@@ -1738,18 +1738,18 @@ public class DBBroker {
             PreparedStatement stavkeStatement = connection.prepareStatement(stavkeUpit);
             stavkeStatement.setInt(1, idPonude);
             
-            ResultSet rsStavke = stavkeStatement.executeQuery();
-            List<StavkaPonude> stavkePonude = new LinkedList<>();
-            while(rsStavke.next()){
-                StavkaPonude stavka = new StavkaPonude();
-                stavka.setIdEvidencije(idPonude);
-                stavka.setRb(rsStavke.getInt("rb"));
-                stavka.setGodineTreniranja(rsStavke.getInt("godine_treniranja"));
-                stavka.setVeslac(vratiVeslacaPoId(rsStavke.getInt("id_veslaca")));
-                stavkePonude.add(stavka);
-                
-            }
-            ponudaVeslaca.setStavke(stavkePonude);
+//            ResultSet rsStavke = stavkeStatement.executeQuery();
+//            List<StavkaPonude> stavkePonude = new LinkedList<>();
+//            while(rsStavke.next()){
+//                StavkaPonude stavka = new StavkaPonude();
+//                stavka.setIdEvidencije(idPonude);
+//                stavka.setRb(rsStavke.getInt("rb"));
+//                stavka.setGodineTreniranja(rsStavke.getInt("godine_treniranja"));
+//                stavka.setVeslac(vratiVeslacaPoId(rsStavke.getInt("id_veslaca")));
+//                stavkePonude.add(stavka);
+//                
+//            }
+//            ponudaVeslaca.setStavke(stavkePonude);
             return ponudaVeslaca;
         }
         throw new Exception("Neuspelo vracanje ponude sa datim id-om.");

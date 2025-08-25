@@ -18,7 +18,7 @@ public class OgranicenjeStavkaPonude extends Ogranicenje{
     public boolean prostaVrednosnaOgranicenja(TransferObjekat to) {
         boolean signal = true;
         StavkaPonude stavkaPonude = (StavkaPonude) to.getOdo();
-        if(stavkaPonude.getIdEvidencije() <= 0) {
+        if(stavkaPonude.getPonudaVeslaca().getId() <= 0) {
             signal = false;
             to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - identifikator evidencije veslaca mora biti pozitivan");
         }

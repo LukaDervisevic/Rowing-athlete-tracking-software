@@ -308,7 +308,8 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
                 int years = p.getYears();
                 s.setGodineTreniranja(years);
 
-                s.setIdEvidencije(ponudaVeslaca.getId());
+                s.setPonudaVeslaca(ponudaVeslaca);
+                
 
                 if (izbaceniRb.isEmpty()) {
                     s.setRb(++rb);

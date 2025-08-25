@@ -337,6 +337,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
         ResultSet rs = null;
         Statement statement = null;
         String upit = "SELECT Max(" + odo.vratiImePoKoloni(0) + ") as noviKljuc FROM " + odo.vratiNazivTabele();
+        System.out.println(upit);
         boolean signal;
         try {
             statement = konekcija.createStatement();

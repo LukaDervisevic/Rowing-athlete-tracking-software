@@ -2237,7 +2237,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 int idVeslaca = (int) veslaciPonudaTable.getValueAt(veslaciPonudaTable.getSelectedRow(), 0);
                 StavkaPonude s = new StavkaPonude();
 
-                Veslac izabraniVeslac = Klijent.getInstance().vratiListuVeslaci(" id = " + idVeslaca, new LinkedList<>()).get(0);
+                Veslac izabraniVeslac = Klijent.getInstance().vratiListuVeslaci("V.id = " + idVeslaca, new LinkedList<>()).get(0);
                 s.setVeslac(izabraniVeslac);
                 Date datumUpisa = izabraniVeslac.getDatumUpisa();
                 LocalDate datumUpisaLD = datumUpisa.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -2245,8 +2245,8 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 Period p = Period.between(datumUpisaLD, LocalDate.now());
                 int years = p.getYears();
                 s.setGodineTreniranja(years);
-
-                s.setIdEvidencije(idPonude);
+                s.setPonudaVeslaca(new PonudaVeslaca());
+                s.getPonudaVeslaca().setId(idPonude);
 
                 if (izbaceniRb.isEmpty()) {
                     s.setRb(++rb);
@@ -2294,7 +2294,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             Agencija agencija = new Agencija();
             agencija.setId(idAgencije);
             try {
-                PonudaVeslaca ponuda = new PonudaVeslaca(0, null, 0,0, 0, 0, new LinkedList<>(), klub, agencija);
+                PonudaVeslaca ponuda = new PonudaVeslaca(0, new Date(), 0,0, 0, 0, stavkePonude, klub, agencija);
                 PonudaVeslaca kreiranaPonuda = Klijent.getInstance().kreirajPonuduVeslaca(ponuda);
                 JOptionPane.showMessageDialog(this, "Uspesno kreiranje ponude", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                 ptm.dodajPonudu(kreiranaPonuda);
@@ -2325,7 +2325,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         if (ponudeTable.getSelectedRow() != -1) {
             int idPonuda = (int) ponudeTable.getValueAt(ponudeTable.getSelectedRow(), 0);
             try {
-                PonudaVeslaca ponudaVeslaca = Klijent.getInstance().vratiListuPonude(" id = " + idPonuda, new LinkedList<>()).getFirst();
+                PonudaVeslaca ponudaVeslaca = Klijent.getInstance().vratiListuPonude("P.id = " + idPonuda, new LinkedList<>()).getFirst();
                 IzmeniPonuduForma ipf = new IzmeniPonuduForma(this, true, ponudaVeslaca);
                 ipf.setVisible(true);
 
