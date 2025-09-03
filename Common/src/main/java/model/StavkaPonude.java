@@ -182,5 +182,7 @@ public class StavkaPonude implements OpstiDomenskiObjekat {
     public void postaviPrimarniKljuc(int id) {
         this.rb = id;
     }
+    
+    
 
 }

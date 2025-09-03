@@ -68,7 +68,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                 public void keyPressed(KeyEvent e) {
                     try {
                         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (pretraziInput.getText().equals("Pretraži id kluba...") || pretraziInput.getText().isEmpty()
+                            if (pretraziInput.getText().equals("Pretraži naziv kluba...") || pretraziInput.getText().isEmpty()
                                     || pretraziInput.getText().equals("Pretraži ime kluba...")) {
 
                                 if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
@@ -205,7 +205,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
         pretraziInput.setBackground(new java.awt.Color(221, 221, 221));
         pretraziInput.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
-        pretraziInput.setText("Pretraži id kluba...");
+        pretraziInput.setText("Pretraži naziv kluba...");
         pretraziInput.setBorder(null);
         pretraziInput.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -775,7 +775,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
     private void pretraziButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pretraziButtonActionPerformed
         // TODO add your handling code here:
-        pretraziInput.setText("Pretraži id kluba...");
+        pretraziInput.setText("Pretraži naziv kluba...");
         cardPanel.removeAll();
         cardPanel.add(pretrazivanjePonudaPanel);
         cardPanel.repaint();

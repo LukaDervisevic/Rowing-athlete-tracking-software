@@ -3,6 +3,7 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -230,6 +231,8 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat {
                 rs.getString(agencija.alias() + ".sifra"),
                 null);
 
+        List<StavkaPonude> stavke = new LinkedList<>();
+        
         ponuda.setVeslackiKlub(vk);
         ponuda.setAgencija(ag);
         return ponuda;
@@ -244,7 +247,7 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat {
     public String join() {
         return " JOIN veslacki_klub AS " + veslackiKlub.alias() + " ON " + alias() + ".id_kluba = " + veslackiKlub.alias() + ".id" +
            " JOIN agencija AS " + agencija.alias() + " ON " + alias() + ".id_agencije = " + agencija.alias() + ".id" +
-           " JOIN drzava AS " + agencija.getDrzava().alias() + " ON " + agencija.alias() + ".id_drzave = " + agencija.getDrzava().alias() + ".id";
+           " JOIN stavka_ponude AS SP ON " + alias() + ".id = SP.id_ponude";
     }
 
     @Override
