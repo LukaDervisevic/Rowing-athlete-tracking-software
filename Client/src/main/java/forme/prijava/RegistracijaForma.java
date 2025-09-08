@@ -12,7 +12,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
-import klijent.Klijent;
+import kontroler.Kontroler;
 import model.Agencija;
 
 import model.TipNaloga;
@@ -234,20 +234,10 @@ public class RegistracijaForma extends javax.swing.JDialog {
                 telefonInputFocusLost(evt);
             }
         });
-        telefonInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                telefonInputActionPerformed(evt);
-            }
-        });
 
         telefonComboBox.setFont(new java.awt.Font("Ubuntu", 2, 18)); // NOI18N
         telefonComboBox.setForeground(new java.awt.Color(153, 153, 153));
         telefonComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "+381", "+1", "+44", "+61", "+91", "+49", "+33", "+39", "+34", "+52", "+55", "+86", "+81", "+82", "+27", "+7", "+20", "+90", "+54", "+966", "+234", "+92", "+62", "+66", "+64", "+63", "+46", "+31", "+32", "+41", "+351", "+30", "+972", "+84", "+56", "+48", "+65", "+60", "+380" }));
-        telefonComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                telefonComboBoxActionPerformed(evt);
-            }
-        });
 
         jLabel10.setForeground(new java.awt.Color(251, 51, 51));
         jLabel10.setText("*");
@@ -291,11 +281,6 @@ public class RegistracijaForma extends javax.swing.JDialog {
 
         sifraInput.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         sifraInput.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(153, 153, 153)));
-        sifraInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sifraInputActionPerformed(evt);
-            }
-        });
 
         jLabel18.setForeground(new java.awt.Color(251, 51, 51));
         jLabel18.setText("*");
@@ -331,11 +316,6 @@ public class RegistracijaForma extends javax.swing.JDialog {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 nazivInputFocusLost(evt);
-            }
-        });
-        nazivInput.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nazivInputActionPerformed(evt);
             }
         });
 
@@ -401,34 +381,34 @@ public class RegistracijaForma extends javax.swing.JDialog {
                                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(infoPanelLayout.createSequentialGroup()
-                                .addComponent(potvrdaSifreLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(potvrdaSifreInput)
                             .addGroup(infoPanelLayout.createSequentialGroup()
-                                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(adresaInput, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(infoPanelLayout.createSequentialGroup()
-                                        .addComponent(adresaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(adresaZvezdica, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(infoPanelLayout.createSequentialGroup()
-                                        .addComponent(drzavaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(drzavaZvezdica, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(infoPanelLayout.createSequentialGroup()
-                                        .addComponent(telefonComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(potvrdaSifreLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(telefonInput, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(infoPanelLayout.createSequentialGroup()
-                                        .addComponent(telefonLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(greskaTelefonLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(greskaPotvrdaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(drzavaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(adresaInput, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(infoPanelLayout.createSequentialGroup()
+                                            .addComponent(adresaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(adresaZvezdica, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(infoPanelLayout.createSequentialGroup()
+                                            .addComponent(drzavaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(drzavaZvezdica, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(infoPanelLayout.createSequentialGroup()
+                                            .addComponent(telefonComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(telefonInput, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(infoPanelLayout.createSequentialGroup()
+                                            .addComponent(telefonLabel)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(greskaTelefonLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(greskaPotvrdaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(drzavaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -583,15 +563,15 @@ public class RegistracijaForma extends javax.swing.JDialog {
                 String sifra = sifraInput.getText();
 
                 if (tipNalogaComboBox.getSelectedItem().equals(TipNaloga.VESLACKI_KLUB)) {
-                    VeslackiKlub kreiraniKlub = Klijent.getInstance().kreirajVeslackiKlub(new VeslackiKlub(0, naziv, adresa, email, telefon, korisnickoIme, sifra));
-                    Klijent.getInstance().setUlogovaniNalog(kreiraniKlub);
+                    VeslackiKlub kreiraniKlub = Kontroler.getInstance().kreirajVeslackiKlub(new VeslackiKlub(0, naziv, adresa, email, telefon, korisnickoIme, sifra));
+                    Kontroler.getInstance().setUlogovaniNalog(kreiraniKlub);
                     JOptionPane.showMessageDialog(this, "Uspešno kreiranje naloga", "Uspeš", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 } else {
                     Drzava drzava = (Drzava) drzavaComboBox.getSelectedItem();
                     System.out.println(drzava);
-                    Agencija kreiranaAgencija = Klijent.getInstance().kreirajAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, sifra, drzava));
-                    Klijent.getInstance().setUlogovaniNalog(kreiranaAgencija);
+                    Agencija kreiranaAgencija = Kontroler.getInstance().kreirajAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, sifra, drzava));
+                    Kontroler.getInstance().setUlogovaniNalog(kreiranaAgencija);
                     JOptionPane.showMessageDialog(this, "Uspešno kreiranje naloga", "Uspeš", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
                 }
@@ -607,14 +587,6 @@ public class RegistracijaForma extends javax.swing.JDialog {
 
 
     }//GEN-LAST:event_registracijaButtonActionPerformed
-
-    private void telefonInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefonInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_telefonInputActionPerformed
-
-    private void telefonComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefonComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_telefonComboBoxActionPerformed
 
     private void nazivInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nazivInputFocusGained
         if (nazivInput.getText().equals("Unesite naziv...")) {
@@ -683,14 +655,6 @@ public class RegistracijaForma extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_adresaInputFocusLost
 
-    private void sifraInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sifraInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sifraInputActionPerformed
-
-    private void nazivInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nazivInputActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nazivInputActionPerformed
-
     private void tipNalogaComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipNalogaComboBoxItemStateChanged
         // TODO add your handling code here:
         if (tipNalogaComboBox.getSelectedItem().equals(TipNaloga.VESLACKI_KLUB)) {
@@ -748,8 +712,14 @@ public class RegistracijaForma extends javax.swing.JDialog {
 
             drzavePitanjeLbl.setVisible(false);
             dodajDrzavuBtn.setVisible(false);
+            
+            List<TipNaloga> tipoviNaloga = List.of(TipNaloga.VESLACKI_KLUB, TipNaloga.AGENCIJA_ZA_TALENTE);
 
-            List<Drzava> drzave = Klijent.getInstance().vratiListuSveDrzave(new LinkedList<>());
+            for (TipNaloga tn : tipoviNaloga) {
+                tipNalogaComboBox.addItem(tn);
+            }
+
+            List<Drzava> drzave = Kontroler.getInstance().vratiListuSveDrzave(new LinkedList<>());
 
             drzavaComboBox.addItem(null);
 
@@ -757,12 +727,6 @@ public class RegistracijaForma extends javax.swing.JDialog {
                 drzavaComboBox.addItem(d);
             }
 
-            List<TipNaloga> tipoviNaloga = List.of(TipNaloga.VESLACKI_KLUB, TipNaloga.AGENCIJA_ZA_TALENTE);
-
-            for (TipNaloga tn : tipoviNaloga) {
-                tipNalogaComboBox.addItem(tn);
-            }
-        
         }catch(Exception ex){
             logger.error(ex.getMessage());
         }

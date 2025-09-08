@@ -1,7 +1,6 @@
 package kontroller;
 
 import bbp.DBBroker;
-import java.time.LocalDateTime;
 import model.Nalog;
 import so.KreirajDK;
 import so.NadjiDK;

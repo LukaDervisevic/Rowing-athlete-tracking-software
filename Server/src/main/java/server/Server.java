@@ -44,9 +44,5 @@ public class Server{
             logger.error(ex.getMessage());
         }
     }
-    
-    
-    
-    
-    
+
 }

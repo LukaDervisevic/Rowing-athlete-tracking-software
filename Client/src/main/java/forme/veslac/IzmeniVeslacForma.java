@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import klijent.Klijent;
+import kontroler.Kontroler;
 import model.KategorijaVeslaca;
 import model.Veslac;
 import org.apache.logging.log4j.LogManager;
@@ -380,7 +380,7 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
 //            veslac.setIdKluba(Integer.parseInt(idKlubaInput.getText()));
             
             try {
-                Klijent.getInstance().azurirajVeslaca(veslac);
+                Kontroler.getInstance().azurirajVeslaca(veslac);
                 this.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this,"Greska pri azuriranju" + ex,"Greska",JOptionPane.ERROR_MESSAGE);

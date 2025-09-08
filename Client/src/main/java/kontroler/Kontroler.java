@@ -1,4 +1,4 @@
-package klijent;
+package kontroler;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -9,7 +9,6 @@ import model.KategorijaVeslaca;
 import model.KlubTakmicenje;
 import model.Nalog;
 import model.PonudaVeslaca;
-import model.StavkaPonude;
 import model.Takmicenje;
 import model.Veslac;
 import model.VeslackiKlub;
@@ -27,9 +26,9 @@ import transfer.TransferObjekat;
  *
  * @author luka
  */
-public class Klijent {
+public class Kontroler {
 
-    private static Klijent instance;
+    private static Kontroler instance;
 
     private Nalog ulogovaniNalog;
 
@@ -43,7 +42,7 @@ public class Klijent {
 
     private static final Logger logger = LogManager.getRootLogger();
 
-    private Klijent() {
+    private Kontroler() {
         try {
             soket = new Socket("localhost", 9000);
             primalac = new Primalac(soket);
@@ -54,9 +53,9 @@ public class Klijent {
         }
     }
 
-    public static Klijent getInstance() {
+    public static Kontroler getInstance() {
         if (instance == null) {
-            instance = new Klijent();
+            instance = new Kontroler();
         }
         return instance;
     }

@@ -506,7 +506,7 @@
                           <Component id="kFormaPanel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                           <Component id="kFormaPanel3" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="701" max="32767" attributes="0"/>
+                          <EmptySpace pref="735" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -682,8 +682,6 @@
                           <Component id="jScrollPane4" alignment="0" pref="1377" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="detaljiPonudeBtn" min="-2" pref="196" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="obrisiPonuduButton" min="-2" pref="160" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="promeniPonuduButton" min="-2" pref="160" max="-2" attributes="0"/>
@@ -702,7 +700,6 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="obrisiPonuduButton" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                                   <Component id="promeniPonuduButton" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
-                                  <Component id="detaljiPonudeBtn" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="30" max="32767" attributes="0"/>
                           </Group>
@@ -772,23 +769,6 @@
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="promeniPonuduButtonActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="detaljiPonudeBtn">
-                      <Properties>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="f4" green="92" red="d" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="JetBrains Mono" size="19" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Detalji ponude"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="detaljiPonudeBtnActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
@@ -1472,7 +1452,7 @@
                                   <Component id="glavnaFormaPanel21" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="704" max="32767" attributes="0"/>
+                          <EmptySpace pref="738" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -2079,7 +2059,7 @@
                           <Component id="glavnaFormaPanel26" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="glavnaFormaPanel27" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="681" max="32767" attributes="0"/>
+                          <EmptySpace pref="729" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -2091,13 +2071,6 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane2" alignment="0" pref="1409" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="obrisiStavkuButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="dodajStavkuButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                               <Component id="jLabel22" min="-2" pref="144" max="-2" attributes="0"/>
@@ -2112,12 +2085,7 @@
                               <Component id="jLabel22" min="-2" pref="38" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jScrollPane2" min="-2" pref="162" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="obrisiStavkuButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="dodajStavkuButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace pref="15" max="32767" attributes="0"/>
+                              <EmptySpace pref="17" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2144,46 +2112,12 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Component class="javax.swing.JButton" name="obrisiStavkuButton">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Obri&#x161;i stavku"/>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="f4" green="92" red="d" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="JetBrains Mono" size="19" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="obrisiStavkuButtonActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="dodajStavkuButton">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Dodaj stavku"/>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="f4" green="92" red="e" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="JetBrains Mono" size="18" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dodajStavkuButtonActionPerformed"/>
-                      </Events>
-                    </Component>
                     <Component class="javax.swing.JLabel" name="jLabel22">
                       <Properties>
+                        <Property name="text" type="java.lang.String" value="Vesla&#x10d;i"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="JetBrains Mono" size="24" style="3"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Vesla&#x10d;i"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -2235,16 +2169,28 @@
                               <Component id="jLabel23" min="-2" pref="286" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="obrisiStavkuButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="dodajStavkuButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                               <Component id="jLabel23" min="-2" pref="35" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="jScrollPane6" min="-2" pref="157" max="-2" attributes="0"/>
-                              <EmptySpace pref="30" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="dodajStavkuButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="obrisiStavkuButton" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -2273,11 +2219,45 @@
                     </Container>
                     <Component class="javax.swing.JLabel" name="jLabel23">
                       <Properties>
+                        <Property name="text" type="java.lang.String" value="Vesla&#x10d;i za ponudu"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="JetBrains Mono" size="24" style="3"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Vesla&#x10d;i za ponudu"/>
                       </Properties>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="obrisiStavkuButton">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Obri&#x161;i stavku"/>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="f4" green="92" red="d" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="JetBrains Mono" size="19" style="1"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="obrisiStavkuButtonActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="dodajStavkuButton">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Dodaj stavku"/>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="f4" green="92" red="e" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="JetBrains Mono" size="18" style="1"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dodajStavkuButtonActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -2291,8 +2271,10 @@
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="detaljiAgencijeBtn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="kreirajPonuduBtn" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="potvrdiPonuduButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
@@ -2312,6 +2294,7 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="potvrdiPonuduButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="detaljiAgencijeBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="kreirajPonuduBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="12" max="32767" attributes="0"/>
                           </Group>
@@ -2342,7 +2325,7 @@
                     </Container>
                     <Component class="javax.swing.JButton" name="potvrdiPonuduButton">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Kreiraj ponudu"/>
+                        <Property name="text" type="java.lang.String" value="Potvrdi ponudu"/>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="f4" green="92" red="d" type="rgb"/>
                         </Property>
@@ -2359,14 +2342,15 @@
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel24">
                       <Properties>
+                        <Property name="text" type="java.lang.String" value="Agencije"/>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="JetBrains Mono" size="24" style="3"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Agencije"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JButton" name="detaljiAgencijeBtn">
                       <Properties>
+                        <Property name="text" type="java.lang.String" value="Detalji agencije"/>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="f4" green="92" red="d" type="rgb"/>
                         </Property>
@@ -2376,10 +2360,26 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Detalji agencije"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="detaljiAgencijeBtnActionPerformed"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JButton" name="kreirajPonuduBtn">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Kreiraj ponudu"/>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="f4" green="92" red="d" type="rgb"/>
+                        </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="JetBrains Mono" size="19" style="1"/>
+                        </Property>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="kreirajPonuduBtnActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>
