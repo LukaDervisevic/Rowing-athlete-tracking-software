@@ -72,7 +72,9 @@ public class AgencijaTableModel extends AbstractTableModel{
         this.agencije = agencije;
     }
     
-    
+    public Agencija getAgencija(int row) {
+        return this.agencije.get(row);
+    }
     
     
 }

@@ -29,7 +29,8 @@ public class VratiListuDK extends OpsteIzvrsenjeSO{
             to.setListOdo(listaOdo);
             signal = true;
         }
-        return signal;
+        to.setListOdo(listaOdo);
+        return true;
     }
     
 }

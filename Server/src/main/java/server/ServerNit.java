@@ -65,6 +65,7 @@ class ServerNit extends Thread {
                     break;
                 } catch (Exception ex) {
                     logger.error("Greska pri obradi: " + ex);
+                    ex.printStackTrace();
                     break;
                 }
 

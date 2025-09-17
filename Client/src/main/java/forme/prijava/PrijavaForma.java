@@ -5,6 +5,7 @@ import forme.agencija.GlavnaFormaAgencija;
 import forme.klub.GlavnaFormaKlub;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
@@ -272,6 +273,7 @@ public class PrijavaForma extends javax.swing.JFrame {
                     GlavnaFormaAgencija gva = new GlavnaFormaAgencija();
                 }
             } else {
+                JOptionPane.showMessageDialog(this,"Korisničko ime i šifra su ispravni", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                 Kontroler.getInstance().setUlogovaniNalog(ulovoganiKlub);
                 Kontroler.getInstance().setOdjavaSignal(false);
                 GlavnaFormaKlub gvk = new GlavnaFormaKlub();
@@ -282,6 +284,7 @@ public class PrijavaForma extends javax.swing.JFrame {
         } catch (Exception ex) {
 //            logger.error(ex.getMessage());
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Korisničko ime i šifra nisu ispravni", "Greška", JOptionPane.ERROR_MESSAGE);
             sifraGreskaLabel.setText("Nalog nije pronadjen pokušajte ponovo");
             sifraGreskaLabel.setVisible(true);
         }

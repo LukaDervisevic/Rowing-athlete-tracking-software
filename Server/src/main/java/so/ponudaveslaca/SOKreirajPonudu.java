@@ -27,12 +27,13 @@ public class SOKreirajPonudu extends KreirajDK {
         if (noviKljuc == 0) {
             return signal;
         }
+        ponuda.setId(noviKljuc);
         int broj_kadeta = 0, broj_juniora = 0;
         float prosecno_vreme_kadeti = 0, prosecno_vreme_juniori = 0;
         int suma_kadeti = 0, suma_juniori = 0;
         for (StavkaPonude stavkaPonude : ponuda.getStavke()) {
+            stavkaPonude.setPonudaVeslaca(ponuda);
             if (stavkaPonude.getVeslac().getKategorija().equals(KategorijaVeslaca.KADET)) {
-                stavkaPonude.setPonudaVeslaca(ponuda);
                 suma_kadeti += stavkaPonude.getVeslac().getNajboljeVreme();
                 broj_kadeta++;
             } else {

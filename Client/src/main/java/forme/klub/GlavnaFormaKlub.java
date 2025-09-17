@@ -59,8 +59,6 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private List<KlubTakmicenje> osvojenaTakmicenja = new LinkedList<>();
     private List<Agencija> agencije = new LinkedList<>();
     private List<PonudaVeslaca> ponudeVeslaca = new LinkedList<>();
-
-    private PonudaVeslaca kreiranaPonuda;
     
     private PonudaTableModelKlub ptm;
     private StavkaPonudeTableModel sptm;
@@ -86,7 +84,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         try {
 
             idKluba = Kontroler.getInstance().getUlogovaniNalog().getId();
-            idPonude = Kontroler.getInstance().vratiPoslednjiIdPonude() + 1;
+//            idPonude = Kontroler.getInstance().vratiPoslednjiIdPonude() + 1;
             rb = 0;
 
             // Inicijalno prikupljanje objekata ponude veslaca
@@ -326,7 +324,6 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         potvrdiPonuduButton = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
         detaljiAgencijeBtn = new javax.swing.JButton();
-        kreirajPonuduBtn = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
@@ -1659,7 +1656,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         ));
         jScrollPane7.setViewportView(agencijeTable);
 
-        potvrdiPonuduButton.setText("Potvrdi ponudu");
+        potvrdiPonuduButton.setText("Ubaci ponudu");
         potvrdiPonuduButton.setBackground(new java.awt.Color(13, 146, 244));
         potvrdiPonuduButton.setFont(new java.awt.Font("JetBrains Mono", 1, 19)); // NOI18N
         potvrdiPonuduButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -1682,16 +1679,6 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             }
         });
 
-        kreirajPonuduBtn.setBackground(new java.awt.Color(13, 146, 244));
-        kreirajPonuduBtn.setFont(new java.awt.Font("JetBrains Mono", 1, 19)); // NOI18N
-        kreirajPonuduBtn.setForeground(new java.awt.Color(255, 255, 255));
-        kreirajPonuduBtn.setText("Kreiraj ponudu");
-        kreirajPonuduBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kreirajPonuduBtnActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout glavnaFormaPanel27Layout = new javax.swing.GroupLayout(glavnaFormaPanel27);
         glavnaFormaPanel27.setLayout(glavnaFormaPanel27Layout);
         glavnaFormaPanel27Layout.setHorizontalGroup(
@@ -1700,8 +1687,6 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, glavnaFormaPanel27Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(detaljiAgencijeBtn)
-                .addGap(18, 18, 18)
-                .addComponent(kreirajPonuduBtn)
                 .addGap(18, 18, 18)
                 .addComponent(potvrdiPonuduButton)
                 .addGap(16, 16, 16))
@@ -1720,8 +1705,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(glavnaFormaPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(potvrdiPonuduButton)
-                    .addComponent(detaljiAgencijeBtn)
-                    .addComponent(kreirajPonuduBtn))
+                    .addComponent(detaljiAgencijeBtn))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -1777,11 +1761,11 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 2376, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 2376, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1683, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1683, Short.MAX_VALUE)
         );
 
         pack();
@@ -2363,18 +2347,19 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
     private void potvrdiPonuduButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_potvrdiPonuduButtonActionPerformed
         // TODO add your handling code here:
-        if (agencijeTable.getSelectedRow() != -1 && !stavkePonude.isEmpty() && kreiranaPonuda != null) {
+        if (agencijeTable.getSelectedRow() != -1 && !stavkePonude.isEmpty()) {
+            int id = agencijeTable.getSelectedRow();
             rb = 0;
-            int idAgencije = (int) agencijeTable.getValueAt(agencijeTable.getSelectedRow(), 0);
+            Agencija agencija = ((AgencijaTableModel) agencijeTable.getModel()).getAgencija(id);
             VeslackiKlub klub = new VeslackiKlub();
             klub.setId(idKluba);
-            Agencija agencija = new Agencija();
-            agencija.setId(idAgencije);
             try {
+                PonudaVeslaca kreiranaPonuda = new PonudaVeslaca();
+                kreiranaPonuda.setDatumKreiranja(new Date());
                 kreiranaPonuda.setStavke(stavkePonude);
                 kreiranaPonuda.setVeslackiKlub(klub);
                 kreiranaPonuda.setAgencija(agencija);
-                PonudaVeslaca vracenaPonuda = Kontroler.getInstance().kreirajPonuduVeslaca(this.kreiranaPonuda);
+                PonudaVeslaca vracenaPonuda = Kontroler.getInstance().kreirajPonuduVeslaca(kreiranaPonuda);
                 JOptionPane.showMessageDialog(this, "Sistem je zapamtio ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                 ptm.dodajPonudu(vracenaPonuda);
 
@@ -2423,13 +2408,6 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private void detaljiAgencijeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detaljiAgencijeBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_detaljiAgencijeBtnActionPerformed
-
-    private void kreirajPonuduBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kreirajPonuduBtnActionPerformed
-        // TODO add your handling code here:
-        kreiranaPonuda = new PonudaVeslaca();
-        kreiranaPonuda.setDatumKreiranja(new Date());
-        JOptionPane.showMessageDialog(this, "Sistem je kreirao ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-    }//GEN-LAST:event_kreirajPonuduBtnActionPerformed
 
     private void prebrojTakmicenja() {
 //        try{
@@ -2529,7 +2507,6 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private javax.swing.JComboBox<KategorijaVeslaca> kategorijaTakmicaraComboBox;
     private javax.swing.JButton kontrolnaTablaButton;
     private javax.swing.JPanel kontrolnaTablaPanel;
-    private javax.swing.JButton kreirajPonuduBtn;
     private javax.swing.JPanel kreirajPonuduPanel;
     private javax.swing.JComboBox<Integer> mestoComboBox;
     private javax.swing.JTextField najboljeVremeInput;

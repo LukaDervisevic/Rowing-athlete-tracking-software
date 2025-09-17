@@ -2271,8 +2271,6 @@
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="detaljiAgencijeBtn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="kreirajPonuduBtn" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="potvrdiPonuduButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                           </Group>
@@ -2294,7 +2292,6 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="potvrdiPonuduButton" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="detaljiAgencijeBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="kreirajPonuduBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="12" max="32767" attributes="0"/>
                           </Group>
@@ -2325,7 +2322,7 @@
                     </Container>
                     <Component class="javax.swing.JButton" name="potvrdiPonuduButton">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Potvrdi ponudu"/>
+                        <Property name="text" type="java.lang.String" value="Ubaci ponudu"/>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="f4" green="92" red="d" type="rgb"/>
                         </Property>
@@ -2363,23 +2360,6 @@
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="detaljiAgencijeBtnActionPerformed"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="kreirajPonuduBtn">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Kreiraj ponudu"/>
-                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="f4" green="92" red="d" type="rgb"/>
-                        </Property>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="JetBrains Mono" size="19" style="1"/>
-                        </Property>
-                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                        </Property>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="kreirajPonuduBtnActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>

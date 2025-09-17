@@ -344,7 +344,9 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
             rs = statement.executeQuery(upit);
             signal = rs.next(); 
             if (signal == true) {
-                return rs.getInt("noviKljuc") + 1;
+                int kljuc = rs.getInt("noviKljuc") + 1;
+                System.out.println(kljuc);
+                return kljuc;
             } else {
                 return 1;
             }

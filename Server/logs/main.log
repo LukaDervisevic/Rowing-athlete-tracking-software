@@ -151,3 +151,52 @@
 2025-09-08 20:32:37 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
 2025-09-08 20:36:33 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
 2025-09-08 20:38:28 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-08 21:11:20 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-08 21:11:53 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-08 21:13:29 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-08 21:15:21 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-08 21:17:08 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-08 21:17:23 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-08 21:20:41 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-08 21:22:42 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-08 21:23:18 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-09-08 21:24:50 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-08 21:33:17 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-08 21:59:47 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-08 22:02:56 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-08 22:06:02 [Thread-1] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-08 22:26:51 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-08 22:29:23 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-08 22:33:06 [Thread-1] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-08 22:37:32 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-08 22:38:16 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 12:33:18 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 12:37:47 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-09 12:38:10 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-09-09 12:41:07 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 12:43:29 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 12:44:03 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 12:49:41 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 12:51:40 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-09-09 12:52:16 [Thread-1] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 12:54:30 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 12:58:05 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 13:06:37 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 13:09:13 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 13:16:09 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-09 13:24:55 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-09 13:30:23 [Thread-1] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-17 20:41:08 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-17 20:45:56 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-17 20:47:32 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-09-17 20:55:27 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-17 20:57:17 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-17 21:01:10 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-17 21:09:34 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-17 21:10:09 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-17 21:11:52 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-17 21:13:21 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-17 21:17:43 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-17 21:23:04 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
+2025-09-17 21:29:03 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-17 21:29:47 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
