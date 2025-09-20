@@ -22,17 +22,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class RegistracijaForma extends javax.swing.JDialog {
+
     private static final Logger logger = LogManager.getRootLogger();
-    
+
     public RegistracijaForma(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        
+
         try {
-                UIManager.setLookAndFeel(new FlatLightLaf());
-            } catch (UnsupportedLookAndFeelException ex) {
-                logger.error(ex.getMessage());
-            }
-        
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
+            logger.error(ex.getMessage());
+        }
+
         initComponents();
         setLocationRelativeTo(null);
         try {
@@ -47,13 +48,13 @@ public class RegistracijaForma extends javax.swing.JDialog {
 
     public RegistracijaForma(JFrame roditelj) {
         super(roditelj, "Registracija korisnika", true);
-        
+
         try {
-                UIManager.setLookAndFeel(new FlatLightLaf());
-            } catch (UnsupportedLookAndFeelException ex) {
-                logger.error(ex.getMessage());
-            }
-        
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
+            logger.error(ex.getMessage());
+        }
+
         initComponents();
         setLocationRelativeTo(null);
         inicijalnoRenderovanje();
@@ -540,19 +541,19 @@ public class RegistracijaForma extends javax.swing.JDialog {
                 korisnickoImeInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
                 greska = true;
             }
-            
-            if(sifraInput.getText().isEmpty()){
+
+            if (sifraInput.getText().isEmpty()) {
                 sifraInput.setForeground(new Color(255, 51, 51));
                 sifraInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
                 greska = true;
             }
-            
-            if(potvrdaSifreInput.getText().isEmpty()){
+
+            if (potvrdaSifreInput.getText().isEmpty()) {
                 sifraInput.setForeground(new Color(255, 51, 51));
                 sifraInput.setBorder(new MatteBorder(0, 0, 1, 0, new Color(255, 51, 51)));
                 greska = true;
             }
-                    
+
             if (!greska && sifraInput.getText().equals(potvrdaSifreInput.getText())) {
 
                 String naziv = nazivInput.getText();
@@ -564,25 +565,37 @@ public class RegistracijaForma extends javax.swing.JDialog {
 
                 if (tipNalogaComboBox.getSelectedItem().equals(TipNaloga.VESLACKI_KLUB)) {
                     VeslackiKlub kreiraniKlub = Kontroler.getInstance().kreirajVeslackiKlub(new VeslackiKlub(0, naziv, adresa, email, telefon, korisnickoIme, sifra));
-                    Kontroler.getInstance().setUlogovaniNalog(kreiraniKlub);
-                    JOptionPane.showMessageDialog(this, "Uspešno kreiranje naloga", "Uspeš", JOptionPane.INFORMATION_MESSAGE);
-                    this.dispose();
+                    if (kreiraniKlub != null) {
+                        Kontroler.getInstance().setUlogovaniNalog(kreiraniKlub);
+                        JOptionPane.showMessageDialog(this, "Uspešno kreiranje naloga", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
+                    }else{
+                        throw new RuntimeException();
+                    }
+
                 } else {
                     Drzava drzava = (Drzava) drzavaComboBox.getSelectedItem();
                     System.out.println(drzava);
                     Agencija kreiranaAgencija = Kontroler.getInstance().kreirajAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, sifra, drzava));
-                    Kontroler.getInstance().setUlogovaniNalog(kreiranaAgencija);
-                    JOptionPane.showMessageDialog(this, "Uspešno kreiranje naloga", "Uspeš", JOptionPane.INFORMATION_MESSAGE);
-                    this.dispose();
+                    if (kreiranaAgencija != null) {
+                        Kontroler.getInstance().setUlogovaniNalog(kreiranaAgencija);
+                        JOptionPane.showMessageDialog(this, "Sistem je zapamtio agenciju", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                        this.dispose();
+                    } else {
+                        throw new RuntimeException();
+
+                    }
+
                 }
 
             } else {
-                JOptionPane.showMessageDialog(this, "Greska, uneti podaci nisu ispavni, probajte ponovo.", "Greska", JOptionPane.ERROR_MESSAGE);
+                throw new RuntimeException();
             }
 
         } catch (Exception ex) {
+            String tip = tipNalogaComboBox.getSelectedItem().equals(TipNaloga.VESLACKI_KLUB) ? "veslacki klub" : "agenciju";
             logger.error(ex.getMessage());
-            JOptionPane.showMessageDialog(this, ex, "Greška", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti " + tip, "Greška", JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -661,17 +674,17 @@ public class RegistracijaForma extends javax.swing.JDialog {
             drzavaComboBox.setEditable(false);
             drzavaComboBox.setEnabled(false);
             drzavaLabel.setForeground(new Color(153, 153, 153));
-            drzavaZvezdica.setForeground(Color.WHITE);            
+            drzavaZvezdica.setForeground(Color.WHITE);
             dodajDrzavuBtn.setEnabled(false);
             drzavePitanjeLbl.setVisible(false);
-            
+
             adresaInput.setEditable(true);
             adresaInput.setEnabled(true);
             adresaInput.setForeground(Color.BLACK);
             adresaZvezdica.setForeground(new Color(251, 251, 251));
 
         } else {
-            
+
             drzavaComboBox.setEditable(true);
             drzavaComboBox.setEnabled(true);
             drzavaLabel.setForeground(Color.BLACK);
@@ -679,7 +692,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
             dodajDrzavuBtn.setEnabled(true);
             drzavePitanjeLbl.setVisible(true);
             dodajDrzavuBtn.setVisible(true);
-            
+
             adresaInput.setEditable(false);
             adresaInput.setEnabled(false);
             adresaInput.setForeground(new Color(153, 153, 153));
@@ -692,14 +705,13 @@ public class RegistracijaForma extends javax.swing.JDialog {
         // TODO add your handling code here:
         Window window = SwingUtilities.windowForComponent(dodajDrzavuBtn);
         DrzavaForma df = new DrzavaForma(window);
-        
-        
-        
+
+
     }//GEN-LAST:event_dodajDrzavuBtnActionPerformed
 
     private void inicijalnoRenderovanje() {
-        
-        try{
+
+        try {
             // Inicijalno sakriva poruke gresaka pri pokretanju forme
             greskaTelefonLabel.setVisible(false);
             greskaSifraLabel.setVisible(false);
@@ -712,7 +724,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
 
             drzavePitanjeLbl.setVisible(false);
             dodajDrzavuBtn.setVisible(false);
-            
+
             List<TipNaloga> tipoviNaloga = List.of(TipNaloga.VESLACKI_KLUB, TipNaloga.AGENCIJA_ZA_TALENTE);
 
             for (TipNaloga tn : tipoviNaloga) {
@@ -727,7 +739,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
                 drzavaComboBox.addItem(d);
             }
 
-        }catch(Exception ex){
+        } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
 

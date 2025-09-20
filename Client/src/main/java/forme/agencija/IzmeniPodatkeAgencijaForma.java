@@ -48,6 +48,9 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         korisnickoImeInput.setText(ulogovaniKlub.getKorisnickoIme());
         sifraInput.setText(ulogovaniKlub.getSifra());
         
+        
+        
+        
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (UnsupportedLookAndFeelException ex) {
@@ -57,6 +60,38 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         setVisible(true);
 
         
+    }
+    
+    public IzmeniPodatkeAgencijaForma(java.awt.Frame parent, boolean modal, Agencija agencija) {
+        super(parent,"Detalji Agencije",modal);
+        initComponents();
+        inicijalnoRenderovanje();
+        setLocationRelativeTo(null);
+        setTitle("Detalji agencije");
+        
+        nazivInput.setText(agencija.getNaziv());
+        emailInput.setText(agencija.getEmail());
+        telefonInput.setText(agencija.getTelefon().substring(4));
+        korisnickoImeInput.setText(agencija.getKorisnickoIme());
+        sifraInput.setText(agencija.getSifra());
+        potvrdaSifreInput.setText(agencija.getSifra());
+        telefonComboBox.setSelectedItem(agencija.getTelefon().subSequence(0, 2));
+        
+        obrisiNalog.setEnabled(false);
+        nazivInput.setEditable(false);
+        emailInput.setEditable(false);
+        telefonInput.setEditable(false);
+        korisnickoImeInput.setEditable(false);
+        dodajDrzavuBtn.setEnabled(false);
+        sifraInput.setEditable(false);
+        potvrdaSifreInput.setEditable(false);
+        
+        
+        try {
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch (UnsupportedLookAndFeelException ex) {
+            logger.error(ex.getMessage());
+        }
     }
 
     public IzmeniPodatkeAgencijaForma(JFrame roditelj) {

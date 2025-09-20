@@ -42,6 +42,14 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
             kategorijaComboBox.setSelectedItem(KategorijaVeslaca.KADET);
         }
         
+        rodjenjeDatePicker.setDate(veslac.getDatumRodjenja().toInstant()
+                                      .atZone(ZoneId.systemDefault())
+                                      .toLocalDate());
+        upisDatePicker.setDate(veslac.getDatumUpisa().toInstant()
+                                      .atZone(ZoneId.systemDefault())
+                                      .toLocalDate());
+        
+        
         najboljeVremeInput.setText(String.valueOf(veslac.getNajboljeVreme()));
 //        idKlubaInput.setText(String.valueOf(veslac.getIdKluba()));
         
@@ -79,6 +87,8 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         titlePanel = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
         izaberiteTipLabel = new javax.swing.JLabel();
+        glavnaFormaPanel1 = new forme.utils.GlavnaFormaPanel();
+        obrisiVeslacBtn = new javax.swing.JButton();
         infoPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -93,7 +103,6 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
         korisnickoImeLabel = new javax.swing.JLabel();
         kategorijaComboBox = new javax.swing.JComboBox<>();
         adresaLabel1 = new javax.swing.JLabel();
@@ -101,8 +110,6 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         najboljeVremeInput = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        idKlubaInput = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -127,18 +134,50 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         izaberiteTipLabel.setFont(new java.awt.Font("JetBrains Mono", 3, 24)); // NOI18N
         izaberiteTipLabel.setForeground(new java.awt.Color(255, 255, 255));
 
+        obrisiVeslacBtn.setText("Obriši veslača");
+        obrisiVeslacBtn.setBackground(new java.awt.Color(238, 236, 236));
+        obrisiVeslacBtn.setBorder(null);
+        obrisiVeslacBtn.setFocusPainted(false);
+        obrisiVeslacBtn.setFont(new java.awt.Font("JetBrains Mono", 1, 19)); // NOI18N
+        obrisiVeslacBtn.setForeground(new java.awt.Color(255, 51, 51));
+        obrisiVeslacBtn.setToolTipText("");
+        obrisiVeslacBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                obrisiVeslacBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout glavnaFormaPanel1Layout = new javax.swing.GroupLayout(glavnaFormaPanel1);
+        glavnaFormaPanel1.setLayout(glavnaFormaPanel1Layout);
+        glavnaFormaPanel1Layout.setHorizontalGroup(
+            glavnaFormaPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, glavnaFormaPanel1Layout.createSequentialGroup()
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addComponent(obrisiVeslacBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
+        );
+        glavnaFormaPanel1Layout.setVerticalGroup(
+            glavnaFormaPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(glavnaFormaPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(obrisiVeslacBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(7, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
         titlePanel.setLayout(titlePanelLayout);
         titlePanelLayout.setHorizontalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(titlePanelLayout.createSequentialGroup()
-                .addGap(179, 179, 179)
-                .addComponent(izaberiteTipLabel)
-                .addContainerGap(186, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 70, Short.MAX_VALUE)
                 .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(67, 67, 67))
+            .addGroup(titlePanelLayout.createSequentialGroup()
+                .addGap(179, 179, 179)
+                .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(glavnaFormaPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(izaberiteTipLabel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         titlePanelLayout.setVerticalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,7 +186,9 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
                 .addComponent(titleLabel)
                 .addGap(18, 18, 18)
                 .addComponent(izaberiteTipLabel)
-                .addContainerGap(413, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 263, Short.MAX_VALUE)
+                .addComponent(glavnaFormaPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100))
         );
 
         getContentPane().add(titlePanel);
@@ -241,10 +282,6 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         jLabel12.setText("*");
         infoPanel.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 150, 10, -1));
 
-        jLabel15.setForeground(new java.awt.Color(251, 51, 51));
-        jLabel15.setText("*");
-        infoPanel.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 520, 15, -1));
-
         korisnickoImeLabel.setFont(new java.awt.Font("JetBrains Mono", 2, 24)); // NOI18N
         korisnickoImeLabel.setText("Kategorija");
         infoPanel.add(korisnickoImeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 380, 150, -1));
@@ -278,16 +315,6 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("JetBrains Mono", 2, 24)); // NOI18N
         jLabel6.setText("Datum upisa");
         infoPanel.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 510, 200, 40));
-
-        jLabel7.setFont(new java.awt.Font("JetBrains Mono", 2, 24)); // NOI18N
-        jLabel7.setText("Id Kluba");
-        infoPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 510, 220, 40));
-
-        idKlubaInput.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
-        idKlubaInput.setForeground(new java.awt.Color(153, 153, 153));
-        idKlubaInput.setText("Unesite id kluba...");
-        idKlubaInput.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(153, 153, 153)));
-        infoPanel.add(idKlubaInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 560, 230, 30));
 
         jLabel13.setForeground(new java.awt.Color(251, 51, 51));
         jLabel13.setText("*");
@@ -359,7 +386,7 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         if(rodjenjeDatePicker.getDate() != null && upisDatePicker.getDate() != null
                 && !imePrezimeInput.getText().isEmpty() && !visinaInput.getText().isEmpty() 
                 && !tezinaInput.getText().isEmpty() && !najboljeVremeInput.getText().isEmpty() 
-                && !idKlubaInput.getText().isEmpty() && Integer.parseInt(idKlubaInput.getText()) > 0){
+                ){
             
             LocalDate datumRodjLD =  rodjenjeDatePicker.getDate();
             LocalDate datumUpisLD = upisDatePicker.getDate();
@@ -396,6 +423,21 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_najboljeVremeInputActionPerformed
 
+    private void obrisiVeslacBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiVeslacBtnActionPerformed
+        // TODO add your handling code here:
+
+        try{
+            Kontroler.getInstance().obrisiVeslaca(veslac.getId());
+            JOptionPane.showMessageDialog(this, "Sistem je obrisao veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+//            this.dispose();
+
+        }catch(Exception ex){
+            logger.error(ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Sistem ne može da obriše veslača", "Greška", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_obrisiVeslacBtnActionPerformed
+
     
     private void inicijalnoRenderovanje(){
         // Inicijalno sakriva poruke gresaka pri pokretanju forme
@@ -408,7 +450,7 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
     private javax.swing.JLabel adresaLabel;
     private javax.swing.JLabel adresaLabel1;
     private javax.swing.JLabel emailLabel;
-    private javax.swing.JTextField idKlubaInput;
+    private forme.utils.GlavnaFormaPanel glavnaFormaPanel1;
     private javax.swing.JTextField imePrezimeInput;
     private javax.swing.JPanel infoPanel;
     private javax.swing.JLabel izaberiteTipLabel;
@@ -418,7 +460,6 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
@@ -426,11 +467,11 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JComboBox<KategorijaVeslaca> kategorijaComboBox;
     private javax.swing.JLabel korisnickoImeLabel;
     private javax.swing.JTextField najboljeVremeInput;
     private javax.swing.JLabel nazivLabel;
+    private javax.swing.JButton obrisiVeslacBtn;
     private javax.swing.JButton potvrdiAzuriranjeButton;
     private com.github.lgooddatepicker.components.DatePicker rodjenjeDatePicker;
     private javax.swing.JTextField tezinaInput;

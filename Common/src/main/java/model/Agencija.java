@@ -7,19 +7,13 @@ import java.util.Objects;
 public class Agencija extends Nalog implements OpstiDomenskiObjekat{
     
     private int id;
-    
     private String naziv;
-    
     private String email;
-    
     private String telefon;
-    
     private String korisnickoIme;
-    
     private String sifra;
-    
     private Drzava drzava;
-
+    
     public Agencija() {
         drzava = new Drzava();
     }

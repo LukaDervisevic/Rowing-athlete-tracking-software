@@ -14,7 +14,7 @@ import transfer.TransferObjekat;
  */
 public class VratiListuDK extends OpsteIzvrsenjeSO{
 
-    private String whereUslov;
+    protected String whereUslov;
     
     public VratiListuDK(TransferObjekat to,String whereUslov) {
         setTo(to);
