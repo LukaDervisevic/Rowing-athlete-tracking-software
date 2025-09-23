@@ -234,3 +234,9 @@
 2025-09-20 13:02:47 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde
 2025-09-20 13:09:09 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
 2025-09-20 13:10:15 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-23 13:01:22 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-23 13:04:44 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-23 13:39:02 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-23 13:47:53 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-23 13:48:37 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-23 13:50:43 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi

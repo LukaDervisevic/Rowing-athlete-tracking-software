@@ -18,7 +18,8 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
         drzava = new Drzava();
     }
 
-    public Agencija(int id, String naziv, String email, String telefon, String korisnickoIme, String sifra, Drzava drzava) {
+    public Agencija(int id, String naziv, String email, String telefon, String korisnickoIme,
+            String sifra, Drzava drzava) {
         this.id = id;
         this.naziv = naziv;
         this.email = email;
@@ -156,7 +157,7 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiWhereUslov() {
-        return "id = " + id;
+        return " korisnicko_ime = '" + korisnickoIme + "'";
     }
 
     @Override

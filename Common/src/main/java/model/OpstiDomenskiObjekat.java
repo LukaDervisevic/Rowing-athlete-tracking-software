@@ -24,7 +24,7 @@ public interface OpstiDomenskiObjekat extends Serializable {
     abstract public String vratiNazivTabele();
 
     abstract public String vratiWhereUslov();
-
+    
     abstract public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException;
 
     abstract public String vratiPrimarniKljuc();

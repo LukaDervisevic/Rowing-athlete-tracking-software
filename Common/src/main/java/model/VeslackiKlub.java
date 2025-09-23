@@ -176,7 +176,7 @@ public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiWhereUslov() {
-        return "id = " + id;
+        return " korisnicko_ime  = '" + korisnickoIme + "'";
     }
 
     @Override

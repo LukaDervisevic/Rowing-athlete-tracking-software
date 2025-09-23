@@ -16,7 +16,6 @@ import java.util.List;
 import model.Agencija;
 import model.OpstiDomenskiObjekat;
 import model.VeslackiKlub;
-import utils.HesiranjeServis;
 
 /**
  *
@@ -105,37 +104,17 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
     public OpstiDomenskiObjekat prijaviSlog(OpstiDomenskiObjekat odo) {
         ResultSet rs = null;
         PreparedStatement statement = null;
-        String upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS "+ odo.alias()+ " WHERE korisnicko_ime = ?";
+        String upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " WHERE " + odo.vratiWhereUslov();
         boolean signal;
-
+        System.out.println(upit);
         try {
             statement = konekcija.prepareStatement(upit);
-            if(odo instanceof VeslackiKlub) {
-                statement.setString(1, ((VeslackiKlub) odo).getKorisnickoIme());
-            }else if(odo instanceof Agencija) {
-                statement.setString(1, ((Agencija) odo).getKorisnickoIme());
-            }
-            
             rs = statement.executeQuery();
             signal = rs.next();
             if (signal == true) {
                 OpstiDomenskiObjekat vraceniOdo = odo.vratiNoviSlog(rs);
-                boolean verifikovano;
-                if (vraceniOdo instanceof Agencija) {
-                    Agencija prosledjenaAgencija = (Agencija) odo;
-                    Agencija vracenaAgencija = (Agencija) vraceniOdo;
-                    verifikovano = HesiranjeServis.proveriSifru(prosledjenaAgencija.getSifra(), vracenaAgencija.getSifra());
-                } else {
-                    VeslackiKlub prosledjeniKlub = (VeslackiKlub) odo;
-                    VeslackiKlub vraceniKlub = (VeslackiKlub) vraceniOdo;
-                    verifikovano = HesiranjeServis.proveriSifru(prosledjeniKlub.getSifra(), vraceniKlub.getSifra());
-                }
-                if (!verifikovano) {
-                    odo = null;
-                } else {
-                    odo = vraceniOdo;
-                }
-
+                odo = vraceniOdo;
+                
             } else {
                 odo = null;
             }
@@ -151,9 +130,9 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
         ResultSet rs = null;
         Statement statement = null;
         String upit;
-        if(where == null) {
-           upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " ;"; 
-        }else{
+        if (where == null) {
+            upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " ;";
+        } else {
             upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " WHERE " + where + ";";
         }
         List<OpstiDomenskiObjekat> lista = new LinkedList<>();
@@ -342,7 +321,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
         try {
             statement = konekcija.createStatement();
             rs = statement.executeQuery(upit);
-            signal = rs.next(); 
+            signal = rs.next();
             if (signal == true) {
                 int kljuc = rs.getInt("noviKljuc") + 1;
                 System.out.println(kljuc);
@@ -357,6 +336,5 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
         }
         return 0;
     }
-    
 
 }
