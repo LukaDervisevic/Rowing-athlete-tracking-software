@@ -119,7 +119,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                     try {
 
                         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                            if (pretraziInput.getText().equals("Pretraži naziv agencije...") || pretraziInput.getText().isEmpty()
+                            if (pretraziInput.getText().equals("Pretraži naziv agencije...") || pretraziInput.getText().equals("Pretraži naziv države...") || pretraziInput.getText().isEmpty()
                                     || pretraziInput.getText().equals("Pretraži ime veslača...") || pretraziInput.getText().equals("Pretraži naziv takmičenja...")
                                     || pretraziInput.getText().equals("Pretraži naziv agencije")) {
 
@@ -223,6 +223,8 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         takmicenjaTableModel1 = new forme.utils.TakmicenjaTableModel();
         takmicenjaTableModel2 = new forme.utils.TakmicenjaTableModel();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         glavnaFormaPanel6 = new forme.utils.GlavnaFormaPanel();
@@ -233,6 +235,8 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         glavnaFormaPanel5 = new forme.utils.GlavnaFormaPanel();
         jButton6 = new javax.swing.JButton();
+        agencijaRadio = new javax.swing.JRadioButton();
+        drzavaRadio = new javax.swing.JRadioButton();
         jPanel5 = new javax.swing.JPanel();
         kontrolnaTablaButton = new javax.swing.JButton();
         evidentirajButton = new javax.swing.JButton();
@@ -445,12 +449,32 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        agencijaRadio.setFont(new java.awt.Font("JetBrains Mono", 2, 18)); // NOI18N
+        agencijaRadio.setText("Agencija");
+        agencijaRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agencijaRadioActionPerformed(evt);
+            }
+        });
+
+        drzavaRadio.setFont(new java.awt.Font("JetBrains Mono", 0, 18)); // NOI18N
+        drzavaRadio.setText("Država");
+        drzavaRadio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                drzavaRadioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(1285, Short.MAX_VALUE)
+                .addContainerGap(1053, Short.MAX_VALUE)
+                .addComponent(drzavaRadio)
+                .addGap(18, 18, 18)
+                .addComponent(agencijaRadio)
+                .addGap(18, 18, 18)
                 .addComponent(glavnaFormaPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(glavnaFormaPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -461,11 +485,18 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(glavnaFormaPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(glavnaFormaPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(glavnaFormaPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(glavnaFormaPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(glavnaFormaPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(glavnaFormaPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(agencijaRadio)
+                            .addComponent(drzavaRadio))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -2434,6 +2465,22 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_detaljiAgencijeBtnActionPerformed
 
+    private void agencijaRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agencijaRadioActionPerformed
+        // TODO add your handling code here:
+        if(agencijaRadio.isSelected()) {
+            pretraziInput.setText("Pretraži naziv agencije...");
+            drzavaRadio.setSelected(false);
+        }
+    }//GEN-LAST:event_agencijaRadioActionPerformed
+
+    private void drzavaRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drzavaRadioActionPerformed
+        // TODO add your handling code here:
+        if(drzavaRadio.isSelected()){
+            pretraziInput.setText("Pretraži naziv države...");
+            agencijaRadio.setSelected(false);
+        }
+    }//GEN-LAST:event_drzavaRadioActionPerformed
+
     private void prebrojTakmicenja() {
 //        try{
 //            
@@ -2449,9 +2496,12 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton agencijaRadio;
     private forme.utils.GlavnaFormaTable agencijeTable;
     private javax.swing.JButton azurirajNalogButton;
     private javax.swing.JLabel bronzaLabel;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel cardPanel;
     private com.github.lgooddatepicker.components.DatePicker datumRodjenjaPicker;
     private com.github.lgooddatepicker.components.DatePicker datumTakmicenjaPicker;
@@ -2460,6 +2510,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private javax.swing.JButton dodajNovoTakmicenjeButton;
     private javax.swing.JButton dodajOsvojenoTakmicenje;
     private javax.swing.JButton dodajStavkuButton;
+    private javax.swing.JRadioButton drzavaRadio;
     private javax.swing.JButton evidentirajButton;
     private javax.swing.JButton evidentirajVeslacaButton;
     private forme.utils.GlavnaFormaPanel glavnaFormaPanel1;
