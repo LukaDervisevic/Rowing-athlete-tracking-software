@@ -3,6 +3,8 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -130,8 +132,11 @@ public class StavkaPonude implements OpstiDomenskiObjekat {
     }
 
     @Override
-    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return new StavkaPonude(
+    public List<OpstiDomenskiObjekat> vratiNoveSlogove(ResultSet rs) throws SQLException {
+        List<OpstiDomenskiObjekat> stavke = new LinkedList();
+        
+        while(rs.next()) {
+            StavkaPonude stavka = new StavkaPonude(
                 new PonudaVeslaca(rs.getInt(ponudaVeslaca.alias()+".id"),
                         rs.getDate(ponudaVeslaca.alias() + ".datum_kreiranja"),
                         rs.getInt(ponudaVeslaca.alias() + ".broj_kadeta"), 
@@ -160,6 +165,10 @@ public class StavkaPonude implements OpstiDomenskiObjekat {
                         )
                 )
         );
+            stavke.add(stavka);
+        }
+        
+        return stavke;
     }
 
     @Override

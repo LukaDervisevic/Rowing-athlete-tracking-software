@@ -7,6 +7,7 @@ package model;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -25,7 +26,7 @@ public interface OpstiDomenskiObjekat extends Serializable {
 
     abstract public String vratiWhereUslov();
     
-    abstract public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException;
+    abstract public List<OpstiDomenskiObjekat> vratiNoveSlogove(ResultSet rs) throws SQLException;
 
     abstract public String vratiPrimarniKljuc();
 

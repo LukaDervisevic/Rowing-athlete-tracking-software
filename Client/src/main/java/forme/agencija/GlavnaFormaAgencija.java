@@ -693,7 +693,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         radio1.setEnabled(false);
         radio1.setVisible(false);
         radio2.setEnabled(false);
-        radio2.setEnabled(false);
+        radio2.setVisible(false);
         
         try {
             klubovi = Kontroler.getInstance().vratiListuSviVeslackiKlub(new LinkedList<>());

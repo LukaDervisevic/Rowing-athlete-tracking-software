@@ -165,7 +165,7 @@ public class Kontroler {
         transferObjekat.setOdo(new VeslackiKlub());
         transferObjekat.setNazivSo("vratiListuSviVeslackiKlub");
 
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_VESLACKI_KLUB, null);
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_VESLACKI_KLUB, transferObjekat);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();

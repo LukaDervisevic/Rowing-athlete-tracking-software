@@ -1,6 +1,5 @@
 package kontroller;
 
-import model.Nalog;
 import so.KreirajDK;
 import so.NadjiDK;
 import so.ObrisiDK;
@@ -34,7 +33,6 @@ public class Controller {
 
     private static Controller instance;
 
-    private Nalog ulogovaniNalog;
 
     private boolean odjavaSignal;
 
@@ -47,14 +45,6 @@ public class Controller {
             instance = new Controller();
         }
         return instance;
-    }
-
-    public Nalog getUlogovaniNalog() {
-        return ulogovaniNalog;
-    }
-
-    public void setUlogovaniNalog(Nalog ulogovaniNalog) {
-        this.ulogovaniNalog = ulogovaniNalog;
     }
 
     public boolean isOdjavaSignal() {

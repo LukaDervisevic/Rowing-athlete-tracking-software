@@ -3,6 +3,8 @@ package model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -142,8 +144,16 @@ public class Takmicenje implements OpstiDomenskiObjekat{
     }
 
     @Override
-    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return new Takmicenje(rs.getInt(alias()+".id"), rs.getString(alias()+".naziv"), KategorijaVeslaca.valueOf(rs.getString(alias()+".starosna_kategorija")), VrstaTrke.valueOf(rs.getString(alias()+".vrsta_trke")), new java.util.Date(rs.getDate(alias()+".datum").getTime()));
+    public List<OpstiDomenskiObjekat> vratiNoveSlogove(ResultSet rs) throws SQLException {
+        List<OpstiDomenskiObjekat> takmicenja = new LinkedList<>();
+        
+        while(rs.next()) {
+            
+            Takmicenje takmicenje = new Takmicenje(rs.getInt(alias()+".id"), rs.getString(alias()+".naziv"), KategorijaVeslaca.valueOf(rs.getString(alias()+".starosna_kategorija")), VrstaTrke.valueOf(rs.getString(alias()+".vrsta_trke")), new java.util.Date(rs.getDate(alias()+".datum").getTime()));
+            takmicenja.add(takmicenje);
+        }
+        
+        return takmicenja;
     }
 
     @Override

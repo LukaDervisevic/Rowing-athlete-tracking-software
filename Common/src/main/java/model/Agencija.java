@@ -2,10 +2,12 @@ package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
-public class Agencija extends Nalog implements OpstiDomenskiObjekat{
-    
+public class Agencija implements OpstiDomenskiObjekat {
+
     private int id;
     private String naziv;
     private String email;
@@ -13,7 +15,7 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
     private String korisnickoIme;
     private String sifra;
     private Drzava drzava;
-    
+
     public Agencija() {
         drzava = new Drzava();
     }
@@ -133,13 +135,13 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
     public String vratiNaziveKolona() {
         return "naziv,email,telefon,korisnicko_ime,sifra,id_drzave";
     }
-    
+
     @Override
     public String vratiImePoKoloni(int i) {
-        String[] kolone = {"id","naziv","email","telefon","korisnicko_ime","sifra","id_drzave"};
+        String[] kolone = {"id", "naziv", "email", "telefon", "korisnicko_ime", "sifra", "id_drzave"};
         return kolone[i];
     }
-    
+
     @Override
     public String vrednostiAtributaZaKreiranje() {
         return "'" + naziv + "','" + email + "','" + telefon + "','" + korisnickoIme + "','" + sifra + "'," + drzava.getId();
@@ -161,9 +163,15 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
     }
 
     @Override
-    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return new Agencija(rs.getInt("a.id"), rs.getString("a.naziv"), rs.getString("a.email"), rs.getString("a.telefon"), rs.getString("a.korisnicko_ime"), rs.getString("a.sifra"),
-        new Drzava(rs.getInt("d.id"), rs.getString("d.naziv")));
+    public List<OpstiDomenskiObjekat> vratiNoveSlogove(ResultSet rs) throws SQLException {
+        List<OpstiDomenskiObjekat> agencije = new LinkedList<>();
+
+        while (rs.next()) {
+            Agencija agencija = new Agencija(rs.getInt("a.id"), rs.getString("a.naziv"), rs.getString("a.email"), rs.getString("a.telefon"), rs.getString("a.korisnicko_ime"), rs.getString("a.sifra"),
+                    new Drzava(rs.getInt("d.id"), rs.getString("d.naziv")));
+            agencije.add(agencija);
+        }
+        return agencije;
     }
 
     @Override
@@ -173,7 +181,7 @@ public class Agencija extends Nalog implements OpstiDomenskiObjekat{
 
     @Override
     public String join() {
-        return "JOIN `veslanje`.`" + drzava.vratiNazivTabele() +"` AS " + drzava.alias() + " ON " + alias() + ".id_drzave = " + drzava.alias() + ".id";
+        return "JOIN `veslanje`.`" + drzava.vratiNazivTabele() + "` AS " + drzava.alias() + " ON " + alias() + ".id_drzave = " + drzava.alias() + ".id";
     }
 
     @Override

@@ -90,7 +90,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
             rs = statement.executeQuery(upit);
             signal = rs.next();
             if (signal == true) {
-                odo = odo.vratiNoviSlog(rs);
+                odo = odo.vratiNoveSlogove(rs).getFirst();
             } else {
                 odo = null;
             }
@@ -112,7 +112,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
             rs = statement.executeQuery();
             signal = rs.next();
             if (signal == true) {
-                OpstiDomenskiObjekat vraceniOdo = odo.vratiNoviSlog(rs);
+                OpstiDomenskiObjekat vraceniOdo = odo.vratiNoveSlogove(rs).getFirst();
                 odo = vraceniOdo;
                 
             } else {
@@ -140,9 +140,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
         try {
             statement = konekcija.createStatement();
             rs = statement.executeQuery(upit);
-            while (rs.next()) {
-                lista.add(odo.vratiNoviSlog(rs));
-            }
+            lista = odo.vratiNoveSlogove(rs);
 
         } catch (SQLException ex) {
             System.getLogger(BrokerBazePodataka.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
@@ -190,7 +188,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
             rs = statement.executeQuery(upit);
             signal = rs.next();
             if (signal == true) {
-                odo = odo.vratiNoviSlog(rs);
+                odo = odo.vratiNoveSlogove(rs).getFirst();
             } else {
                 odo = null;
             }
