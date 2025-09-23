@@ -11,6 +11,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
 import kontroler.Kontroler;
 import model.Agencija;
+import model.Drzava;
 import model.Nalog;
 import model.VeslackiKlub;
 import org.apache.logging.log4j.LogManager;
@@ -260,17 +261,17 @@ public class PrijavaForma extends javax.swing.JFrame {
             sifraGreskaLabel.setVisible(true);
         }
 
-        Nalog ulogovaniNalog = null;
         try {
             VeslackiKlub ulovoganiKlub = Kontroler.getInstance().prijaviVeslackiKlub(new VeslackiKlub(0, null, null, null, null, korisnickoImeInput.getText(), sifraKorisnikaInput.getText()));
             if (ulovoganiKlub == null) {
-                Agencija ulogovanaAgencija = Kontroler.getInstance().prijaviAgencija(new Agencija(0, null, null, null, korisnickoImeInput.getText(), sifraKorisnikaInput.getText(), null));
+                Agencija ulogovanaAgencija = Kontroler.getInstance().prijaviAgencija(new Agencija(0, null, null, null, korisnickoImeInput.getText(), sifraKorisnikaInput.getText(), new Drzava()));
                 if (ulogovanaAgencija == null) {
                     throw new RuntimeException();
                 } else {
                     Kontroler.getInstance().setUlogovaniNalog(ulogovanaAgencija);
                     Kontroler.getInstance().setOdjavaSignal(false);
                     GlavnaFormaAgencija gva = new GlavnaFormaAgencija();
+                    
                 }
             } else {
                 JOptionPane.showMessageDialog(this,"Korisničko ime i šifra su ispravni", "Uspeh", JOptionPane.INFORMATION_MESSAGE);

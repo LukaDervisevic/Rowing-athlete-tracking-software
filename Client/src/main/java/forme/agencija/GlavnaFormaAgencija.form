@@ -48,9 +48,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="vkRadio" min="-2" max="-2" attributes="0"/>
+                  <Component id="radio1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="veslacRadio" min="-2" max="-2" attributes="0"/>
+                  <Component id="radio2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="glavnaFormaPanel6" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
@@ -82,8 +82,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="vkRadio" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="veslacRadio" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="radio1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="radio2" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -798,7 +798,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JRadioButton" name="vkRadio">
+        <Component class="javax.swing.JRadioButton" name="radio1">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="JetBrains Mono" size="18" style="0"/>
@@ -806,10 +806,10 @@
             <Property name="text" type="java.lang.String" value="Vesla&#x10d;ki klub"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="vkRadioActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radio1ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="veslacRadio">
+        <Component class="javax.swing.JRadioButton" name="radio2">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="JetBrains Mono" size="18" style="0"/>
@@ -817,7 +817,7 @@
             <Property name="text" type="java.lang.String" value="Vesla&#x10d;"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="veslacRadioActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radio2ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

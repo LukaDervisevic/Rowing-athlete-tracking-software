@@ -86,12 +86,9 @@ public class Kontroler {
         posiljalac.posaljiPoruku(zahtev);
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
 
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (VeslackiKlub) transferObj.getOdo();
-        }
+        transferObj = (TransferObjekat) odgovor.getParametar();
+        return (VeslackiKlub) transferObj.getOdo();
+
     }
 
     public VeslackiKlub kreirajVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
@@ -210,12 +207,8 @@ public class Kontroler {
         posiljalac.posaljiPoruku(zahtev);
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
 
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (Agencija) transferObj.getOdo();
-        }
+        transferObj = (TransferObjekat) odgovor.getParametar();
+        return (Agencija) transferObj.getOdo();
     }
 
     public Agencija kreirajAgenciju(Agencija agencija) throws Exception {
@@ -515,7 +508,7 @@ public class Kontroler {
     }
 
     //PONUDA VESLACA
-    public PonudaVeslaca kreirajPonuduVeslaca(PonudaVeslaca ponudaVeslaca) throws Exception {        
+    public PonudaVeslaca kreirajPonuduVeslaca(PonudaVeslaca ponudaVeslaca) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(ponudaVeslaca);
         transferObj.setNazivSo("kreirajPonudu");

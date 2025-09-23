@@ -103,9 +103,11 @@ class ServerNit extends Thread {
 
                     if (signal) {
                         return new Odgovor(StatusPoruke.OK, transferObj);
+                    } else {
+                        transferObj.setOdo(null);
+                        return new Odgovor(StatusPoruke.GRESKA, transferObj);
                     }
 
-                    return new Odgovor(StatusPoruke.GRESKA, null);
                 }
                 case Operacija.KREIRANJE_KLUB -> {
                     boolean signal = Controller.getInstance().kreirajVeslackiKlub(transferObj);
@@ -187,14 +189,14 @@ class ServerNit extends Thread {
                         return new Odgovor(StatusPoruke.OK, transferObj);
                     }
                 }
-                
+
                 case Operacija.VRATI_LISTU_AGENCIJE -> {
                     boolean signal = Controller.getInstance().vratiListuAgencija(transferObj, transferObj.getWhereUslov());
-                    if(signal) {
-                        return new Odgovor(StatusPoruke.OK,transferObj);
+                    if (signal) {
+                        return new Odgovor(StatusPoruke.OK, transferObj);
                     }
                 }
-                
+
                 case Operacija.KREIRANJE_VESLAC -> {
                     boolean signal = Controller.getInstance().kreirajVeslac(transferObj);
                     if (signal) {
@@ -314,7 +316,6 @@ class ServerNit extends Thread {
 //                    objekat = Controller.getInstance().vratiPoslednjiIdPonude();
 //                    return new Odgovor(StatusPoruke.OK, objekat);
 //                }
-
                 // STA CU SA OVIM???
 //                case Operacija.VRATI_PONUDU_PO_ID -> {
 //                    boolean signal = Controller.getInstance().vratiListuPonudaVeslaca(transferObj, transferObj.getWhereUslov());
@@ -322,7 +323,6 @@ class ServerNit extends Thread {
 //                        return new Odgovor(StatusPoruke.OK, transferObj);
 //                    }
 //                }
-
                 case Operacija.PROMENA_PONUDE -> {
                     boolean signal = Controller.getInstance().promeniPonudaVeslaca((TransferObjekat) korisnikovZahtev.getParametar());
                     if (signal) {

@@ -15,7 +15,7 @@ import utils.HesiranjeServis;
  *
  * @author lukad
  */
-public class SOPrijaviKlub extends PrijaviDK{
+public class SOPrijaviKlub extends PrijaviDK {
 
     public SOPrijaviKlub(TransferObjekat to) {
         setTo(to);
@@ -25,27 +25,30 @@ public class SOPrijaviKlub extends PrijaviDK{
 
     @Override
     public boolean izvrsiSO() {
-       VeslackiKlub klub = (VeslackiKlub) to.getOdo();
-       boolean verifikovano;
-       Ogranicenje ogranicenje = new Ogranicenje();
-       
-        if (ogranicenje.proveriOgranicenja(to)) {
-              VeslackiKlub vraceniKlub = (VeslackiKlub) bbp.prijaviSlog(to.getOdo());
-              if (vraceniKlub != null) {
-                  verifikovano = HesiranjeServis.proveriSifru(klub.getSifra(), vraceniKlub.getSifra());
-                  to.setSignal(verifikovano);
-                  to.setPoruka(verifikovano ? porukaUspeh : porukaGreska);
-                  
-              }else{
-                  to.setSignal(false);
-                  to.setTrenutniSlog(-1);
-                  to.setPoruka(porukaGreska);
-              }
+        try {
+            VeslackiKlub klub = (VeslackiKlub) to.getOdo();
+            boolean verifikovano;
+            Ogranicenje ogranicenje = new Ogranicenje();
+
+            if (ogranicenje.proveriOgranicenja(to)) {
+                VeslackiKlub vraceniKlub = (VeslackiKlub) bbp.prijaviSlog(to.getOdo());
+                if (vraceniKlub != null) {
+                    verifikovano = HesiranjeServis.proveriSifru(klub.getSifra(), vraceniKlub.getSifra());
+                    to.setSignal(verifikovano);
+                    to.setPoruka(verifikovano ? porukaUspeh : porukaGreska);
+
+                } else {
+                    to.setSignal(false);
+                    to.setTrenutniSlog(-1);
+                    to.setPoruka(porukaGreska);
+                }
+            }
+
+            return to.isSignal();
+        } catch (Exception ex) {
+            return false;
         }
 
-        return to.isSignal();
     }
-    
-    
-    
+
 }

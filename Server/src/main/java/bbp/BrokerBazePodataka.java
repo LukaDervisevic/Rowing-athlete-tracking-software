@@ -104,7 +104,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
     public OpstiDomenskiObjekat prijaviSlog(OpstiDomenskiObjekat odo) {
         ResultSet rs = null;
         PreparedStatement statement = null;
-        String upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " WHERE " + odo.vratiWhereUslov();
+        String upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() +" " + odo.join() + " WHERE " + odo.vratiWhereUslov();
         boolean signal;
         System.out.println(upit);
         try {
