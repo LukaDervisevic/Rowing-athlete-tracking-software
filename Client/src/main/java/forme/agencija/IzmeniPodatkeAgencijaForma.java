@@ -578,7 +578,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
         
         if(odgovor == JOptionPane.YES_OPTION){
             
-            Kontroler.getInstance().obrisiAgenciju(Kontroler.getInstance().getUlogovaniNalog().getId());
+            Kontroler.getInstance().obrisiAgenciju(((Agencija)Kontroler.getInstance().getUlogovaniNalog()).getId());
             Kontroler.getInstance().setUlogovaniNalog(null);
             this.dispose();
             Kontroler.getInstance().setOdjavaSignal(true);

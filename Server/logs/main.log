@@ -289,3 +289,48 @@
 2025-09-23 17:23:48 [main] ERROR  (Server.java:44) - Address already in use: bind
 2025-09-23 17:24:14 [Thread-1] INFO   (ServerNit.java:60) - Soket klijenta se gasi
 2025-09-23 17:26:03 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 08:40:03 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 08:41:02 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 08:41:47 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 08:49:11 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 08:52:07 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 08:52:23 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-09-24 08:52:38 [Thread-1] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 08:58:06 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 08:58:44 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 08:59:58 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 09:00:53 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 09:11:18 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 09:17:12 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 10:12:59 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 10:13:17 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 10:16:57 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 10:17:14 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-09-24 11:11:00 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:13:16 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-09-24 11:14:13 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:14:41 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:16:13 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:17:02 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:17:37 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-09-24 11:17:59 [Thread-1] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:20:19 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:21:05 [Thread-1] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:23:35 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:25:54 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:29:25 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:39:27 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:40:05 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:42:09 [Thread-1] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:44:06 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:58:21 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 11:59:34 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 12:10:21 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 12:42:12 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 12:48:37 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 12:49:12 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-09-24 12:50:12 [Thread-1] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 14:09:18 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-09-24 14:13:09 [Thread-0] INFO   (ServerNit.java:60) - Soket klijenta se gasi
+2025-09-24 14:24:56 [main] ERROR  (Server.java:44) - Address already in use: bind
+2025-09-24 14:33:07 [Thread-0] ERROR  (ServerNit.java:67) - Greska pri obradi: java.lang.RuntimeException: Ne bi trebalo da se dodje do ovde

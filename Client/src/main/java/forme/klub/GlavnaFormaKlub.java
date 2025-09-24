@@ -85,19 +85,18 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
         try {
 
-            idKluba = Kontroler.getInstance().getUlogovaniNalog().getId();
-//            idPonude = Kontroler.getInstance().vratiPoslednjiIdPonude() + 1;
+            idKluba = ((VeslackiKlub) Kontroler.getInstance().getUlogovaniNalog()).getId();
             rb = 0;
 
             // Inicijalno prikupljanje objekata ponude veslaca
-            ponudeVeslaca = Kontroler.getInstance().vratiListuPonude(" id_kluba = " + idKluba, new LinkedList<>());
+            ponudeVeslaca = Kontroler.getInstance().vratiListuPonude(" P.id_kluba = " + idKluba, new LinkedList<>());
             ponudeTable.setModel(new PonudaTableModelKlub(ponudeVeslaca));
             ptm = (PonudaTableModelKlub) ponudeTable.getModel();
             mestoComboBox.addItem(1);
             mestoComboBox.addItem(2);
             mestoComboBox.addItem(3);
 
-            nalogLabel.setText(Kontroler.getInstance().getUlogovaniNalog().getNaziv());
+            nalogLabel.setText(((VeslackiKlub)Kontroler.getInstance().getUlogovaniNalog()).getNaziv());
 
             kategorijaTakmicaraComboBox.addItem(KategorijaVeslaca.KADET);
             kategorijaTakmicaraComboBox.addItem(KategorijaVeslaca.JUNIOR);
@@ -2482,7 +2481,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         if (ponudeTable.getSelectedRow() != -1) {
             int idPonuda = (int) ponudeTable.getValueAt(ponudeTable.getSelectedRow(), 0);
             try {
-                PonudaVeslaca ponudaVeslaca = Kontroler.getInstance().vratiListuPonude("P.id = " + idPonuda, new LinkedList<>()).getFirst();
+                PonudaVeslaca ponudaVeslaca = Kontroler.getInstance().vratiListuPonude(" P.id = " + idPonuda, new LinkedList<>()).getFirst();
                 IzmeniPonuduForma ipf = new IzmeniPonuduForma(this, true, ponudaVeslaca);
                 ipf.setVisible(true);
 

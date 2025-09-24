@@ -7,7 +7,6 @@ import model.Agencija;
 import model.Drzava;
 import model.KategorijaVeslaca;
 import model.KlubTakmicenje;
-import model.Nalog;
 import model.PonudaVeslaca;
 import model.Takmicenje;
 import model.Veslac;
@@ -30,7 +29,7 @@ public class Kontroler {
 
     private static Kontroler instance;
 
-    private Nalog ulogovaniNalog;
+    private Object ulogovaniNalog;
 
     private boolean odjavaSignal;
 
@@ -60,12 +59,14 @@ public class Kontroler {
         return instance;
     }
 
-    public Nalog getUlogovaniNalog() {
+    public Object getUlogovaniNalog() {
         return ulogovaniNalog;
     }
 
-    public void setUlogovaniNalog(Nalog ulogovaniNalog) {
-        this.ulogovaniNalog = ulogovaniNalog;
+    public void setUlogovaniNalog(Object ulogovaniNalog) {
+        if (ulogovaniNalog instanceof VeslackiKlub || ulogovaniNalog instanceof Agencija) {
+            this.ulogovaniNalog = ulogovaniNalog;
+        }
     }
 
     public boolean isOdjavaSignal() {

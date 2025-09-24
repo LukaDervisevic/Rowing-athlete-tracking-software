@@ -13,9 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-import model.Agencija;
 import model.OpstiDomenskiObjekat;
-import model.VeslackiKlub;
 
 /**
  *
@@ -88,7 +86,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
         try {
             statement = konekcija.createStatement();
             rs = statement.executeQuery(upit);
-            signal = rs.next();
+            signal = rs.isBeforeFirst();
             if (signal == true) {
                 odo = odo.vratiNoveSlogove(rs).getFirst();
             } else {
@@ -110,7 +108,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
         try {
             statement = konekcija.prepareStatement(upit);
             rs = statement.executeQuery();
-            signal = rs.next();
+            signal = rs.isBeforeFirst();
             if (signal == true) {
                 OpstiDomenskiObjekat vraceniOdo = odo.vratiNoveSlogove(rs).getFirst();
                 odo = vraceniOdo;

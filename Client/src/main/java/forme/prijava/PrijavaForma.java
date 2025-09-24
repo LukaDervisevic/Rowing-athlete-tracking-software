@@ -12,7 +12,6 @@ import javax.swing.border.MatteBorder;
 import kontroler.Kontroler;
 import model.Agencija;
 import model.Drzava;
-import model.Nalog;
 import model.VeslackiKlub;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

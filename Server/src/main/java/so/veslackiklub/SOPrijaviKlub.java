@@ -34,6 +34,7 @@ public class SOPrijaviKlub extends PrijaviDK {
                 VeslackiKlub vraceniKlub = (VeslackiKlub) bbp.prijaviSlog(to.getOdo());
                 if (vraceniKlub != null) {
                     verifikovano = HesiranjeServis.proveriSifru(klub.getSifra(), vraceniKlub.getSifra());
+                    to.setOdo(vraceniKlub);
                     to.setSignal(verifikovano);
                     to.setPoruka(verifikovano ? porukaUspeh : porukaGreska);
 

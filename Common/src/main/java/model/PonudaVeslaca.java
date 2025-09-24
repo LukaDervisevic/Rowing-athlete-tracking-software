@@ -162,9 +162,6 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat {
         if (!Objects.equals(this.datumKreiranja, other.datumKreiranja)) {
             return false;
         }
-        if (!Objects.equals(this.stavke, other.stavke)) {
-            return false;
-        }
         if (!Objects.equals(this.veslackiKlub, other.veslackiKlub)) {
             return false;
         }
@@ -285,7 +282,7 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat {
     public String join() {
         return " JOIN veslacki_klub AS " + veslackiKlub.alias() + " ON " + alias() + ".id_kluba = " + veslackiKlub.alias() + ".id"
                 + " JOIN agencija AS " + agencija.alias() + " ON " + alias() + ".id_agencije = " + agencija.alias() + ".id"
-                + " JOIN stavka_ponude AS SP ON " + alias() + ".id = SP.id_ponude";
+                + " JOIN stavka_ponude AS SP ON " + alias() + ".id = SP.id_ponude JOIN veslac AS V ON SP.id_veslaca = V.id" ;
     }
 
     @Override

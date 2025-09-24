@@ -34,6 +34,7 @@ public class SOPrijaviAgenciju extends PrijaviDK{
               Agencija vracenaAgencija = (Agencija) bbp.prijaviSlog(to.getOdo());
               if (vracenaAgencija != null) {
                   verifikovano = HesiranjeServis.proveriSifru(agencija.getSifra(), vracenaAgencija.getSifra());
+                  to.setOdo(vracenaAgencija);
                   to.setSignal(verifikovano);
                   to.setPoruka(verifikovano ? porukaUspeh : porukaGreska);
                   
