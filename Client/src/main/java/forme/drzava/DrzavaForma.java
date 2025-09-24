@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import klijent.Klijent;
+import kontroler.Kontroler;
 import model.Drzava;
 
 /**
@@ -30,7 +30,7 @@ public class DrzavaForma extends javax.swing.JDialog {
         super(window);
         initComponents();
         try {
-            drzave = Klijent.getInstance().vratiListuSveDrzave(new LinkedList<>());
+            drzave = Kontroler.getInstance().vratiListuSveDrzave(new LinkedList<>());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,"Greška pri učitavanju država","Greška", JOptionPane.ERROR_MESSAGE);
         }
@@ -164,7 +164,7 @@ public class DrzavaForma extends javax.swing.JDialog {
         // TODO add your handling code here:
         if(!drzavaInput.getText().isEmpty()){
             try {
-                Drzava drzava = Klijent.getInstance().ubaciDrzavu(new Drzava(0,drzavaInput.getText()));
+                Drzava drzava = Kontroler.getInstance().ubaciDrzavu(new Drzava(0,drzavaInput.getText()));
                 dtm.dodajDrzava(drzava);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this,"Greška pri kreiranju države","Greška", JOptionPane.ERROR_MESSAGE);
@@ -177,7 +177,7 @@ public class DrzavaForma extends javax.swing.JDialog {
         // TODO add your handling code here:
         if(drzavaTable.getSelectedRow() != -1){
             try {
-                Integer idDrzave = Klijent.getInstance().obrisiDrzavu((Integer) drzavaTable.getValueAt(drzavaTable.getSelectedRow(), 0));
+                Integer idDrzave = Kontroler.getInstance().obrisiDrzavu((Integer) drzavaTable.getValueAt(drzavaTable.getSelectedRow(), 0));
                 dtm.obrisiVeslaca(idDrzave);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this,"Greška pri brisanju države","Greška", JOptionPane.ERROR_MESSAGE);

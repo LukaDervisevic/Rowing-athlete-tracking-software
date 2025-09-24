@@ -29,10 +29,7 @@ public class OgranicenjeAgencija extends Ogranicenje{
             signal = false;
             to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - email korisnika mora da sadrzi @ simbol");
         }
-        if(agencija.getAdresa() == null || agencija.getAdresa().isBlank()) {
-            signal = false;
-            to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - adresa korisnika ne moze biti prazna");
-        }
+
         if(agencija.getTelefon() == null || agencija.getTelefon().isBlank()) {
             signal = false;
             to.setPoruka(to.getPoruka() + " Naruseno prosto vrednosno ogranicenje - telefon korisnika ne moze biti prazan");

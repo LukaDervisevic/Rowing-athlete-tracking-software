@@ -9,6 +9,7 @@ import model.OpstiDomenskiObjekat;
 import ogranicenja.Ogranicenje;
 import so.PrijaviDK;
 import transfer.TransferObjekat;
+import utils.HesiranjeServis;
 
 /**
  *
@@ -20,6 +21,32 @@ public class SOPrijaviAgenciju extends PrijaviDK{
         setTo(to);
         porukaGreska += " Greska pri prijavi agencije";
         porukaUspeh += " Uspeh pri prijavi agencije";
+        
+    }
+
+    @Override
+    public boolean izvrsiSO() {
+       Agencija agencija = (Agencija) to.getOdo();
+       boolean verifikovano;
+       Ogranicenje ogranicenje = new Ogranicenje();
+       
+        if (ogranicenje.proveriOgranicenja(to)) {
+              Agencija vracenaAgencija = (Agencija) bbp.prijaviSlog(to.getOdo());
+              if (vracenaAgencija != null) {
+                  verifikovano = HesiranjeServis.proveriSifru(agencija.getSifra(), vracenaAgencija.getSifra());
+                  to.setSignal(verifikovano);
+                  to.setPoruka(verifikovano ? porukaUspeh : porukaGreska);
+                  
+              }else{
+                  to.setSignal(false);
+                    to.setTrenutniSlog(-1);
+                    to.setPoruka(porukaGreska);
+              }
+        }
+
+        return to.isSignal(); 
     }
     
+    
+      
 }

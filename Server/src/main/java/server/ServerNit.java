@@ -65,6 +65,7 @@ class ServerNit extends Thread {
                     break;
                 } catch (Exception ex) {
                     logger.error("Greska pri obradi: " + ex);
+                    ex.printStackTrace();
                     break;
                 }
 
@@ -102,9 +103,11 @@ class ServerNit extends Thread {
 
                     if (signal) {
                         return new Odgovor(StatusPoruke.OK, transferObj);
+                    } else {
+                        transferObj.setOdo(null);
+                        return new Odgovor(StatusPoruke.GRESKA, transferObj);
                     }
 
-                    return new Odgovor(StatusPoruke.GRESKA, null);
                 }
                 case Operacija.KREIRANJE_KLUB -> {
                     boolean signal = Controller.getInstance().kreirajVeslackiKlub(transferObj);
@@ -143,7 +146,7 @@ class ServerNit extends Thread {
                 }
 
                 case Operacija.VRATI_LISTU_VESLACKI_KLUB -> {
-                    boolean signal = Controller.getInstance().vratiListuVeslackiKlub(transferObj, " id = " + (Integer) korisnikovZahtev.getParametar());
+                    boolean signal = Controller.getInstance().vratiListuVeslackiKlub(transferObj, transferObj.getWhereUslov());
                     if (signal) {
                         return new Odgovor(StatusPoruke.OK, transferObj);
                     }
@@ -186,6 +189,14 @@ class ServerNit extends Thread {
                         return new Odgovor(StatusPoruke.OK, transferObj);
                     }
                 }
+
+                case Operacija.VRATI_LISTU_AGENCIJE -> {
+                    boolean signal = Controller.getInstance().vratiListuAgencija(transferObj, transferObj.getWhereUslov());
+                    if (signal) {
+                        return new Odgovor(StatusPoruke.OK, transferObj);
+                    }
+                }
+
                 case Operacija.KREIRANJE_VESLAC -> {
                     boolean signal = Controller.getInstance().kreirajVeslac(transferObj);
                     if (signal) {
@@ -301,11 +312,10 @@ class ServerNit extends Thread {
                     }
                 }
 
-                case Operacija.VRATI_POSLEDNJI_ID_PONUDE -> {
-                    objekat = Controller.getInstance().vratiPoslednjiIdPonude();
-                    return new Odgovor(StatusPoruke.OK, objekat);
-                }
-
+//                case Operacija.VRATI_POSLEDNJI_ID_PONUDE -> {
+//                    objekat = Controller.getInstance().vratiPoslednjiIdPonude();
+//                    return new Odgovor(StatusPoruke.OK, objekat);
+//                }
                 // STA CU SA OVIM???
 //                case Operacija.VRATI_PONUDU_PO_ID -> {
 //                    boolean signal = Controller.getInstance().vratiListuPonudaVeslaca(transferObj, transferObj.getWhereUslov());
@@ -313,7 +323,6 @@ class ServerNit extends Thread {
 //                        return new Odgovor(StatusPoruke.OK, transferObj);
 //                    }
 //                }
-
                 case Operacija.PROMENA_PONUDE -> {
                     boolean signal = Controller.getInstance().promeniPonudaVeslaca((TransferObjekat) korisnikovZahtev.getParametar());
                     if (signal) {
@@ -366,10 +375,10 @@ class ServerNit extends Thread {
                     }
                 }
 
-                case Operacija.PREBROJ_TAKMICENJA -> {
-                    objekat = Controller.getInstance().prebrojOsvojenaTakmicenja((Integer) korisnikovZahtev.getParametar());
-                    return new Odgovor(StatusPoruke.OK, objekat);
-                }
+//                case Operacija.PREBROJ_TAKMICENJA -> {
+//                    objekat = Controller.getInstance().prebrojOsvojenaTakmicenja((Integer) korisnikovZahtev.getParametar());
+//                    return new Odgovor(StatusPoruke.OK, objekat);
+//                }
                 case Operacija.PREKID -> {
                     soketZaKomunikaciju.close();
                     klijenti.remove(this);

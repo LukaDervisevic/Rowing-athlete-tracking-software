@@ -5,11 +5,13 @@ import forme.agencija.GlavnaFormaAgencija;
 import forme.klub.GlavnaFormaKlub;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
-import klijent.Klijent;
+import kontroler.Kontroler;
 import model.Agencija;
+import model.Drzava;
 import model.Nalog;
 import model.VeslackiKlub;
 import org.apache.logging.log4j.LogManager;
@@ -259,21 +261,22 @@ public class PrijavaForma extends javax.swing.JFrame {
             sifraGreskaLabel.setVisible(true);
         }
 
-        Nalog ulogovaniNalog = null;
         try {
-            VeslackiKlub ulovoganiKlub = Klijent.getInstance().prijaviVeslackiKlub(new VeslackiKlub(0, null, null, null, null, korisnickoImeInput.getText(), sifraKorisnikaInput.getText()));
+            VeslackiKlub ulovoganiKlub = Kontroler.getInstance().prijaviVeslackiKlub(new VeslackiKlub(0, null, null, null, null, korisnickoImeInput.getText(), sifraKorisnikaInput.getText()));
             if (ulovoganiKlub == null) {
-                Agencija ulogovanaAgencija = Klijent.getInstance().prijaviAgencija(new Agencija(0, null, null, null, korisnickoImeInput.getText(), sifraKorisnikaInput.getText(), null));
+                Agencija ulogovanaAgencija = Kontroler.getInstance().prijaviAgencija(new Agencija(0, null, null, null, korisnickoImeInput.getText(), sifraKorisnikaInput.getText(), new Drzava()));
                 if (ulogovanaAgencija == null) {
                     throw new RuntimeException();
                 } else {
-                    Klijent.getInstance().setUlogovaniNalog(ulogovanaAgencija);
-                    Klijent.getInstance().setOdjavaSignal(false);
+                    Kontroler.getInstance().setUlogovaniNalog(ulogovanaAgencija);
+                    Kontroler.getInstance().setOdjavaSignal(false);
                     GlavnaFormaAgencija gva = new GlavnaFormaAgencija();
+                    
                 }
             } else {
-                Klijent.getInstance().setUlogovaniNalog(ulovoganiKlub);
-                Klijent.getInstance().setOdjavaSignal(false);
+                JOptionPane.showMessageDialog(this,"Korisničko ime i šifra su ispravni", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                Kontroler.getInstance().setUlogovaniNalog(ulovoganiKlub);
+                Kontroler.getInstance().setOdjavaSignal(false);
                 GlavnaFormaKlub gvk = new GlavnaFormaKlub();
             }
 
@@ -282,6 +285,7 @@ public class PrijavaForma extends javax.swing.JFrame {
         } catch (Exception ex) {
 //            logger.error(ex.getMessage());
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Korisničko ime i šifra nisu ispravni", "Greška", JOptionPane.ERROR_MESSAGE);
             sifraGreskaLabel.setText("Nalog nije pronadjen pokušajte ponovo");
             sifraGreskaLabel.setVisible(true);
         }

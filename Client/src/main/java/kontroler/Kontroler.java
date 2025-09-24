@@ -1,4 +1,4 @@
-package klijent;
+package kontroler;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -9,7 +9,6 @@ import model.KategorijaVeslaca;
 import model.KlubTakmicenje;
 import model.Nalog;
 import model.PonudaVeslaca;
-import model.StavkaPonude;
 import model.Takmicenje;
 import model.Veslac;
 import model.VeslackiKlub;
@@ -27,9 +26,9 @@ import transfer.TransferObjekat;
  *
  * @author luka
  */
-public class Klijent {
+public class Kontroler {
 
-    private static Klijent instance;
+    private static Kontroler instance;
 
     private Nalog ulogovaniNalog;
 
@@ -43,7 +42,7 @@ public class Klijent {
 
     private static final Logger logger = LogManager.getRootLogger();
 
-    private Klijent() {
+    private Kontroler() {
         try {
             soket = new Socket("localhost", 9000);
             primalac = new Primalac(soket);
@@ -54,9 +53,9 @@ public class Klijent {
         }
     }
 
-    public static Klijent getInstance() {
+    public static Kontroler getInstance() {
         if (instance == null) {
-            instance = new Klijent();
+            instance = new Kontroler();
         }
         return instance;
     }
@@ -87,12 +86,9 @@ public class Klijent {
         posiljalac.posaljiPoruku(zahtev);
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
 
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (VeslackiKlub) transferObj.getOdo();
-        }
+        transferObj = (TransferObjekat) odgovor.getParametar();
+        return (VeslackiKlub) transferObj.getOdo();
+
     }
 
     public VeslackiKlub kreirajVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
@@ -169,7 +165,7 @@ public class Klijent {
         transferObjekat.setOdo(new VeslackiKlub());
         transferObjekat.setNazivSo("vratiListuSviVeslackiKlub");
 
-        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_VESLACKI_KLUB, null);
+        Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_VESLACKI_KLUB, transferObjekat);
         posiljalac.posaljiPoruku(zahtev);
 
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
@@ -211,12 +207,8 @@ public class Klijent {
         posiljalac.posaljiPoruku(zahtev);
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
 
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (Agencija) transferObj.getOdo();
-        }
+        transferObj = (TransferObjekat) odgovor.getParametar();
+        return (Agencija) transferObj.getOdo();
     }
 
     public Agencija kreirajAgenciju(Agencija agencija) throws Exception {
@@ -516,7 +508,7 @@ public class Klijent {
     }
 
     //PONUDA VESLACA
-    public PonudaVeslaca kreirajPonuduVeslaca(PonudaVeslaca ponudaVeslaca) throws Exception {        
+    public PonudaVeslaca kreirajPonuduVeslaca(PonudaVeslaca ponudaVeslaca) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(ponudaVeslaca);
         transferObj.setNazivSo("kreirajPonudu");

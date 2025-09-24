@@ -1,8 +1,5 @@
 package kontroller;
 
-import bbp.DBBroker;
-import java.time.LocalDateTime;
-import model.Nalog;
 import so.KreirajDK;
 import so.NadjiDK;
 import so.ObrisiDK;
@@ -36,11 +33,8 @@ public class Controller {
 
     private static Controller instance;
 
-    private Nalog ulogovaniNalog;
 
     private boolean odjavaSignal;
-
-    private DBBroker dbb = DBBroker.getInstance();
 
     private Controller() {
         odjavaSignal = false;
@@ -53,28 +47,12 @@ public class Controller {
         return instance;
     }
 
-    public Nalog getUlogovaniNalog() {
-        return ulogovaniNalog;
-    }
-
-    public void setUlogovaniNalog(Nalog ulogovaniNalog) {
-        this.ulogovaniNalog = ulogovaniNalog;
-    }
-
     public boolean isOdjavaSignal() {
         return odjavaSignal;
     }
 
     public void setOdjavaSignal(boolean odjavaSignal) {
         this.odjavaSignal = odjavaSignal;
-    }
-
-    public DBBroker getDbb() {
-        return dbb;
-    }
-
-    public void setDbb(DBBroker dbb) {
-        this.dbb = dbb;
     }
 
     // VESLACKI KLUB
@@ -269,13 +247,13 @@ public class Controller {
         return obrisiSo.opsteIzvrsenjeSO();
     }
 
-    public int[] prebrojOsvojenaTakmicenja(Integer idKluba) {
-        return dbb.prebrojOsvojenaTakmicenjaDB(idKluba);
-    }
-
-    public int vratiPoslednjiIdPonude() {
-        return dbb.vratiPoslednjiIdPonudeDB();
-    }
+//    public int[] prebrojOsvojenaTakmicenja(Integer idKluba) {
+//        return dbb.prebrojOsvojenaTakmicenjaDB(idKluba);
+//    }
+//
+//    public int vratiPoslednjiIdPonude() {
+//        return dbb.vratiPoslednjiIdPonudeDB();
+//    }
 
     public boolean vratiSveStavkePonude(TransferObjekat to) {
         VratiListuDK vratiSo = new VratiListuDK(to, "");

@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 import javax.swing.JOptionPane;
-import klijent.Klijent;
+import kontroler.Kontroler;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
 import model.Veslac;
@@ -355,7 +355,7 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
         try {
             if(obrisaneStavke.isEmpty() && dodateStavke.isEmpty()) return;         
             
-            PonudaVeslaca azuriranaPonuda = Klijent.getInstance().promeniPonudu(ponudaVeslaca);
+            PonudaVeslaca azuriranaPonuda = Kontroler.getInstance().promeniPonudu(ponudaVeslaca);
             JOptionPane.showMessageDialog(this, "Uspesno kreiranje ponude veslaca","Uspeh",JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
             

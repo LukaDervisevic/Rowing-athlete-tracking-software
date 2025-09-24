@@ -2,24 +2,26 @@ package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  *
  * @author luka
  */
-public class KlubTakmicenje implements OpstiDomenskiObjekat{
-    
+public class KlubTakmicenje implements OpstiDomenskiObjekat {
+
     private int mesto;
-    
+
     private VeslackiKlub klub;
-    
+
     private Takmicenje takmicenje;
 
     public KlubTakmicenje() {
     }
 
-    public KlubTakmicenje(int mesto, VeslackiKlub klub,Takmicenje takmicenje) {
+    public KlubTakmicenje(int mesto, VeslackiKlub klub, Takmicenje takmicenje) {
         this.mesto = mesto;
         this.klub = klub;
         this.takmicenje = takmicenje;
@@ -85,13 +87,13 @@ public class KlubTakmicenje implements OpstiDomenskiObjekat{
     public String vratiNaziveKolona() {
         return "id_kluba,id_takmicenja,mesto";
     }
-    
+
     @Override
     public String vratiImePoKoloni(int i) {
-        String[] kolone = {"id_kluba","id_takmicenja","mesto"};
+        String[] kolone = {"id_kluba", "id_takmicenja", "mesto"};
         return kolone[i];
-    }   
-    
+    }
+
     @Override
     public String vrednostiAtributaZaKreiranje() {
         return klub.getId() + "," + takmicenje.getId() + "," + mesto;
@@ -113,10 +115,18 @@ public class KlubTakmicenje implements OpstiDomenskiObjekat{
     }
 
     @Override
-    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return new KlubTakmicenje(rs.getInt("mesto"),
-                new VeslackiKlub(rs.getInt(klub.alias()+".id"), rs.getString(klub.alias()+".naziv"),rs.getString(klub.alias()+".adresa"), rs.getString(klub.alias()+".email"), rs.getString(klub.alias()+".telefon"), rs.getString(klub.alias()+".korisnicko_ime"), rs.getString(klub.alias()+".sifra")) ,
-                new Takmicenje(rs.getInt(takmicenje.alias()+".id"), rs.getString(takmicenje.alias()+".naziv"), KategorijaVeslaca.valueOf(rs.getString(takmicenje.alias()+".starosna_kategorija")), VrstaTrke.valueOf(takmicenje.alias()+".vrsta_trke"), new java.util.Date(rs.getDate(takmicenje.alias()+".datum").getTime())));
+    public List<OpstiDomenskiObjekat> vratiNoveSlogove(ResultSet rs) throws SQLException {
+        List<OpstiDomenskiObjekat> klubTakmicenja = new LinkedList();
+
+        while (rs.next()) {
+            KlubTakmicenje klubTakmicenje = new KlubTakmicenje(rs.getInt("mesto"),
+                    new VeslackiKlub(rs.getInt(klub.alias() + ".id"), rs.getString(klub.alias() + ".naziv"), rs.getString(klub.alias() + ".adresa"), rs.getString(klub.alias() + ".email"), rs.getString(klub.alias() + ".telefon"), rs.getString(klub.alias() + ".korisnicko_ime"), rs.getString(klub.alias() + ".sifra")),
+                    new Takmicenje(rs.getInt(takmicenje.alias() + ".id"), rs.getString(takmicenje.alias() + ".naziv"), KategorijaVeslaca.valueOf(rs.getString(takmicenje.alias() + ".starosna_kategorija")), VrstaTrke.valueOf(takmicenje.alias() + ".vrsta_trke"), new java.util.Date(rs.getDate(takmicenje.alias() + ".datum").getTime())));
+            klubTakmicenja.add(klubTakmicenje);
+
+        }
+
+        return klubTakmicenja;
     }
 
     @Override
@@ -126,11 +136,10 @@ public class KlubTakmicenje implements OpstiDomenskiObjekat{
 
     @Override
     public String join() {
-        return "JOIN `veslanje`.`" + takmicenje.vratiNazivTabele() + "` AS " + alias() + " ON " + takmicenje.alias() + ".id = " + alias() + ".id_takmicenja" 
-                + " JOIN `veslanje`.`" + klub.vratiNazivTabele() +   "` AS " + klub.alias() + " ON " + alias() + ".id_kluba = " + klub.alias() + ".id";
+        return "JOIN `veslanje`.`" + takmicenje.vratiNazivTabele() + "` AS " + alias() + " ON " + takmicenje.alias() + ".id = " + alias() + ".id_takmicenja"
+                + " JOIN `veslanje`.`" + klub.vratiNazivTabele() + "` AS " + klub.alias() + " ON " + alias() + ".id_kluba = " + klub.alias() + ".id";
     }
 
-    
     @Override
     public String alias() {
         return "KT";
@@ -138,9 +147,7 @@ public class KlubTakmicenje implements OpstiDomenskiObjekat{
 
     @Override
     public void postaviPrimarniKljuc(int id) {
-        
-    }
 
-    
+    }
 
 }

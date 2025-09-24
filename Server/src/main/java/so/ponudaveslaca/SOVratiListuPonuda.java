@@ -2,27 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package so;
+package so.ponudaveslaca;
 
 import java.util.List;
 import model.OpstiDomenskiObjekat;
+import so.VratiListuDK;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author lukad
  */
-public class VratiListuDK extends OpsteIzvrsenjeSO{
-
-    protected String whereUslov;
+public class SOVratiListuPonuda extends VratiListuDK{
     
-    public VratiListuDK(TransferObjekat to,String whereUslov) {
-        setTo(to);
-        this.whereUslov = whereUslov;
+    public SOVratiListuPonuda(TransferObjekat to, String whereUslov) {
+        super(to, whereUslov);
     }
 
     @Override
     public boolean izvrsiSO() {
+        
         boolean signal = false;
         List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlog(to.getOdo(), to.getWhereUslov());
         if(!listaOdo.isEmpty()) {
@@ -31,6 +30,9 @@ public class VratiListuDK extends OpsteIzvrsenjeSO{
         }
         to.setListOdo(listaOdo);
         return true;
+        
     }
+    
+    
     
 }

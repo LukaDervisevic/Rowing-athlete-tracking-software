@@ -1,14 +1,13 @@
-
 package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
+public class VeslackiKlub implements OpstiDomenskiObjekat {
 
-public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
-
-    
     private int id;
 
     private String naziv;
@@ -35,8 +34,6 @@ public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
         this.korisnickoIme = korisnickoIme;
         this.sifra = sifra;
     }
-    
-    
 
     public String getNaziv() {
         return naziv;
@@ -111,7 +108,7 @@ public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
 
     @Override
     public String toString() {
-        return "VeslackiKlub{" + "idKluba=" + id + ", naziv=" + naziv + ", adresa=" + adresa + ", email=" + email + ", telefon=" + telefon + ", korisnickoIme=" + korisnickoIme +  ", sifra= "+ sifra +'}';
+        return "VeslackiKlub{" + "idKluba=" + id + ", naziv=" + naziv + ", adresa=" + adresa + ", email=" + email + ", telefon=" + telefon + ", korisnickoIme=" + korisnickoIme + ", sifra= " + sifra + '}';
     }
 
     @Override
@@ -150,23 +147,23 @@ public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
     public String vratiNaziveKolona() {
         return "naziv,adresa,email,telefon,korisnicko_ime,sifra";
     }
-    
+
     @Override
     public String vratiImePoKoloni(int i) {
-        String[] kolone = {"id","naziv","adresa","email","telefon","korisnicko_ime","sifra"};
+        String[] kolone = {"id", "naziv", "adresa", "email", "telefon", "korisnicko_ime", "sifra"};
         return kolone[i];
     }
-    
+
     @Override
     public String vrednostiAtributaZaKreiranje() {
-        String atributi =  "'" + naziv + "','" + adresa + "','" + email + "','" + telefon + "','" +  korisnickoIme + "','" + sifra + "'";
+        String atributi = "'" + naziv + "','" + adresa + "','" + email + "','" + telefon + "','" + korisnickoIme + "','" + sifra + "'";
         System.out.println(atributi);
         return atributi;
     }
 
     @Override
     public String azurirajVrednostiAtributa() {
-        return "naziv=" + naziv + ",adresa="+ adresa + ",email=" + email + ",telefon=" + telefon + ",korisnicko_ime=" + korisnickoIme + ",sifra=" + sifra;
+        return "naziv=" + naziv + ",adresa=" + adresa + ",email=" + email + ",telefon=" + telefon + ",korisnicko_ime=" + korisnickoIme + ",sifra=" + sifra;
     }
 
     @Override
@@ -176,12 +173,17 @@ public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
 
     @Override
     public String vratiWhereUslov() {
-        return "id = " + id;
+        return " korisnicko_ime  = '" + korisnickoIme + "'";
     }
 
     @Override
-    public OpstiDomenskiObjekat vratiNoviSlog(ResultSet rs) throws SQLException {
-        return new VeslackiKlub(rs.getInt(alias()+".id"), rs.getString(alias()+".naziv"),rs.getString(alias()+".adresa"), rs.getString(alias()+".email"), rs.getString(alias()+".telefon"), rs.getString(alias()+".korisnicko_ime"), rs.getString(alias()+".sifra"));
+    public List<OpstiDomenskiObjekat> vratiNoveSlogove(ResultSet rs) throws SQLException {
+        List<OpstiDomenskiObjekat> klubovi = new LinkedList();
+        while (rs.next()) {
+            VeslackiKlub klub = new VeslackiKlub(rs.getInt(alias() + ".id"), rs.getString(alias() + ".naziv"), rs.getString(alias() + ".adresa"), rs.getString(alias() + ".email"), rs.getString(alias() + ".telefon"), rs.getString(alias() + ".korisnicko_ime"), rs.getString(alias() + ".sifra"));
+            klubovi.add(klub);
+        }
+        return klubovi;
     }
 
     @Override
@@ -197,5 +199,10 @@ public class VeslackiKlub extends Nalog implements OpstiDomenskiObjekat{
     @Override
     public String alias() {
         return "VK";
+    }
+
+    @Override
+    public void postaviPrimarniKljuc(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

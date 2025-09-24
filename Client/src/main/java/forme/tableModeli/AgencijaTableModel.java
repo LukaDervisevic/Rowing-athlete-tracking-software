@@ -54,9 +54,11 @@ public class AgencijaTableModel extends AbstractTableModel{
                 return agencija.getDrzava().getNaziv();
             }
             default -> throw new AssertionError();
-        }
-        
-        
+        } 
+    }
+    
+    public Agencija getObject(int row) {
+        return agencije.get(row);
     }
 
     @Override
@@ -72,7 +74,9 @@ public class AgencijaTableModel extends AbstractTableModel{
         this.agencije = agencije;
     }
     
-    
+    public Agencija getAgencija(int row) {
+        return this.agencije.get(row);
+    }
     
     
 }

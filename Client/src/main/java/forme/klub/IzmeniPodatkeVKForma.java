@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.MatteBorder;
-import klijent.Klijent;
+import kontroler.Kontroler;
 import model.TipNaloga;
 import model.VeslackiKlub;
 
@@ -31,7 +31,7 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
         
         setLocationRelativeTo(null);
         
-        VeslackiKlub ulogovaniKlub = (VeslackiKlub) Klijent.getInstance().getUlogovaniNalog();
+        VeslackiKlub ulogovaniKlub = (VeslackiKlub) Kontroler.getInstance().getUlogovaniNalog();
         System.out.println(ulogovaniKlub);
         nazivInput.setText(ulogovaniKlub.getNaziv());
         adresaInput.setText(ulogovaniKlub.getAdresa());
@@ -448,8 +448,8 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
         
 //         Ako nije napravljena greska kreira se novi veslački klub
         if(!greska){
-            VeslackiKlub klub = (VeslackiKlub) Klijent.getInstance().getUlogovaniNalog();
-            VeslackiKlub azuriraniKlub = Klijent.getInstance().azuirirajVeslackiKlub(new VeslackiKlub(klub.getId(),nazivInput.getText(),adresaInput.getText(),emailInput.getText(),
+            VeslackiKlub klub = (VeslackiKlub) Kontroler.getInstance().getUlogovaniNalog();
+            VeslackiKlub azuriraniKlub = Kontroler.getInstance().azuirirajVeslackiKlub(new VeslackiKlub(klub.getId(),nazivInput.getText(),adresaInput.getText(),emailInput.getText(),
                     ((String) telefonComboBox.getSelectedItem()) + telefonInput.getText(), korisnickoImeInput.getText(),sifraInput.getText()));
             this.dispose();
             if(azuriraniKlub != null){
@@ -557,10 +557,10 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
 
         if(odgovor == JOptionPane.YES_OPTION){
             
-            Klijent.getInstance().obrisiVeslackiKlub((Integer) Klijent.getInstance().getUlogovaniNalog().getId());
-            Klijent.getInstance().setUlogovaniNalog(null);
+            Kontroler.getInstance().obrisiVeslackiKlub((Integer) Kontroler.getInstance().getUlogovaniNalog().getId());
+            Kontroler.getInstance().setUlogovaniNalog(null);
             this.dispose();
-            Klijent.getInstance().setOdjavaSignal(true);
+            Kontroler.getInstance().setOdjavaSignal(true);
             
         }
         

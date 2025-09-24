@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import klijent.Klijent;
+import kontroler.Kontroler;
 import model.Agencija;
 import model.KlubTakmicenje;
 import model.PonudaVeslaca;
@@ -33,16 +33,16 @@ import org.apache.logging.log4j.Logger;
 public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
     private int idAgencije;
-    
+
     private List<PonudaVeslaca> ponudeAgencije = new LinkedList<>();
     private List<VeslackiKlub> klubovi = new LinkedList<>();
-    
+
     private PonudaTableModelAgencija patm;
     private PonudaTableModelAgencija patvm;
     private KlubTableModel ktm;
     private OsvojenaTakmicenjaTableModel ostm;
     private StavkaPonudeTableModel sptm;
-    
+
     private static final Logger logger = LogManager.getRootLogger();
 
     public GlavnaFormaAgencija() {
@@ -57,12 +57,10 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             setSize(screenSize);
 
-            idAgencije = Klijent.getInstance().getUlogovaniNalog().getId();
-            ponudeAgencije = Klijent.getInstance().vratiListuPonude(" id_agencije = "+idAgencije, new LinkedList<>());
-            ponudeTable.setModel(new PonudaTableModelAgencija(ponudeAgencije));
-            patm = (PonudaTableModelAgencija) ponudeTable.getModel();
-            
-            nalogLabel.setText(Klijent.getInstance().getUlogovaniNalog().getNaziv());
+            idAgencije = Kontroler.getInstance().getUlogovaniNalog().getId();
+            ponudeAgencije = Kontroler.getInstance().vratiListuPonude(" id_agencije = " + idAgencije, new LinkedList<>());
+
+            nalogLabel.setText(Kontroler.getInstance().getUlogovaniNalog().getNaziv());
             pretraziInput.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
@@ -71,16 +69,12 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                             if (pretraziInput.getText().equals("Pretraži naziv kluba...") || pretraziInput.getText().isEmpty()
                                     || pretraziInput.getText().equals("Pretraži ime kluba...")) {
 
-                                if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
-                                    List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiListuPonude(" id_agencije = " +idAgencije, new LinkedList<>());
-                                    patm.setPonude(svePonude);
-                                    patm.fireTableDataChanged();
-                                } else if (cardPanel.getComponentZOrder(pretrazivanjeTakmicenjaPanel) >= 0) {
-                                    List<VeslackiKlub> sviKlubovi = Klijent.getInstance().vratiListuSviVeslackiKlub(new LinkedList<>());
+                                if (cardPanel.getComponentZOrder(pretrazivanjeTakmicenjaPanel) >= 0) {
+                                    List<VeslackiKlub> sviKlubovi = Kontroler.getInstance().vratiListuSviVeslackiKlub(new LinkedList<>());
                                     ktm.setKlubovi(sviKlubovi);
                                     ktm.fireTableDataChanged();
                                 } else if (cardPanel.getComponentZOrder(pretrazivanjePonudaPanel) >= 0) {
-                                    List<PonudaVeslaca> svePonude = Klijent.getInstance().vratiListuPonude(" id_agencije = " +idAgencije, new LinkedList<>());
+                                    List<PonudaVeslaca> svePonude = Kontroler.getInstance().vratiListuPonude(" id_agencije = " + idAgencije, new LinkedList<>());
                                     patvm.setPonude(svePonude);
                                     patvm.fireTableDataChanged();
                                 }
@@ -88,24 +82,8 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                             } else {
                                 String upitZaPretragu = pretraziInput.getText();
 
-                                if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
-                                    int idKluba = Integer.parseInt(upitZaPretragu);
-                                    List<PonudaVeslaca> pretrazenePonude;
-                                    VeslackiKlub klub = new VeslackiKlub();
-                                    klub.setId(idKluba);
-                                    Agencija agencija = new Agencija();
-                                    agencija.setId(idAgencije);
-                                    try {
-                                        pretrazenePonude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null, klub, agencija));
-                                        patm.setPonude(pretrazenePonude);
-                                        patm.fireTableDataChanged();
-                                    } catch (Exception ex) {
-                                        logger.error(ex.getMessage());
-                                    }
-
-                                }
-
                                 if (cardPanel.getComponentZOrder(pretrazivanjeTakmicenjaPanel) >= 0) {
+
 //                                    String nazivKluba = upitZaPretragu;
 //                                    List<VeslackiKlub> pretrazeniKlubovi = Klijent.getInstance().pretraziKlub(nazivKluba);
 //                                    ktm.setKlubovi(pretrazeniKlubovi);
@@ -120,7 +98,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                                     Agencija agencija = new Agencija();
                                     agencija.setId(idAgencije);
                                     try {
-                                        pretrazenePonude = Klijent.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null,klub, agencija));
+                                        pretrazenePonude = Kontroler.getInstance().pretraziPonudu(new PonudaVeslaca(0, null, 0, 0, 0, 0, null, klub, agencija));
                                         patvm.setPonude(pretrazenePonude);
                                         patvm.fireTableDataChanged();
                                     } catch (Exception ex) {
@@ -160,20 +138,12 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         glavnaFormaPanel5 = new forme.utils.GlavnaFormaPanel();
         jButton6 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        kontrolnaTablaButton = new javax.swing.JButton();
         pretraziButton = new javax.swing.JButton();
         takmicenjaButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         nalogLabel = new javax.swing.JLabel();
         azurirajNalogButton = new javax.swing.JButton();
         cardPanel = new javax.swing.JPanel();
-        kontrolnaTablaPanel = new javax.swing.JPanel();
-        kFormaPanel3 = new forme.utils.GlavnaFormaPanel();
-        ponudeLabel = new javax.swing.JLabel();
-        odobriPonuduButton = new javax.swing.JButton();
-        odbaciPonuduButton = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        ponudeTable = new forme.utils.GlavnaFormaTable();
         pretrazivanjePonudaPanel = new javax.swing.JPanel();
         glavnaFormaPanel1 = new forme.utils.GlavnaFormaPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -194,6 +164,8 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         osvojenaTakmicenjaTable = new forme.utils.GlavnaFormaTable();
+        radio1 = new javax.swing.JRadioButton();
+        radio2 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -296,25 +268,6 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(238, 236, 236));
 
-        kontrolnaTablaButton.setBackground(new java.awt.Color(238, 236, 236));
-        kontrolnaTablaButton.setFont(new java.awt.Font("JetBrains Mono", 0, 24)); // NOI18N
-        kontrolnaTablaButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slike/kontrolnaTabla32.png"))); // NOI18N
-        kontrolnaTablaButton.setText(" Kontrolna Tabla");
-        kontrolnaTablaButton.setBorder(null);
-        kontrolnaTablaButton.setBorderPainted(false);
-        kontrolnaTablaButton.setContentAreaFilled(false);
-        kontrolnaTablaButton.setFocusPainted(false);
-        kontrolnaTablaButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                kontrolnaTablaButtonMouseEntered(evt);
-            }
-        });
-        kontrolnaTablaButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kontrolnaTablaButtonActionPerformed(evt);
-            }
-        });
-
         pretraziButton.setBackground(new java.awt.Color(238, 236, 236));
         pretraziButton.setFont(new java.awt.Font("JetBrains Mono", 0, 24)); // NOI18N
         pretraziButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slike/ergometar32.png"))); // NOI18N
@@ -373,28 +326,28 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pretraziButton)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(kontrolnaTablaButton, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(takmicenjaButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(nalogLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
-                        .addComponent(azurirajNalogButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(41, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(takmicenjaButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(nalogLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                            .addComponent(azurirajNalogButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(pretraziButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(96, 96, 96)
-                .addComponent(kontrolnaTablaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(91, 91, 91)
                 .addComponent(pretraziButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(takmicenjaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(246, 246, 246)
+                .addGap(368, 368, 368)
                 .addComponent(nalogLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(azurirajNalogButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -403,89 +356,6 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
         cardPanel.setBackground(new java.awt.Color(221, 221, 221));
         cardPanel.setLayout(new java.awt.CardLayout());
-
-        kontrolnaTablaPanel.setBackground(new java.awt.Color(221, 221, 221));
-
-        ponudeLabel.setFont(new java.awt.Font("JetBrains Mono", 1, 28)); // NOI18N
-        ponudeLabel.setText("Ponude Veslača");
-
-        odobriPonuduButton.setBackground(new java.awt.Color(13, 146, 244));
-        odobriPonuduButton.setFont(new java.awt.Font("JetBrains Mono", 1, 19)); // NOI18N
-        odobriPonuduButton.setForeground(new java.awt.Color(255, 255, 255));
-        odobriPonuduButton.setText("Odobri");
-
-        odbaciPonuduButton.setBackground(new java.awt.Color(13, 146, 244));
-        odbaciPonuduButton.setFont(new java.awt.Font("JetBrains Mono", 1, 19)); // NOI18N
-        odbaciPonuduButton.setForeground(new java.awt.Color(255, 255, 255));
-        odbaciPonuduButton.setText("Odbaci");
-        odbaciPonuduButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                odbaciPonuduButtonActionPerformed(evt);
-            }
-        });
-
-        ponudeTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        ponudeTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        jScrollPane4.setViewportView(ponudeTable);
-
-        javax.swing.GroupLayout kFormaPanel3Layout = new javax.swing.GroupLayout(kFormaPanel3);
-        kFormaPanel3.setLayout(kFormaPanel3Layout);
-        kFormaPanel3Layout.setHorizontalGroup(
-            kFormaPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kFormaPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(odbaciPonuduButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(odobriPonuduButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1335, Short.MAX_VALUE)
-            .addGroup(kFormaPanel3Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(ponudeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        kFormaPanel3Layout.setVerticalGroup(
-            kFormaPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kFormaPanel3Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(ponudeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(kFormaPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(odbaciPonuduButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(odobriPonuduButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22))
-        );
-
-        javax.swing.GroupLayout kontrolnaTablaPanelLayout = new javax.swing.GroupLayout(kontrolnaTablaPanel);
-        kontrolnaTablaPanel.setLayout(kontrolnaTablaPanelLayout);
-        kontrolnaTablaPanelLayout.setHorizontalGroup(
-            kontrolnaTablaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kontrolnaTablaPanelLayout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(kFormaPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(210, Short.MAX_VALUE))
-        );
-        kontrolnaTablaPanelLayout.setVerticalGroup(
-            kontrolnaTablaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kontrolnaTablaPanelLayout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(kFormaPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(838, Short.MAX_VALUE))
-        );
-
-        cardPanel.add(kontrolnaTablaPanel, "card2");
 
         pretrazivanjePonudaPanel.setBackground(new java.awt.Color(221, 221, 221));
 
@@ -713,12 +583,32 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
         cardPanel.add(pretrazivanjeTakmicenjaPanel, "card4");
 
+        radio1.setFont(new java.awt.Font("JetBrains Mono", 0, 18)); // NOI18N
+        radio1.setText("Veslački klub");
+        radio1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radio1ActionPerformed(evt);
+            }
+        });
+
+        radio2.setFont(new java.awt.Font("JetBrains Mono", 0, 18)); // NOI18N
+        radio2.setText("Veslač");
+        radio2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radio2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(radio1)
+                .addGap(18, 18, 18)
+                .addComponent(radio2)
+                .addGap(18, 18, 18)
                 .addComponent(glavnaFormaPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(glavnaFormaPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -733,12 +623,20 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(9, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(glavnaFormaPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(glavnaFormaPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(glavnaFormaPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap(9, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(glavnaFormaPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(glavnaFormaPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(glavnaFormaPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(radio1)
+                            .addComponent(radio2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -761,18 +659,6 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void kontrolnaTablaButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kontrolnaTablaButtonMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_kontrolnaTablaButtonMouseEntered
-
-    private void kontrolnaTablaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kontrolnaTablaButtonActionPerformed
-        // TODO add your handling code here:
-        cardPanel.removeAll();
-        cardPanel.add(kontrolnaTablaPanel);
-        cardPanel.repaint();
-        cardPanel.revalidate();
-    }//GEN-LAST:event_kontrolnaTablaButtonActionPerformed
-
     private void pretraziButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pretraziButtonActionPerformed
         // TODO add your handling code here:
         pretraziInput.setText("Pretraži naziv kluba...");
@@ -780,13 +666,19 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         cardPanel.add(pretrazivanjePonudaPanel);
         cardPanel.repaint();
         cardPanel.revalidate();
-        if(!(ponudeVeslacaTable.getModel() instanceof PonudaTableModelAgencija)) {
+
+        radio1.setEnabled(true);
+        radio1.setVisible(true);
+        radio2.setEnabled(true);
+        radio2.setEnabled(true);
+
+        if (!(ponudeVeslacaTable.getModel() instanceof PonudaTableModelAgencija)) {
             ponudeVeslacaTable.setModel(new PonudaTableModelAgencija(ponudeAgencije));
         }
-        if(patvm == null) {
+        if (patvm == null) {
             patvm = (PonudaTableModelAgencija) ponudeVeslacaTable.getModel();
         }
-        
+
         stavkePonudeTable.setModel(new StavkaPonudeTableModel());
         sptm = (StavkaPonudeTableModel) stavkePonudeTable.getModel();
     }//GEN-LAST:event_pretraziButtonActionPerformed
@@ -797,16 +689,21 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
         cardPanel.add(pretrazivanjeTakmicenjaPanel);
         cardPanel.repaint();
         cardPanel.revalidate();
+
+        radio1.setEnabled(false);
+        radio1.setVisible(false);
+        radio2.setEnabled(false);
+        radio2.setVisible(false);
         
         try {
-            klubovi = Klijent.getInstance().vratiListuSviVeslackiKlub(new LinkedList<>());
+            klubovi = Kontroler.getInstance().vratiListuSviVeslackiKlub(new LinkedList<>());
         } catch (Exception ex) {
             logger.error("Neuspeno ucitavanje klubova");
         }
-        if(!(veslackiKluboviTable.getModel() instanceof KlubTableModel)){
+        if (!(veslackiKluboviTable.getModel() instanceof KlubTableModel)) {
             veslackiKluboviTable.setModel(new KlubTableModel(klubovi));
         }
-        if(ktm == null){
+        if (ktm == null) {
             ktm = (KlubTableModel) veslackiKluboviTable.getModel();
         }
 
@@ -823,7 +720,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
             @Override
             public void windowClosed(WindowEvent e) {
 
-                if (Klijent.getInstance().isOdjavaSignal()) {
+                if (Kontroler.getInstance().isOdjavaSignal()) {
                     JOptionPane.showMessageDialog(null, "Nalog obrisan, gašenje programa...", "Info", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                     System.exit(0);
@@ -846,56 +743,67 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
     private void pretraziInputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pretraziInputFocusLost
         // TODO add your handling code here:
         if (pretraziInput.getText().isEmpty()) {
-            if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0 || cardPanel.getComponentZOrder(pretrazivanjePonudaPanel) >= 0) {
-                pretraziInput.setText("Pretraži id kluba...");
+            if (cardPanel.getComponentZOrder(pretrazivanjePonudaPanel) >= 0) {
+                pretraziInput.setText("Pretraži naziv kluba...");
             } else {
-                pretraziInput.setText("Pretraži ime kluba...");
+                pretraziInput.setText("Pretraži naziv kluba...");
             }
         }
     }//GEN-LAST:event_pretraziInputFocusLost
 
-    private void odbaciPonuduButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_odbaciPonuduButtonActionPerformed
-        // TODO add your handling code here:
-        int odgovor = JOptionPane.showConfirmDialog(this, "Da li ste sigurni da želite da odbacite ponudu");
-        if (odgovor == JOptionPane.YES_OPTION) {
-
-        }
-    }//GEN-LAST:event_odbaciPonuduButtonActionPerformed
-
     private void prikaziTakmicenjaKlubaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prikaziTakmicenjaKlubaButtonActionPerformed
-        try{
+        try {
             if (veslackiKluboviTable.getSelectedRow() != -1) {
                 int idKluba = (int) veslackiKluboviTable.getValueAt(veslackiKluboviTable.getSelectedRow(), 0);
-                List<KlubTakmicenje> takmicenjaKluba = Klijent.getInstance().vratiTakmicenjaKluba(idKluba);
+                List<KlubTakmicenje> takmicenjaKluba = Kontroler.getInstance().vratiTakmicenjaKluba(idKluba);
                 ostm.setOsvojenaTakmicenja(takmicenjaKluba);
                 ostm.fireTableDataChanged();
 
             } else {
                 JOptionPane.showMessageDialog(this, "Klub nije selektovan, selektujte klub kako bi prikazali takmicenja", "Greska", JOptionPane.ERROR_MESSAGE);
-            }   
-        }catch(Exception ex){
+            }
+        } catch (Exception ex) {
             logger.error(ex.getMessage());
-        }  
+        }
     }//GEN-LAST:event_prikaziTakmicenjaKlubaButtonActionPerformed
 
     private void prikaziStavkeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prikaziStavkeButtonActionPerformed
-           
-        try{
+
+        try {
             if (ponudeVeslacaTable.getSelectedRow() != -1) {
                 int idPonude = (int) ponudeVeslacaTable.getValueAt(ponudeVeslacaTable.getSelectedRow(), 0);
-                PonudaVeslaca ponudaVeslaca = Klijent.getInstance().vratiListuPonude(" id = "+idPonude, new LinkedList<>()).getFirst();
+                PonudaVeslaca ponudaVeslaca = Kontroler.getInstance().vratiListuPonude(" id = " + idPonude, new LinkedList<>()).getFirst();
                 List<StavkaPonude> stavkePonude = ponudaVeslaca.getStavke();
                 sptm.setStavkePonude(stavkePonude);
                 sptm.fireTableDataChanged();
 
             } else {
                 JOptionPane.showMessageDialog(this, "Ponuda nije selektovana, selektujte ponudu kako bi prikazali stavke ponude", "Greska", JOptionPane.ERROR_MESSAGE);
-            } 
-        }catch(Exception ex){
-           logger.error(ex.getMessage());
+            }
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
         }
 
     }//GEN-LAST:event_prikaziStavkeButtonActionPerformed
+
+    private void radio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radio1ActionPerformed
+        if (radio1.isSelected()) {
+            if (cardPanel.getComponentZOrder(pretrazivanjePonudaPanel) >= 0) {
+                pretraziInput.setText("Pretraži naziv kluba...");
+            }
+
+            radio2.setSelected(false);
+        }
+    }//GEN-LAST:event_radio1ActionPerformed
+
+    private void radio2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radio2ActionPerformed
+        if (radio2.isSelected()) {
+            if (cardPanel.getComponentZOrder(pretrazivanjePonudaPanel) >= 0) {
+                pretraziInput.setText("Pretraži naziv veslača...");
+            }
+            radio1.setSelected(false);
+        }
+    }//GEN-LAST:event_radio2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -922,17 +830,9 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private forme.utils.GlavnaFormaPanel kFormaPanel3;
-    private javax.swing.JButton kontrolnaTablaButton;
-    private javax.swing.JPanel kontrolnaTablaPanel;
     private javax.swing.JLabel nalogLabel;
-    private javax.swing.JButton odbaciPonuduButton;
-    private javax.swing.JButton odobriPonuduButton;
     private forme.utils.GlavnaFormaTable osvojenaTakmicenjaTable;
-    private javax.swing.JLabel ponudeLabel;
-    private forme.utils.GlavnaFormaTable ponudeTable;
     private forme.utils.GlavnaFormaTable ponudeVeslacaTable;
     private javax.swing.JButton pretraziButton;
     private javax.swing.JTextField pretraziInput;
@@ -940,6 +840,8 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
     private javax.swing.JPanel pretrazivanjeTakmicenjaPanel;
     private javax.swing.JButton prikaziStavkeButton;
     private javax.swing.JButton prikaziTakmicenjaKlubaButton;
+    private javax.swing.JRadioButton radio1;
+    private javax.swing.JRadioButton radio2;
     private forme.utils.GlavnaFormaTable stavkePonudeTable;
     private javax.swing.JButton takmicenjaButton;
     private forme.utils.GlavnaFormaTable veslackiKluboviTable;
