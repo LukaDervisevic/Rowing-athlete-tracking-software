@@ -128,7 +128,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
         ResultSet rs = null;
         Statement statement = null;
         String upit;
-        if (where == null) {
+        if (where == null || where.isBlank()) {
             upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " ;";
         } else {
             upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " WHERE " + where + ";";

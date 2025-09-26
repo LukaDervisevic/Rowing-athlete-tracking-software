@@ -7,21 +7,20 @@ package so.ponudaveslaca;
 import java.util.LinkedList;
 import java.util.List;
 import model.KategorijaVeslaca;
+import model.OpstiDomenskiObjekat;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
-import so.PromeniDK;
+import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author lukad
  */
-public class SOPromeniPonudu extends PromeniDK {
+public class SOPromeniPonudu extends OpsteIzvrsenjeSO {
 
     public SOPromeniPonudu(TransferObjekat to) {
         setTo(to);
-        porukaUspeh = "Uspesno azuriranje ponude veslaca";
-        porukaGreska = "Greska pri azuriranju ponuda veslaca";
     }
 
     @Override
@@ -87,25 +86,50 @@ public class SOPromeniPonudu extends PromeniDK {
 
         return signal;
     }
-}
 
-//    Ogranicenje ogranicenje = new Ogranicenje();
-//
-//if (ogranicenje.proveriOgranicenja(to)) {
-//            OpstiDomenskiObjekat vraceniOdo = bbp.pronadjiSlog(to.getOdo());
-//            if (vraceniOdo != null) {
-//
-//                if (bbp.azurirajSlog(vraceniOdo)) {
-//                    to.setPoruka(porukaUspeh);
-//                    to.setSignal(true);
-//                } else {
-//                    to.setPoruka(porukaGreska);
-//                    to.setSignal(false);
-//                }
-//            } else {
-//                to.setPoruka("Neuspesno pronalazenje domenskog objekta koji treba da se azurira");
-//            }
-//        }
-//
-//        return to.isSignal();
+    @Override
+    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+        if (!(odo instanceof PonudaVeslaca)) {
+            return false;
+        }
+
+        boolean signal = true;
+        PonudaVeslaca ponudaVeslaca = (PonudaVeslaca) odo;
+        if(ponudaVeslaca.getId() <= 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getDatumKreiranja() == null) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getBrojKadeta() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getBrojJuniora() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getProsecnoVremeJuniori() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getProsecnoVremeKadeti() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getVeslackiKlub().getId() <= 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getAgencija().getId() <= 0) {
+            signal = false;
+        }
+        return signal;
+    }
+
+    @Override
+    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+        return true;
+    }
+
+    @Override
+    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
+        return true;
+    }
+}
 

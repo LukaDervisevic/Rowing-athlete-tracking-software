@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.agencija;
 
 import model.Agencija;
 import model.OpstiDomenskiObjekat;
-import ogranicenja.Ogranicenje;
-import so.PrijaviDK;
+import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
 import utils.HesiranjeServis;
 
@@ -15,39 +10,59 @@ import utils.HesiranjeServis;
  *
  * @author lukad
  */
-public class SOPrijaviAgenciju extends PrijaviDK{
+public class SOPrijaviAgenciju extends OpsteIzvrsenjeSO {
 
     public SOPrijaviAgenciju(TransferObjekat to) {
         setTo(to);
-        porukaGreska += " Greska pri prijavi agencije";
-        porukaUspeh += " Uspeh pri prijavi agencije";
-        
     }
 
     @Override
     public boolean izvrsiSO() {
-       Agencija agencija = (Agencija) to.getOdo();
-       boolean verifikovano;
-       Ogranicenje ogranicenje = new Ogranicenje();
-       
-        if (ogranicenje.proveriOgranicenja(to)) {
-              Agencija vracenaAgencija = (Agencija) bbp.prijaviSlog(to.getOdo());
-              if (vracenaAgencija != null) {
-                  verifikovano = HesiranjeServis.proveriSifru(agencija.getSifra(), vracenaAgencija.getSifra());
-                  to.setOdo(vracenaAgencija);
-                  to.setSignal(verifikovano);
-                  to.setPoruka(verifikovano ? porukaUspeh : porukaGreska);
-                  
-              }else{
-                  to.setSignal(false);
-                    to.setTrenutniSlog(-1);
-                    to.setPoruka(porukaGreska);
-              }
+        Agencija agencija = (Agencija) to.getOdo();
+        boolean verifikovano;
+        Agencija vracenaAgencija = (Agencija) bbp.prijaviSlog(to.getOdo());
+        if (vracenaAgencija != null) {
+            verifikovano = HesiranjeServis.proveriSifru(agencija.getSifra(), vracenaAgencija.getSifra());
+            to.setOdo(vracenaAgencija);
+            to.setSignal(verifikovano);
+
+        } else {
+            to.setSignal(false);
+            to.setTrenutniSlog(-1);
+        }
+        return to.isSignal();
+    }
+
+    @Override
+    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+        if (!(odo instanceof Agencija)) {
+            return false;
         }
 
-        return to.isSignal(); 
+        Agencija agencija = (Agencija) odo;
+        boolean signal = true;
+        if (agencija.getSifra() == null || agencija.getSifra().isBlank()) {
+            signal = false;
+        }
+
+        if (agencija.getKorisnickoIme() == null || agencija.getKorisnickoIme().isBlank()) {
+            signal = false;
+        }
+
+        if (agencija.getSifra().length() < 8) {
+            signal = false;
+        }
+        return signal;
     }
-    
-    
-      
+
+    @Override
+    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+        return true;
+    }
+
+    @Override
+    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
+        return true;
+    }
+
 }

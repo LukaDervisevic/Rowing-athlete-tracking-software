@@ -1,22 +1,68 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.ponudaveslaca;
 
-import so.ObrisiDK;
+import model.OpstiDomenskiObjekat;
+import model.PonudaVeslaca;
+import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author lukad
  */
-public class SOObrisiPonudu extends ObrisiDK {
+public class SOObrisiPonudu extends OpsteIzvrsenjeSO {
 
     public SOObrisiPonudu(TransferObjekat to) {
         setTo(to);
-        porukaUspesno = "Uspesno brisanje ponude veslaca";
-        porukaGreska = "Greska pri brisanju ponude veslaca";
+    }
+
+    @Override
+    public boolean izvrsiSO() {
+        boolean signal = bbp.obrisiSlog(to.getOdo());
+        getTo().setSignal(signal);
+        return signal;
+    }
+
+    @Override
+    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+        boolean signal = true;
+        PonudaVeslaca ponudaVeslaca = (PonudaVeslaca) odo;
+        if(ponudaVeslaca.getId() <= 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getDatumKreiranja() == null) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getBrojKadeta() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getBrojJuniora() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getProsecnoVremeJuniori() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getProsecnoVremeKadeti() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getVeslackiKlub().getId() <= 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getAgencija().getId() <= 0) {
+            signal = false;
+        }
+        return signal;
+    }
+
+    @Override
+    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+        // Problem
+        return true;
+    }
+
+    @Override
+    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
+        // Problem
+        return true;
     }
 
 }

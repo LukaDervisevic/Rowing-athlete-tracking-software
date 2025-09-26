@@ -1,22 +1,20 @@
 package so.ponudaveslaca;
 
 import model.KategorijaVeslaca;
+import model.OpstiDomenskiObjekat;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
-import ogranicenja.Ogranicenje;
-import so.KreirajDK;
+import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author lukad
  */
-public class SOKreirajPonudu extends KreirajDK {
+public class SOUbaciPonudu extends OpsteIzvrsenjeSO {
 
-    public SOKreirajPonudu(TransferObjekat to) {
+    public SOUbaciPonudu(TransferObjekat to) {
         setTo(to);
-        porukaUspesno = "Uspesno kreiranje ponude veslaca";
-        porukaGreska = "Greska pri kreiranju ponude veslaca : " + to.getPoruka();
     }
 
     @Override
@@ -45,20 +43,16 @@ public class SOKreirajPonudu extends KreirajDK {
             prosecno_vreme_kadeti = suma_kadeti / broj_kadeta;
 
         }
-        if(broj_juniora != 0){
+        if (broj_juniora != 0) {
             prosecno_vreme_juniori = suma_juniori / broj_juniora;
         }
-        
+
         ponuda.setBrojKadeta(broj_kadeta);
         ponuda.setBrojJuniora(broj_juniora);
         ponuda.setProsecnoVremeKadeti(prosecno_vreme_kadeti);
         ponuda.setProsecnoVremeJuniori(prosecno_vreme_juniori);
         ponuda.postaviPrimarniKljuc(noviKljuc);
 
-        Ogranicenje ogranicenje = new Ogranicenje();
-        if (!ogranicenje.proveriOgranicenja(to)) {
-            return signal;
-        }
         signal = getBbp().kreirajSlog(getTo().getOdo());
         if (signal) {
             for (StavkaPonude stavkaPonude : ponuda.getStavke()) {
@@ -68,13 +62,52 @@ public class SOKreirajPonudu extends KreirajDK {
                 }
             }
         }
-        if (signal) {
-            getTo().poruka = porukaUspesno;
-        } else {
-            getTo().poruka = porukaGreska;
+        return signal;
+    }
+
+    @Override
+    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+        if (!(odo instanceof PonudaVeslaca)) {
+            return false;
         }
 
+        boolean signal = true;
+        PonudaVeslaca ponudaVeslaca = (PonudaVeslaca) odo;
+        if(ponudaVeslaca.getId() <= 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getDatumKreiranja() == null) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getBrojKadeta() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getBrojJuniora() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getProsecnoVremeJuniori() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getProsecnoVremeKadeti() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getVeslackiKlub().getId() <= 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getAgencija().getId() <= 0) {
+            signal = false;
+        }
         return signal;
+    }
+
+    @Override
+    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+        return true;
+    }
+
+    @Override
+    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
+        return true;
     }
 
 }

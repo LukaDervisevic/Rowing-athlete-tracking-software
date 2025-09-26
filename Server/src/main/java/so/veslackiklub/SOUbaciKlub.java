@@ -1,38 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.veslackiklub;
 
 import model.OpstiDomenskiObjekat;
 import model.VeslackiKlub;
 import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
+import utils.HesiranjeServis;
 
 /**
  *
  * @author lukad
  */
-public class SOPromeniKlub extends OpsteIzvrsenjeSO {
+public class SOUbaciKlub extends OpsteIzvrsenjeSO {
 
-    public SOPromeniKlub(TransferObjekat to) {
-        setTo(to);
+    public SOUbaciKlub(TransferObjekat to) {
+        this.setTo(to);
+        VeslackiKlub vk = (VeslackiKlub) getTo().getOdo();
+        vk.setSifra(HesiranjeServis.hesirajSifru(vk.getSifra()));
     }
 
     @Override
     protected boolean izvrsiSO() {
-        OpstiDomenskiObjekat vraceniOdo = bbp.pronadjiSlog(to.getOdo());
-        if (vraceniOdo != null) {
-
-            if (bbp.azurirajSlog(vraceniOdo)) {
-                to.setSignal(true);
-            } else {
-                to.setSignal(false);
-            }
-        } else {
-            to.setSignal(false);
+        boolean signal = false;
+        int noviKljuc = getBbp().vratiNoviKljucPoKoloni(getTo().getOdo());
+        if (noviKljuc != 0) {
+            getTo().getOdo().postaviPrimarniKljuc(noviKljuc);
+            signal = getBbp().kreirajSlog(getTo().getOdo());
+            getTo().signal = signal;
         }
-        return to.isSignal();
+        return signal;
     }
 
     @Override
@@ -75,6 +70,7 @@ public class SOPromeniKlub extends OpsteIzvrsenjeSO {
             signal = false;
         }
         return signal;
+
     }
 
     @Override

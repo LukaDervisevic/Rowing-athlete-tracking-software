@@ -1,38 +1,39 @@
 package kontroller;
 
-import so.KreirajDK;
-import so.NadjiDK;
-import so.ObrisiDK;
-import so.PrijaviDK;
-import so.PromeniDK;
-import so.VratiListuDK;
-import so.agencija.SOKreirajAgenciju;
+import so.agencija.SOObrisiAgenciju;
+import so.agencija.SOUbaciAgenciju;
 import so.agencija.SOPretraziAgenciju;
 import so.agencija.SOPrijaviAgenciju;
 import so.agencija.SOPromeniAgenciju;
+import so.agencija.SOVratiListuAgencija;
 import so.drzava.SOObrisiDrzavu;
 import so.drzava.SOUbaciDrzavu;
-import so.ponudaveslaca.SOKreirajPonudu;
+import so.drzava.SOVratiListuDrzava;
+import so.ponudaveslaca.SOUbaciPonudu;
 import so.ponudaveslaca.SOObrisiPonudu;
 import so.ponudaveslaca.SOPretraziPonudu;
 import so.ponudaveslaca.SOPromeniPonudu;
+import so.ponudaveslaca.SOVratiListuPonuda;
 import so.takmicenje.SOObrisiTakmicenje;
 import so.takmicenje.SOPretraziTakmicenje;
 import so.takmicenje.SOUbaciTakmicenje;
+import so.takmicenje.SOVratiListuTakmicenja;
 import so.veslac.SOObrisiVeslaca;
 import so.veslac.SOPretraziVeslaca;
 import so.veslac.SOPromeniVeslaca;
-import so.veslackiklub.SOKreirajKlub;
+import so.veslac.SOUbaciVeslaca;
+import so.veslac.SOVratiListuVeslaci;
+import so.veslackiklub.SOUbaciKlub;
 import so.veslackiklub.SOObrisiKlub;
 import so.veslackiklub.SOPretraziKlub;
 import so.veslackiklub.SOPrijaviKlub;
 import so.veslackiklub.SOPromeniKlub;
+import so.veslackiklub.SOVratiListuKlub;
 import transfer.TransferObjekat;
 
 public class Controller {
 
     private static Controller instance;
-
 
     private boolean odjavaSignal;
 
@@ -56,196 +57,196 @@ public class Controller {
     }
 
     // VESLACKI KLUB
-    public boolean prijaviVeslackiKlub(TransferObjekat to) throws Exception{
-        PrijaviDK prijaviSo = new SOPrijaviKlub(to);
+    public boolean prijaviVeslackiKlub(TransferObjekat to) throws Exception {
+        SOPrijaviKlub prijaviSo = new SOPrijaviKlub(to);
         return prijaviSo.opsteIzvrsenjeSO();
     }
-    
-    public boolean kreirajVeslackiKlub(TransferObjekat to) throws Exception {
-        KreirajDK kreirajSo = new SOKreirajKlub(to);
+
+    public boolean ubaciVeslackiKlub(TransferObjekat to) throws Exception {
+        SOUbaciKlub kreirajSo = new SOUbaciKlub(to);
         return kreirajSo.opsteIzvrsenjeSO();
     }
 
     public boolean promeniVeslackiKlub(TransferObjekat to) throws Exception {
-        PromeniDK promeniSo = new SOPromeniKlub(to);
+        SOPromeniKlub promeniSo = new SOPromeniKlub(to);
         return promeniSo.opsteIzvrsenjeSO();
     }
 
     public boolean pretraziVeslackiKlub(TransferObjekat to) {
-        NadjiDK nadjiSo = new SOPretraziKlub(to);
+        SOPretraziKlub nadjiSo = new SOPretraziKlub(to);
         return nadjiSo.opsteIzvrsenjeSO();
     }
 
     public boolean obrisiVeslackiKlub(TransferObjekat to) throws Exception {
-        ObrisiDK obrisiSo = new SOObrisiKlub(to);
+        SOObrisiKlub obrisiSo = new SOObrisiKlub(to);
         return obrisiSo.opsteIzvrsenjeSO();
     }
 
-    public boolean vratiListuVeslackiKlub(TransferObjekat to, String whereUslov) {
-        VratiListuDK vratiListuSo = new VratiListuDK(to, whereUslov);
+    public boolean vratiListuKlub(TransferObjekat to) {
+        SOVratiListuKlub vratiListuSo = new SOVratiListuKlub(to);
         return vratiListuSo.opsteIzvrsenjeSO();
     }
-    
-    public boolean vratiListuSviVeslackiKlub(TransferObjekat to) {
-        VratiListuDK vratiListuDK = new VratiListuDK(to, "");
+
+    public boolean vratiListuSviKlub(TransferObjekat to) {
+        SOVratiListuKlub vratiListuDK = new SOVratiListuKlub(to);
         return vratiListuDK.opsteIzvrsenjeSO();
     }
 
     // VESLAC
-    public boolean kreirajVeslac(TransferObjekat to) throws Exception {
-        KreirajDK kreirajSo = new KreirajDK(to);
+    public boolean ubaciVeslac(TransferObjekat to) throws Exception {
+        SOUbaciVeslaca kreirajSo = new SOUbaciVeslaca(to);
         return kreirajSo.opsteIzvrsenjeSO();
     }
 
     public boolean promeniVeslac(TransferObjekat to) throws Exception {
-        PromeniDK promeniSo = new SOPromeniVeslaca(to);
+        SOPromeniVeslaca promeniSo = new SOPromeniVeslaca(to);
         return promeniSo.opsteIzvrsenjeSO();
     }
 
     public boolean obrisiVeslac(TransferObjekat to) throws Exception {
-        ObrisiDK obrisiSo = new SOObrisiVeslaca(to);
+        SOObrisiVeslaca obrisiSo = new SOObrisiVeslaca(to);
         return obrisiSo.opsteIzvrsenjeSO();
     }
 
     public boolean pretraziVeslac(TransferObjekat to) throws Exception {
-        NadjiDK nadjiSo = new SOPretraziVeslaca(to);
+        SOPretraziVeslaca nadjiSo = new SOPretraziVeslaca(to);
         return nadjiSo.opsteIzvrsenjeSO();
     }
-    
-    public boolean vratiListuSviVeslac(TransferObjekat to){
-        VratiListuDK vratiSo = new VratiListuDK(to, "");
+
+    public boolean vratiListuSviVeslac(TransferObjekat to) {
+        SOVratiListuVeslaci vratiSo = new SOVratiListuVeslaci(to,"");
         return vratiSo.opsteIzvrsenjeSO();
     }
 
     public boolean vratiListuVeslac(TransferObjekat to, String kriterijumVeslac) {
-        VratiListuDK vratiSo = new VratiListuDK(to, kriterijumVeslac);
+        SOVratiListuVeslaci vratiSo = new SOVratiListuVeslaci(to, kriterijumVeslac);
         return vratiSo.opsteIzvrsenjeSO();
     }
 
     // AGENCIJA
     public boolean prijaviAgencija(TransferObjekat to) {
-        PrijaviDK prijavaSo = new SOPrijaviAgenciju(to);
+        SOPrijaviAgenciju prijavaSo = new SOPrijaviAgenciju(to);
         return prijavaSo.opsteIzvrsenjeSO();
-    } 
-    
-    public boolean kreirajAgencija(TransferObjekat to) throws Exception {
-        KreirajDK kreirajSo = new SOKreirajAgenciju(to);
+    }
+
+    public boolean UbaciAgenciju(TransferObjekat to) throws Exception {
+        SOUbaciAgenciju kreirajSo = new SOUbaciAgenciju(to);
         return kreirajSo.opsteIzvrsenjeSO();
     }
 
     public boolean obrisiAgenciju(TransferObjekat to) throws Exception {
-        ObrisiDK obrisiSo = new SOObrisiKlub(to);
+        SOObrisiAgenciju obrisiSo = new SOObrisiAgenciju(to);
         return obrisiSo.opsteIzvrsenjeSO();
     }
 
     public boolean promeniAgencija(TransferObjekat to) throws Exception {
-        PromeniDK promeniSo = new SOPromeniAgenciju(to);
+        SOPromeniAgenciju promeniSo = new SOPromeniAgenciju(to);
         return promeniSo.opsteIzvrsenjeSO();
     }
 
     public boolean pretraziAgencija(TransferObjekat to) throws Exception {
-        NadjiDK nadjiSo = new SOPretraziAgenciju(to);
+        SOPretraziAgenciju nadjiSo = new SOPretraziAgenciju(to);
         return nadjiSo.opsteIzvrsenjeSO();
     }
-    
+
     public boolean vratiListuSviAgencija(TransferObjekat to) {
-        VratiListuDK vratiListuDK = new VratiListuDK(to, "");
+        SOVratiListuAgencija vratiListuDK = new SOVratiListuAgencija(to, "");
         return vratiListuDK.opsteIzvrsenjeSO();
     }
 
     public boolean vratiListuAgencija(TransferObjekat to, String kriterijumAgencija) {
-        VratiListuDK vratiListuSo = new VratiListuDK(to, kriterijumAgencija);
+        SOVratiListuAgencija vratiListuSo = new SOVratiListuAgencija(to, kriterijumAgencija);
         return vratiListuSo.opsteIzvrsenjeSO();
     }
 
     // DRZAVA
     public boolean ubaciDrzava(TransferObjekat to) throws Exception {
-        KreirajDK kreirajSo = new SOUbaciDrzavu(to);
+        SOUbaciDrzavu kreirajSo = new SOUbaciDrzavu(to);
         return kreirajSo.opsteIzvrsenjeSO();
     }
 
     public boolean obrisiDrzava(TransferObjekat to) throws Exception {
-        ObrisiDK obrisiSo = new SOObrisiDrzavu(to);
+        SOObrisiDrzavu obrisiSo = new SOObrisiDrzavu(to);
         return obrisiSo.opsteIzvrsenjeSO();
     }
 
     public boolean vratiListuSviDrzava(TransferObjekat to) {
-        VratiListuDK vratiSo = new VratiListuDK(to, "");
+        SOVratiListuDrzava vratiSo = new SOVratiListuDrzava(to, "");
         return vratiSo.opsteIzvrsenjeSO();
     }
 
     public boolean vratiListuDrzava(TransferObjekat to, String kriterijumDrzava) {
-        VratiListuDK vratiSo = new VratiListuDK(to, kriterijumDrzava);
+        SOVratiListuDrzava vratiSo = new SOVratiListuDrzava(to, kriterijumDrzava);
         return vratiSo.opsteIzvrsenjeSO();
     }
 
     // TAKMICENJE
     public boolean ubaciTakmicenje(TransferObjekat to) throws Exception {
-        KreirajDK dodajSo = new SOUbaciTakmicenje(to);
+        SOUbaciTakmicenje dodajSo = new SOUbaciTakmicenje(to);
         return dodajSo.opsteIzvrsenjeSO();
     }
 
     public boolean obrisiTakmicenje(TransferObjekat to) throws Exception {
-        ObrisiDK obrisiSo = new SOObrisiTakmicenje(to);
+        SOObrisiTakmicenje obrisiSo = new SOObrisiTakmicenje(to);
         return obrisiSo.opsteIzvrsenjeSO();
     }
 
     public boolean pretraziTakmicenje(TransferObjekat to) {
-        NadjiDK pretraziSo = new SOPretraziTakmicenje(to);
+        SOPretraziTakmicenje pretraziSo = new SOPretraziTakmicenje(to);
         return pretraziSo.opsteIzvrsenjeSO();
     }
 
     public boolean vratiListuSviTakmicenje(TransferObjekat to) {
-        VratiListuDK vratiSo = new VratiListuDK(to, "");
+        SOVratiListuTakmicenja vratiSo = new SOVratiListuTakmicenja(to, "");
         return vratiSo.opsteIzvrsenjeSO();
     }
-    
-    public boolean vratiListuTakmicenje(TransferObjekat to,String kriterijumTakmicenje) {
-        VratiListuDK vratiSo = new VratiListuDK(to, kriterijumTakmicenje);
+
+    public boolean vratiListuTakmicenje(TransferObjekat to, String kriterijumTakmicenje) {
+        SOVratiListuTakmicenja vratiSo = new SOVratiListuTakmicenja(to, kriterijumTakmicenje);
         return vratiSo.opsteIzvrsenjeSO();
     }
 
     // Ponuda veslaca
-    public boolean kreirajPonudaVeslaca(TransferObjekat to) {
-        KreirajDK kreirajSo = new SOKreirajPonudu(to);
+    public boolean ubaciPonudaVeslaca(TransferObjekat to) {
+        SOUbaciPonudu kreirajSo = new SOUbaciPonudu(to);
         return kreirajSo.opsteIzvrsenjeSO();
     }
-    
+
     public boolean obrisiPonudaVeslaca(TransferObjekat to) {
-        ObrisiDK obrisiSo = new SOObrisiPonudu(to);
+        SOObrisiPonudu obrisiSo = new SOObrisiPonudu(to);
         return obrisiSo.opsteIzvrsenjeSO();
     }
-    
+
     public boolean promeniPonudaVeslaca(TransferObjekat to) {
-        PromeniDK promeniSo = new SOPromeniPonudu(to);
+        SOPromeniPonudu promeniSo = new SOPromeniPonudu(to);
         return promeniSo.opsteIzvrsenjeSO();
     }
-    
+
     public boolean pretraziPonudaVeslaca(TransferObjekat to) {
-        NadjiDK nadjiSo = new SOPretraziPonudu(to);
+        SOPretraziPonudu nadjiSo = new SOPretraziPonudu(to);
         return nadjiSo.opsteIzvrsenjeSO();
     }
-    
+
     public boolean vratiListuSviPonudaVeslaca(TransferObjekat to) {
-        VratiListuDK vratiSo = new VratiListuDK(to,"");
+        SOVratiListuPonuda vratiSo = new SOVratiListuPonuda(to, "");
         return vratiSo.opsteIzvrsenjeSO();
     }
-    
+
     public boolean vratiListuPonudaVeslaca(TransferObjekat to, String kriterijum) {
-        VratiListuDK vratiSo = new VratiListuDK(to, kriterijum);
+        SOVratiListuPonuda vratiSo = new SOVratiListuPonuda(to, kriterijum);
         return vratiSo.opsteIzvrsenjeSO();
     }
-    
+
     // Klub - Takmicenje   
-    public boolean kreirajKlubTakmicenje(TransferObjekat to){
-        KreirajDK kreirajSo = new KreirajDK(to);
-        return kreirajSo.opsteIzvrsenjeSO();
-    }
-    
-    public boolean obrisiKlubTakmicenje(TransferObjekat to) throws Exception {
-        ObrisiDK obrisiSo = new ObrisiDK();
-        return obrisiSo.opsteIzvrsenjeSO();
-    }
+//    public boolean kreirajKlubTakmicenje(TransferObjekat to) {
+//        SOUbaciTakmicenje kreirajSo = new SoUbv(to);
+//        return kreirajSo.opsteIzvrsenjeSO();
+//    }
+
+//    public boolean obrisiKlubTakmicenje(TransferObjekat to) throws Exception {
+//        ObrisiDK obrisiSo = new ObrisiDK();
+//        return obrisiSo.opsteIzvrsenjeSO();
+//    }
 
 //    public int[] prebrojOsvojenaTakmicenja(Integer idKluba) {
 //        return dbb.prebrojOsvojenaTakmicenjaDB(idKluba);
@@ -254,10 +255,4 @@ public class Controller {
 //    public int vratiPoslednjiIdPonude() {
 //        return dbb.vratiPoslednjiIdPonudeDB();
 //    }
-
-    public boolean vratiSveStavkePonude(TransferObjekat to) {
-        VratiListuDK vratiSo = new VratiListuDK(to, "");
-        return vratiSo.opsteIzvrsenjeSO();
-    }
-
 }

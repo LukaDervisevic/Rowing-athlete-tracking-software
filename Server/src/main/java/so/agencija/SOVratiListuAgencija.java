@@ -1,12 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package so.ponudaveslaca;
+package so.agencija;
 
 import java.util.List;
 import model.OpstiDomenskiObjekat;
-import model.PonudaVeslaca;
 import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
 
@@ -14,26 +9,25 @@ import transfer.TransferObjekat;
  *
  * @author lukad
  */
-public class SOVratiListuPonuda extends OpsteIzvrsenjeSO{
-    
-    protected String kriterijum;
-    
-    public SOVratiListuPonuda(TransferObjekat to,String kriterijumPonudaVeslaca) {
-        this.to = to;
-        this.kriterijum = kriterijumPonudaVeslaca;
-    }
+public class SOVratiListuAgencija extends OpsteIzvrsenjeSO {
 
+    protected String kriterijum;
+
+    public SOVratiListuAgencija(TransferObjekat to, String kriterijumAgencija) {
+        this.to = to;
+        this.kriterijum = kriterijumAgencija;
+    }
+    
     @Override
     public boolean izvrsiSO() {
         List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlog(to.getOdo(), kriterijum);
         to.setListOdo(listaOdo);
         return true;
-        
     }
 
     @Override
     protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return (odo instanceof PonudaVeslaca);
+        return true;
     }
 
     @Override
@@ -45,7 +39,5 @@ public class SOVratiListuPonuda extends OpsteIzvrsenjeSO{
     protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
         return true;
     }
-    
-    
-    
+
 }

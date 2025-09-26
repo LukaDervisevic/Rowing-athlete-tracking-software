@@ -14,12 +14,12 @@ import transfer.TransferObjekat;
  */
 public abstract class OpsteIzvrsenjeSO {
     protected BrokerBazePodataka bbp = new BrokerBazePodataka("veslanje");
-    protected int brojSlogova;
     protected int trenutniSlog = -1;
     protected OpstiDomenskiObjekat odo;
     protected TransferObjekat to;
     
     synchronized public boolean opsteIzvrsenjeSO() {
+        if(!proveriOgranicenja(to.getOdo())) return false;
         bbp.napraviKonekciju();
         boolean signal = izvrsiSO();
         if(signal) {
@@ -30,7 +30,14 @@ public abstract class OpsteIzvrsenjeSO {
         return signal;
     };
     
-    public abstract boolean izvrsiSO();
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
+        return (prostaVrednosnaOgranicenja(odo) && slozenaVrednosnaOgranicenja(odo) && strukturnaOgranicenja(odo));
+    }
+    
+    protected abstract boolean izvrsiSO();
+    protected abstract boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo);
+    protected abstract boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo);
+    protected abstract boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo);
 
     public BrokerBazePodataka getBbp() {
         return bbp;
@@ -38,14 +45,6 @@ public abstract class OpsteIzvrsenjeSO {
 
     public void setBbp(BrokerBazePodataka bbp) {
         this.bbp = bbp;
-    }
-
-    public int getBrojSlogova() {
-        return brojSlogova;
-    }
-
-    public void setBrojSlogova(int brojSlogova) {
-        this.brojSlogova = brojSlogova;
     }
 
     public int getTrenutniSlog() {

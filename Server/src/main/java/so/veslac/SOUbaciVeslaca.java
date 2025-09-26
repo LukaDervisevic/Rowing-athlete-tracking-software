@@ -10,25 +10,22 @@ import transfer.TransferObjekat;
  *
  * @author lukad
  */
-public class SOPromeniVeslaca extends OpsteIzvrsenjeSO{
+public class SOUbaciVeslaca extends OpsteIzvrsenjeSO {
 
-    public SOPromeniVeslaca(TransferObjekat to) {
+    public SOUbaciVeslaca(TransferObjekat to) {
         setTo(to);
     }
 
     @Override
     protected boolean izvrsiSO() {
-        OpstiDomenskiObjekat vraceniOdo = bbp.pronadjiSlog(to.getOdo());
-            if (vraceniOdo != null) {
-                if (bbp.azurirajSlog(vraceniOdo)) {
-                    to.setSignal(true);
-                } else {
-                    to.setSignal(false);
-                }
-            } else {
-                to.setSignal(false);
-            }
-        return to.isSignal();
+        boolean signal = false;
+        int noviKljuc = getBbp().vratiNoviKljucPoKoloni(getTo().getOdo());
+        if (noviKljuc != 0) {
+            getTo().getOdo().postaviPrimarniKljuc(noviKljuc);
+            signal = getBbp().kreirajSlog(getTo().getOdo());
+            getTo().signal = signal;
+        }
+        return signal;
     }
 
     @Override
@@ -36,13 +33,9 @@ public class SOPromeniVeslaca extends OpsteIzvrsenjeSO{
         if (!(odo instanceof Veslac)) {
             return false;
         }
-        
+
         Veslac veslac = (Veslac) odo;
         boolean signal = true;
-        
-        if(veslac.getId() == 0) {
-            signal = false;
-        }
         if(veslac.getImePrezime() == null || veslac.getImePrezime().isBlank()) {
             signal = false;
         }
@@ -70,6 +63,7 @@ public class SOPromeniVeslaca extends OpsteIzvrsenjeSO{
         }
         
         return signal;
+        
     }
 
     @Override
@@ -90,5 +84,4 @@ public class SOPromeniVeslaca extends OpsteIzvrsenjeSO{
     protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
         return true;
     }
-    
 }

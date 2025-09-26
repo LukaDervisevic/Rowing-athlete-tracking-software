@@ -4,21 +4,31 @@ import model.Agencija;
 import model.OpstiDomenskiObjekat;
 import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
+import utils.HesiranjeServis;
 
 /**
  *
  * @author lukad
  */
-public class SOObrisiAgenciju extends OpsteIzvrsenjeSO {
+public class SOUbaciAgenciju extends OpsteIzvrsenjeSO {
 
-    public SOObrisiAgenciju(TransferObjekat to) {
+    public SOUbaciAgenciju(TransferObjekat to) {
         setTo(to);
+        Agencija agencija = (Agencija) to.getOdo();
+        agencija.setSifra(HesiranjeServis.hesirajSifru(agencija.getSifra()));
+
     }
 
     @Override
     public boolean izvrsiSO() {
-        boolean signal = bbp.obrisiSlog(to.getOdo());
-        getTo().setSignal(signal);
+        boolean signal = false;
+        int noviKljuc = getBbp().vratiNoviKljucPoKoloni(getTo().getOdo());
+        if (noviKljuc != 0) {
+            getTo().getOdo().postaviPrimarniKljuc(noviKljuc);
+            signal = getBbp().kreirajSlog(getTo().getOdo());
+            getTo().signal = signal;
+        }
+
         return signal;
     }
 
@@ -30,9 +40,6 @@ public class SOObrisiAgenciju extends OpsteIzvrsenjeSO {
 
         boolean signal = true;
         Agencija agencija = (Agencija) to.getOdo();
-        if (agencija.getId() == 0) {
-            signal = false;
-        }
         if (agencija.getKorisnickoIme() == null || agencija.getKorisnickoIme().isBlank()) {
             signal = false;
         }
@@ -70,6 +77,7 @@ public class SOObrisiAgenciju extends OpsteIzvrsenjeSO {
 
     @Override
     protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
+        // TREBA DA POPRAVIS
         return true;
     }
 
