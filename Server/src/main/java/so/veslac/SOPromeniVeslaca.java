@@ -32,8 +32,8 @@ public class SOPromeniVeslaca extends OpsteIzvrsenjeSO{
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        if (!(odo instanceof Veslac)) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
+         if (!(odo instanceof Veslac)) {
             return false;
         }
         
@@ -69,26 +69,11 @@ public class SOPromeniVeslaca extends OpsteIzvrsenjeSO{
             signal = false;
         }
         
-        return signal;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        if (!(odo instanceof Veslac)) {
-            return false;
-        }
-
-        Veslac veslac = (Veslac) odo;
-        boolean signal = true;
         if(veslac.getBMI() != (veslac.getTezina() / (veslac.getVisina() * veslac.getVisina()))){
             signal = false;
         }
+        
         return signal;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
     }
     
 }

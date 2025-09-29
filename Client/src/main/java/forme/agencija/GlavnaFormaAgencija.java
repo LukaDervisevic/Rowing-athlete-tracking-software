@@ -30,6 +30,7 @@ import org.apache.logging.log4j.Logger;
  * @author luka
  */
 public class GlavnaFormaAgencija extends javax.swing.JFrame {
+
     private int idAgencije;
 
     private List<PonudaVeslaca> ponudeAgencije = new LinkedList<>();
@@ -44,7 +45,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
 
     public GlavnaFormaAgencija() {
         try {
-            
+
             UIManager.setLookAndFeel(new FlatLightLaf());
             initComponents();
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -97,6 +98,12 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                                 List<PonudaVeslaca> pretrazenePonude;
 
                                 pretrazenePonude = Kontroler.getInstance().vratiListuPonude(kriterijum, new LinkedList<>());
+                                if (!pretrazenePonude.isEmpty()) {
+                                    JOptionPane.showMessageDialog(null, "Sistem je našao ponude veslača po zadatim kriterijumima", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Sistem je ne može da nadje ponude veslača po zadatim kriterijumima", "Greška", JOptionPane.ERROR_MESSAGE);
+                                }
                                 patvm.setPonude(pretrazenePonude);
                                 patvm.fireTableDataChanged();
                             }
@@ -109,7 +116,7 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
                 }
 
             });
-            
+
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
@@ -763,22 +770,27 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
     private void prikaziStavkeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prikaziStavkeButtonActionPerformed
 
         try {
-            if (ponudeVeslacaTable.getSelectedRow() != -1) {
-                int idPonude = (int) ponudeVeslacaTable.getValueAt(ponudeVeslacaTable.getSelectedRow(), 0);
-                PonudaVeslaca ponudaVeslaca = Kontroler.getInstance().vratiListuPonude(" P.id = " + idPonude, new LinkedList<>()).getFirst();
-                if (ponudaVeslaca != null) {
-                    JOptionPane.showMessageDialog(this, "Sistem je našao ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                    List<StavkaPonude> stavkePonude = ponudaVeslaca.getStavke();
-                    sptm.setStavkePonude(stavkePonude);
-                    sptm.fireTableDataChanged();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Sistem ne može da nadje ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(this, "Ponuda nije selektovana, selektujte ponudu kako bi prikazali stavke ponude", "Greska", JOptionPane.ERROR_MESSAGE);
+            int selektovanRed = ponudeVeslacaTable.getSelectedRow();
+            if (selektovanRed == -1) {
+                JOptionPane.showMessageDialog(this, "Sistem ne može da nadje ponudu veslača", "Greška", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+            
+            PonudaVeslaca ponuda = ((PonudaTableModelAgencija) ponudeVeslacaTable.getModel()).getPonuda(selektovanRed);
+            PonudaVeslaca ponudaVeslaca = Kontroler.getInstance().pretraziPonudu(ponuda);
+            
+            if (ponudaVeslaca != null) {
+                JOptionPane.showMessageDialog(this, "Sistem je našao ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+                List<StavkaPonude> stavkePonude = ponudaVeslaca.getStavke();
+                System.out.println(stavkePonude);
+                sptm.setStavkePonude(stavkePonude);
+                sptm.fireTableDataChanged();
+            } else {
+                JOptionPane.showMessageDialog(this, "Sistem ne može da nadje ponudu veslača", "Greška", JOptionPane.ERROR_MESSAGE);
+            }
+
         } catch (Exception ex) {
+            ex.printStackTrace();
             logger.error(ex.getMessage());
         }
 

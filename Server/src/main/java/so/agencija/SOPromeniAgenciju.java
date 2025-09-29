@@ -29,9 +29,9 @@ public class SOPromeniAgenciju extends OpsteIzvrsenjeSO{
             }
         return to.isSignal();
     }
-    
+
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         boolean signal = true;
         Agencija agencija = (Agencija) to.getOdo();
         if(agencija.getKorisnickoIme() == null || agencija.getKorisnickoIme().isBlank()) {
@@ -62,16 +62,6 @@ public class SOPromeniAgenciju extends OpsteIzvrsenjeSO{
             signal = false;
         }
         return signal;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
     }
     
 }

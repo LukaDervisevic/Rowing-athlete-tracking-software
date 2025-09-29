@@ -7,19 +7,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class VeslackiKlub implements OpstiDomenskiObjekat {
-
     private int id;
-
     private String naziv;
-
     private String adresa;
-
     private String email;
-
     private String telefon;
-
     private String korisnickoIme;
-
     private String sifra;
 
     public VeslackiKlub() {

@@ -12,7 +12,7 @@ import model.Drzava;
 public class DrzavaTableModel extends AbstractTableModel{
     
     List<Drzava> drzave = new LinkedList<>();
-    String[] kolone = {"id","naziv"};
+    String[] kolone = {"naziv"};
     
     public DrzavaTableModel(){
         
@@ -37,9 +37,6 @@ public class DrzavaTableModel extends AbstractTableModel{
         Drzava drzava = drzave.get(rowIndex);
         switch (columnIndex) {
             case 0 -> {
-                return drzava.getId();
-            }
-            case 1 -> {
                 return drzava.getNaziv();
             }
             default -> throw new AssertionError();
@@ -54,6 +51,10 @@ public class DrzavaTableModel extends AbstractTableModel{
     
     public List<Drzava> getDrzave(){
         return drzave;
+    }
+    
+    public Drzava getDrzava(int row) {
+        return drzave.get(row);
     }
     
     public void setDrzave(List<Drzava> drzave){

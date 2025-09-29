@@ -13,23 +13,14 @@ import java.util.Objects;
  * @author luka
  */
 public class PonudaVeslaca implements OpstiDomenskiObjekat {
-
     private int id;
-
     private Date datumKreiranja;
-
     private int brojKadeta;
-
     private int brojJuniora;
-
     private float prosecnoVremeKadeti;
-
     private float prosecnoVremeJuniori;
-
     private List<StavkaPonude> stavke;
-
     private VeslackiKlub veslackiKlub;
-
     private Agencija agencija;
 
     public PonudaVeslaca() {
@@ -37,7 +28,8 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat {
         this.agencija = new Agencija();
     }
 
-    public PonudaVeslaca(int id, Date datumKreiranja, int brojKadeta, int brojJuniora, float prosecnoVremeKadeti, float prosecnoVremeJuniori, List<StavkaPonude> stavke, VeslackiKlub veslackiKlub, Agencija agencija) {
+    public PonudaVeslaca(int id, Date datumKreiranja, int brojKadeta, int brojJuniora, float prosecnoVremeKadeti,
+            float prosecnoVremeJuniori, List<StavkaPonude> stavke, VeslackiKlub veslackiKlub, Agencija agencija) {
         this.id = id;
         this.datumKreiranja = datumKreiranja;
         this.brojKadeta = brojKadeta;
@@ -186,7 +178,7 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat {
 
     @Override
     public String azurirajVrednostiAtributa() {
-        return "datum_kreiranja = " + new java.sql.Date(datumKreiranja.getTime()) + ",broj_kadeta = " + brojKadeta
+        return "datum_kreiranja = '" + new java.sql.Date(datumKreiranja.getTime()) + "',broj_kadeta = " + brojKadeta
                 + ",broj_juniora = " + brojJuniora + ",prosecno_vreme_kadeti = " + prosecnoVremeKadeti + ",prosecno_vreme_junior = " + prosecnoVremeJuniori + ", id_kluba = " + veslackiKlub.getId() + ",id_agencije = " + agencija.getId();
     }
 
@@ -197,7 +189,7 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat {
 
     @Override
     public String vratiWhereUslov() {
-        return "id_ponude = " + id;
+        return alias()+".id = " + id;
     }
 
     @Override

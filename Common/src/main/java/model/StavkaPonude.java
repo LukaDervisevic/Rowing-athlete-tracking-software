@@ -65,7 +65,7 @@ public class StavkaPonude implements OpstiDomenskiObjekat {
 
     @Override
     public String toString() {
-        return "StavkaPonude{" + "ponudaVeslaca=" + ponudaVeslaca + ", rb=" + rb + ", godineTreniranja=" + godineTreniranja + ", veslac=" + veslac + '}';
+        return "StavkaPonude{" + " rb=" + rb + ", godineTreniranja=" + godineTreniranja + ", veslac=" + veslac + '}';
     }
 
     @Override

@@ -16,7 +16,6 @@ public class SOUbaciAgenciju extends OpsteIzvrsenjeSO {
         setTo(to);
         Agencija agencija = (Agencija) to.getOdo();
         agencija.setSifra(HesiranjeServis.hesirajSifru(agencija.getSifra()));
-
     }
 
     @Override
@@ -33,7 +32,7 @@ public class SOUbaciAgenciju extends OpsteIzvrsenjeSO {
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         if (!(odo instanceof Agencija)) {
             return false;
         }
@@ -68,17 +67,6 @@ public class SOUbaciAgenciju extends OpsteIzvrsenjeSO {
             signal = false;
         }
         return signal;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        // TREBA DA POPRAVIS
-        return true;
     }
 
 }

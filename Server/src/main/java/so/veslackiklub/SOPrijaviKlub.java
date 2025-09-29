@@ -41,7 +41,7 @@ public class SOPrijaviKlub extends OpsteIzvrsenjeSO {
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         boolean signal = true;
         VeslackiKlub veslackiKlub = (VeslackiKlub) odo;
         if (veslackiKlub.getKorisnickoIme() == null || veslackiKlub.getKorisnickoIme().isBlank()) {
@@ -56,16 +56,6 @@ public class SOPrijaviKlub extends OpsteIzvrsenjeSO {
             signal = false;
         }
         return signal;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
     }
 
 }

@@ -1,4 +1,4 @@
-package operacije;
+package transfer;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -16,7 +16,7 @@ public class Posiljalac implements Serializable{
 
     public Posiljalac(Socket soket) throws IOException {
         this.soket = soket;
-        this.oos = new ObjectOutputStream(soket.getOutputStream());
+        this.oos = new ObjectOutputStream(this.soket.getOutputStream());
         this.oos.flush();
     }
     

@@ -29,7 +29,7 @@ public class SOUbaciVeslaca extends OpsteIzvrsenjeSO {
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         if (!(odo instanceof Veslac)) {
             return false;
         }
@@ -48,7 +48,7 @@ public class SOUbaciVeslaca extends OpsteIzvrsenjeSO {
         if(veslac.getTezina() <= 0) {
             signal = false;
         }
-        String[] kategorija = {"Kadet","Junior"};
+        String[] kategorija = {"KADET","JUNIOR"};
         if(!Arrays.asList(kategorija).contains(veslac.getKategorija().toString())) {
             signal = false;
         }
@@ -61,27 +61,10 @@ public class SOUbaciVeslaca extends OpsteIzvrsenjeSO {
         if(veslac.getDatumUpisa() == null) {
             signal = false;
         }
-        
-        return signal;
-        
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        if (!(odo instanceof Veslac)) {
-            return false;
-        }
-
-        Veslac veslac = (Veslac) odo;
-        boolean signal = true;
         if(veslac.getBMI() != (veslac.getTezina() / (veslac.getVisina() * veslac.getVisina()))){
             signal = false;
         }
+        
         return signal;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
     }
 }

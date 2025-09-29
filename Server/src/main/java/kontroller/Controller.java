@@ -33,7 +33,7 @@ import transfer.TransferObjekat;
 
 public class Controller {
 
-    private static Controller instance;
+    private static Controller kontroler;
 
     private boolean odjavaSignal;
 
@@ -42,10 +42,10 @@ public class Controller {
     }
 
     public static Controller getInstance() {
-        if (instance == null) {
-            instance = new Controller();
+        if (kontroler == null) {
+            kontroler = new Controller();
         }
-        return instance;
+        return kontroler;
     }
 
     public boolean isOdjavaSignal() {
@@ -98,7 +98,7 @@ public class Controller {
         return kreirajSo.opsteIzvrsenjeSO();
     }
 
-    public boolean promeniVeslac(TransferObjekat to) throws Exception {
+    public boolean promeniVeslaca(TransferObjekat to) throws Exception {
         SOPromeniVeslaca promeniSo = new SOPromeniVeslaca(to);
         return promeniSo.opsteIzvrsenjeSO();
     }

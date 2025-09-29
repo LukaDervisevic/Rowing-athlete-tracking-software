@@ -28,7 +28,8 @@ public class Veslac implements OpstiDomenskiObjekat {
         veslackiKlub = new VeslackiKlub();
     }
 
-    public Veslac(int idVeslaca, String imePrezime, Date datumRodjenja, float visina, float tezina, KategorijaVeslaca kategorija, float najboljeVreme, Date datumUpisa, VeslackiKlub veslackiKlub) {
+    public Veslac(int idVeslaca, String imePrezime, Date datumRodjenja, float visina, float tezina, KategorijaVeslaca kategorija, 
+            float najboljeVreme, Date datumUpisa, VeslackiKlub veslackiKlub) {
         this.id = idVeslaca;
         this.imePrezime = imePrezime;
         this.datumRodjenja = datumRodjenja;

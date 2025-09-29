@@ -14,7 +14,7 @@ public class VeslacTableModel extends AbstractTableModel{
     
     private List<Veslac> veslaci;
     
-    String[] kolone = {"Id","Ime Prezime","Datum Rodjenja","Visina","Tezina","Kategorija","BMI","Najbolje vreme","Datum Upisa"};
+    String[] kolone = {"Ime Prezime","Datum Rodjenja","Visina","Tezina","Kategorija","BMI","Najbolje vreme","Datum Upisa"};
     
     LinkedList<Veslac> veslaciZaAzuriranje = new LinkedList<>();
     
@@ -43,30 +43,27 @@ public class VeslacTableModel extends AbstractTableModel{
          
         switch (columnIndex) {
             case 0 -> {
-                return veslac.getId();
-            }
-            case 1 -> {
                 return veslac.getImePrezime();
             }
-            case 2 -> {
+            case 1 -> {
                 return veslac.getDatumRodjenja();
             }
-            case 3 -> {
+            case 2 -> {
                 return veslac.getVisina();
             }
-            case 4 -> {
+            case 3 -> {
                 return veslac.getTezina();
             }
-            case 5 -> {
+            case 4 -> {
                 return veslac.getKategorija();
             }
-            case 6 -> {
+            case 5 -> {
                 return veslac.getBMI();
             }
-            case 7 -> {
+            case 6 -> {
                 return veslac.getNajboljeVreme();
             }
-            case 8 -> {
+            case 7 -> {
                 return veslac.getDatumUpisa();
             }
             default -> throw new AssertionError();
@@ -98,6 +95,10 @@ public class VeslacTableModel extends AbstractTableModel{
 
     public List<Veslac> getVeslaci() {
         return  veslaci;
+    }
+    
+    public Veslac getVeslac(int row) {
+        return veslaci.get(row);
     }
 
     public List<Veslac> getVeslaciZaAzuriranje() {

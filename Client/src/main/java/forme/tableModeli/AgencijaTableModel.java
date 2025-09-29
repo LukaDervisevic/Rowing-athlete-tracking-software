@@ -13,7 +13,7 @@ public class AgencijaTableModel extends AbstractTableModel{
 
     List<Agencija> agencije = new LinkedList<>();
     
-    String[] kolone = {"id","Naziv","email","telefon","Drzava"};
+    String[] kolone = {"Naziv","email","telefon","Drzava"};
     
     public AgencijaTableModel(){
         
@@ -39,18 +39,15 @@ public class AgencijaTableModel extends AbstractTableModel{
         
         switch (columnIndex) {
             case 0 -> {
-                return agencija.getId();
-            }
-            case 1 -> {
                 return agencija.getNaziv();
             }
-            case 2 -> {
+            case 1 -> {
                 return agencija.getEmail();
             }
-            case 3 -> {
+            case 2 -> {
                 return agencija.getTelefon();
             }
-            case 4 -> {
+            case 3 -> {
                 return agencija.getDrzava().getNaziv();
             }
             default -> throw new AssertionError();

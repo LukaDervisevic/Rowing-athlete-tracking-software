@@ -11,12 +11,12 @@ import model.PonudaVeslaca;
 import model.Takmicenje;
 import model.Veslac;
 import model.VeslackiKlub;
-import operacije.Odgovor;
+import transfer.Odgovor;
 import operacije.Operacija;
-import operacije.Posiljalac;
-import operacije.Primalac;
-import operacije.StatusPoruke;
-import operacije.Zahtev;
+import transfer.Posiljalac;
+import transfer.Primalac;
+import transfer.StatusPoruke;
+import transfer.Zahtev;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import transfer.TransferObjekat;
@@ -502,7 +502,7 @@ public class Kontroler {
         }
     }
 
-    public List<PonudaVeslaca> pretraziPonudu(PonudaVeslaca ponuda) throws Exception {
+    public PonudaVeslaca pretraziPonudu(PonudaVeslaca ponuda) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(ponuda);
 
@@ -514,7 +514,7 @@ public class Kontroler {
             throw new Exception((Throwable) odgovor.getParametar());
         } else {
             transferObj = (TransferObjekat) odgovor.getParametar();
-            return (List<PonudaVeslaca>) transferObj.getOdo();
+            return (PonudaVeslaca) transferObj.getOdo();
         }
     }
 

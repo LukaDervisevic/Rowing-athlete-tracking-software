@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
  * @author lukad
  */
 public class IzmeniPonuduForma extends javax.swing.JDialog {
-    
+
     private static final Logger logger = LogManager.getRootLogger();
     private PonudaVeslaca ponudaVeslaca;
     private List<Veslac> veslaciVanPonude;
@@ -31,43 +31,41 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
     private List<StavkaPonude> dodateStavke = new LinkedList<>();
     private List<StavkaPonude> stavkePonude;
     private Stack<Integer> izbaceniRb = new Stack<>();
-    
+
     private VeslacTableModel vptm;
     private StavkaPonudeTableModel sptm;
     private AgencijaTableModel atm;
-    
+
     private int rb;
-    
+
     public IzmeniPonuduForma(java.awt.Frame parent, boolean modal, PonudaVeslaca ponudaVeslaca) {
         super(parent, modal);
-        
-        setTitle("Ažuriranje ponude veslača");
-        setResizable(false);
         try {
+            setTitle("Ažuriranje ponude veslača");
+            setResizable(false);
+            setVisible(true);
             initComponents();
+            
             this.ponudaVeslaca = ponudaVeslaca;
             stavkePonude = ponudaVeslaca.getStavke();
             rb = ponudaVeslaca.getStavke().size();
-            
             veslaciVanPonude = Kontroler.getInstance().vratiListuVeslaci(" V.id_kluba = " + ponudaVeslaca.getVeslackiKlub().getId(),
                     new LinkedList<>());
-            
+
             for (StavkaPonude stavka : stavkePonude) {
-                if(veslaciVanPonude.contains(stavka.getVeslac())){
+                if (veslaciVanPonude.contains(stavka.getVeslac())) {
                     veslaciVanPonude.remove(stavka.getVeslac());
                 }
             }
-            
+
             veslaciTable.setModel(new VeslacTableModel(veslaciVanPonude));
             stavkeTable.setModel(new StavkaPonudeTableModel(stavkePonude));
             agencijaTable.setModel(new AgencijaTableModel(Kontroler.getInstance().vratiListuSveAgencije(new LinkedList<>())));
-            
+
             vptm = (VeslacTableModel) veslaciTable.getModel();
             sptm = (StavkaPonudeTableModel) stavkeTable.getModel();
             atm = (AgencijaTableModel) agencijaTable.getModel();
-            
-            
-            
+
         } catch (Exception ex) {
             logger.error(ex);
         }
@@ -326,12 +324,12 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
 
     private void dodajStavkuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajStavkuButtonActionPerformed
 
-        try{
+        try {
 
             if (veslaciTable.getSelectedRow() != -1) {
                 int idVeslaca = (int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 0);
                 StavkaPonude s = new StavkaPonude();
-                
+
                 Veslac izabraniVeslac = veslaciVanPonude.stream().filter(v -> v.getId() == idVeslaca).findFirst().get();
                 s.setVeslac(izabraniVeslac);
                 Date datumUpisa = izabraniVeslac.getDatumUpisa();
@@ -342,26 +340,24 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
                 s.setGodineTreniranja(years);
 
                 s.setPonudaVeslaca(ponudaVeslaca);
-                
 
                 if (izbaceniRb.isEmpty()) {
                     s.setRb(++rb);
                 } else {
                     rb = izbaceniRb.pop();
-                    s.setRb(rb);             
+                    s.setRb(rb);
                 }
-                
+
                 sptm.dodajStavku(s);
                 dodateStavke.add(s);
                 obrisaneStavke.remove(s);
                 vptm.obrisiVeslaca(s.getVeslac().getId());
-                                
 
             } else {
                 JOptionPane.showMessageDialog(this, "Veslac nije selektovan,selektujte veslaca da bi kreirali stavku ponude", "Greska", JOptionPane.ERROR_MESSAGE);
             }
 
-        }catch(Exception ex){
+        } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
 
@@ -369,33 +365,35 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
 
     private void obrisiStavkuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiStavkuButtonActionPerformed
         // TODO add your handling code here:
-        if(stavkeTable.getSelectedRow() != -1) {
+        if (stavkeTable.getSelectedRow() != -1) {
             int rba = (int) stavkeTable.getValueAt(stavkeTable.getSelectedRow(), 0);
             izbaceniRb.add(rba);
             StavkaPonude stavka = stavkePonude.stream().filter(s -> s.getRb() == rba).findFirst().get();
             Veslac veslac = stavka.getVeslac();
-            
+
             vptm.dodajVeslaca(veslac);
             sptm.obrisiStavku(rba);
-            
+
             obrisaneStavke.add(stavka);
             dodateStavke.remove(stavka);
-        } 
+        }
     }//GEN-LAST:event_obrisiStavkuButtonActionPerformed
 
     private void dodajStavkuButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajStavkuButton2ActionPerformed
         // TODO add your handling code here:
         try {
-            if(obrisaneStavke.isEmpty() && dodateStavke.isEmpty()) return;         
-            
+            if (obrisaneStavke.isEmpty() && dodateStavke.isEmpty()) {
+                return;
+            }
+
             PonudaVeslaca azuriranaPonuda = Kontroler.getInstance().promeniPonudu(ponudaVeslaca);
-            JOptionPane.showMessageDialog(this, "Uspesno kreiranje ponude veslaca","Uspeh",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Sistem je uspešno zapamtio ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
-            
+
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex,"Greska pri azuriranju ponude veslaca", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex, "Sistem ne može da zapamti ponudu veslača", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_dodajStavkuButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.ponudaveslaca;
 
 import java.util.LinkedList;
@@ -26,8 +22,8 @@ public class SOPromeniPonudu extends OpsteIzvrsenjeSO {
     @Override
     public boolean izvrsiSO() {
         boolean signal = false;
-        PonudaVeslaca staraPonuda = (PonudaVeslaca) bbp.pronadjiSlog(to.getOdo());
         PonudaVeslaca novaPonuda = (PonudaVeslaca) to.getOdo();
+        PonudaVeslaca staraPonuda = (PonudaVeslaca) bbp.pronadjiSlog(to.getOdo());
         if (staraPonuda == null || novaPonuda == null) {
             return signal;
         }
@@ -48,6 +44,7 @@ public class SOPromeniPonudu extends OpsteIzvrsenjeSO {
         
         for(StavkaPonude stavkaPonude : stavkeZaBrisanje) {
             signal = bbp.obrisiSlog(stavkaPonude);
+            novaPonuda.getStavke().remove(stavkaPonude);
             if(!signal) return signal;
         }
         
@@ -88,7 +85,7 @@ public class SOPromeniPonudu extends OpsteIzvrsenjeSO {
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         if (!(odo instanceof PonudaVeslaca)) {
             return false;
         }
@@ -120,16 +117,6 @@ public class SOPromeniPonudu extends OpsteIzvrsenjeSO {
             signal = false;
         }
         return signal;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
     }
 }
 

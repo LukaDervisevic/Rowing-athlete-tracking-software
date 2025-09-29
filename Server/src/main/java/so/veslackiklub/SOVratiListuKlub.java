@@ -10,32 +10,22 @@ import transfer.TransferObjekat;
  *
  * @author lukad
  */
-public class SOVratiListuKlub extends OpsteIzvrsenjeSO{
+public class SOVratiListuKlub extends OpsteIzvrsenjeSO {
 
-    public SOVratiListuKlub(TransferObjekat to){
+    public SOVratiListuKlub(TransferObjekat to) {
         this.to = to;
     }
-    
+
     @Override
     protected boolean izvrsiSO() {
-        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlog(to.getOdo(), to.getWhereUslov());
+        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlogоve(to.getOdo(), to.getWhereUslov());
         to.setListOdo(listaOdo);
         return true;
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         return (odo instanceof VeslackiKlub);
     }
 
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-    
 }

@@ -24,7 +24,7 @@ public class SOObrisiDrzavu extends OpsteIzvrsenjeSO {
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         boolean signal = true;
         Drzava drzava = (Drzava) odo;
         if(drzava.getId() == 0){
@@ -35,15 +35,4 @@ public class SOObrisiDrzavu extends OpsteIzvrsenjeSO {
         }
         return signal;
     }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
 }

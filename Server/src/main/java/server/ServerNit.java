@@ -7,12 +7,12 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.List;
 import model.VeslackiKlub;
-import operacije.Odgovor;
+import transfer.Odgovor;
 import operacije.Operacija;
-import operacije.Posiljalac;
-import operacije.Primalac;
-import operacije.StatusPoruke;
-import operacije.Zahtev;
+import transfer.Posiljalac;
+import transfer.Primalac;
+import transfer.StatusPoruke;
+import transfer.Zahtev;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import transfer.TransferObjekat;
@@ -212,7 +212,7 @@ class ServerNit extends Thread {
                 }
 
                 case Operacija.PROMENA_VESLAC -> {
-                    boolean signal = Controller.getInstance().promeniVeslac(transferObj);
+                    boolean signal = Controller.getInstance().promeniVeslaca(transferObj);
                     if (signal) {
                         return new Odgovor(StatusPoruke.OK, transferObj);
                     }
@@ -363,11 +363,6 @@ class ServerNit extends Thread {
 //                    objekat = Controller.getInstance().prebrojOsvojenaTakmicenja((Integer) korisnikovZahtev.getParametar());
 //                    return new Odgovor(StatusPoruke.OK, objekat);
 //                }
-                case Operacija.PREKID -> {
-                    soketZaKomunikaciju.close();
-                    klijenti.remove(this);
-                    return new Odgovor(StatusPoruke.OK, "Konekcija prekinuta");
-                }
             }
         } catch (Exception ex) {
             return new Odgovor(StatusPoruke.GRESKA, ex);

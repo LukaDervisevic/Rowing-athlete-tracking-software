@@ -10,7 +10,7 @@ import transfer.TransferObjekat;
  *
  * @author lukad
  */
-public class SOVratiListuDrzava extends OpsteIzvrsenjeSO{
+public class SOVratiListuDrzava extends OpsteIzvrsenjeSO {
 
     protected String kriterijum;
 
@@ -18,27 +18,17 @@ public class SOVratiListuDrzava extends OpsteIzvrsenjeSO{
         this.to = to;
         this.kriterijum = kriterijumDrzava;
     }
-    
+
     @Override
     protected boolean izvrsiSO() {
-        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlog(to.getOdo(), to.getWhereUslov());
+        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlogоve(to.getOdo(), to.getWhereUslov());
         to.setListOdo(listaOdo);
         return true;
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         return (odo instanceof Drzava);
     }
 
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-    
 }

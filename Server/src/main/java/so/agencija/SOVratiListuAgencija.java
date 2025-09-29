@@ -1,6 +1,7 @@
 package so.agencija;
 
 import java.util.List;
+import model.Agencija;
 import model.OpstiDomenskiObjekat;
 import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
@@ -20,24 +21,14 @@ public class SOVratiListuAgencija extends OpsteIzvrsenjeSO {
     
     @Override
     public boolean izvrsiSO() {
-        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlog(to.getOdo(), kriterijum);
+        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlogоve(to.getOdo(), kriterijum);
         to.setListOdo(listaOdo);
         return true;
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
+        return (odo instanceof Agencija);
     }
 
 }

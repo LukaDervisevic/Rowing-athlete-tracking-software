@@ -32,27 +32,17 @@ public class SOPretraziAgenciju extends OpsteIzvrsenjeSO {
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         if (!(odo instanceof Agencija)) {
             return false;
         }
         
         Agencija agencija = (Agencija) odo;
         boolean signal = false;
-        if(agencija.getNaziv() == null || agencija.getNaziv().isBlank()){
+        if(agencija.getNaziv() == null){
             signal = false;
         }
         return signal;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
     }
 
 }

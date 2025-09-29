@@ -23,7 +23,7 @@ public class SOObrisiKlub extends OpsteIzvrsenjeSO{
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         if (!(odo instanceof VeslackiKlub)) {
             return false;
         }
@@ -65,16 +65,6 @@ public class SOObrisiKlub extends OpsteIzvrsenjeSO{
             signal = false;
         }
         return signal;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
     }
     
 }

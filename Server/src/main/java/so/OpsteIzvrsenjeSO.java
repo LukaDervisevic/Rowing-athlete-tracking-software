@@ -29,16 +29,10 @@ public abstract class OpsteIzvrsenjeSO {
         }
         return signal;
     };
-    
-    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
-        return (prostaVrednosnaOgranicenja(odo) && slozenaVrednosnaOgranicenja(odo) && strukturnaOgranicenja(odo));
-    }
-    
+        
     protected abstract boolean izvrsiSO();
-    protected abstract boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo);
-    protected abstract boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo);
-    protected abstract boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo);
-
+    protected abstract boolean proveriOgranicenja(OpstiDomenskiObjekat odo);
+    
     public BrokerBazePodataka getBbp() {
         return bbp;
     }

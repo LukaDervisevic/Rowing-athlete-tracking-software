@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.takmicenje;
 
 import java.util.Arrays;
@@ -33,13 +29,13 @@ public class SOUbaciTakmicenje extends OpsteIzvrsenjeSO {
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         if (!(odo instanceof Takmicenje)) {
             return false;
         }
 
         boolean signal = true;
-        Takmicenje takmicenje = (Takmicenje) to.getOdo();
+        Takmicenje takmicenje = (Takmicenje) odo;
         if (takmicenje.getId() == 0) {
             signal = false;
         }
@@ -58,16 +54,6 @@ public class SOUbaciTakmicenje extends OpsteIzvrsenjeSO {
             signal = false;
         }
         return signal;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
     }
 
 }

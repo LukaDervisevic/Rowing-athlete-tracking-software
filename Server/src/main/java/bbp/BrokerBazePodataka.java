@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package bbp;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -60,7 +56,8 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
 
     @Override
     public boolean azurirajSlog(OpstiDomenskiObjekat odo) {
-        String upit = "UPDATE `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` SET " + odo.azurirajVrednostiAtributa() + " WHERE " + odo.vratiWhereUslov();
+        String upit = "UPDATE `" + imeBaze + "`.`" + odo.vratiNazivTabele() +"`AS "+odo.alias()+" SET " + odo.azurirajVrednostiAtributa() + " WHERE " + odo.vratiWhereUslov();
+        System.out.println(upit);
         return izvrsiAzuriranje(upit);
     }
 
@@ -81,6 +78,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
         ResultSet rs = null;
         Statement statement = null;
         String upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " WHERE " + odo.vratiWhereUslov();
+        System.out.println(upit);
         boolean signal;
 
         try {
@@ -124,7 +122,7 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
     }
 
     @Override
-    public List<OpstiDomenskiObjekat> pronadjiSlog(OpstiDomenskiObjekat odo, String where) {
+    public List<OpstiDomenskiObjekat> pronadjiSlogоve(OpstiDomenskiObjekat odo, String where) {
         ResultSet rs = null;
         Statement statement = null;
         String upit;

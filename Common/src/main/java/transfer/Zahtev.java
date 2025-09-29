@@ -1,6 +1,7 @@
-package operacije;
+package transfer;
 
 import java.io.Serializable;
+import operacije.Operacija;
 
 /**
  *

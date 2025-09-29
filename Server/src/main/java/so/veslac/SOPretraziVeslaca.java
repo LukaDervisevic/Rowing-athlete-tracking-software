@@ -30,27 +30,16 @@ public class SOPretraziVeslaca extends OpsteIzvrsenjeSO {
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         if (!(odo instanceof Veslac)) {
             return false;
         }
 
         Veslac veslac = (Veslac) odo;
         boolean signal = true;
-        if(veslac.getImePrezime() == null || veslac.getImePrezime().isBlank()) {
+        if(veslac.getImePrezime() == null) {
             signal = false;
         }
         return signal;
     }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
 }

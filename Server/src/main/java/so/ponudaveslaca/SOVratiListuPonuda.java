@@ -25,27 +25,14 @@ public class SOVratiListuPonuda extends OpsteIzvrsenjeSO{
 
     @Override
     public boolean izvrsiSO() {
-        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlog(to.getOdo(), kriterijum);
+        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlogоve(to.getOdo(), kriterijum);
         to.setListOdo(listaOdo);
         return true;
         
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         return (odo instanceof PonudaVeslaca);
     }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-    
-    
-    
 }

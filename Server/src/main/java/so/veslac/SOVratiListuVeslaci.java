@@ -14,35 +14,25 @@ import transfer.TransferObjekat;
  *
  * @author lukad
  */
-public class SOVratiListuVeslaci extends OpsteIzvrsenjeSO{
+public class SOVratiListuVeslaci extends OpsteIzvrsenjeSO {
 
     protected String kriterijum;
-    
-    public SOVratiListuVeslaci(TransferObjekat to,String kriterijumVeslac) {
+
+    public SOVratiListuVeslaci(TransferObjekat to, String kriterijumVeslac) {
         this.to = to;
         this.kriterijum = kriterijumVeslac;
     }
 
     @Override
     protected boolean izvrsiSO() {
-        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlog(to.getOdo(), kriterijum);
+        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlogоve(to.getOdo(), kriterijum);
         to.setListOdo(listaOdo);
         return true;
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         return (odo instanceof Veslac);
     }
 
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-    
 }

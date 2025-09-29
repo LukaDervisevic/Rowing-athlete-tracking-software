@@ -1,6 +1,5 @@
 package so.takmicenje;
 
-import java.util.Arrays;
 import model.OpstiDomenskiObjekat;
 import model.Takmicenje;
 import so.OpsteIzvrsenjeSO;
@@ -31,27 +30,17 @@ public class SOPretraziTakmicenje extends OpsteIzvrsenjeSO {
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         if (!(odo instanceof Takmicenje)) {
             return false;
         }
 
         boolean signal = true;
-        Takmicenje takmicenje = (Takmicenje) to.getOdo();
-        if (takmicenje.getNaziv() == null || takmicenje.getNaziv().isBlank()) {
+        Takmicenje takmicenje = (Takmicenje) odo;
+        if (takmicenje.getNaziv() == null) {
             signal = false;
         }
         return signal;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
     }
 
 }

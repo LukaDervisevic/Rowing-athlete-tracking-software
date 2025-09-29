@@ -23,7 +23,7 @@ public class SOObrisiPonudu extends OpsteIzvrsenjeSO {
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         boolean signal = true;
         PonudaVeslaca ponudaVeslaca = (PonudaVeslaca) odo;
         if(ponudaVeslaca.getId() <= 0) {
@@ -51,18 +51,6 @@ public class SOObrisiPonudu extends OpsteIzvrsenjeSO {
             signal = false;
         }
         return signal;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        // Problem
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        // Problem
-        return true;
     }
 
 }

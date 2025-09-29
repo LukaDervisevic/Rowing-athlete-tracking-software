@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.veslackiklub;
 
 import model.OpstiDomenskiObjekat;
@@ -35,27 +31,17 @@ public class SOPretraziKlub extends OpsteIzvrsenjeSO{
     }
 
     @Override
-    protected boolean prostaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
         if (!(odo instanceof VeslackiKlub)) {
             return false;
         }
 
         boolean signal = true;
         VeslackiKlub veslackiKlub = (VeslackiKlub) odo;
-        if(veslackiKlub.getNaziv() == null || veslackiKlub.getNaziv().isBlank()) {
+        if(veslackiKlub.getNaziv() == null) {
             signal = false;
         }
         return signal;
-    }
-
-    @Override
-    protected boolean slozenaVrednosnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
-    }
-
-    @Override
-    protected boolean strukturnaOgranicenja(OpstiDomenskiObjekat odo) {
-        return true;
     }
 
     
