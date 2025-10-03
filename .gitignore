@@ -4,3 +4,4 @@
 /Server/.env
 /Client/logs
 /Server/logs
+/Server/dbconfig.properties
