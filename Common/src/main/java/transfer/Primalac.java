@@ -1,4 +1,4 @@
-package operacije;
+package transfer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,7 +16,7 @@ public class Primalac implements Serializable {
 
     public Primalac(Socket soket) throws IOException {
         this.soket = soket;
-        this.ois = new ObjectInputStream(soket.getInputStream());
+        this.ois = new ObjectInputStream(this.soket.getInputStream());
     }
 
     public Object primiPoruku() throws Exception {

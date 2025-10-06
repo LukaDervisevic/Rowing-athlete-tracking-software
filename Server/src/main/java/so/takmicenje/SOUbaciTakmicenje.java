@@ -1,22 +1,52 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.takmicenje;
 
-import so.KreirajDK;
+import bbp.BrokerBazePodataka;
+import java.util.Arrays;
+import model.OpstiDomenskiObjekat;
+import model.Takmicenje;
+import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author lukad
  */
-public class SOUbaciTakmicenje extends KreirajDK{
+public class SOUbaciTakmicenje extends OpsteIzvrsenjeSO {
 
     public SOUbaciTakmicenje(TransferObjekat to) {
         setTo(to);
-        porukaUspesno = "Uspesno ubacivanje takmicenja";
-        porukaGreska = "Greska pri ubacivanju takmicenja: " + to.getPoruka();
     }
-    
+
+    @Override
+    public boolean izvrsiSO() {
+        boolean signal = BrokerBazePodataka.getInstance().kreirajSlog(getTo().getOdo());
+        return signal;
+    }
+
+    @Override
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
+        if (!(odo instanceof Takmicenje)) {
+            return false;
+        }
+
+        boolean signal = true;
+        Takmicenje takmicenje = (Takmicenje) odo;
+
+        if (takmicenje.getNaziv() == null || takmicenje.getNaziv().isBlank()) {
+            signal = false;
+        }
+        String[] kategorija = {"KADET", "JUNIOR"};
+        if (!Arrays.asList(kategorija).contains(takmicenje.getStarosnaKategorija().toString())) {
+            signal = false;
+        }
+        String[] vrstaTrke = {"SKIF", "DUBL", "DVOJAC", "CETVERAC_SKUL", "CETVERAC_RIMEN", "OSMERAC"};
+        if (!Arrays.asList(vrstaTrke).contains(takmicenje.getVrstaTrke().toString())) {
+            signal = false;
+        }
+        if (takmicenje.getDatum() == null) {
+            signal = false;
+        }
+        return signal;
+    }
+
 }

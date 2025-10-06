@@ -1,22 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.drzava;
 
-import so.ObrisiDK;
+import bbp.BrokerBazePodataka;
+import model.Drzava;
+import model.OpstiDomenskiObjekat;
+import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author lukad
  */
-public class SOObrisiDrzavu extends ObrisiDK{
+public class SOObrisiDrzavu extends OpsteIzvrsenjeSO {
 
     public SOObrisiDrzavu(TransferObjekat to) {
         setTo(to);
-        porukaUspesno = "Uspesno brisanje drzave";
-        porukaGreska = "Greska pri brisanju drzave: " + to.getPoruka();
+
     }
-    
+
+    @Override
+    public boolean izvrsiSO() {
+        boolean signal = BrokerBazePodataka.getInstance().obrisiSlog(to.getOdo());
+        getTo().setSignal(signal);
+        return signal;
+    }
+
+    @Override
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
+        boolean signal = true;
+        Drzava drzava = (Drzava) odo;
+        if(drzava.getId() == 0){
+            signal = false;
+        }
+        if(drzava.getNaziv() == null || drzava.getNaziv().isBlank()) {
+            signal = false;
+        }
+        return signal;
+    }
 }

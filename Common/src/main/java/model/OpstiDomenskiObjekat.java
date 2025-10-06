@@ -13,7 +13,6 @@ import java.util.List;
  *
  * @author lukad
  */
-// Promeniti u abstraktnuKlasu i dodati whereUslov String atribut
 public interface OpstiDomenskiObjekat extends Serializable {
 
     abstract public String vrednostiAtributaZaKreiranje();

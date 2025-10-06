@@ -12,7 +12,7 @@ import model.VeslackiKlub;
 public class KlubTableModel extends AbstractTableModel{
 
     List<VeslackiKlub> klubovi = new LinkedList<>();
-    String[] kolone = {"id","Naziv","Adresa","Email","Broj Telefona"};
+    String[] kolone = {"Naziv","Adresa","Email","Broj Telefona"};
     
     public KlubTableModel(){
         
@@ -39,18 +39,15 @@ public class KlubTableModel extends AbstractTableModel{
         
         switch (columnIndex) {
             case 0 -> {
-                return klub.getId();
-            }
-            case 1 -> {
                 return klub.getNaziv();
             }
-            case 2 -> {
+            case 1 -> {
                 return klub.getAdresa();
             }
-            case 3 -> {
+            case 2 -> {
                 return klub.getEmail();
             }
-            case 4 -> {
+            case 3 -> {
                 return klub.getTelefon();
             }
             default -> throw new AssertionError();
@@ -65,6 +62,10 @@ public class KlubTableModel extends AbstractTableModel{
 
     public List<VeslackiKlub> getKlubovi() {
         return klubovi;
+    }
+    
+    public VeslackiKlub getKlub(int row){
+        return klubovi.get(row);
     }
 
     public void setKlubovi(List<VeslackiKlub> klubovi) {

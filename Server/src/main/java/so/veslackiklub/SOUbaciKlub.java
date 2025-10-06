@@ -5,22 +5,29 @@ import model.OpstiDomenskiObjekat;
 import model.VeslackiKlub;
 import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
+import utils.HesiranjeServis;
 
 /**
  *
  * @author lukad
  */
-public class SOObrisiKlub extends OpsteIzvrsenjeSO {
+public class SOUbaciKlub extends OpsteIzvrsenjeSO {
 
-    public SOObrisiKlub(TransferObjekat to) {
-        setTo(to);
+    public SOUbaciKlub(TransferObjekat to) {
+        this.setTo(to);
+        VeslackiKlub vk = (VeslackiKlub) getTo().getOdo();
+        vk.setSifra(HesiranjeServis.hesirajSifru(vk.getSifra()));
     }
 
     @Override
     protected boolean izvrsiSO() {
         boolean signal = false;
-        signal = BrokerBazePodataka.getInstance().obrisiSlog(to.getOdo());
-        getTo().setSignal(signal);
+        int noviKljuc = BrokerBazePodataka.getInstance().vratiNoviKljucPoKoloni(getTo().getOdo());
+        if (noviKljuc != 0) {
+            getTo().getOdo().postaviPrimarniKljuc(noviKljuc);
+            signal = BrokerBazePodataka.getInstance().kreirajSlog(getTo().getOdo());
+            getTo().signal = signal;
+        }
         return signal;
     }
 
@@ -32,10 +39,7 @@ public class SOObrisiKlub extends OpsteIzvrsenjeSO {
 
         boolean signal = true;
         VeslackiKlub veslackiKlub = (VeslackiKlub) odo;
-        if (veslackiKlub.getId() == 0) {
-            signal = false;
-        }
-        if (veslackiKlub.getNaziv() == null || veslackiKlub.getNaziv().isBlank()) {
+        if(veslackiKlub.getNaziv() == null || veslackiKlub.getNaziv().isBlank()) {
             signal = false;
         }
         if (veslackiKlub.getEmail() == null || veslackiKlub.getEmail().isBlank()) {

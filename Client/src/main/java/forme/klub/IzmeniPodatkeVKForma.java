@@ -557,7 +557,7 @@ public class IzmeniPodatkeVKForma extends javax.swing.JDialog {
 
         if(odgovor == JOptionPane.YES_OPTION){
             
-            Kontroler.getInstance().obrisiVeslackiKlub((Integer) Kontroler.getInstance().getUlogovaniNalog().getId());
+            Kontroler.getInstance().obrisiVeslackiKlub((Integer) ((VeslackiKlub )Kontroler.getInstance().getUlogovaniNalog()).getId());
             Kontroler.getInstance().setUlogovaniNalog(null);
             this.dispose();
             Kontroler.getInstance().setOdjavaSignal(true);

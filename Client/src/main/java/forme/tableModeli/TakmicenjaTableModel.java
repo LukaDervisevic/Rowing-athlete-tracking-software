@@ -1,4 +1,4 @@
-package forme.utils;
+package forme.tableModeli;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +12,7 @@ import model.Takmicenje;
 public class TakmicenjaTableModel extends AbstractTableModel{
     
     private List<Takmicenje> takmicenja; 
-    private final String[] kolone = {"id","Naziv","Kategorija","Vrsta","Datum"};
+    private final String[] kolone = {"Naziv","Kategorija","Vrsta","Datum"};
     
     
     public TakmicenjaTableModel(){
@@ -40,18 +40,15 @@ public class TakmicenjaTableModel extends AbstractTableModel{
         
         switch (columnIndex) {
             case 0 -> {
-                return takmicenje.getId();
-            }
-            case 1 -> {
                 return takmicenje.getNaziv();
             }
-            case 2 -> {
+            case 1 -> {
                 return takmicenje.getStarosnaKategorija();
             }
-            case 3 -> {
+            case 2 -> {
                 return takmicenje.getVrstaTrke();
             }
-            case 4 -> {
+            case 3 -> {
                 return takmicenje.getDatum();
             }
             default -> throw new AssertionError();

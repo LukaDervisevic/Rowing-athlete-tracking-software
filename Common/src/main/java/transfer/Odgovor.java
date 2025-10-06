@@ -1,5 +1,6 @@
-package operacije;
+package transfer;
 
+import transfer.StatusPoruke;
 import java.io.Serializable;
 
 /**

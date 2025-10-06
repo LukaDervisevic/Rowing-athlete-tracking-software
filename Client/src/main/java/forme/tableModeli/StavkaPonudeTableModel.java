@@ -12,7 +12,7 @@ import model.StavkaPonude;
 public class StavkaPonudeTableModel extends AbstractTableModel{
     
     List<StavkaPonude> stavkePonude = new LinkedList<>();
-    String[] kolone = {"RB stavke","Id veslača","Ime Prezime","Godine treniranja","Visina","Težina","Kategorija","Najbolje vreme"};
+    String[] kolone = {"RB stavke","Ime Prezime","Godine treniranja","Visina","Težina","Kategorija","Najbolje vreme"};
     
     public StavkaPonudeTableModel(){
         
@@ -42,24 +42,21 @@ public class StavkaPonudeTableModel extends AbstractTableModel{
                 return stavka.getRb();
             }
             case 1 -> {
-                return stavka.getVeslac().getId();
-            }
-            case 2 -> {
                 return stavka.getVeslac().getImePrezime();
             }
-            case 3 -> {
+            case 2 -> {
                 return stavka.getGodineTreniranja();
             }
-            case 4 -> {
+            case 3 -> {
                 return stavka.getVeslac().getVisina();
             }
-            case 5 -> {
+            case 4 -> {
                 return stavka.getVeslac().getTezina();
             }
-            case 6 -> {
+            case 5 -> {
                 return stavka.getVeslac().getKategorija();
             }
-            case 7 -> {
+            case 6 -> {
                 return stavka.getVeslac().getNajboljeVreme();
             }
             default -> throw new AssertionError();
@@ -79,6 +76,10 @@ public class StavkaPonudeTableModel extends AbstractTableModel{
 
     public List<StavkaPonude> getStavkePonude() {
         return stavkePonude;
+    }
+    
+    public StavkaPonude getStavkaPonude(int row){
+        return stavkePonude.get(row);
     }
 
     public void setStavkePonude(List<StavkaPonude> stavkePonude) {

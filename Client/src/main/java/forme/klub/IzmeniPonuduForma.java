@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
  * @author lukad
  */
 public class IzmeniPonuduForma extends javax.swing.JDialog {
-    
+
     private static final Logger logger = LogManager.getRootLogger();
     private PonudaVeslaca ponudaVeslaca;
     private List<Veslac> veslaciVanPonude;
@@ -31,43 +31,52 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
     private List<StavkaPonude> dodateStavke = new LinkedList<>();
     private List<StavkaPonude> stavkePonude;
     private Stack<Integer> izbaceniRb = new Stack<>();
-    
+
     private VeslacTableModel vptm;
     private StavkaPonudeTableModel sptm;
     private AgencijaTableModel atm;
-    
+
     private int rb;
-    
+
     public IzmeniPonuduForma(java.awt.Frame parent, boolean modal, PonudaVeslaca ponudaVeslaca) {
         super(parent, modal);
-        
-        setResizable(false);
         try {
+            setTitle("Ažuriranje ponude veslača");
             initComponents();
+
             this.ponudaVeslaca = ponudaVeslaca;
             stavkePonude = ponudaVeslaca.getStavke();
             rb = ponudaVeslaca.getStavke().size();
-            
-//            veslaciVanPonude = Klijent.getInstance().vratiListuSviVeslaci(ponudaVeslaca.getIdKluba());
-//            for (StavkaPonude stavka : stavkePonude) {
-//                if(veslaciVanPonude.contains(stavka.getVeslac())){
-//                    veslaciVanPonude.remove(stavka.getVeslac());
-//                }
-//            }
-            
-//            veslaciTable.setModel(new VeslacTableModel(veslaciVanPonude));
-//            stavkeTable.setModel(new StavkaPonudeTableModel(stavkePonude));
-//            agencijaTable.setModel(new AgencijaTableModel(Klijent.getInstance().vratiSveAgencije()));
-            
+            veslaciVanPonude = Kontroler.getInstance().vratiListuVeslaci(" V.id_kluba = " + ponudaVeslaca.getVeslackiKlub().getId(),
+                    new LinkedList<>());
+
+            for (StavkaPonude stavka : stavkePonude) {
+                if (veslaciVanPonude.contains(stavka.getVeslac())) {
+                    veslaciVanPonude.remove(stavka.getVeslac());
+                }
+            }
+
+            veslaciTable.setModel(new VeslacTableModel(veslaciVanPonude));
+            stavkeTable.setModel(new StavkaPonudeTableModel(stavkePonude));
+            agencijaTable.setModel(new AgencijaTableModel(Kontroler.getInstance().vratiListuSveAgencije(new LinkedList<>())));
+
             vptm = (VeslacTableModel) veslaciTable.getModel();
             sptm = (StavkaPonudeTableModel) stavkeTable.getModel();
             atm = (AgencijaTableModel) agencijaTable.getModel();
-            
-            
-            
+            setResizable(false);
+            setVisible(true);
+
         } catch (Exception ex) {
             logger.error(ex);
         }
+    }
+
+    public PonudaVeslaca getPonudaVeslaca() {
+        return ponudaVeslaca;
+    }
+
+    public void setPonudaVeslaca(PonudaVeslaca ponudaVeslaca) {
+        this.ponudaVeslaca = ponudaVeslaca;
     }
 
     /**
@@ -86,23 +95,26 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         veslaciTable = new forme.utils.GlavnaFormaTable();
         dodajStavkuButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         glavnaFormaPanel2 = new forme.utils.GlavnaFormaPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         stavkeTable = new forme.utils.GlavnaFormaTable();
         obrisiStavkuButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         glavnaFormaPanel3 = new forme.utils.GlavnaFormaPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         agencijaTable = new forme.utils.GlavnaFormaTable();
         dodajStavkuButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(221, 221, 221));
 
         jPanel1.setBackground(new java.awt.Color(221, 221, 221));
 
+        jLabel21.setFont(new java.awt.Font("JetBrains Mono", 3, 24)); // NOI18N
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/slike/document(2).png"))); // NOI18N
         jLabel21.setText("Ažuriranje stavki u ponudu veslača");
-        jLabel21.setFont(new java.awt.Font("JetBrains Mono", 3, 24)); // NOI18N
 
         javax.swing.GroupLayout glavnaFormaPanel25Layout = new javax.swing.GroupLayout(glavnaFormaPanel25);
         glavnaFormaPanel25.setLayout(glavnaFormaPanel25Layout);
@@ -134,34 +146,43 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
         ));
         jScrollPane2.setViewportView(veslaciTable);
 
-        dodajStavkuButton.setText("Dodaj u stavke");
         dodajStavkuButton.setBackground(new java.awt.Color(14, 146, 244));
         dodajStavkuButton.setFont(new java.awt.Font("JetBrains Mono", 1, 18)); // NOI18N
         dodajStavkuButton.setForeground(new java.awt.Color(255, 255, 255));
+        dodajStavkuButton.setText("Dodaj u stavke");
         dodajStavkuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dodajStavkuButtonActionPerformed(evt);
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("JetBrains Mono", 1, 18)); // NOI18N
+        jLabel2.setText("Veslači van ponude");
+
         javax.swing.GroupLayout glavnaFormaPanel1Layout = new javax.swing.GroupLayout(glavnaFormaPanel1);
         glavnaFormaPanel1.setLayout(glavnaFormaPanel1Layout);
         glavnaFormaPanel1Layout.setHorizontalGroup(
             glavnaFormaPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 949, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, glavnaFormaPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(dodajStavkuButton)
-                .addContainerGap())
+                .addGap(18, 18, 18))
+            .addGroup(glavnaFormaPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         glavnaFormaPanel1Layout.setVerticalGroup(
             glavnaFormaPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(glavnaFormaPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(dodajStavkuButton)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         stavkeTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -177,34 +198,43 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(stavkeTable);
 
-        obrisiStavkuButton.setText("Obriši iz stavki");
         obrisiStavkuButton.setBackground(new java.awt.Color(14, 146, 244));
         obrisiStavkuButton.setFont(new java.awt.Font("JetBrains Mono", 1, 18)); // NOI18N
         obrisiStavkuButton.setForeground(new java.awt.Color(255, 255, 255));
+        obrisiStavkuButton.setText("Obriši iz stavki");
         obrisiStavkuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 obrisiStavkuButtonActionPerformed(evt);
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("JetBrains Mono", 1, 18)); // NOI18N
+        jLabel3.setText("Veslači u ponudi");
+
         javax.swing.GroupLayout glavnaFormaPanel2Layout = new javax.swing.GroupLayout(glavnaFormaPanel2);
         glavnaFormaPanel2.setLayout(glavnaFormaPanel2Layout);
         glavnaFormaPanel2Layout.setHorizontalGroup(
             glavnaFormaPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, glavnaFormaPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(obrisiStavkuButton)
-                .addContainerGap())
+                .addGap(15, 15, 15))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(glavnaFormaPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         glavnaFormaPanel2Layout.setVerticalGroup(
             glavnaFormaPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(glavnaFormaPanel2Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(obrisiStavkuButton)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addGap(9, 9, 9))
         );
 
         agencijaTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -220,34 +250,43 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
         ));
         jScrollPane3.setViewportView(agencijaTable);
 
-        dodajStavkuButton2.setText("Ažuriraj ponudu");
         dodajStavkuButton2.setBackground(new java.awt.Color(14, 146, 244));
         dodajStavkuButton2.setFont(new java.awt.Font("JetBrains Mono", 1, 18)); // NOI18N
         dodajStavkuButton2.setForeground(new java.awt.Color(255, 255, 255));
+        dodajStavkuButton2.setText("Ažuriraj ponudu");
         dodajStavkuButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dodajStavkuButton2ActionPerformed(evt);
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("JetBrains Mono", 1, 18)); // NOI18N
+        jLabel1.setText("Agencije");
+
         javax.swing.GroupLayout glavnaFormaPanel3Layout = new javax.swing.GroupLayout(glavnaFormaPanel3);
         glavnaFormaPanel3.setLayout(glavnaFormaPanel3Layout);
         glavnaFormaPanel3Layout.setHorizontalGroup(
             glavnaFormaPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 941, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, glavnaFormaPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(dodajStavkuButton2)
-                .addContainerGap())
+                .addGap(16, 16, 16))
+            .addGroup(glavnaFormaPanel3Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         glavnaFormaPanel3Layout.setVerticalGroup(
             glavnaFormaPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(glavnaFormaPanel3Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(dodajStavkuButton2)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -258,10 +297,10 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(glavnaFormaPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(glavnaFormaPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(glavnaFormaPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(glavnaFormaPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(glavnaFormaPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(glavnaFormaPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,11 +309,11 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
                 .addComponent(glavnaFormaPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(glavnaFormaPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(glavnaFormaPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(glavnaFormaPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -293,13 +332,13 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
 
     private void dodajStavkuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajStavkuButtonActionPerformed
 
-        try{
-
-            if (veslaciTable.getSelectedRow() != -1) {
-                int idVeslaca = (int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 0);
+        try {
+            int selektovaniRed = veslaciTable.getSelectedRow();
+            if (selektovaniRed != -1) {
+                Veslac veslac = ((VeslacTableModel) veslaciTable.getModel()).getVeslac(selektovaniRed);
                 StavkaPonude s = new StavkaPonude();
-                
-                Veslac izabraniVeslac = veslaciVanPonude.stream().filter(v -> v.getId() == idVeslaca).findFirst().get();
+
+                Veslac izabraniVeslac = veslaciVanPonude.stream().filter(v -> v.getId() == veslac.getId()).findFirst().get();
                 s.setVeslac(izabraniVeslac);
                 Date datumUpisa = izabraniVeslac.getDatumUpisa();
                 LocalDate datumUpisaLD = datumUpisa.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -309,26 +348,24 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
                 s.setGodineTreniranja(years);
 
                 s.setPonudaVeslaca(ponudaVeslaca);
-                
 
                 if (izbaceniRb.isEmpty()) {
                     s.setRb(++rb);
                 } else {
                     rb = izbaceniRb.pop();
-                    s.setRb(rb);             
+                    s.setRb(rb);
                 }
-                
+
                 sptm.dodajStavku(s);
                 dodateStavke.add(s);
                 obrisaneStavke.remove(s);
                 vptm.obrisiVeslaca(s.getVeslac().getId());
-                                
 
             } else {
                 JOptionPane.showMessageDialog(this, "Veslac nije selektovan,selektujte veslaca da bi kreirali stavku ponude", "Greska", JOptionPane.ERROR_MESSAGE);
             }
 
-        }catch(Exception ex){
+        } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
 
@@ -336,33 +373,34 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
 
     private void obrisiStavkuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obrisiStavkuButtonActionPerformed
         // TODO add your handling code here:
-        if(stavkeTable.getSelectedRow() != -1) {
+        if (stavkeTable.getSelectedRow() != -1) {
             int rba = (int) stavkeTable.getValueAt(stavkeTable.getSelectedRow(), 0);
             izbaceniRb.add(rba);
             StavkaPonude stavka = stavkePonude.stream().filter(s -> s.getRb() == rba).findFirst().get();
             Veslac veslac = stavka.getVeslac();
-            
+
             vptm.dodajVeslaca(veslac);
             sptm.obrisiStavku(rba);
-            
+
             obrisaneStavke.add(stavka);
             dodateStavke.remove(stavka);
-        } 
+        }
     }//GEN-LAST:event_obrisiStavkuButtonActionPerformed
 
     private void dodajStavkuButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajStavkuButton2ActionPerformed
         // TODO add your handling code here:
         try {
-            if(obrisaneStavke.isEmpty() && dodateStavke.isEmpty()) return;         
-            
-            PonudaVeslaca azuriranaPonuda = Kontroler.getInstance().promeniPonudu(ponudaVeslaca);
-            JOptionPane.showMessageDialog(this, "Uspesno kreiranje ponude veslaca","Uspeh",JOptionPane.INFORMATION_MESSAGE);
+            if (obrisaneStavke.isEmpty() && dodateStavke.isEmpty()) {
+                return;
+            }
+            ponudaVeslaca = Kontroler.getInstance().promeniPonudu(ponudaVeslaca);
+            JOptionPane.showMessageDialog(this, "Sistem je zapamtio ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
             
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex,"Greska pri azuriranju ponude veslaca", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti ponudu veslača", "Greška", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_dodajStavkuButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -373,7 +411,10 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
     private forme.utils.GlavnaFormaPanel glavnaFormaPanel2;
     private forme.utils.GlavnaFormaPanel glavnaFormaPanel25;
     private forme.utils.GlavnaFormaPanel glavnaFormaPanel3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

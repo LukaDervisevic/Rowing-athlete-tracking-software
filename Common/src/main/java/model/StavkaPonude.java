@@ -65,7 +65,7 @@ public class StavkaPonude implements OpstiDomenskiObjekat {
 
     @Override
     public String toString() {
-        return "StavkaPonude{" + "ponudaVeslaca=" + ponudaVeslaca + ", rb=" + rb + ", godineTreniranja=" + godineTreniranja + ", veslac=" + veslac + '}';
+        return "StavkaPonude{" + " rb=" + rb + ", godineTreniranja=" + godineTreniranja + ", veslac=" + veslac + '}';
     }
 
     @Override
@@ -92,7 +92,7 @@ public class StavkaPonude implements OpstiDomenskiObjekat {
         if (this.godineTreniranja != other.godineTreniranja) {
             return false;
         }
-        if (!Objects.equals(this.ponudaVeslaca, other.ponudaVeslaca)) {
+        if (!Objects.equals(this.ponudaVeslaca.getId(), other.ponudaVeslaca.getId())) {
             return false;
         }
         return Objects.equals(this.veslac, other.veslac);

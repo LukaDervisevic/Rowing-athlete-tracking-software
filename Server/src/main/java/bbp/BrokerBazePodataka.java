@@ -1,21 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package bbp;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
-import model.Agencija;
+import java.util.Properties;
 import model.OpstiDomenskiObjekat;
-import model.VeslackiKlub;
 
 /**
  *
@@ -23,24 +18,38 @@ import model.VeslackiKlub;
  */
 public class BrokerBazePodataka implements IBrokerBazePodataka {
 
-    private final String imeBaze;
+    private String imeBaze;
     private Connection konekcija;
-    private final Dotenv dotenv = Dotenv.load();
+    private static BrokerBazePodataka instance;
+    
+    private BrokerBazePodataka() {
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileInputStream("dbconfig.properties"));
+            imeBaze = properties.getProperty("DB_NAME");
+            
+        } catch (Exception ex) {
+            System.getLogger(BrokerBazePodataka.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+    }
 
-    public BrokerBazePodataka(String imeBaze) {
-        this.imeBaze = imeBaze;
+    public static BrokerBazePodataka getInstance() {
+        if(instance == null) instance = new BrokerBazePodataka();
+        return instance;
     }
 
     @Override
     public boolean napraviKonekciju() {
-        String url;
         try {
-            url = "jdbc:mysql://localhost:3306/" + imeBaze;
-            konekcija = DriverManager.getConnection(url, dotenv.get("MYSQL_USER"),
-                    dotenv.get("MYSQL_PASS"));
+            Properties properties = new Properties();
+            properties.load(new FileInputStream("dbconfig.properties"));
+            String url = properties.getProperty("DB_URL") + imeBaze;
+            String user = properties.getProperty("MYSQL_USER");
+            String pass = properties.getProperty("MYSQL_PASS");
+            konekcija = DriverManager.getConnection(url,user,pass);
             konekcija.setAutoCommit(false);
 
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             System.getLogger(BrokerBazePodataka.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
             return false;
         }
@@ -55,40 +64,31 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
     }
 
     @Override
-    public boolean azurirajSlog(OpstiDomenskiObjekat odo, OpstiDomenskiObjekat stariOdo) {
-        String upit = "UPDATE `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` SET " + odo.azurirajVrednostiAtributa() + " WHERE " + stariOdo.vratiWhereUslov();
-        return izvrsiAzuriranje(upit);
-    }
-
-    @Override
     public boolean azurirajSlog(OpstiDomenskiObjekat odo) {
-        String upit = "UPDATE `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` SET " + odo.azurirajVrednostiAtributa() + " WHERE " + odo.vratiWhereUslov();
+        String upit = "UPDATE `" + imeBaze + "`.`" + odo.vratiNazivTabele() +"`AS "+odo.alias()+" SET " + odo.azurirajVrednostiAtributa() + " WHERE " + odo.vratiWhereUslov();
+        System.out.println(upit);
         return izvrsiAzuriranje(upit);
     }
 
     @Override
     public boolean obrisiSlog(OpstiDomenskiObjekat odo) {
-        String upit = "DELETE FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` WHERE " + odo.vratiWhereUslov();
+        String upit = "DELETE FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " +odo.alias() +" WHERE " + odo.vratiWhereUslov();
+        System.out.println(upit);
         return izvrsiAzuriranje(upit);
     }
 
     @Override
-    public boolean obrisiSlogove(OpstiDomenskiObjekat odo, String where) {
-        String upit = "DELETE FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` WHERE " + where;
-        return izvrsiAzuriranje(upit);
-    }
-
-    @Override
-    public OpstiDomenskiObjekat pronadjiSlog(OpstiDomenskiObjekat odo) {
+    public OpstiDomenskiObjekat pronadjiSlog(OpstiDomenskiObjekat odo,String where) {
         ResultSet rs = null;
         Statement statement = null;
-        String upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " WHERE " + odo.vratiWhereUslov();
+        String upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " WHERE " + where;
+        System.out.println(upit);
         boolean signal;
 
         try {
             statement = konekcija.createStatement();
             rs = statement.executeQuery(upit);
-            signal = rs.next();
+            signal = rs.isBeforeFirst();
             if (signal == true) {
                 odo = odo.vratiNoveSlogove(rs).getFirst();
             } else {
@@ -101,36 +101,12 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
         return odo;
     }
 
-    public OpstiDomenskiObjekat prijaviSlog(OpstiDomenskiObjekat odo) {
-        ResultSet rs = null;
-        PreparedStatement statement = null;
-        String upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() +" " + odo.join() + " WHERE " + odo.vratiWhereUslov();
-        boolean signal;
-        System.out.println(upit);
-        try {
-            statement = konekcija.prepareStatement(upit);
-            rs = statement.executeQuery();
-            signal = rs.next();
-            if (signal == true) {
-                OpstiDomenskiObjekat vraceniOdo = odo.vratiNoveSlogove(rs).getFirst();
-                odo = vraceniOdo;
-                
-            } else {
-                odo = null;
-            }
-
-        } catch (SQLException ex) {
-            System.getLogger(BrokerBazePodataka.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        }
-        return odo;
-    }
-
     @Override
-    public List<OpstiDomenskiObjekat> pronadjiSlog(OpstiDomenskiObjekat odo, String where) {
+    public List<OpstiDomenskiObjekat> pronadjiSlogоve(OpstiDomenskiObjekat odo, String where) {
         ResultSet rs = null;
         Statement statement = null;
         String upit;
-        if (where == null) {
+        if (where == null || where.isBlank()) {
             upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " ;";
         } else {
             upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` AS " + odo.alias() + " " + odo.join() + " WHERE " + where + ";";
@@ -176,60 +152,11 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
     }
 
     @Override
-    public OpstiDomenskiObjekat vratiSlog(OpstiDomenskiObjekat odo, int index) {
-        ResultSet rs = null;
-        Statement statement = null;
-        int brojSlogova = 0;
-        String upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` ORDER BY " + odo.vratiImePoKoloni(0) + " ASC LIMIT " + index + ",1";
-        boolean signal;
-
-        try {
-            statement = konekcija.createStatement();
-            rs = statement.executeQuery(upit);
-            signal = rs.next();
-            if (signal == true) {
-                odo = odo.vratiNoveSlogove(rs).getFirst();
-            } else {
-                odo = null;
-            }
-
-        } catch (SQLException ex) {
-            odo = null;
-            System.getLogger(BrokerBazePodataka.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        } finally {
-            ugasi(null, statement, rs);
-        }
-        return odo;
-    }
-
-    @Override
-    public int vratiBrojSloga(OpstiDomenskiObjekat odo) {
-        ResultSet rs = null;
-        Statement statement = null;
-        int brojRedova = 0;
-        String upit = "SELECT * FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "`;";
-        boolean signal;
-
-        try {
-            statement = konekcija.createStatement();
-            rs = statement.executeQuery(upit);
-            if (rs.last()) {
-                brojRedova = rs.getRow();
-            }
-
-        } catch (SQLException ex) {
-            System.getLogger(BrokerBazePodataka.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        } finally {
-            ugasi(null, statement, rs);
-        }
-        return brojRedova;
-    }
-
-    @Override
     public int vratiPozicijuSloga(OpstiDomenskiObjekat odo) {
         ResultSet rs = null;
         Statement statement = null;
         String upit = "SELECT (COUNT(*)) as pozicija FROM `" + imeBaze + "`.`" + odo.vratiNazivTabele() + "` WHERE " + odo.vratiImePoKoloni(0) + " < " + odo.vratiPrimarniKljuc();
+        System.out.println(upit);
         boolean signal;
         try {
             statement = konekcija.createStatement();
@@ -246,23 +173,6 @@ public class BrokerBazePodataka implements IBrokerBazePodataka {
         }
         return -1;
 
-    }
-
-    @Override
-    public boolean bazaPovezana() {
-
-        try {
-            if (konekcija == null) {
-                return false;
-            }
-            if (konekcija.isClosed()) {
-                return false;
-            }
-        } catch (SQLException ex) {
-            System.getLogger(BrokerBazePodataka.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-            return false;
-        }
-        return true;
     }
 
     public boolean izvrsiAzuriranje(String upit) {

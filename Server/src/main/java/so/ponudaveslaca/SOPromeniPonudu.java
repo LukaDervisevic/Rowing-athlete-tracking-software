@@ -1,35 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.ponudaveslaca;
 
+import bbp.BrokerBazePodataka;
 import java.util.LinkedList;
 import java.util.List;
 import model.KategorijaVeslaca;
+import model.OpstiDomenskiObjekat;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
-import so.PromeniDK;
+import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author lukad
  */
-public class SOPromeniPonudu extends PromeniDK {
+public class SOPromeniPonudu extends OpsteIzvrsenjeSO {
 
     public SOPromeniPonudu(TransferObjekat to) {
         setTo(to);
-        porukaUspeh = "Uspesno azuriranje ponude veslaca";
-        porukaGreska = "Greska pri azuriranju ponuda veslaca";
     }
 
     @Override
     public boolean izvrsiSO() {
         boolean signal = false;
-        PonudaVeslaca staraPonuda = (PonudaVeslaca) bbp.pronadjiSlog(to.getOdo());
         PonudaVeslaca novaPonuda = (PonudaVeslaca) to.getOdo();
-        if (staraPonuda == null || novaPonuda == null) {
+        PonudaVeslaca staraPonuda = (PonudaVeslaca) BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(), novaPonuda.vratiWhereUslov());
+        if (staraPonuda == null) {
             return signal;
         }
 
@@ -48,12 +44,13 @@ public class SOPromeniPonudu extends PromeniDK {
         }
         
         for(StavkaPonude stavkaPonude : stavkeZaBrisanje) {
-            signal = bbp.obrisiSlog(stavkaPonude);
+            signal = BrokerBazePodataka.getInstance().obrisiSlog(stavkaPonude);
+            novaPonuda.getStavke().remove(stavkaPonude);
             if(!signal) return signal;
         }
         
         for(StavkaPonude stavkaPonude : stavkeZaDodavanje) {
-            signal = bbp.kreirajSlog(stavkaPonude);
+            signal = BrokerBazePodataka.getInstance().kreirajSlog(stavkaPonude);
             if(!signal) return signal;
         }
         
@@ -83,29 +80,51 @@ public class SOPromeniPonudu extends PromeniDK {
         novaPonuda.setProsecnoVremeKadeti(prosecno_vreme_kadeti);
         novaPonuda.setProsecnoVremeJuniori(prosecno_vreme_juniori);
         
-        signal = bbp.azurirajSlog(novaPonuda);
+        signal = BrokerBazePodataka.getInstance().azurirajSlog(novaPonuda);
 
         return signal;
     }
-}
 
-//    Ogranicenje ogranicenje = new Ogranicenje();
-//
-//if (ogranicenje.proveriOgranicenja(to)) {
-//            OpstiDomenskiObjekat vraceniOdo = bbp.pronadjiSlog(to.getOdo());
-//            if (vraceniOdo != null) {
-//
-//                if (bbp.azurirajSlog(vraceniOdo)) {
-//                    to.setPoruka(porukaUspeh);
-//                    to.setSignal(true);
-//                } else {
-//                    to.setPoruka(porukaGreska);
-//                    to.setSignal(false);
-//                }
-//            } else {
-//                to.setPoruka("Neuspesno pronalazenje domenskog objekta koji treba da se azurira");
-//            }
-//        }
-//
-//        return to.isSignal();
+    @Override
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
+        if (!(odo instanceof PonudaVeslaca)) {
+            return false;
+        }
+        //Vrednosna ogranicenja
+        boolean signal = true;
+        PonudaVeslaca ponudaVeslaca = (PonudaVeslaca) odo;
+        if(ponudaVeslaca.getId() <= 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getDatumKreiranja() == null) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getBrojKadeta() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getBrojJuniora() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getProsecnoVremeJuniori() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getProsecnoVremeKadeti() < 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getVeslackiKlub().getId() <= 0) {
+            signal = false;
+        }
+        if(ponudaVeslaca.getAgencija().getId() <= 0) {
+            signal = false;
+        }
+        
+        // Strukturna ogranicenja
+        OpstiDomenskiObjekat ponudaOdo = BrokerBazePodataka.getInstance().pronadjiSlog(ponudaVeslaca, ponudaVeslaca.vratiWhereUslov());
+        if(ponudaOdo == null) {
+            signal = false;
+        }
+        
+        return signal;
+    }
+}
 

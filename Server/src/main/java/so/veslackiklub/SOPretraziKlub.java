@@ -1,22 +1,47 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.veslackiklub;
 
-import so.NadjiDK;
+import bbp.BrokerBazePodataka;
+import model.OpstiDomenskiObjekat;
+import model.VeslackiKlub;
+import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author lukad
  */
-public class SOPretraziKlub extends NadjiDK{
+public class SOPretraziKlub extends OpsteIzvrsenjeSO{
 
     public SOPretraziKlub(TransferObjekat to) {
         setTo(to);
-        porukaUspeh = "Uspesna pretraga veslackih klubova";
-        porukaGreska = "Greska pri pretrazivanju veslackih klubova: " + to.getPoruka();
+    }
+
+    @Override
+    protected boolean izvrsiSO() {
+        boolean signal;
+        OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(),to.getWhereUslov());
+        if (vraceniOdo != null) {
+            to.setOdo(vraceniOdo);
+            signal = true;
+        } else {
+            signal = false;
+        }
+
+        return signal;
+    }
+
+    @Override
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
+        if (!(odo instanceof VeslackiKlub)) {
+            return false;
+        }
+
+        boolean signal = true;
+        VeslackiKlub veslackiKlub = (VeslackiKlub) odo;
+        if(veslackiKlub.getNaziv() == null) {
+            signal = false;
+        }
+        return signal;
     }
 
     

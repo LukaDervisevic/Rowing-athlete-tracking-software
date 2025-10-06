@@ -1,11 +1,9 @@
 package model;
 
-import java.io.Serializable;
-
 /**
  *
- * @author luka
+ * @author lukad
  */
-public enum TipNaloga implements Serializable{
+public enum TipNaloga {
     VESLACKI_KLUB,AGENCIJA_ZA_TALENTE;
 }

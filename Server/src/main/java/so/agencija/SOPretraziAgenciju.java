@@ -1,22 +1,48 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.agencija;
 
-import so.NadjiDK;
+import bbp.BrokerBazePodataka;
+import model.Agencija;
+import model.OpstiDomenskiObjekat;
+import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
 
 /**
  *
  * @author lukad
  */
-public class SOPretraziAgenciju extends NadjiDK{
+public class SOPretraziAgenciju extends OpsteIzvrsenjeSO {
 
     public SOPretraziAgenciju(TransferObjekat to) {
         setTo(to);
-        porukaUspeh = "Uspesno pretrazivanje agencija";
-        porukaGreska = "Greska pri pretrazivanju agencija";
+
     }
-    
+
+    @Override
+    public boolean izvrsiSO() {
+        boolean signal;
+        OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(),to.getWhereUslov());
+        if (vraceniOdo != null) {
+            to.setOdo(vraceniOdo);
+            signal = true;
+        } else {
+            signal = false;
+        }
+
+        return signal;
+    }
+
+    @Override
+    protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
+        if (!(odo instanceof Agencija)) {
+            return false;
+        }
+
+        Agencija agencija = (Agencija) odo;
+        boolean signal = false;
+        if (agencija.getNaziv() == null) {
+            signal = false;
+        }
+        return signal;
+    }
+
 }

@@ -2,24 +2,28 @@ package so.agencija;
 
 import bbp.BrokerBazePodataka;
 import model.Agencija;
+import model.Drzava;
 import model.OpstiDomenskiObjekat;
 import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
+import utils.HesiranjeServis;
 
 /**
  *
  * @author lukad
  */
-public class SOObrisiAgenciju extends OpsteIzvrsenjeSO {
+public class SOUbaciAgenciju extends OpsteIzvrsenjeSO {
 
-    public SOObrisiAgenciju(TransferObjekat to) {
+    public SOUbaciAgenciju(TransferObjekat to) {
         setTo(to);
+        Agencija agencija = (Agencija) to.getOdo();
+        agencija.setSifra(HesiranjeServis.hesirajSifru(agencija.getSifra()));
     }
 
     @Override
     public boolean izvrsiSO() {
-        boolean signal = BrokerBazePodataka.getInstance().obrisiSlog(to.getOdo());
-        getTo().setSignal(signal);
+        boolean signal = false;
+        signal = BrokerBazePodataka.getInstance().kreirajSlog(getTo().getOdo());
         return signal;
     }
 
@@ -29,11 +33,9 @@ public class SOObrisiAgenciju extends OpsteIzvrsenjeSO {
             return false;
         }
 
+        // Prosto vrednosno ogranicenje
         boolean signal = true;
         Agencija agencija = (Agencija) to.getOdo();
-        if (agencija.getId() == 0) {
-            signal = false;
-        }
         if (agencija.getKorisnickoIme() == null || agencija.getKorisnickoIme().isBlank()) {
             signal = false;
         }
@@ -61,6 +63,13 @@ public class SOObrisiAgenciju extends OpsteIzvrsenjeSO {
         if (agencija.getSifra().length() < 8) {
             signal = false;
         }
+
+        // Strukturno ogranicenje
+        Drzava drzava = (Drzava) BrokerBazePodataka.getInstance().pronadjiSlog(agencija.getDrzava(), agencija.getDrzava().vratiWhereUslov());
+        if (drzava == null) {
+            signal = false;
+        }
+
         return signal;
     }
 

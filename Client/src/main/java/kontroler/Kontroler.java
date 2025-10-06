@@ -5,19 +5,17 @@ import java.net.Socket;
 import java.util.List;
 import model.Agencija;
 import model.Drzava;
-import model.KategorijaVeslaca;
 import model.KlubTakmicenje;
-import model.Nalog;
 import model.PonudaVeslaca;
 import model.Takmicenje;
 import model.Veslac;
 import model.VeslackiKlub;
-import operacije.Odgovor;
+import transfer.Odgovor;
 import operacije.Operacija;
-import operacije.Posiljalac;
-import operacije.Primalac;
-import operacije.StatusPoruke;
-import operacije.Zahtev;
+import transfer.Posiljalac;
+import transfer.Primalac;
+import transfer.StatusPoruke;
+import transfer.Zahtev;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import transfer.TransferObjekat;
@@ -30,7 +28,7 @@ public class Kontroler {
 
     private static Kontroler instance;
 
-    private Nalog ulogovaniNalog;
+    private Object ulogovaniNalog;
 
     private boolean odjavaSignal;
 
@@ -60,12 +58,14 @@ public class Kontroler {
         return instance;
     }
 
-    public Nalog getUlogovaniNalog() {
+    public Object getUlogovaniNalog() {
         return ulogovaniNalog;
     }
 
-    public void setUlogovaniNalog(Nalog ulogovaniNalog) {
-        this.ulogovaniNalog = ulogovaniNalog;
+    public void setUlogovaniNalog(Object ulogovaniNalog) {
+        if (ulogovaniNalog instanceof VeslackiKlub || ulogovaniNalog instanceof Agencija) {
+            this.ulogovaniNalog = ulogovaniNalog;
+        }
     }
 
     public boolean isOdjavaSignal() {
@@ -80,7 +80,7 @@ public class Kontroler {
     public VeslackiKlub prijaviVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslackiKlub);
-        transferObj.setNazivSo("prijaviVeslackiKlub");
+        transferObj.setWhereUslov(" " + veslackiKlub.alias()+".korisnicko_ime = '" + veslackiKlub.getKorisnickoIme() + "' ");
 
         Zahtev zahtev = new Zahtev(Operacija.PRIJAVA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -94,7 +94,6 @@ public class Kontroler {
     public VeslackiKlub kreirajVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslackiKlub);
-        transferObj.setNazivSo("kreirajVeslackiKlub");
 
         Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_KLUB, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -111,7 +110,6 @@ public class Kontroler {
     public VeslackiKlub azuirirajVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslackiKlub);
-        transferObj.setNazivSo("azurirajVeslackiKlub");
 
         Zahtev zahtev = new Zahtev(Operacija.PROMENA_KLUB, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -128,7 +126,6 @@ public class Kontroler {
     public Integer obrisiVeslackiKlub(int idKluba) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(new VeslackiKlub(idKluba, null, null, null, null, null, null));
-        transferObj.setNazivSo("obrisiVeslackiKlub");
 
         Zahtev zahtev = new Zahtev(Operacija.BRISANJE_KLUB, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -145,7 +142,6 @@ public class Kontroler {
     public List<VeslackiKlub> pretraziKlub(String kriterijum, VeslackiKlub veslackiKlub) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslackiKlub);
-        transferObj.setNazivSo("pretraziKlub");
         transferObj.setWhereUslov(kriterijum);
 
         Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_KLUB, transferObj);
@@ -163,7 +159,6 @@ public class Kontroler {
         TransferObjekat transferObjekat = new TransferObjekat();
         transferObjekat.setListOdo(veslackiKlubovi);
         transferObjekat.setOdo(new VeslackiKlub());
-        transferObjekat.setNazivSo("vratiListuSviVeslackiKlub");
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_VESLACKI_KLUB, transferObjekat);
         posiljalac.posaljiPoruku(zahtev);
@@ -182,7 +177,6 @@ public class Kontroler {
         TransferObjekat transferObjekat = new TransferObjekat();
         transferObjekat.setListOdo(veslackiKlubovi);
         transferObjekat.setOdo(new VeslackiKlub());
-        transferObjekat.setNazivSo("vratiListuVeslackiKlub");
         transferObjekat.setWhereUslov(kriterijum);
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_VESLACKI_KLUB, transferObjekat);
@@ -201,7 +195,7 @@ public class Kontroler {
     public Agencija prijaviAgencija(Agencija agencija) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(agencija);
-        transferObj.setNazivSo("prijaviAgencija");
+        transferObj.setWhereUslov( " "+agencija.alias()+".korisnicko_ime = '" + agencija.getKorisnickoIme() + "' ");
 
         Zahtev zahtev = new Zahtev(Operacija.PRIJAVA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -214,7 +208,6 @@ public class Kontroler {
     public Agencija kreirajAgenciju(Agencija agencija) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(agencija);
-        transferObj.setNazivSo("KreirajAgencija");
 
         Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_AGENCIJA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -231,7 +224,6 @@ public class Kontroler {
     public Agencija azurirajAgenciju(Agencija agencija) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(agencija);
-        transferObj.setNazivSo("azurirajAgenciju");
 
         Zahtev zahtev = new Zahtev(Operacija.PROMENA_AGENCIJA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -248,7 +240,6 @@ public class Kontroler {
     public Integer obrisiAgenciju(Integer id) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(new Agencija(id, null, null, null, null, null, null));
-        transferObj.setNazivSo("azurirajAgenciju");
 
         Zahtev zahtev = new Zahtev(Operacija.BRISANJE_AGENCIJA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -265,7 +256,6 @@ public class Kontroler {
     public List<Agencija> pretraziAgenciju(String kriterijum, Agencija agencija) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(agencija);
-        transferObj.setNazivSo("pretraziAgenciju");
         transferObj.setWhereUslov(kriterijum);
         Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_AGENCIJA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -283,7 +273,6 @@ public class Kontroler {
         TransferObjekat transferObjekat = new TransferObjekat();
         transferObjekat.setListOdo(agencije);
         transferObjekat.setOdo(new Agencija());
-        transferObjekat.setNazivSo("vratiListuSveAgencije");
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVE_AGENCIJE, transferObjekat);
         posiljalac.posaljiPoruku(zahtev);
@@ -301,7 +290,6 @@ public class Kontroler {
         TransferObjekat transferObjekat = new TransferObjekat();
         transferObjekat.setListOdo(agencije);
         transferObjekat.setOdo(new Agencija());
-        transferObjekat.setNazivSo("vratiListuSveAgencije");
         transferObjekat.setWhereUslov(kriterijum);
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_AGENCIJE, transferObjekat);
@@ -320,7 +308,6 @@ public class Kontroler {
     public Veslac kreirajVeslaca(Veslac veslac) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslac);
-        transferObj.setNazivSo("kreirajVeslaca");
 
         Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_VESLAC, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -337,7 +324,6 @@ public class Kontroler {
     public List<Veslac> pretraziVeslaca(Veslac veslac) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslac);
-        transferObj.setNazivSo("pretraziVeslaca");
 
         Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_VESLAC, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -351,10 +337,9 @@ public class Kontroler {
         }
     }
 
-    public Integer obrisiVeslaca(Integer id) throws Exception {
+    public Integer obrisiVeslaca(Veslac veslac) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(new Veslac(id, null, null, 0, 0, KategorijaVeslaca.KADET, 0, null, new VeslackiKlub()));
-        transferObj.setNazivSo("kreirajVeslaca");
+        transferObj.setOdo(veslac);
 
         Zahtev zahtev = new Zahtev(Operacija.BRISANJE_VESLAC, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -371,7 +356,6 @@ public class Kontroler {
     public Veslac azurirajVeslaca(Veslac veslac) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslac);
-        transferObj.setNazivSo("kreirajVeslaca");
 
         Zahtev zahtev = new Zahtev(Operacija.PROMENA_VESLAC, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -389,7 +373,6 @@ public class Kontroler {
         TransferObjekat transferObjekat = new TransferObjekat();
         transferObjekat.setListOdo(veslaci);
         transferObjekat.setOdo(new Veslac());
-        transferObjekat.setNazivSo("vratiListuSviVeslaci");
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_VESLAC, veslaci);
         posiljalac.posaljiPoruku(zahtev);
@@ -407,7 +390,6 @@ public class Kontroler {
         TransferObjekat transferObjekat = new TransferObjekat();
         transferObjekat.setListOdo(veslaci);
         transferObjekat.setOdo(new Veslac());
-        transferObjekat.setNazivSo("vratiListuVeslaci");
         transferObjekat.setWhereUslov(kriterijum);
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_VESLAC, transferObjekat);
@@ -426,7 +408,6 @@ public class Kontroler {
     public Takmicenje dodajTakmicenje(Takmicenje takmicenje) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(takmicenje);
-        transferObj.setNazivSo("ubaciTakmicenje");
 
         Zahtev zahtev = new Zahtev(Operacija.UBACIVANJE_TAKMICENJE, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -443,7 +424,6 @@ public class Kontroler {
     public Integer obrisiTakmicenje(Integer idTakmicenja) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(new Takmicenje(idTakmicenja, null, null, null, null));
-        transferObj.setNazivSo("kreirajVeslaca");
 
         Zahtev zahtev = new Zahtev(Operacija.BRISANJE_TAKMICENJE, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -475,7 +455,6 @@ public class Kontroler {
         TransferObjekat transferObjekat = new TransferObjekat();
         transferObjekat.setListOdo(takmicenja);
         transferObjekat.setOdo(new Takmicenje());
-        transferObjekat.setNazivSo("vratiListuSvaTakmicenja");
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_TAKMICENJA, transferObjekat);
         posiljalac.posaljiPoruku(zahtev);
@@ -511,7 +490,6 @@ public class Kontroler {
     public PonudaVeslaca kreirajPonuduVeslaca(PonudaVeslaca ponudaVeslaca) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(ponudaVeslaca);
-        transferObj.setNazivSo("kreirajPonudu");
 
         Zahtev zahtev = new Zahtev(Operacija.KREIRANJE_PONUDE, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -525,10 +503,10 @@ public class Kontroler {
         }
     }
 
-    public List<PonudaVeslaca> pretraziPonudu(PonudaVeslaca ponuda) throws Exception {
+    public PonudaVeslaca pretraziPonudu(PonudaVeslaca ponuda) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(ponuda);
-        transferObj.setNazivSo("pretraziPonudu");
+        transferObj.setWhereUslov(ponuda.vratiWhereUslov());
 
         Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_PONUDE, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -538,14 +516,13 @@ public class Kontroler {
             throw new Exception((Throwable) odgovor.getParametar());
         } else {
             transferObj = (TransferObjekat) odgovor.getParametar();
-            return (List<PonudaVeslaca>) transferObj.getOdo();
+            return (PonudaVeslaca) transferObj.getOdo();
         }
     }
 
     public Integer obrisiPonudu(Integer idPonude) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(new PonudaVeslaca(idPonude, null, 0, 0, 0, 0, null, new VeslackiKlub(), new Agencija()));
-        transferObj.setNazivSo("obrisiPonudu");
 
         Zahtev zahtev = new Zahtev(Operacija.BRISANJE_PONUDE, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -562,7 +539,6 @@ public class Kontroler {
     public PonudaVeslaca promeniPonudu(PonudaVeslaca ponudaVeslaca) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(ponudaVeslaca);
-        transferObj.setNazivSo("promeniPonudu");
 
         Zahtev zahtev = new Zahtev(Operacija.PROMENA_PONUDE, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -581,7 +557,6 @@ public class Kontroler {
         TransferObjekat transferObjekat = new TransferObjekat();
         transferObjekat.setListOdo(ponude);
         transferObjekat.setOdo(new PonudaVeslaca());
-        transferObjekat.setNazivSo("vratiListuSvePonudeKluba");
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVI_PONUDE_VESLACA, transferObjekat);
         posiljalac.posaljiPoruku(zahtev);
@@ -599,7 +574,6 @@ public class Kontroler {
         TransferObjekat transferObjekat = new TransferObjekat();
         transferObjekat.setListOdo(ponude);
         transferObjekat.setOdo(new PonudaVeslaca());
-        transferObjekat.setNazivSo("vratiListuPonude");
         transferObjekat.setWhereUslov(kriterijum);
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_PONUDE_VESLACA, transferObjekat);
@@ -618,7 +592,6 @@ public class Kontroler {
     public Drzava ubaciDrzavu(Drzava drzava) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(drzava);
-        transferObj.setNazivSo("ubaciDrzavu");
 
         Zahtev zahtev = new Zahtev(Operacija.UBACIVANJE_DRZAVA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -635,7 +608,6 @@ public class Kontroler {
     public Integer obrisiDrzavu(Integer id) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(new Drzava(id, null));
-        transferObj.setNazivSo("obrisiDrzavu");
 
         Zahtev zahtev = new Zahtev(Operacija.BRISANJE_DRZAVA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -653,7 +625,6 @@ public class Kontroler {
         TransferObjekat transferObjekat = new TransferObjekat();
         transferObjekat.setListOdo(drzave);
         transferObjekat.setOdo(new Drzava());
-        transferObjekat.setNazivSo("vratiListuSveDrzave");
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_SVE_DRZAVE, transferObjekat);
         posiljalac.posaljiPoruku(zahtev);
@@ -671,7 +642,6 @@ public class Kontroler {
         TransferObjekat transferObjekat = new TransferObjekat();
         transferObjekat.setListOdo(drzave);
         transferObjekat.setOdo(new Drzava());
-        transferObjekat.setNazivSo("vratiListuDrzave");
         transferObjekat.setWhereUslov(kriterijum);
 
         Zahtev zahtev = new Zahtev(Operacija.VRATI_LISTU_DRZAVE, transferObjekat);
@@ -765,19 +735,4 @@ public class Kontroler {
             return (Integer) odgovor.getParametar();
         }
     }
-
-//    public List<StavkaPonude> vratiSveStavkePonude(Integer idPonude) throws Exception {
-//
-//        Zahtev zahtev = new Zahtev(Operacija.VRATI_SVE_STAVKE_PONUDE, idPonude);
-//        posiljalac.posaljiPoruku(zahtev);
-//
-//        Odgovor odgovor = (Odgovor) primalac.primiPoruku();
-//
-//        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-//            throw new Exception((Throwable) odgovor.getParametar());
-//        } else {
-//            return (List<StavkaPonude>) odgovor.getParametar();
-//        }
-//
-//    }
 }

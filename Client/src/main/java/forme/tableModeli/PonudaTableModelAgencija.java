@@ -12,17 +12,16 @@ import model.PonudaVeslaca;
 public class PonudaTableModelAgencija extends AbstractTableModel {
 
     List<PonudaVeslaca> ponude;
-    String[] kolone = {"id", "Datum kreiranja", "Broj kadeta", "Broj juniora", "Prosečno vreme kadeta", "Prosečno vreme juniora", "Klub"};
+    String[] kolone = {"Datum kreiranja", "Broj kadeta", "Broj juniora", "Prosečno vreme kadeta", "Prosečno vreme juniora", "Klub"};
 
-    public PonudaTableModelAgencija(){
+    public PonudaTableModelAgencija() {
         ponude = new LinkedList<>();
     }
-    
-    public PonudaTableModelAgencija(List<PonudaVeslaca> ponude){
+
+    public PonudaTableModelAgencija(List<PonudaVeslaca> ponude) {
         this.ponude = ponude;
     }
-    
-    
+
     @Override
     public int getRowCount() {
         return ponude.size();
@@ -37,30 +36,28 @@ public class PonudaTableModelAgencija extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         PonudaVeslaca ponuda = ponude.get(rowIndex);
         switch (columnIndex) {
-            
+
             case 0 -> {
-                return ponuda.getId();
-            }
-            case 1 -> {
                 return ponuda.getDatumKreiranja();
             }
-            case 2 -> {
+            case 1 -> {
                 return ponuda.getBrojKadeta();
             }
-            case 3 -> {
+            case 2 -> {
                 return ponuda.getBrojJuniora();
             }
-            case 4 -> {
+            case 3 -> {
                 return ponuda.getProsecnoVremeKadeti();
             }
-            case 5 -> {
+            case 4 -> {
                 return ponuda.getProsecnoVremeJuniori();
             }
-            case 6 -> {
+            case 5 -> {
                 return ponuda.getVeslackiKlub().getNaziv();
             }
 
-            default -> throw new AssertionError();
+            default ->
+                throw new AssertionError();
         }
 
     }
@@ -74,10 +71,12 @@ public class PonudaTableModelAgencija extends AbstractTableModel {
         return ponude;
     }
 
+    public PonudaVeslaca getPonuda(int row) {
+        return ponude.get(row);
+    }
+
     public void setPonude(List<PonudaVeslaca> ponude) {
         this.ponude = ponude;
     }
-    
-    
 
 }
