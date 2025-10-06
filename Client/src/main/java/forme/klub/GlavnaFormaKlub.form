@@ -316,7 +316,7 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="radio1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Dr&#x17e;ava"/>
+                <Property name="text" type="java.lang.String" value="Vesla&#x10d;"/>
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="JetBrains Mono" size="18" style="0"/>
@@ -1424,7 +1424,7 @@
                     </Component>
                     <Component class="javax.swing.JButton" name="promeniVeslacaButton">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Promeni"/>
+                        <Property name="text" type="java.lang.String" value="Detalji"/>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="f4" green="92" red="d" type="rgb"/>
                         </Property>

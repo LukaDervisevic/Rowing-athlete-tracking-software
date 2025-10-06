@@ -190,7 +190,7 @@ public class Veslac implements OpstiDomenskiObjekat {
 
     @Override
     public String azurirajVrednostiAtributa() {
-        return "ime_prezime = " + imePrezime + ",datum_rodjenja = '" + new java.sql.Date(datumRodjenja.getTime()) + "' ,visina = " + visina + ",tezina = " + tezina + ",kategorija = " + kategorija.toString() + ",BMI = " + BMI + ",najbolje_vreme = "
+        return "ime_prezime = '" + imePrezime + "',datum_rodjenja = '" + new java.sql.Date(datumRodjenja.getTime()) + "' ,visina = " + visina + ",tezina = " + tezina + ",kategorija = '" + kategorija.toString() + "',BMI = " + BMI + ",najbolje_vreme = "
                 + najboljeVreme + ",datum_upisa = '" + new java.sql.Date(datumUpisa.getTime()) + "',id_kluba = " + veslackiKlub.getId();
     }
 
@@ -201,7 +201,7 @@ public class Veslac implements OpstiDomenskiObjekat {
 
     @Override
     public String vratiWhereUslov() {
-        return "id = " + id;
+        return alias()+".id = " + id;
     }
 
     @Override

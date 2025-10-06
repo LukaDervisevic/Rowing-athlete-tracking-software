@@ -1,5 +1,6 @@
 package so.agencija;
 
+import bbp.BrokerBazePodataka;
 import model.Agencija;
 import model.OpstiDomenskiObjekat;
 import so.OpsteIzvrsenjeSO;
@@ -18,17 +19,16 @@ public class SOPretraziAgenciju extends OpsteIzvrsenjeSO {
 
     @Override
     public boolean izvrsiSO() {
-        OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) bbp.pronadjiSlog(to.getOdo());
+        boolean signal;
+        OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(),to.getWhereUslov());
         if (vraceniOdo != null) {
             to.setOdo(vraceniOdo);
-            to.setSignal(true);
-            to.setTrenutniSlog(bbp.vratiPozicijuSloga(to.getOdo()));
+            signal = true;
         } else {
-            to.setSignal(false);
-            to.setTrenutniSlog(-1);
+            signal = false;
         }
 
-        return to.isSignal();
+        return signal;
     }
 
     @Override
@@ -36,10 +36,10 @@ public class SOPretraziAgenciju extends OpsteIzvrsenjeSO {
         if (!(odo instanceof Agencija)) {
             return false;
         }
-        
+
         Agencija agencija = (Agencija) odo;
         boolean signal = false;
-        if(agencija.getNaziv() == null){
+        if (agencija.getNaziv() == null) {
             signal = false;
         }
         return signal;

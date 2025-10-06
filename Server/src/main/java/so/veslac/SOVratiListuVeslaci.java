@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package so.veslac;
 
+import bbp.BrokerBazePodataka;
 import java.util.List;
 import model.OpstiDomenskiObjekat;
 import model.Veslac;
@@ -25,7 +22,7 @@ public class SOVratiListuVeslaci extends OpsteIzvrsenjeSO {
 
     @Override
     protected boolean izvrsiSO() {
-        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlogоve(to.getOdo(), kriterijum);
+        List<OpstiDomenskiObjekat> listaOdo = BrokerBazePodataka.getInstance().pronadjiSlogоve(to.getOdo(), kriterijum);
         to.setListOdo(listaOdo);
         return true;
     }

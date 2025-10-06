@@ -1,5 +1,6 @@
 package so.agencija;
 
+import bbp.BrokerBazePodataka;
 import java.util.List;
 import model.Agencija;
 import model.OpstiDomenskiObjekat;
@@ -21,7 +22,7 @@ public class SOVratiListuAgencija extends OpsteIzvrsenjeSO {
     
     @Override
     public boolean izvrsiSO() {
-        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlogоve(to.getOdo(), kriterijum);
+        List<OpstiDomenskiObjekat> listaOdo = BrokerBazePodataka.getInstance().pronadjiSlogоve(to.getOdo(), kriterijum);
         to.setListOdo(listaOdo);
         return true;
     }

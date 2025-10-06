@@ -105,6 +105,11 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             vrstaTrkeComboBox.addItem(VrstaTrke.CETVERAC_RIMEN);
             vrstaTrkeComboBox.addItem(VrstaTrke.OSMERAC);
 
+            kontrolnaTablaPanel.show();
+
+            radio1.setEnabled(true);
+            radio2.setEnabled(true);
+
             pretraziInput.addKeyListener(new KeyAdapter() {
 
                 @Override
@@ -142,16 +147,17 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
 
                                 String upitZaPretragu = pretraziInput.getText();
                                 if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
-
-                                    String nazivAgencije = upitZaPretragu;
-                                    int idAgencije = Integer.parseInt(upitZaPretragu);
-                                    List<PonudaVeslaca> ponude = new LinkedList<>();
-                                    VeslackiKlub klub = new VeslackiKlub();
-                                    klub.setId(idKluba);
-                                    Agencija agencija = new Agencija();
-                                    agencija.setId(idAgencije);
                                     try {
-                                        ponude = Kontroler.getInstance().vratiListuPonude(" VK.id = " + klub.getId() + " AND " + "A.id = " + agencija.getId() + " AND A.naziv LIKE '" + nazivAgencije + "%'", ponude);
+                                        String nazivAgencije = upitZaPretragu;
+                                        List<PonudaVeslaca> ponude = new LinkedList<>();
+                                        VeslackiKlub klub = new VeslackiKlub();
+                                        klub.setId(idKluba);
+                                        if (radio1.isSelected()) {
+                                            ponude = Kontroler.getInstance().vratiListuPonude(" VK.id = " + klub.getId() + " AND V.ime_prezime LIKE '" + nazivAgencije + "%'", new LinkedList<>());
+                                        } else if (radio2.isSelected()) {
+                                            ponude = Kontroler.getInstance().vratiListuPonude(" VK.id = " + klub.getId() + " AND A.naziv LIKE '" + nazivAgencije + "%'", new LinkedList<>());
+                                        }
+
                                         if (!ponude.isEmpty()) {
                                             JOptionPane.showMessageDialog(null, "Sistem je našao ponude veslača po zadatim kriterijumima", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                                         }
@@ -453,7 +459,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             }
         });
 
-        radio1.setText("Država");
+        radio1.setText("Veslač");
         radio1.setEnabled(false);
         radio1.setFont(new java.awt.Font("JetBrains Mono", 0, 18)); // NOI18N
         radio1.addActionListener(new java.awt.event.ActionListener() {
@@ -1120,7 +1126,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             }
         });
 
-        promeniVeslacaButton.setText("Promeni");
+        promeniVeslacaButton.setText("Detalji");
         promeniVeslacaButton.setBackground(new java.awt.Color(13, 146, 244));
         promeniVeslacaButton.setFont(new java.awt.Font("JetBrains Mono", 1, 19)); // NOI18N
         promeniVeslacaButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -1825,10 +1831,12 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         cardPanel.repaint();
         cardPanel.revalidate();
 
+        radio2.setText("Agencija");
         radio2.setVisible(true);
         radio2.setSelected(true);
         radio2.setEnabled(true);
 
+        radio1.setText("Država");
         radio1.setVisible(true);
         radio1.setSelected(false);
         radio1.setEnabled(true);
@@ -1877,11 +1885,13 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
         cardPanel.repaint();
         cardPanel.revalidate();
 
+        radio2.setText("Agencija");
         radio2.setSelected(false);
-        radio2.setEnabled(false);
+        radio2.setEnabled(true);
 
+        radio1.setText("Veslač");
         radio1.setSelected(false);
-        radio1.setEnabled(false);
+        radio1.setEnabled(true);
     }//GEN-LAST:event_kontrolnaTablaButtonActionPerformed
 
     private void takmicenjaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_takmicenjaButtonActionPerformed
@@ -2078,12 +2088,12 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 return;
             }
 
-            int id = (int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 0);
-            Integer obrisaniVeslac = Kontroler.getInstance().obrisiVeslaca(id);
+            Veslac veslac = ((VeslacTableModel) veslaciTable.getModel()).getVeslac(veslaciTable.getSelectedRow());
+            Integer obrisaniVeslac = Kontroler.getInstance().obrisiVeslaca(veslac);
 
             if (obrisaniVeslac != 0) {
                 JOptionPane.showMessageDialog(this, "Uspešno brisanje veslača", "", JOptionPane.INFORMATION_MESSAGE);
-                vtm.obrisiVeslaca(id);
+                vtm.obrisiVeslaca(veslac.getId());
             } else {
                 JOptionPane.showMessageDialog(this, "Neuspelo brisanje veslača", "Greska", JOptionPane.ERROR_MESSAGE);
 
@@ -2118,7 +2128,6 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             }
 
             Veslac v = ((VeslacTableModel) veslaciTable.getModel()).getVeslac(veslaciTable.getSelectedRow());
-            v.setVeslackiKlub(Kontroler.getInstance().vratiListuVeslackiKlub(" VK.id = " + idKluba, new LinkedList<>()).getFirst());
 
             JOptionPane.showMessageDialog(this, "Sistem je našao veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
             IzmeniVeslacForma ivf = new IzmeniVeslacForma(this, true, v);
@@ -2127,10 +2136,14 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 @Override
                 public void windowClosed(WindowEvent e) {
                     try {
-                        List<Veslac> veslaci = Kontroler.getInstance().vratiListuVeslaci(" id_kluba = " + idKluba, new LinkedList<>());
-                        veslaciTable.setModel(new VeslacTableModel(veslaci));
-                        veslaciTable.repaint();
-                        veslaciTable.revalidate();
+                        IzmeniVeslacForma ivf = (IzmeniVeslacForma) e.getSource();
+                        if (ivf.isBrisanje()) {
+                            vtm.obrisiVeslaca(ivf.getVeslac().getId());
+                        } else {
+                            vtm.obrisiVeslaca(ivf.getVeslac().getId());
+                            vtm.dodajVeslaca(ivf.getVeslac());
+                        }
+
                     } catch (Exception ex) {
                         logger.error(ex.getMessage());
                     }
@@ -2398,15 +2411,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 for (StavkaPonude stavka : stavkePonude) {
                     vptm.dodajVeslaca(stavka.getVeslac());
                 }
-
-                veslaciPonudaTable.setModel(new VeslacTableModel((LinkedList<Veslac>) veslaciKlubaPonuda));
-                veslaciPonudaTable.repaint();
-                veslaciPonudaTable.revalidate();
-
-                sptm = (StavkaPonudeTableModel) stavkaPonudeTable.getModel();
                 sptm.clear();
-
-                kreiranaPonuda = null;
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti ponudu veslača", "Greska", JOptionPane.ERROR_MESSAGE);
@@ -2421,18 +2426,23 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private void promeniPonuduButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_promeniPonuduButtonActionPerformed
         // TODO add your handling code here:
         if (ponudeTable.getSelectedRow() != -1) {
-            int idPonuda = (int) ponudeTable.getValueAt(ponudeTable.getSelectedRow(), 0);
+            PonudaVeslaca ponudaVeslaca = ((PonudaTableModelKlub) ponudeTable.getModel()).getPonuda(ponudeTable.getSelectedRow());
             try {
-                PonudaVeslaca ponudaVeslaca = Kontroler.getInstance().vratiListuPonude(" P.id = " + idPonuda, new LinkedList<>()).getFirst();
+                ponudaVeslaca = Kontroler.getInstance().pretraziPonudu(ponudaVeslaca);
+                JOptionPane.showMessageDialog(this, "Sistem je našao ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                 IzmeniPonuduForma ipf = new IzmeniPonuduForma(this, true, ponudaVeslaca);
 
                 ipf.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowClosed(WindowEvent e) {
                         try {
-                            ponudeVeslaca = Kontroler.getInstance().vratiListuPonude(" P.id_kluba = " + idKluba, new LinkedList<>());
-                            ponudeTable.setModel(new PonudaTableModelKlub(ponudeVeslaca));
-                            ptm = (PonudaTableModelKlub) ponudeTable.getModel();
+
+//                            ponudeVeslaca = Kontroler.getInstance().vratiListuPonude(" P.id_kluba = " + idKluba, new LinkedList<>());
+//                            ponudeTable.setModel(new PonudaTableModelKlub(ponudeVeslaca));
+//                            ptm = (PonudaTableModelKlub) ponudeTable.getModel();
+                            IzmeniPonuduForma ipf = (IzmeniPonuduForma) e.getSource();
+                            ptm.obrisiPonudu(ipf.getPonudaVeslaca().getId());
+                            ptm.dodajPonudu(ipf.getPonudaVeslaca());
                         } catch (Exception ex) {
                             System.getLogger(GlavnaFormaKlub.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
                         }
@@ -2441,8 +2451,11 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 });
 
             } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Sistem ne može da nadje ponudu veslača", "Greška", JOptionPane.ERROR_MESSAGE);
                 logger.error(ex);
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Sistem ne može da nadje ponudu veslača", "Greška", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_promeniPonuduButtonActionPerformed
 
@@ -2470,7 +2483,11 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
     private void radio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radio1ActionPerformed
         // TODO add your handling code here:
         if (radio1.isSelected()) {
-            pretraziInput.setText("Pretraži naziv države...");
+            if (cardPanel.getComponentZOrder(kreirajPonuduPanel) >= 0) {
+                pretraziInput.setText("Pretraži naziv države...");
+            } else if (cardPanel.getComponentZOrder(kontrolnaTablaPanel) >= 0) {
+                pretraziInput.setText("Pretraži ime veslača...");
+            }
             radio2.setSelected(false);
         }
     }//GEN-LAST:event_radio1ActionPerformed

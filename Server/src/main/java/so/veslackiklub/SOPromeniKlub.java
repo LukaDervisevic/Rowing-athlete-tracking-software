@@ -4,6 +4,7 @@
  */
 package so.veslackiklub;
 
+import bbp.BrokerBazePodataka;
 import model.OpstiDomenskiObjekat;
 import model.VeslackiKlub;
 import so.OpsteIzvrsenjeSO;
@@ -21,10 +22,10 @@ public class SOPromeniKlub extends OpsteIzvrsenjeSO {
 
     @Override
     protected boolean izvrsiSO() {
-        OpstiDomenskiObjekat vraceniOdo = bbp.pronadjiSlog(to.getOdo());
+        OpstiDomenskiObjekat vraceniOdo = BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(),to.getWhereUslov());
         if (vraceniOdo != null) {
 
-            if (bbp.azurirajSlog(vraceniOdo)) {
+            if (BrokerBazePodataka.getInstance().azurirajSlog(vraceniOdo)) {
                 to.setSignal(true);
             } else {
                 to.setSignal(false);

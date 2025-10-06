@@ -1,9 +1,12 @@
 package so.ponudaveslaca;
 
+import bbp.BrokerBazePodataka;
+import model.Agencija;
 import model.KategorijaVeslaca;
 import model.OpstiDomenskiObjekat;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
+import model.VeslackiKlub;
 import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
 
@@ -21,7 +24,7 @@ public class SOUbaciPonudu extends OpsteIzvrsenjeSO {
     public boolean izvrsiSO() {
         boolean signal = false;
         PonudaVeslaca ponuda = (PonudaVeslaca) getTo().getOdo();
-        int noviKljuc = getBbp().vratiNoviKljucPoKoloni(ponuda);
+        int noviKljuc = BrokerBazePodataka.getInstance().vratiNoviKljucPoKoloni(ponuda);
         if (noviKljuc == 0) {
             return signal;
         }
@@ -53,10 +56,10 @@ public class SOUbaciPonudu extends OpsteIzvrsenjeSO {
         ponuda.setProsecnoVremeJuniori(prosecno_vreme_juniori);
         ponuda.postaviPrimarniKljuc(noviKljuc);
 
-        signal = getBbp().kreirajSlog(getTo().getOdo());
+        signal = BrokerBazePodataka.getInstance().kreirajSlog(getTo().getOdo());
         if (signal) {
             for (StavkaPonude stavkaPonude : ponuda.getStavke()) {
-                signal = getBbp().kreirajSlog(stavkaPonude);
+                signal = BrokerBazePodataka.getInstance().kreirajSlog(stavkaPonude);
                 if (!signal) {
                     break;
                 }
@@ -95,6 +98,14 @@ public class SOUbaciPonudu extends OpsteIzvrsenjeSO {
         if(ponudaVeslaca.getAgencija().getId() <= 0) {
             signal = false;
         }
+        
+        // Strukturna ogranicenja
+        Agencija agencija = (Agencija) BrokerBazePodataka.getInstance().pronadjiSlog(ponudaVeslaca.getAgencija(),ponudaVeslaca.getAgencija().vratiWhereUslov());
+        VeslackiKlub klub = (VeslackiKlub) BrokerBazePodataka.getInstance().pronadjiSlog(ponudaVeslaca.getVeslackiKlub(),ponudaVeslaca.getVeslackiKlub().vratiWhereUslov());
+        if(agencija == null || klub == null) {
+            signal = false;
+        }
+        
         return signal;
     }
 

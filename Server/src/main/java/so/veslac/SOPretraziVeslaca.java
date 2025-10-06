@@ -1,5 +1,6 @@
 package so.veslac;
 
+import bbp.BrokerBazePodataka;
 import model.OpstiDomenskiObjekat;
 import model.Veslac;
 import so.OpsteIzvrsenjeSO;
@@ -17,16 +18,15 @@ public class SOPretraziVeslaca extends OpsteIzvrsenjeSO {
 
     @Override
     protected boolean izvrsiSO() {
-        OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) bbp.pronadjiSlog(to.getOdo());
+        boolean signal;
+        OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(),to.getWhereUslov());
         if (vraceniOdo != null) {
             to.setOdo(vraceniOdo);
-            to.setSignal(true);
-            to.setTrenutniSlog(bbp.vratiPozicijuSloga(to.getOdo()));
+            signal = true;
         } else {
-            to.setSignal(false);
-            to.setTrenutniSlog(-1);
+            signal = false;
         }
-        return to.isSignal();
+        return signal;
     }
 
     @Override

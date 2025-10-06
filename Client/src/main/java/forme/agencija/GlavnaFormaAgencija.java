@@ -782,7 +782,6 @@ public class GlavnaFormaAgencija extends javax.swing.JFrame {
             if (ponudaVeslaca != null) {
                 JOptionPane.showMessageDialog(this, "Sistem je našao ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                 List<StavkaPonude> stavkePonude = ponudaVeslaca.getStavke();
-                System.out.println(stavkePonude);
                 sptm.setStavkePonude(stavkePonude);
                 sptm.fireTableDataChanged();
             } else {

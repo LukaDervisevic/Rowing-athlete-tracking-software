@@ -1,5 +1,6 @@
 package so.veslackiklub;
 
+import bbp.BrokerBazePodataka;
 import java.util.List;
 import model.OpstiDomenskiObjekat;
 import model.VeslackiKlub;
@@ -18,7 +19,7 @@ public class SOVratiListuKlub extends OpsteIzvrsenjeSO {
 
     @Override
     protected boolean izvrsiSO() {
-        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlogоve(to.getOdo(), to.getWhereUslov());
+        List<OpstiDomenskiObjekat> listaOdo = BrokerBazePodataka.getInstance().pronadjiSlogоve(to.getOdo(), to.getWhereUslov());
         to.setListOdo(listaOdo);
         return true;
     }

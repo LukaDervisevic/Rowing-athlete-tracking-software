@@ -267,7 +267,7 @@ public class PonudaVeslaca implements OpstiDomenskiObjekat {
 
     @Override
     public String vratiPrimarniKljuc() {
-        return "id_ponude = " + id;
+        return "id = " + id;
     }
 
     @Override

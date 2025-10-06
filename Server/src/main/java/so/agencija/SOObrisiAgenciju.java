@@ -1,5 +1,6 @@
 package so.agencija;
 
+import bbp.BrokerBazePodataka;
 import model.Agencija;
 import model.OpstiDomenskiObjekat;
 import so.OpsteIzvrsenjeSO;
@@ -17,7 +18,7 @@ public class SOObrisiAgenciju extends OpsteIzvrsenjeSO {
 
     @Override
     public boolean izvrsiSO() {
-        boolean signal = bbp.obrisiSlog(to.getOdo());
+        boolean signal = BrokerBazePodataka.getInstance().obrisiSlog(to.getOdo());
         getTo().setSignal(signal);
         return signal;
     }

@@ -265,7 +265,7 @@ public class PrijavaForma extends javax.swing.JFrame {
             if (ulovoganiKlub == null) {
                 Agencija ulogovanaAgencija = Kontroler.getInstance().prijaviAgencija(new Agencija(0, null, null, null, korisnickoImeInput.getText(), sifraKorisnikaInput.getText(), new Drzava()));
                 if (ulogovanaAgencija == null) {
-                    throw new RuntimeException();
+                    throw new RuntimeException("Losi kredencijali");
                 } else {
                     Kontroler.getInstance().setUlogovaniNalog(ulogovanaAgencija);
                     Kontroler.getInstance().setOdjavaSignal(false);
@@ -283,7 +283,6 @@ public class PrijavaForma extends javax.swing.JFrame {
 
         } catch (Exception ex) {
 //            logger.error(ex.getMessage());
-            ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Korisničko ime i šifra nisu ispravni", "Greška", JOptionPane.ERROR_MESSAGE);
             sifraGreskaLabel.setText("Nalog nije pronadjen pokušajte ponovo");
             sifraGreskaLabel.setVisible(true);

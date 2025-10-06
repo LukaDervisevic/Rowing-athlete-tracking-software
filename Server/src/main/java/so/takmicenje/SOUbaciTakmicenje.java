@@ -1,5 +1,6 @@
 package so.takmicenje;
 
+import bbp.BrokerBazePodataka;
 import java.util.Arrays;
 import model.OpstiDomenskiObjekat;
 import model.Takmicenje;
@@ -18,13 +19,7 @@ public class SOUbaciTakmicenje extends OpsteIzvrsenjeSO {
 
     @Override
     public boolean izvrsiSO() {
-        boolean signal = false;
-        int noviKljuc = getBbp().vratiNoviKljucPoKoloni(getTo().getOdo());
-        if (noviKljuc != 0) {
-            getTo().getOdo().postaviPrimarniKljuc(noviKljuc);
-            signal = getBbp().kreirajSlog(getTo().getOdo());
-            getTo().signal = signal;
-        }
+        boolean signal = BrokerBazePodataka.getInstance().kreirajSlog(getTo().getOdo());
         return signal;
     }
 
@@ -36,17 +31,15 @@ public class SOUbaciTakmicenje extends OpsteIzvrsenjeSO {
 
         boolean signal = true;
         Takmicenje takmicenje = (Takmicenje) odo;
-        if (takmicenje.getId() == 0) {
-            signal = false;
-        }
+
         if (takmicenje.getNaziv() == null || takmicenje.getNaziv().isBlank()) {
             signal = false;
         }
-        String[] kategorija = {"Kadet", "Junior"};
+        String[] kategorija = {"KADET", "JUNIOR"};
         if (!Arrays.asList(kategorija).contains(takmicenje.getStarosnaKategorija().toString())) {
             signal = false;
         }
-        String[] vrstaTrke = {"Skif", "Dubl", "Dvojac", "Cetverac", "Osmerac"};
+        String[] vrstaTrke = {"SKIF", "DUBL", "DVOJAC", "CETVERAC_SKUL", "CETVERAC_RIMEN", "OSMERAC"};
         if (!Arrays.asList(vrstaTrke).contains(takmicenje.getVrstaTrke().toString())) {
             signal = false;
         }

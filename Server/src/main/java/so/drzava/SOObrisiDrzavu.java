@@ -1,5 +1,6 @@
 package so.drzava;
 
+import bbp.BrokerBazePodataka;
 import model.Drzava;
 import model.OpstiDomenskiObjekat;
 import so.OpsteIzvrsenjeSO;
@@ -18,7 +19,7 @@ public class SOObrisiDrzavu extends OpsteIzvrsenjeSO {
 
     @Override
     public boolean izvrsiSO() {
-        boolean signal = bbp.obrisiSlog(to.getOdo());
+        boolean signal = BrokerBazePodataka.getInstance().obrisiSlog(to.getOdo());
         getTo().setSignal(signal);
         return signal;
     }

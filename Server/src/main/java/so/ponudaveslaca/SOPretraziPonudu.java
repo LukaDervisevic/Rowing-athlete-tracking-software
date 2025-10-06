@@ -1,5 +1,6 @@
 package so.ponudaveslaca;
 
+import bbp.BrokerBazePodataka;
 import model.OpstiDomenskiObjekat;
 import model.PonudaVeslaca;
 import so.OpsteIzvrsenjeSO;
@@ -17,26 +18,19 @@ public class SOPretraziPonudu extends OpsteIzvrsenjeSO {
 
     @Override
     protected boolean izvrsiSO() {
-        if (proveriOgranicenja(to.getOdo())) {
-            OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) bbp.pronadjiSlog(to.getOdo());
+        boolean signal;
+            OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(),to.getWhereUslov());
             if (vraceniOdo != null) {
                 to.setOdo(vraceniOdo);
-                to.setSignal(true);
-                to.setTrenutniSlog(bbp.vratiPozicijuSloga(to.getOdo()));
+                signal = true;
             } else {
-                to.setSignal(false);
-                to.setTrenutniSlog(-1);
+               signal = false;
             }
-        }
-        return to.isSignal();
+        return signal;
     }
 
     @Override
     protected boolean proveriOgranicenja(OpstiDomenskiObjekat odo) {
-        if (!(odo instanceof PonudaVeslaca)) {
-            return false;
-        }
-        PonudaVeslaca ponudaVeslaca = (PonudaVeslaca) odo;
-        return true;
+        return odo instanceof PonudaVeslaca;
     }
 }

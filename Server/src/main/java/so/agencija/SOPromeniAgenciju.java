@@ -1,5 +1,6 @@
 package so.agencija;
 
+import bbp.BrokerBazePodataka;
 import model.Agencija;
 import model.OpstiDomenskiObjekat;
 import so.OpsteIzvrsenjeSO;
@@ -17,9 +18,9 @@ public class SOPromeniAgenciju extends OpsteIzvrsenjeSO{
 
     @Override
     public boolean izvrsiSO() {
-            OpstiDomenskiObjekat vraceniOdo = bbp.pronadjiSlog(to.getOdo());
+            OpstiDomenskiObjekat vraceniOdo = BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(),to.getOdo().vratiWhereUslov());
             if (vraceniOdo != null) {
-                if (bbp.azurirajSlog(vraceniOdo)) {
+                if (BrokerBazePodataka.getInstance().azurirajSlog(vraceniOdo)) {
                     to.setSignal(true);
                 } else {
                     to.setSignal(false);

@@ -1,5 +1,6 @@
 package so.veslackiklub;
 
+import bbp.BrokerBazePodataka;
 import model.OpstiDomenskiObjekat;
 import model.VeslackiKlub;
 import so.OpsteIzvrsenjeSO;
@@ -22,7 +23,7 @@ public class SOPrijaviKlub extends OpsteIzvrsenjeSO {
             VeslackiKlub klub = (VeslackiKlub) to.getOdo();
             boolean verifikovano;
 
-            VeslackiKlub vraceniKlub = (VeslackiKlub) bbp.prijaviSlog(to.getOdo());
+            VeslackiKlub vraceniKlub = (VeslackiKlub) BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(),to.getWhereUslov());
             if (vraceniKlub != null) {
                 verifikovano = HesiranjeServis.proveriSifru(klub.getSifra(), vraceniKlub.getSifra());
                 to.setOdo(vraceniKlub);

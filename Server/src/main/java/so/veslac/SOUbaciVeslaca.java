@@ -1,5 +1,6 @@
 package so.veslac;
 
+import bbp.BrokerBazePodataka;
 import java.util.Arrays;
 import model.OpstiDomenskiObjekat;
 import model.Veslac;
@@ -19,10 +20,10 @@ public class SOUbaciVeslaca extends OpsteIzvrsenjeSO {
     @Override
     protected boolean izvrsiSO() {
         boolean signal = false;
-        int noviKljuc = getBbp().vratiNoviKljucPoKoloni(getTo().getOdo());
+        int noviKljuc = BrokerBazePodataka.getInstance().vratiNoviKljucPoKoloni(getTo().getOdo());
         if (noviKljuc != 0) {
             getTo().getOdo().postaviPrimarniKljuc(noviKljuc);
-            signal = getBbp().kreirajSlog(getTo().getOdo());
+            signal = BrokerBazePodataka.getInstance().kreirajSlog(getTo().getOdo());
             getTo().signal = signal;
         }
         return signal;

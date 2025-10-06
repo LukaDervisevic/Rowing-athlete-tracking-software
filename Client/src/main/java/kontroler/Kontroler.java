@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.util.List;
 import model.Agencija;
 import model.Drzava;
-import model.KategorijaVeslaca;
 import model.KlubTakmicenje;
 import model.PonudaVeslaca;
 import model.Takmicenje;
@@ -81,6 +80,7 @@ public class Kontroler {
     public VeslackiKlub prijaviVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslackiKlub);
+        transferObj.setWhereUslov(" " + veslackiKlub.alias()+".korisnicko_ime = '" + veslackiKlub.getKorisnickoIme() + "' ");
 
         Zahtev zahtev = new Zahtev(Operacija.PRIJAVA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -195,6 +195,7 @@ public class Kontroler {
     public Agencija prijaviAgencija(Agencija agencija) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(agencija);
+        transferObj.setWhereUslov( " "+agencija.alias()+".korisnicko_ime = '" + agencija.getKorisnickoIme() + "' ");
 
         Zahtev zahtev = new Zahtev(Operacija.PRIJAVA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -336,9 +337,9 @@ public class Kontroler {
         }
     }
 
-    public Integer obrisiVeslaca(Integer id) throws Exception {
+    public Integer obrisiVeslaca(Veslac veslac) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
-        transferObj.setOdo(new Veslac(id, null, null, 0, 0, KategorijaVeslaca.KADET, 0, null, new VeslackiKlub()));
+        transferObj.setOdo(veslac);
 
         Zahtev zahtev = new Zahtev(Operacija.BRISANJE_VESLAC, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -505,6 +506,7 @@ public class Kontroler {
     public PonudaVeslaca pretraziPonudu(PonudaVeslaca ponuda) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(ponuda);
+        transferObj.setWhereUslov(ponuda.vratiWhereUslov());
 
         Zahtev zahtev = new Zahtev(Operacija.PRETRAZIVANJE_PONUDE, transferObj);
         posiljalac.posaljiPoruku(zahtev);

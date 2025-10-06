@@ -1,6 +1,8 @@
 package so.agencija;
 
+import bbp.BrokerBazePodataka;
 import model.Agencija;
+import model.Drzava;
 import model.OpstiDomenskiObjekat;
 import so.OpsteIzvrsenjeSO;
 import transfer.TransferObjekat;
@@ -21,13 +23,7 @@ public class SOUbaciAgenciju extends OpsteIzvrsenjeSO {
     @Override
     public boolean izvrsiSO() {
         boolean signal = false;
-        int noviKljuc = getBbp().vratiNoviKljucPoKoloni(getTo().getOdo());
-        if (noviKljuc != 0) {
-            getTo().getOdo().postaviPrimarniKljuc(noviKljuc);
-            signal = getBbp().kreirajSlog(getTo().getOdo());
-            getTo().signal = signal;
-        }
-
+        signal = BrokerBazePodataka.getInstance().kreirajSlog(getTo().getOdo());
         return signal;
     }
 
@@ -37,6 +33,7 @@ public class SOUbaciAgenciju extends OpsteIzvrsenjeSO {
             return false;
         }
 
+        // Prosto vrednosno ogranicenje
         boolean signal = true;
         Agencija agencija = (Agencija) to.getOdo();
         if (agencija.getKorisnickoIme() == null || agencija.getKorisnickoIme().isBlank()) {
@@ -66,6 +63,13 @@ public class SOUbaciAgenciju extends OpsteIzvrsenjeSO {
         if (agencija.getSifra().length() < 8) {
             signal = false;
         }
+
+        // Strukturno ogranicenje
+        Drzava drzava = (Drzava) BrokerBazePodataka.getInstance().pronadjiSlog(agencija.getDrzava(), agencija.getDrzava().vratiWhereUslov());
+        if (drzava == null) {
+            signal = false;
+        }
+
         return signal;
     }
 

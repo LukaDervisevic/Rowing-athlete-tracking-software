@@ -1,5 +1,6 @@
 package so.ponudaveslaca;
 
+import bbp.BrokerBazePodataka;
 import java.util.LinkedList;
 import java.util.List;
 import model.KategorijaVeslaca;
@@ -23,8 +24,8 @@ public class SOPromeniPonudu extends OpsteIzvrsenjeSO {
     public boolean izvrsiSO() {
         boolean signal = false;
         PonudaVeslaca novaPonuda = (PonudaVeslaca) to.getOdo();
-        PonudaVeslaca staraPonuda = (PonudaVeslaca) bbp.pronadjiSlog(to.getOdo());
-        if (staraPonuda == null || novaPonuda == null) {
+        PonudaVeslaca staraPonuda = (PonudaVeslaca) BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(), novaPonuda.vratiWhereUslov());
+        if (staraPonuda == null) {
             return signal;
         }
 
@@ -43,13 +44,13 @@ public class SOPromeniPonudu extends OpsteIzvrsenjeSO {
         }
         
         for(StavkaPonude stavkaPonude : stavkeZaBrisanje) {
-            signal = bbp.obrisiSlog(stavkaPonude);
+            signal = BrokerBazePodataka.getInstance().obrisiSlog(stavkaPonude);
             novaPonuda.getStavke().remove(stavkaPonude);
             if(!signal) return signal;
         }
         
         for(StavkaPonude stavkaPonude : stavkeZaDodavanje) {
-            signal = bbp.kreirajSlog(stavkaPonude);
+            signal = BrokerBazePodataka.getInstance().kreirajSlog(stavkaPonude);
             if(!signal) return signal;
         }
         
@@ -79,7 +80,7 @@ public class SOPromeniPonudu extends OpsteIzvrsenjeSO {
         novaPonuda.setProsecnoVremeKadeti(prosecno_vreme_kadeti);
         novaPonuda.setProsecnoVremeJuniori(prosecno_vreme_juniori);
         
-        signal = bbp.azurirajSlog(novaPonuda);
+        signal = BrokerBazePodataka.getInstance().azurirajSlog(novaPonuda);
 
         return signal;
     }
@@ -89,7 +90,7 @@ public class SOPromeniPonudu extends OpsteIzvrsenjeSO {
         if (!(odo instanceof PonudaVeslaca)) {
             return false;
         }
-
+        //Vrednosna ogranicenja
         boolean signal = true;
         PonudaVeslaca ponudaVeslaca = (PonudaVeslaca) odo;
         if(ponudaVeslaca.getId() <= 0) {
@@ -116,6 +117,13 @@ public class SOPromeniPonudu extends OpsteIzvrsenjeSO {
         if(ponudaVeslaca.getAgencija().getId() <= 0) {
             signal = false;
         }
+        
+        // Strukturna ogranicenja
+        OpstiDomenskiObjekat ponudaOdo = BrokerBazePodataka.getInstance().pronadjiSlog(ponudaVeslaca, ponudaVeslaca.vratiWhereUslov());
+        if(ponudaOdo == null) {
+            signal = false;
+        }
+        
         return signal;
     }
 }

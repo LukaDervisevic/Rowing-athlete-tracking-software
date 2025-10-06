@@ -1,5 +1,6 @@
 package so.ponudaveslaca;
 
+import bbp.BrokerBazePodataka;
 import model.OpstiDomenskiObjekat;
 import model.PonudaVeslaca;
 import so.OpsteIzvrsenjeSO;
@@ -17,7 +18,7 @@ public class SOObrisiPonudu extends OpsteIzvrsenjeSO {
 
     @Override
     public boolean izvrsiSO() {
-        boolean signal = bbp.obrisiSlog(to.getOdo());
+        boolean signal = BrokerBazePodataka.getInstance().obrisiSlog(to.getOdo());
         getTo().setSignal(signal);
         return signal;
     }

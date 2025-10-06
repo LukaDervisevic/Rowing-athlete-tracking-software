@@ -1,5 +1,6 @@
 package so.takmicenje;
 
+import bbp.BrokerBazePodataka;
 import java.util.List;
 import model.OpstiDomenskiObjekat;
 import model.Takmicenje;
@@ -21,7 +22,7 @@ public class SOVratiListuTakmicenja extends OpsteIzvrsenjeSO {
 
     @Override
     protected boolean izvrsiSO() {
-        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlogоve(to.getOdo(), kriterijum);
+        List<OpstiDomenskiObjekat> listaOdo = BrokerBazePodataka.getInstance().pronadjiSlogоve(to.getOdo(), kriterijum);
         to.setListOdo(listaOdo);
         return true;
     }

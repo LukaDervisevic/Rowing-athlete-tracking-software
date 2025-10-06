@@ -4,6 +4,7 @@
  */
 package so.ponudaveslaca;
 
+import bbp.BrokerBazePodataka;
 import java.util.List;
 import model.OpstiDomenskiObjekat;
 import model.PonudaVeslaca;
@@ -25,7 +26,7 @@ public class SOVratiListuPonuda extends OpsteIzvrsenjeSO{
 
     @Override
     public boolean izvrsiSO() {
-        List<OpstiDomenskiObjekat> listaOdo = bbp.pronadjiSlogоve(to.getOdo(), kriterijum);
+        List<OpstiDomenskiObjekat> listaOdo = BrokerBazePodataka.getInstance().pronadjiSlogоve(to.getOdo(), kriterijum);
         to.setListOdo(listaOdo);
         return true;
         

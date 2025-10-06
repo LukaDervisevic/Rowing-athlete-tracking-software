@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 public class IzmeniVeslacForma extends javax.swing.JDialog {
     
     private Veslac veslac;
+    private boolean brisanje;
     
     private static final Logger logger = LogManager.getRootLogger();
     
@@ -75,6 +76,24 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         
     }
 
+    public Veslac getVeslac() {
+        return veslac;
+    }
+
+    public void setVeslac(Veslac veslac) {
+        this.veslac = veslac;
+    }
+
+    public boolean isBrisanje() {
+        return brisanje;
+    }
+
+    public void setBrisanje(boolean brisanje) {
+        this.brisanje = brisanje;
+    }
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -345,41 +364,41 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
 
     private void visinaInputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_visinaInputFocusLost
         // TODO add your handling code here:
-        if (visinaInput.getText().isEmpty()) {
-            visinaInput.setText("Unesite email...");
-        }
+//        if (visinaInput.getText().isEmpty()) {
+//            visinaInput.setText("Unesite email...");
+//        }
     }//GEN-LAST:event_visinaInputFocusLost
 
     private void visinaInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_visinaInputFocusGained
         // TODO add your handling code here:
-        if (visinaInput.getText().equals("Unesite email...")) {
-            visinaInput.setText("");
-        }
+//        if (visinaInput.getText().equals("Unesite email...")) {
+//            visinaInput.setText("");
+//        }
     }//GEN-LAST:event_visinaInputFocusGained
 
     private void imePrezimeInputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_imePrezimeInputFocusLost
-        if (imePrezimeInput.getText().isEmpty()) {
-            imePrezimeInput.setText("Unesite naziv...");
-        }
+//        if (imePrezimeInput.getText().isEmpty()) {
+//            imePrezimeInput.setText("Unesite naziv...");
+//        }
     }//GEN-LAST:event_imePrezimeInputFocusLost
 
     private void imePrezimeInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_imePrezimeInputFocusGained
-        if (imePrezimeInput.getText().equals("Unesite naziv...")) {
-            imePrezimeInput.setText("");
-        }
+//        if (imePrezimeInput.getText().equals("Unesite naziv...")) {
+//            imePrezimeInput.setText("");
+//        }
     }//GEN-LAST:event_imePrezimeInputFocusGained
 
     private void tezinaInputFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tezinaInputFocusLost
         // TODO add your handling code here:
-        if(tezinaInput.getText().isEmpty()){
-            tezinaInput.setText("Unesite adresa...");
-        }
+//        if(tezinaInput.getText().isEmpty()){
+//            tezinaInput.setText("Unesite adresa...");
+//        }
     }//GEN-LAST:event_tezinaInputFocusLost
 
     private void tezinaInputFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tezinaInputFocusGained
-        if (tezinaInput.getText().equals("Unesite adresu...")) {
-            tezinaInput.setText("");
-        }
+//        if (tezinaInput.getText().equals("Unesite adresu...")) {
+//            tezinaInput.setText("");
+//        }
     }//GEN-LAST:event_tezinaInputFocusGained
 
     private void potvrdiAzuriranjeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_potvrdiAzuriranjeButtonActionPerformed
@@ -407,14 +426,15 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
 //            veslac.setIdKluba(Integer.parseInt(idKlubaInput.getText()));
             
             try {
-                Kontroler.getInstance().azurirajVeslaca(veslac);
+                veslac = Kontroler.getInstance().azurirajVeslaca(veslac);
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio veslača");
                 this.dispose();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this,"Greska pri azuriranju" + ex,"Greska",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,"Sistem ne može da zapamti veslača","Greska",JOptionPane.ERROR_MESSAGE);
             }
             
         }else{
-            JOptionPane.showMessageDialog(this,"Sva polja nisu popunjena","Greska", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,"Sistem ne može da zapamti veslača","Greska",JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_potvrdiAzuriranjeButtonActionPerformed
@@ -427,9 +447,10 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
         // TODO add your handling code here:
 
         try{
-            Kontroler.getInstance().obrisiVeslaca(veslac.getId());
+            Kontroler.getInstance().obrisiVeslaca(veslac);
+            brisanje = true;
             JOptionPane.showMessageDialog(this, "Sistem je obrisao veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
-//            this.dispose();
+            this.dispose();
 
         }catch(Exception ex){
             logger.error(ex.getMessage());

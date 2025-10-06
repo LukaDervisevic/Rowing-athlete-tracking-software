@@ -1,5 +1,6 @@
 package so.takmicenje;
 
+import bbp.BrokerBazePodataka;
 import java.util.Arrays;
 import model.OpstiDomenskiObjekat;
 import model.Takmicenje;
@@ -18,7 +19,7 @@ public class SOObrisiTakmicenje extends OpsteIzvrsenjeSO {
 
     @Override
     protected boolean izvrsiSO() {
-        boolean signal = bbp.obrisiSlog(to.getOdo());
+        boolean signal = BrokerBazePodataka.getInstance().obrisiSlog(to.getOdo());
         getTo().setSignal(signal);
         return signal;
     }

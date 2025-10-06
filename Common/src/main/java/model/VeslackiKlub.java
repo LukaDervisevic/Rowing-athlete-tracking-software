@@ -166,7 +166,7 @@ public class VeslackiKlub implements OpstiDomenskiObjekat {
 
     @Override
     public String vratiWhereUslov() {
-        return " korisnicko_ime  = '" + korisnickoIme + "'";
+        return alias()+".id = " + id;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package so.agencija;
 
+import bbp.BrokerBazePodataka;
 import model.Agencija;
 import model.OpstiDomenskiObjekat;
 import so.OpsteIzvrsenjeSO;
@@ -20,7 +21,7 @@ public class SOPrijaviAgenciju extends OpsteIzvrsenjeSO {
     public boolean izvrsiSO() {
         Agencija agencija = (Agencija) to.getOdo();
         boolean verifikovano;
-        Agencija vracenaAgencija = (Agencija) bbp.prijaviSlog(to.getOdo());
+        Agencija vracenaAgencija = (Agencija) BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(),to.getWhereUslov());
         if (vracenaAgencija != null) {
             verifikovano = HesiranjeServis.proveriSifru(agencija.getSifra(), vracenaAgencija.getSifra());
             to.setOdo(vracenaAgencija);

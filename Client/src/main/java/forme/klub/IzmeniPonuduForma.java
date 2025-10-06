@@ -42,10 +42,8 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
         super(parent, modal);
         try {
             setTitle("Ažuriranje ponude veslača");
-            setResizable(false);
-            setVisible(true);
             initComponents();
-            
+
             this.ponudaVeslaca = ponudaVeslaca;
             stavkePonude = ponudaVeslaca.getStavke();
             rb = ponudaVeslaca.getStavke().size();
@@ -65,10 +63,20 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
             vptm = (VeslacTableModel) veslaciTable.getModel();
             sptm = (StavkaPonudeTableModel) stavkeTable.getModel();
             atm = (AgencijaTableModel) agencijaTable.getModel();
+            setResizable(false);
+            setVisible(true);
 
         } catch (Exception ex) {
             logger.error(ex);
         }
+    }
+
+    public PonudaVeslaca getPonudaVeslaca() {
+        return ponudaVeslaca;
+    }
+
+    public void setPonudaVeslaca(PonudaVeslaca ponudaVeslaca) {
+        this.ponudaVeslaca = ponudaVeslaca;
     }
 
     /**
@@ -325,12 +333,12 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
     private void dodajStavkuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dodajStavkuButtonActionPerformed
 
         try {
-
-            if (veslaciTable.getSelectedRow() != -1) {
-                int idVeslaca = (int) veslaciTable.getValueAt(veslaciTable.getSelectedRow(), 0);
+            int selektovaniRed = veslaciTable.getSelectedRow();
+            if (selektovaniRed != -1) {
+                Veslac veslac = ((VeslacTableModel) veslaciTable.getModel()).getVeslac(selektovaniRed);
                 StavkaPonude s = new StavkaPonude();
 
-                Veslac izabraniVeslac = veslaciVanPonude.stream().filter(v -> v.getId() == idVeslaca).findFirst().get();
+                Veslac izabraniVeslac = veslaciVanPonude.stream().filter(v -> v.getId() == veslac.getId()).findFirst().get();
                 s.setVeslac(izabraniVeslac);
                 Date datumUpisa = izabraniVeslac.getDatumUpisa();
                 LocalDate datumUpisaLD = datumUpisa.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -385,13 +393,12 @@ public class IzmeniPonuduForma extends javax.swing.JDialog {
             if (obrisaneStavke.isEmpty() && dodateStavke.isEmpty()) {
                 return;
             }
-
-            PonudaVeslaca azuriranaPonuda = Kontroler.getInstance().promeniPonudu(ponudaVeslaca);
-            JOptionPane.showMessageDialog(this, "Sistem je uspešno zapamtio ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
+            ponudaVeslaca = Kontroler.getInstance().promeniPonudu(ponudaVeslaca);
+            JOptionPane.showMessageDialog(this, "Sistem je zapamtio ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
-
+            
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex, "Sistem ne može da zapamti ponudu veslača", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti ponudu veslača", "Greška", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_dodajStavkuButton2ActionPerformed

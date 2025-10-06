@@ -1,5 +1,6 @@
 package so.takmicenje;
 
+import bbp.BrokerBazePodataka;
 import model.OpstiDomenskiObjekat;
 import model.Takmicenje;
 import so.OpsteIzvrsenjeSO;
@@ -17,11 +18,11 @@ public class SOPretraziTakmicenje extends OpsteIzvrsenjeSO {
 
     @Override
     protected boolean izvrsiSO() {
-            OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) bbp.pronadjiSlog(to.getOdo());
+            OpstiDomenskiObjekat vraceniOdo = (OpstiDomenskiObjekat) BrokerBazePodataka.getInstance().pronadjiSlog(to.getOdo(),to.getWhereUslov());
             if (vraceniOdo != null) {
                 to.setOdo(vraceniOdo);
                 to.setSignal(true);
-                to.setTrenutniSlog(bbp.vratiPozicijuSloga(to.getOdo()));
+                to.setTrenutniSlog(BrokerBazePodataka.getInstance().vratiPozicijuSloga(to.getOdo()));
             } else {
                 to.setSignal(false);
                 to.setTrenutniSlog(-1);

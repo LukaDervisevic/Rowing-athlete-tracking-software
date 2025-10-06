@@ -1,5 +1,6 @@
 package so.veslackiklub;
 
+import bbp.BrokerBazePodataka;
 import model.OpstiDomenskiObjekat;
 import model.VeslackiKlub;
 import so.OpsteIzvrsenjeSO;
@@ -9,7 +10,7 @@ import transfer.TransferObjekat;
  *
  * @author lukad
  */
-public class SOObrisiKlub extends OpsteIzvrsenjeSO{
+public class SOObrisiKlub extends OpsteIzvrsenjeSO {
 
     public SOObrisiKlub(TransferObjekat to) {
         setTo(to);
@@ -17,7 +18,8 @@ public class SOObrisiKlub extends OpsteIzvrsenjeSO{
 
     @Override
     protected boolean izvrsiSO() {
-        boolean signal = bbp.obrisiSlog(to.getOdo());
+        boolean signal = false;
+        signal = BrokerBazePodataka.getInstance().obrisiSlog(to.getOdo());
         getTo().setSignal(signal);
         return signal;
     }
@@ -30,10 +32,10 @@ public class SOObrisiKlub extends OpsteIzvrsenjeSO{
 
         boolean signal = true;
         VeslackiKlub veslackiKlub = (VeslackiKlub) odo;
-        if(veslackiKlub.getId() == 0) {
+        if (veslackiKlub.getId() == 0) {
             signal = false;
         }
-        if(veslackiKlub.getNaziv() == null || veslackiKlub.getNaziv().isBlank()) {
+        if (veslackiKlub.getNaziv() == null || veslackiKlub.getNaziv().isBlank()) {
             signal = false;
         }
         if (veslackiKlub.getEmail() == null || veslackiKlub.getEmail().isBlank()) {
@@ -66,5 +68,5 @@ public class SOObrisiKlub extends OpsteIzvrsenjeSO{
         }
         return signal;
     }
-    
+
 }
