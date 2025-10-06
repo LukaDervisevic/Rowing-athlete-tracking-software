@@ -80,7 +80,7 @@ public class Kontroler {
     public VeslackiKlub prijaviVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslackiKlub);
-        transferObj.setWhereUslov(" " + veslackiKlub.alias()+".korisnicko_ime = '" + veslackiKlub.getKorisnickoIme() + "' ");
+        transferObj.setWhereUslov(" " + veslackiKlub.alias() + ".korisnicko_ime = '" + veslackiKlub.getKorisnickoIme() + "' ");
 
         Zahtev zahtev = new Zahtev(Operacija.PRIJAVA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -99,12 +99,8 @@ public class Kontroler {
         posiljalac.posaljiPoruku(zahtev);
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
 
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (VeslackiKlub) transferObj.getOdo();
-        }
+        transferObj = (TransferObjekat) odgovor.getParametar();
+        return (VeslackiKlub) transferObj.getOdo();
     }
 
     public VeslackiKlub azuirirajVeslackiKlub(VeslackiKlub veslackiKlub) throws Exception {
@@ -115,12 +111,8 @@ public class Kontroler {
         posiljalac.posaljiPoruku(zahtev);
         Odgovor odgovor = (Odgovor) primalac.primiPoruku();
 
-        if (odgovor.getStatus().equals(StatusPoruke.GRESKA)) {
-            throw new Exception((Throwable) odgovor.getParametar());
-        } else {
-            transferObj = (TransferObjekat) odgovor.getParametar();
-            return (VeslackiKlub) transferObj.getOdo();
-        }
+        transferObj = (TransferObjekat) odgovor.getParametar();
+        return (VeslackiKlub) transferObj.getOdo();
     }
 
     public Integer obrisiVeslackiKlub(int idKluba) throws Exception {
@@ -195,7 +187,7 @@ public class Kontroler {
     public Agencija prijaviAgencija(Agencija agencija) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(agencija);
-        transferObj.setWhereUslov( " "+agencija.alias()+".korisnicko_ime = '" + agencija.getKorisnickoIme() + "' ");
+        transferObj.setWhereUslov(" " + agencija.alias() + ".korisnicko_ime = '" + agencija.getKorisnickoIme() + "' ");
 
         Zahtev zahtev = new Zahtev(Operacija.PRIJAVA, transferObj);
         posiljalac.posaljiPoruku(zahtev);
@@ -205,7 +197,7 @@ public class Kontroler {
         return (Agencija) transferObj.getOdo();
     }
 
-    public Agencija kreirajAgenciju(Agencija agencija) throws Exception {
+    public Agencija ubaciAgenciju(Agencija agencija) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(agencija);
 
@@ -221,7 +213,7 @@ public class Kontroler {
         }
     }
 
-    public Agencija azurirajAgenciju(Agencija agencija) throws Exception {
+    public Agencija promeniAgenciju(Agencija agencija) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(agencija);
 
@@ -353,7 +345,7 @@ public class Kontroler {
         }
     }
 
-    public Veslac azurirajVeslaca(Veslac veslac) throws Exception {
+    public Veslac promeniVeslaca(Veslac veslac) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(veslac);
 
@@ -405,7 +397,7 @@ public class Kontroler {
     }
 
     //TAKMICENJE
-    public Takmicenje dodajTakmicenje(Takmicenje takmicenje) throws Exception {
+    public Takmicenje ubaciTakmicenje(Takmicenje takmicenje) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(takmicenje);
 
@@ -487,7 +479,7 @@ public class Kontroler {
     }
 
     //PONUDA VESLACA
-    public PonudaVeslaca kreirajPonuduVeslaca(PonudaVeslaca ponudaVeslaca) throws Exception {
+    public PonudaVeslaca ubaciPonudu(PonudaVeslaca ponudaVeslaca) throws Exception {
         TransferObjekat transferObj = new TransferObjekat();
         transferObj.setOdo(ponudaVeslaca);
 

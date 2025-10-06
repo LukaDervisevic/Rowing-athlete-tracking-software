@@ -486,7 +486,7 @@ public class IzmeniPodatkeAgencijaForma extends javax.swing.JDialog {
             String sifra = sifraInput.getText();
             
             try {
-                Kontroler.getInstance().azurirajAgenciju(new Agencija(agencija.getId(), naziv, email, telefon, korisnickoIme, sifra, drzava));
+                Kontroler.getInstance().promeniAgenciju(new Agencija(agencija.getId(), naziv, email, telefon, korisnickoIme, sifra, drzava));
                 JOptionPane.showMessageDialog(this,"Uspesno azuriranje agencije","Uspeh", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (Exception ex) {

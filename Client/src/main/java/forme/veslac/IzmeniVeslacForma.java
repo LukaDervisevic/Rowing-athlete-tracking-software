@@ -426,7 +426,7 @@ public class IzmeniVeslacForma extends javax.swing.JDialog {
 //            veslac.setIdKluba(Integer.parseInt(idKlubaInput.getText()));
             
             try {
-                veslac = Kontroler.getInstance().azurirajVeslaca(veslac);
+                veslac = Kontroler.getInstance().promeniVeslaca(veslac);
                 JOptionPane.showMessageDialog(this, "Sistem je zapamtio veslača");
                 this.dispose();
             } catch (Exception ex) {

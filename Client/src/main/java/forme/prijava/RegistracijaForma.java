@@ -576,7 +576,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
                 } else {
                     Drzava drzava = (Drzava) drzavaComboBox.getSelectedItem();
                     System.out.println(drzava);
-                    Agencija kreiranaAgencija = Kontroler.getInstance().kreirajAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, sifra, drzava));
+                    Agencija kreiranaAgencija = Kontroler.getInstance().ubaciAgenciju(new Agencija(0, naziv, email, telefon, korisnickoIme, sifra, drzava));
                     if (kreiranaAgencija != null) {
                         Kontroler.getInstance().setUlogovaniNalog(kreiranaAgencija);
                         JOptionPane.showMessageDialog(this, "Sistem je zapamtio agenciju", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
@@ -593,6 +593,7 @@ public class RegistracijaForma extends javax.swing.JDialog {
             }
 
         } catch (Exception ex) {
+            ex.printStackTrace();
             String tip = tipNalogaComboBox.getSelectedItem().equals(TipNaloga.VESLACKI_KLUB) ? "veslacki klub" : "agenciju";
             logger.error(ex.getMessage());
             JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti " + tip, "Greška", JOptionPane.ERROR_MESSAGE);

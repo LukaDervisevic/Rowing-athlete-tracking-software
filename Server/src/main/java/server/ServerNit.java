@@ -46,7 +46,7 @@ class ServerNit extends Thread {
 
                     Zahtev korisnikovZahtev = (Zahtev) primalac.primiPoruku();
                     if (korisnikovZahtev == null) {
-                        System.out.println("Korisnik se odjavio");
+                        System.out.println("Klijent je poslao null zahtev prekida se veza");
                         break;
                     }
 
@@ -55,23 +55,26 @@ class ServerNit extends Thread {
 
                 } catch (EOFException ex) {
                     logger.info("Klijent je zatvorio soket: " + ex);
+                    ex.printStackTrace();
                     break;
+                    
                 } catch (SocketException ex) {
                     logger.info("Soket klijenta se gasi");
+                    ex.printStackTrace();
                     break;
 
                 } catch (IOException | ClassNotFoundException ex) {
                     logger.error(ex.getMessage());
-                    break;
+                    ex.printStackTrace();
                 } catch (Exception ex) {
                     logger.error("Greska pri obradi: " + ex);
                     ex.printStackTrace();
-                    break;
                 }
 
             }
 
         } catch (IOException ex) {
+            ex.printStackTrace();
             logger.error(ex.getMessage());
         } finally {
             try {
@@ -86,7 +89,6 @@ class ServerNit extends Thread {
 
     private synchronized Object obradiZahtev(Zahtev korisnikovZahtev) {
 
-        Object objekat;
         TransferObjekat transferObj;
 
         try {
@@ -365,9 +367,10 @@ class ServerNit extends Thread {
 //                }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new Odgovor(StatusPoruke.GRESKA, ex);
         }
-        throw new RuntimeException("Ne bi trebalo da se dodje do ovde");
+        return null;
     }
 
 }

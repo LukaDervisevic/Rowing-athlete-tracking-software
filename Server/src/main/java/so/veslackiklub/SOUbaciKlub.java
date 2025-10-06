@@ -22,12 +22,7 @@ public class SOUbaciKlub extends OpsteIzvrsenjeSO {
     @Override
     protected boolean izvrsiSO() {
         boolean signal = false;
-        int noviKljuc = BrokerBazePodataka.getInstance().vratiNoviKljucPoKoloni(getTo().getOdo());
-        if (noviKljuc != 0) {
-            getTo().getOdo().postaviPrimarniKljuc(noviKljuc);
-            signal = BrokerBazePodataka.getInstance().kreirajSlog(getTo().getOdo());
-            getTo().signal = signal;
-        }
+        signal = BrokerBazePodataka.getInstance().kreirajSlog(getTo().getOdo());
         return signal;
     }
 
@@ -39,7 +34,7 @@ public class SOUbaciKlub extends OpsteIzvrsenjeSO {
 
         boolean signal = true;
         VeslackiKlub veslackiKlub = (VeslackiKlub) odo;
-        if(veslackiKlub.getNaziv() == null || veslackiKlub.getNaziv().isBlank()) {
+        if (veslackiKlub.getNaziv() == null || veslackiKlub.getNaziv().isBlank()) {
             signal = false;
         }
         if (veslackiKlub.getEmail() == null || veslackiKlub.getEmail().isBlank()) {
@@ -57,9 +52,7 @@ public class SOUbaciKlub extends OpsteIzvrsenjeSO {
         if (!veslackiKlub.getTelefon().contains("+")) {
             signal = false;
         }
-        if (veslackiKlub.getTelefon().length() > 13) {
-            signal = false;
-        }
+        
         if (veslackiKlub.getKorisnickoIme() == null || veslackiKlub.getKorisnickoIme().isBlank()) {
             signal = false;
         }

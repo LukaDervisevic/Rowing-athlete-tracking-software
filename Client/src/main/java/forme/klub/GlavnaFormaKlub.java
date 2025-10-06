@@ -30,7 +30,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.Period;
 import java.util.LinkedList;
-import java.util.Queue;
 import model.Agencija;
 import model.PonudaVeslaca;
 import model.StavkaPonude;
@@ -2189,7 +2188,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
             Date datumTakmicenja = Date.from(datumTakmicenjaPicker.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
             try {
-                Takmicenje kreiranoTakmicenje = Kontroler.getInstance().dodajTakmicenje(new Takmicenje(0, nazivTakmicenja, kategorija, vrstaTrke, datumTakmicenja));
+                Takmicenje kreiranoTakmicenje = Kontroler.getInstance().ubaciTakmicenje(new Takmicenje(0, nazivTakmicenja, kategorija, vrstaTrke, datumTakmicenja));
                 JOptionPane.showMessageDialog(this, "Sistem je zapamtio takmičenje", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                 ttm.dodajTakmicenje(kreiranoTakmicenje);
 
@@ -2404,7 +2403,7 @@ public class GlavnaFormaKlub extends javax.swing.JFrame {
                 kreiranaPonuda.setStavke(stavkePonude);
                 kreiranaPonuda.setVeslackiKlub(klub);
                 kreiranaPonuda.setAgencija(agencija);
-                PonudaVeslaca vracenaPonuda = Kontroler.getInstance().kreirajPonuduVeslaca(kreiranaPonuda);
+                PonudaVeslaca vracenaPonuda = Kontroler.getInstance().ubaciPonudu(kreiranaPonuda);
                 JOptionPane.showMessageDialog(this, "Sistem je zapamtio ponudu veslača", "Uspeh", JOptionPane.INFORMATION_MESSAGE);
                 ptm.dodajPonudu(vracenaPonuda);
 

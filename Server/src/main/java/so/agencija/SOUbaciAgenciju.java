@@ -51,9 +51,6 @@ public class SOUbaciAgenciju extends OpsteIzvrsenjeSO {
         if (!agencija.getTelefon().contains("+")) {
             signal = false;
         }
-        if (agencija.getTelefon().length() > 13) {
-            signal = false;
-        }
         if (agencija.getKorisnickoIme() == null || agencija.getKorisnickoIme().isBlank()) {
             signal = false;
         }
